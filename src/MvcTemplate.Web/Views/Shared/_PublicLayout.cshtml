@@ -1,0 +1,36 @@
+﻿<!doctype html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@(ViewBag.Title ?? ResourceProvider.GetContentTitle(ViewContext.RouteData.Values))</title>
+
+    <link href="/Content/Bootstrap/bootstrap.css" rel="stylesheet">
+    <link href="/Content/FontAwesome/font-awesome.css" rel="stylesheet">
+    <link href="/Content/Shared/alerts.css" rel="stylesheet">
+    <link href="/Content/Shared/base.css" rel="stylesheet">
+    <link href="/Content/Shared/content.css" rel="stylesheet">
+    <link href="/Content/Shared/header.css" rel="stylesheet">
+    <link href="/Content/Shared/menu.css" rel="stylesheet">
+    <link href="/Content/Shared/overrides.css" rel="stylesheet">
+    <link href="/Content/Shared/table.css" rel="stylesheet">
+    <link href="/Content/Shared/widget-box.css" rel="stylesheet">
+    <link href="/Content/Shared/auth/auth.css" rel="stylesheet">
+</head>
+<body class="public">
+    <div class="content-container">
+        @RenderBody()
+    </div>
+
+    <script src="/Scripts/JQuery/jquery.js"></script>
+    <script src="/Scripts/JQuery/jquery.validate.js"></script>
+    <script src="/Scripts/JQuery/jquery.validate.unobtrusive.js"></script>
+    <script src="/Scripts/JQuery/jquery.globalize.js"></script>
+    <script src="/Scripts/Bootstrap/bootstrap.js"></script>
+    <script src="/Scripts/Bootstrap/bootstrap.no-conflict.js"></script>
+    <script src="/Scripts/Shared/menu.js"></script>
+    <script src="/Scripts/Shared/site.js"></script>
+</body>
+</html>

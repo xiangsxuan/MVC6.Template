@@ -1,0 +1,65 @@
+﻿<!doctype html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@(ViewBag.Title ?? ResourceProvider.GetContentTitle(ViewContext.RouteData.Values))</title>
+
+    <link href="/Content/JQueryUI/jquery-ui.css" rel="stylesheet">
+    <link href="/Content/JQueryUI/jquery-ui.timepicker-addon.css" rel="stylesheet">
+    <link href="/Content/Bootstrap/bootstrap.css" rel="stylesheet">
+    <link href="/Content/FontAwesome/font-awesome.css" rel="stylesheet">
+    <link href="/Content/JsTree/jstree.css" rel="stylesheet">
+    <link href="/Content/Shared/alerts.css" rel="stylesheet">
+    <link href="/Content/Shared/base.css" rel="stylesheet">
+    <link href="/Content/Shared/content.css" rel="stylesheet">
+    <link href="/Content/Shared/header.css" rel="stylesheet">
+    <link href="/Content/Shared/menu.css" rel="stylesheet">
+    <link href="/Content/Shared/overrides.css" rel="stylesheet">
+    <link href="/Content/Shared/table.css" rel="stylesheet">
+    <link href="/Content/Shared/widget-box.css" rel="stylesheet">
+</head>
+<body class="private">
+    @Html.Partial("_Header")
+    <div class="menu">
+        <div class="menu-search">
+            @Html.TextBox("MenuSearchInput", null, new { placeholder = Actions.Search + "..." })
+        </div>
+        @Html.Partial("_SiteMap", MvcSiteMap.Provider.GetAuthorizedMenus(ViewContext))
+    </div>
+    <div class="content-container">
+        <div class="separator"></div>
+
+        @Html.Partial("_Breadcrumb")
+
+        <div class="separator"></div>
+
+        <div class="container-fluid">
+            <div class="content row">
+                @Html.Partial("_Alerts")
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        @DateTime.Now.Year &copy; All rights reserved.
+    </div>
+
+    <script src="/Scripts/JQuery/jquery.js"></script>
+    <script src="/Scripts/JQuery/jquery.validate.js"></script>
+    <script src="/Scripts/JQuery/jquery.validate.unobtrusive.js"></script>
+    <script src="/Scripts/JQuery/jquery.globalize.js"></script>
+    <script src="/Scripts/JQueryUI/jquery-ui.js"></script>
+    <script src="/Scripts/JQueryUI/jquery-ui.no-conflict.js"></script>
+    <script src="/Scripts/JQueryUI/jquery-ui.timepicker-addon.js"></script>
+    <script src="/Scripts/Bootstrap/bootstrap.js"></script>
+    <script src="/Scripts/Bootstrap/bootstrap.no-conflict.js"></script>
+    <script src="/Scripts/JsTree/jstree.js"></script>
+    <script src="/Scripts/JQuery/Cultures/globalize.culture.en-GB.js"></script>
+    <script src="/Scripts/JQueryUI/Cultures/datepicker.culture.en-GB.js"></script>
+    <script src="/Scripts/Shared/menu.js"></script>
+    <script src="/Scripts/Shared/site.js"></script>
+</body>
+</html>

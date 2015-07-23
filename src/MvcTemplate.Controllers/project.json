@@ -1,0 +1,13 @@
+﻿{
+  "authors": [ "NonFactors" ],
+  "version": "0.1.0",
+
+  "dependencies": {
+    "MvcTemplate.Services": "",
+    "MvcTemplate.Validators": ""
+  },
+
+  "frameworks": {
+    "dnx451": { }
+  }
+}

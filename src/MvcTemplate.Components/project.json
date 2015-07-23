@@ -1,0 +1,15 @@
+{
+  "authors": [ "NonFactors" ],
+  "version": "0.1.0",
+
+  "dependencies": {
+    "MvcTemplate.Resources": "",
+
+    "BCrypt-Official": "0.1.109",
+    "Microsoft.AspNet.Mvc": "6.0.0-beta5"
+  },
+
+  "frameworks": {
+    "dnx451": { }
+  }
+}

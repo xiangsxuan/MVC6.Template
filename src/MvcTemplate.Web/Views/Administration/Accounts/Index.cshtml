@@ -1,0 +1,63 @@
+@model IQueryable<AccountView>
+
+<div class="col-xs-12">
+    <div class="widget-box">
+        <div class="widget-title">
+            <span class="widget-title-icon fa fa-th"></span>
+            <h5>@Headers.AdministrationAccountsIndex</h5>
+            <div class="widget-title-buttons">
+                @if (Html.IsAuthorizedFor("Create"))
+                {
+                    <a class="btn" href="@Url.Action("Create")">
+                        <i class="fa fa-file-o"></i><span class="text">@Actions.Create</span>
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="widget-content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        @if (Html.IsAuthorizedFor("Details"))
+                        {
+                            <th class="action-cell"></th>
+                        }
+                        @if (Html.IsAuthorizedFor("Edit"))
+                        {
+                            <th class="action-cell"></th>
+                        }
+                        <th>@(ResourceProvider.GetPropertyTitle<AccountView, String>(model => model.Username))</th>
+                        <th>@(ResourceProvider.GetPropertyTitle<AccountView, String>(model => model.Email))</th>
+                        <th>@(ResourceProvider.GetPropertyTitle<AccountView, String>(model => model.RoleTitle))</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (AccountView account in Model)
+                    {
+                        <tr>
+                            @if (Html.IsAuthorizedFor("Details"))
+                            {
+                                <td class="action-cell">
+                                    <a class="details-action" href="@Url.Action("Details", new { id = account.Id })">
+                                        <i class="fa fa-info"></i>
+                                    </a>
+                                </td>
+                            }
+                            @if (Html.IsAuthorizedFor("Edit"))
+                            {
+                                <td class="action-cell">
+                                    <a class="edit-action" href="@Url.Action("Edit", new { id = account.Id })">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                </td>
+                            }
+                            <td>@account.Username</td>
+                            <td>@account.Email</td>
+                            <td>@account.RoleTitle</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
