@@ -14,6 +14,7 @@ namespace MvcTemplate.Validators
 
         protected BaseValidator(IUnitOfWork unitOfWork)
         {
+            ModelState = new ModelStateDictionary();
             Alerts = new AlertsContainer();
             UnitOfWork = unitOfWork;
         }
