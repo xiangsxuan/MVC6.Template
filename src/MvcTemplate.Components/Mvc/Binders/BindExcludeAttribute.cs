@@ -3,10 +3,10 @@ using System;
 
 namespace MvcTemplate.Components.Mvc
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter)]
     public class BindExcludeIdAttribute : Attribute, IPropertyBindingPredicateProvider
     {
-        public Func<ModelBindingContext, String, Boolean> PropertyFilter { get; private set; }
+        public Func<ModelBindingContext, String, Boolean> PropertyFilter { get; }
 
         public BindExcludeIdAttribute()
         {

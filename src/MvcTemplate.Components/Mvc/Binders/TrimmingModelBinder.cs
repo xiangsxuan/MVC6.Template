@@ -10,16 +10,14 @@ namespace MvcTemplate.Components.Mvc
         public async Task<ModelBindingResult> BindModelAsync(ModelBindingContext context)
         {
             ValueProviderResult value = await context.ValueProvider.GetValueAsync(context.ModelName);
-            if (value == null || value.AttemptedValue == null)
+            if (value?.AttemptedValue == null)
                 return new ModelBindingResult(null, context.ModelName, false);
 
             Type containerType = context.ModelMetadata.ContainerType;
-            if (containerType != null)
-            {
-                PropertyInfo property = containerType.GetProperty(context.ModelName);
-                if (property.GetCustomAttribute<NotTrimmedAttribute>() != null)
-                    return new ModelBindingResult(value.AttemptedValue, context.ModelName, true);
-            }
+            PropertyInfo property = containerType?.GetProperty(context.ModelName);
+
+            if (property?.GetCustomAttribute<NotTrimmedAttribute>() != null)
+                return new ModelBindingResult(value.AttemptedValue, context.ModelName, true);
 
             return new ModelBindingResult(value.AttemptedValue.Trim(), context.ModelName, true);
         }

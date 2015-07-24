@@ -9,7 +9,7 @@ namespace MvcTemplate.Data.Migrations
 {
     public sealed class Configuration : IDisposable
     {
-        private IUnitOfWork UnitOfWork { get; set; }
+        private IUnitOfWork UnitOfWork { get; }
         private Boolean Disposed { get; set; }
 
         public Configuration(DbContext context)

@@ -7,9 +7,9 @@ namespace MvcTemplate.Validators
 {
     public abstract class BaseValidator : IValidator
     {
-        protected IUnitOfWork UnitOfWork { get; private set; }
         public ModelStateDictionary ModelState { get; set; }
         public AlertsContainer Alerts { get; set; }
+        protected IUnitOfWork UnitOfWork { get; }
         private Boolean Disposed { get; set; }
 
         protected BaseValidator(IUnitOfWork unitOfWork)

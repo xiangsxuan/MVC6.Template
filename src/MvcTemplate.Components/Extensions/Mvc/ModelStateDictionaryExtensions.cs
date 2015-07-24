@@ -24,7 +24,7 @@ namespace MvcTemplate.Components.Extensions.Mvc
         private static String GetExpressionText(LambdaExpression expression)
         {
             UnaryExpression unaryExpression = expression.Body as UnaryExpression;
-            if (unaryExpression != null && unaryExpression.Operand is MemberExpression)
+            if (unaryExpression?.Operand is MemberExpression)
                 return ExpressionHelper.GetExpressionText(Expression.Lambda(unaryExpression.Operand, expression.Parameters[0]));
 
             return ExpressionHelper.GetExpressionText(expression);

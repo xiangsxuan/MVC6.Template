@@ -7,7 +7,7 @@ namespace MvcTemplate.Components.Mvc
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class MaxValueAttribute : ValidationAttribute
     {
-        public Decimal Maximum { get; private set; }
+        public Decimal Maximum { get; }
 
         public MaxValueAttribute(Int32 maximum) : this()
         {

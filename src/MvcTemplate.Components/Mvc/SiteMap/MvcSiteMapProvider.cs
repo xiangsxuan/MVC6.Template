@@ -9,8 +9,8 @@ namespace MvcTemplate.Components.Mvc
 {
     public class MvcSiteMapProvider : IMvcSiteMapProvider
     {
-        private IEnumerable<MvcSiteMapNode> NodeTree { get; set; }
-        private IEnumerable<MvcSiteMapNode> NodeList { get; set; }
+        private IEnumerable<MvcSiteMapNode> NodeTree { get; }
+        private IEnumerable<MvcSiteMapNode> NodeList { get; }
 
         public MvcSiteMapProvider(String path, IMvcSiteMapParser parser)
         {

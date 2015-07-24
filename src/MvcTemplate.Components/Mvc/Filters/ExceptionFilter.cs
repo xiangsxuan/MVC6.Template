@@ -6,7 +6,7 @@ namespace MvcTemplate.Components.Mvc
 {
     public class ExceptionFilter : IExceptionFilter
     {
-        private ILogger Logger { get; set; }
+        private ILogger Logger { get; }
 
         public ExceptionFilter(ILogger logger)
         {
@@ -19,11 +19,7 @@ namespace MvcTemplate.Components.Mvc
             while (exception.InnerException != null)
                 exception = exception.InnerException;
 
-            String message = String.Format("{0}: {1}{2}{3}",
-                    exception.GetType(),
-                    exception.Message,
-                    Environment.NewLine,
-                    exception.StackTrace);
+            String message = $"{exception.GetType()}: {exception.Message}{Environment.NewLine}{exception.StackTrace}";
 
             Logger.Log(filterContext.HttpContext.User.Identity.Name, message);
         }

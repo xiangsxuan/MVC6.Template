@@ -7,10 +7,10 @@ namespace MvcTemplate.Data.Logging
 {
     public class LoggableProperty
     {
-        private String PropertyName { get; set; }
-        private Object CurrentValue { get; set; }
-        private Object OriginalValue { get; set; }
-        public Boolean IsModified { get; private set; }
+        public Boolean IsModified { get; }
+        private String PropertyName { get; }
+        private Object CurrentValue { get; }
+        private Object OriginalValue { get; }
 
         public LoggableProperty(PropertyEntry entry, Object originalValue)
         {

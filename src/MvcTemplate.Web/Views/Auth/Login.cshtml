@@ -28,7 +28,7 @@
                 <span class="fa fa-globe"></span>
                 <div class="language-container dropdown-toggle" data-toggle="dropdown">
                     <span class="current-language">
-                        <img src="@Url.Content(String.Format("~/Images/Flags/{0}.gif", GlobalizationManager.Provider.CurrentLanguage.Abbreviation))" alt="">
+                        <img src="@Url.Content($"~/Images/Flags/{GlobalizationManager.Provider.CurrentLanguage.Abbreviation}.gif")" alt="">
                         @GlobalizationManager.Provider.CurrentLanguage.Name
                     </span>
                     <span class="caret"></span>
@@ -38,7 +38,7 @@
                     {
                         <li>
                             <a href="@(Url.Action("Login", new { language = language.Abbreviation }) + query)">
-                                <img src="@Url.Content(String.Format("~/Images/Flags/{0}.gif", language.Abbreviation))" alt="">
+                                <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" alt="">
                                 @language.Name
                             </a>
                         </li>

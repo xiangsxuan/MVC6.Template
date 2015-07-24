@@ -14,7 +14,7 @@ namespace MvcTemplate.Controllers
     [AllowAnonymous]
     public class AuthController : ValidatedController<IAccountValidator, IAccountService>
     {
-        public IMailClient MailClient { get; private set; }
+        public IMailClient MailClient { get; }
 
         public AuthController(IAccountValidator validator, IAccountService service, IMailClient mailClient)
             : base(validator, service)

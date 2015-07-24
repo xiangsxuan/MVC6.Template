@@ -51,7 +51,7 @@ namespace MvcTemplate.Data.Core
         }
         public void Update<TModel>(TModel model) where TModel : BaseModel
         {
-            EntityEntry<TModel> entry = Context.Update<TModel>(model);
+            EntityEntry<TModel> entry = Context.Update(model);
             entry.Property(property => property.CreationDate).IsModified = false;
         }
         public void Delete<TModel>(TModel model) where TModel : BaseModel
@@ -70,13 +70,9 @@ namespace MvcTemplate.Data.Core
         }
         public void Commit()
         {
-            if (Logger != null)
-                Logger.Log(Context.ChangeTracker.Entries<BaseModel>());
-
+            Logger?.Log(Context.ChangeTracker.Entries<BaseModel>());
             Context.SaveChanges();
-
-            if (Logger != null)
-                Logger.Save();
+            Logger?.Save();
         }
 
         public void Dispose()
@@ -88,7 +84,7 @@ namespace MvcTemplate.Data.Core
         {
             if (Disposed) return;
 
-            if (Logger != null) Logger.Dispose();
+            Logger?.Dispose();
             Context.Dispose();
 
             Disposed = true;

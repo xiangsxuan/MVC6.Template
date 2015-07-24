@@ -7,7 +7,7 @@ namespace MvcTemplate.Components.Mvc
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class MinValueAttribute : ValidationAttribute
     {
-        public Decimal Minimum { get; private set; }
+        public Decimal Minimum { get; }
 
         public MinValueAttribute(Int32 minimum)
             : this()

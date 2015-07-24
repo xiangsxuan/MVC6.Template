@@ -7,30 +7,11 @@ namespace MvcTemplate.Components.Mvc
 {
     public class ViewEngine : RazorViewEngine
     {
-        public override IEnumerable<String> AreaViewLocationFormats
-        {
-            get
-            {
-                return AreaViewFormats;
-            }
-        }
-        public override IEnumerable<String> ViewLocationFormats
-        {
-            get
-            {
-                return ViewFormats;
-            }
-        }
-        private IEnumerable<String> AreaViewFormats
-        {
-            get;
-            set;
-        }
-        private IEnumerable<String> ViewFormats
-        {
-            get;
-            set;
-        }
+        private IEnumerable<String> ViewFormats { get; }
+        private IEnumerable<String> AreaViewFormats { get; }
+
+        public override IEnumerable<String> ViewLocationFormats => ViewFormats;
+        public override IEnumerable<String> AreaViewLocationFormats => AreaViewFormats;
 
         public ViewEngine(IRazorPageFactory pageFactory, IRazorViewFactory viewFactory, IOptions<RazorViewEngineOptions> optionsAccessor, IViewLocationCache viewLocationCache)
             : base(pageFactory, viewFactory, optionsAccessor, viewLocationCache)

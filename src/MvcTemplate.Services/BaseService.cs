@@ -5,7 +5,7 @@ namespace MvcTemplate.Services
 {
     public abstract class BaseService : IService
     {
-        protected IUnitOfWork UnitOfWork { get; private set; }
+        protected IUnitOfWork UnitOfWork { get; }
         private Boolean Disposed { get; set; }
 
         protected BaseService(IUnitOfWork unitOfWork)

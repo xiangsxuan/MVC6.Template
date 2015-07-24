@@ -10,7 +10,7 @@ namespace MvcTemplate.Validators
 {
     public class AccountValidator : BaseValidator, IAccountValidator
     {
-        private IHasher Hasher { get; set; }
+        private IHasher Hasher { get; }
 
         public AccountValidator(IUnitOfWork unitOfWork, IHasher hasher)
             : base(unitOfWork)

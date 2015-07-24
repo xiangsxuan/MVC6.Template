@@ -12,12 +12,10 @@ namespace MvcTemplate.Components.Mvc
         public Language[] Languages
         {
             get;
-            private set;
         }
         public Language DefaultLanguage
         {
             get;
-            private set;
         }
         public Language CurrentLanguage
         {
@@ -34,7 +32,6 @@ namespace MvcTemplate.Components.Mvc
         private Dictionary<String, Language> LanguageDictionary
         {
             get;
-            set;
         }
 
         public GlobalizationProvider(String path)
@@ -57,12 +54,6 @@ namespace MvcTemplate.Components.Mvc
             DefaultLanguage = Languages.Single(language => language.IsDefault);
         }
 
-        public Language this[String abbreviation]
-        {
-            get
-            {
-                return LanguageDictionary[abbreviation];
-            }
-        }
+        public Language this[String abbreviation] => LanguageDictionary[abbreviation];
     }
 }

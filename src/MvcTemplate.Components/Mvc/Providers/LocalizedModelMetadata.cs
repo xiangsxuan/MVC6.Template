@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
+﻿using Microsoft.AspNet.Mvc.ModelBinding;
+using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 using MvcTemplate.Resources;
 using System;
 
@@ -6,20 +7,10 @@ namespace MvcTemplate.Components.Mvc
 {
     public class LocalizedModelMetadata : DefaultModelMetadata
     {
-        public String LocalizedDisplayName
-        {
-            get;
-            private set;
-        }
-        public override String DisplayName
-        {
-            get
-            {
-                return LocalizedDisplayName;
-            }
-        }
+        public String LocalizedDisplayName { get; }
+        public override String DisplayName => LocalizedDisplayName;
 
-        public LocalizedModelMetadata(DisplayNameMetadataProvider provider, ICompositeMetadataDetailsProvider detailsProvider, DefaultMetadataDetails details)
+        public LocalizedModelMetadata(IModelMetadataProvider provider, ICompositeMetadataDetailsProvider detailsProvider, DefaultMetadataDetails details)
             : base(provider, detailsProvider, details)
         {
             if (ContainerType == null)

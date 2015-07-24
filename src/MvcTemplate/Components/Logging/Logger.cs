@@ -6,7 +6,7 @@ namespace MvcTemplate.Components.Logging
 {
     public class Logger : ILogger
     {
-        private DbContext Context { get; set; }
+        private DbContext Context { get; }
         private Boolean Disposed { get; set; }
 
         public Logger(DbContext context)

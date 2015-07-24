@@ -9,23 +9,9 @@ namespace MvcTemplate.Controllers
 {
     public abstract class BaseController : Controller
     {
-        public IAuthorizationProvider AuthorizationProvider
-        {
-            get;
-            protected set;
-        }
-        public virtual String CurrentAccountId
-        {
-            get
-            {
-                return User.Identity.Name;
-            }
-        }
-        public AlertsContainer Alerts
-        {
-            get;
-            protected set;
-        }
+        public IAuthorizationProvider AuthorizationProvider { get; protected set; }
+        public virtual String CurrentAccountId => User.Identity.Name;
+        public AlertsContainer Alerts { get; protected set; }
 
         protected BaseController()
         {

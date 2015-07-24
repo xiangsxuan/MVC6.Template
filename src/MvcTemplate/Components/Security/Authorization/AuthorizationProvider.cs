@@ -11,7 +11,7 @@ namespace MvcTemplate.Components.Security
 {
     public class AuthorizationProvider : IAuthorizationProvider
     {
-        private Type[] ControllerTypes { get; set; }
+        private Type[] ControllerTypes { get; }
         private Dictionary<String, IEnumerable<Privilege>> Cache { get; set; }
 
         public AuthorizationProvider(Assembly controllersAssembly)
@@ -104,7 +104,7 @@ namespace MvcTemplate.Components.Security
                 return getMethod;
 
             if (methods.Length == 0)
-                throw new Exception(String.Format("'{0}' does not have '{1}' action.", controller.Name, action));
+                throw new Exception($"'{controller.Name}' does not have '{action}' action.");
 
             return methods[0];
         }

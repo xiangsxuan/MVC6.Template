@@ -23,7 +23,7 @@
                     {
                         <li>
                             <a href="@(Url.Action(action, new { language = language.Abbreviation, id = id }) + query)">
-                                <img src="@Url.Content(String.Format("~/Images/Flags/{0}.gif", language.Abbreviation))" alt="">
+                                <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" alt="">
                                 @language.Name
                             </a>
                         </li>

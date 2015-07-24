@@ -9,7 +9,7 @@ namespace MvcTemplate.Data.Logging
 {
     public class AuditLogger : IAuditLogger
     {
-        private DbContext Context { get; set; }
+        private DbContext Context { get; }
         private String AccountId { get; set; }
         private Boolean Disposed { get; set; }
 

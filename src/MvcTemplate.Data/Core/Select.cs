@@ -10,32 +10,11 @@ namespace MvcTemplate.Data.Core
 {
     public class Select<TModel> : ISelect<TModel> where TModel : BaseModel
     {
-        public Type ElementType
-        {
-            get
-            {
-                return Set.ElementType;
-            }
-        }
-        public Expression Expression
-        {
-            get
-            {
-                return Set.Expression;
-            }
-        }
-        public IQueryProvider Provider
-        {
-            get
-            {
-                return Set.Provider;
-            }
-        }
-        private IQueryable<TModel> Set
-        {
-            get;
-            set;
-        }
+        public Type ElementType => Set.ElementType;
+        public Expression Expression => Set.Expression;
+        public IQueryProvider Provider => Set.Provider;
+
+        private IQueryable<TModel> Set { get; set; }
 
         public Select(IQueryable<TModel> set)
         {

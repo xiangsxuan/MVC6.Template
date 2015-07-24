@@ -22,7 +22,7 @@ namespace MvcTemplate.Web
 {
     public class Startup
     {
-        private String ApplicationBasePath { get; set; }
+        private String ApplicationBasePath { get; }
 
         public Startup(IApplicationEnvironment env)
         {

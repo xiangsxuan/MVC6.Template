@@ -8,9 +8,9 @@ namespace MvcTemplate.Components.Mail
 {
     public class SmtpMailClient : IMailClient
     {
-        private SmtpClient Client { get; set; }
+        private String Sender { get; }
+        private SmtpClient Client { get; }
         private Boolean Disposed { get; set; }
-        private String Sender { get; set; }
 
         public SmtpMailClient(String host, Int32 port, String sender, String password)
         {
