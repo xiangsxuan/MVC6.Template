@@ -19,10 +19,12 @@
         }
     });
 
-    $(document).on('click', '.alert a.close', function () {
+    $(document).on('click', '.alert .close', function () {
         $(this.parentNode.parentNode).fadeTo(300, 0).slideUp(300, function () {
             $(this).remove();
         });
+
+        return false;
     });
 }());
 
