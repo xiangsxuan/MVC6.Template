@@ -17,7 +17,7 @@ table td {
 }
 table .action-cell {
   text-align: center;
-  width: 20px;
+  width: 28px;
 }
 table .action-cell + .action-cell {
   border-left: none;
