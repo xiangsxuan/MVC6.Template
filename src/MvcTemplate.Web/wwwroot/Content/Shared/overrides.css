@@ -85,6 +85,9 @@
   background: none;
   border: none;
 }
+.ui-datepicker table td .ui-state-highlight {
+  background: linear-gradient(#eef2f4, #e4eef3);
+}
 .ui-datepicker table td .ui-state-active,
 .ui-datepicker table td .ui-state-hover {
   background: linear-gradient(#6f93a7, #2a4e62);
