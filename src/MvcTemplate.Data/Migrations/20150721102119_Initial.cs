@@ -1,5 +1,5 @@
-using Microsoft.Data.Entity.Relational.Migrations;
-using Microsoft.Data.Entity.Relational.Migrations.Builders;
+using Microsoft.Data.Entity.Migrations;
+using Microsoft.Data.Entity.Migrations.Builders;
 
 namespace MvcTemplate.Data.Migrations
 {
@@ -13,11 +13,11 @@ namespace MvcTemplate.Data.Migrations
                 {
                     Id = table.Column(type: "nvarchar(128)", nullable: false),
                     AccountId = table.Column(type: "nvarchar(128)", nullable: true),
-                    Action = table.Column(type: "nvarchar(128)", nullable: true),
-                    Changes = table.Column(type: "nvarchar(max)", nullable: true),
+                    Action = table.Column(type: "nvarchar(128)", nullable: false),
+                    Changes = table.Column(type: "nvarchar(max)", nullable: false),
                     CreationDate = table.Column(type: "datetime2", nullable: false),
-                    EntityId = table.Column(type: "nvarchar(128)", nullable: true),
-                    EntityName = table.Column(type: "nvarchar(128)", nullable: true)
+                    EntityId = table.Column(type: "nvarchar(128)", nullable: false),
+                    EntityName = table.Column(type: "nvarchar(128)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,7 +30,7 @@ namespace MvcTemplate.Data.Migrations
                     Id = table.Column(type: "nvarchar(128)", nullable: false),
                     AccountId = table.Column(type: "nvarchar(128)", nullable: true),
                     CreationDate = table.Column(type: "datetime2", nullable: false),
-                    Message = table.Column(type: "nvarchar(max)", nullable: true)
+                    Message = table.Column(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,9 +41,9 @@ namespace MvcTemplate.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column(type: "nvarchar(128)", nullable: false),
-                    Action = table.Column(type: "nvarchar(128)", nullable: true),
+                    Action = table.Column(type: "nvarchar(128)", nullable: false),
                     Area = table.Column(type: "nvarchar(128)", nullable: true),
-                    Controller = table.Column(type: "nvarchar(128)", nullable: true),
+                    Controller = table.Column(type: "nvarchar(128)", nullable: false),
                     CreationDate = table.Column(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -56,7 +56,7 @@ namespace MvcTemplate.Data.Migrations
                 {
                     Id = table.Column(type: "nvarchar(128)", nullable: false),
                     CreationDate = table.Column(type: "datetime2", nullable: false),
-                    Title = table.Column(type: "nvarchar(128)", nullable: true)
+                    Title = table.Column(type: "nvarchar(128)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,13 +68,13 @@ namespace MvcTemplate.Data.Migrations
                 {
                     Id = table.Column(type: "nvarchar(128)", nullable: false),
                     CreationDate = table.Column(type: "datetime2", nullable: false),
-                    Email = table.Column(type: "nvarchar(256)", nullable: true),
+                    Email = table.Column(type: "nvarchar(256)", nullable: false),
                     IsLocked = table.Column(type: "bit", nullable: false),
-                    Passhash = table.Column(type: "nvarchar(512)", nullable: true),
+                    Passhash = table.Column(type: "nvarchar(512)", nullable: false),
                     RecoveryToken = table.Column(type: "nvarchar(128)", nullable: true),
                     RecoveryTokenExpirationDate = table.Column(type: "datetime2", nullable: true),
                     RoleId = table.Column(type: "nvarchar(128)", nullable: true),
-                    Username = table.Column(type: "nvarchar(128)", nullable: true)
+                    Username = table.Column(type: "nvarchar(128)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,8 +91,8 @@ namespace MvcTemplate.Data.Migrations
                 {
                     Id = table.Column(type: "nvarchar(128)", nullable: false),
                     CreationDate = table.Column(type: "datetime2", nullable: false),
-                    PrivilegeId = table.Column(type: "nvarchar(128)", nullable: true),
-                    RoleId = table.Column(type: "nvarchar(128)", nullable: true)
+                    PrivilegeId = table.Column(type: "nvarchar(128)", nullable: false),
+                    RoleId = table.Column(type: "nvarchar(128)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -137,15 +137,15 @@ namespace MvcTemplate.Data.Migrations
                 table: "RolePrivilege",
                 column: "RoleId");
         }
-        
+
         public override void Down(MigrationBuilder migration)
         {
             migration.DropTable("Account");
             migration.DropTable("AuditLog");
             migration.DropTable("Log");
+            migration.DropTable("RolePrivilege");
             migration.DropTable("Privilege");
             migration.DropTable("Role");
-            migration.DropTable("RolePrivilege");
         }
     }
 }

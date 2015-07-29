@@ -27,7 +27,7 @@ namespace MvcTemplate.Data.Core
             ObjectMapper.MapObjects();
         }
 
-        protected override void OnConfiguring(EntityOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Mvc6Template;Trusted_Connection=True;");
         }

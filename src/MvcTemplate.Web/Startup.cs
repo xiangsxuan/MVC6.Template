@@ -81,7 +81,7 @@ namespace MvcTemplate.Web
         }
         public virtual void RegisterViewEngine(IServiceCollection services)
         {
-            services.Configure<MvcOptions>(options =>
+            services.Configure<MvcViewOptions>(options =>
             {
                 options.ViewEngines.Clear();
                 options.ViewEngines.Add(typeof(ViewEngine));
