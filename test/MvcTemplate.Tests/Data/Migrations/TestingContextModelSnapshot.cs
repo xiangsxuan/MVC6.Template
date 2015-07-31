@@ -2,12 +2,12 @@ using System;
 using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations.Infrastructure;
-using MvcTemplate.Data.Core;
+using MvcTemplate.Tests.Data;
 
-namespace MvcTemplate.Data.Migrations
+namespace MvcTemplate.Tests.Data.Migrations
 {
-    [ContextType(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [ContextType(typeof(TestingContext))]
+    partial class TestingContextModelSnapshot : ModelSnapshot
     {
         public override void BuildModel(ModelBuilder builder)
         {
@@ -140,6 +140,19 @@ namespace MvcTemplate.Data.Migrations
                     b.Property<string>("RoleId")
                         .Required()
                         .Annotation("MaxLength", 128);
+
+                    b.Key("Id");
+                });
+
+            builder.Entity("MvcTemplate.Tests.Objects.TestModel", b =>
+                {
+                    b.Property<string>("Id")
+                        .Annotation("MaxLength", 128);
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<string>("Text")
+                        .Annotation("MaxLength", 512);
 
                     b.Key("Id");
                 });

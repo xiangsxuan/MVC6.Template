@@ -29,7 +29,7 @@ namespace MvcTemplate.Data.Core
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Mvc6Template;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Mvc6Template;Trusted_Connection=True;MultipleActiveResultSets=True");
         }
     }
 }
