@@ -55,8 +55,10 @@ namespace MvcTemplate.Controllers
         public virtual RedirectToActionResult RedirectIfAuthorized(String action, Object routeValues)
         {
             IDictionary<String, Object> values = HtmlHelper.AnonymousObjectToHtmlAttributes(routeValues);
-            String controller = (values["controller"] ?? RouteData.Values["controller"]) as String;
-            String area = (values["area"] ?? RouteData.Values["area"]) as String;
+            String controller = (values.ContainsKey("controller") ? values["controller"] : null) as String;
+            String area = (values.ContainsKey("area") ? values["area"] : null) as String;
+            controller = controller ?? RouteData.Values["controller"] as String;
+            area = (area ?? RouteData.Values["area"]) as String;
 
             if (!IsAuthorizedFor(area, controller, action))
                 return RedirectToDefault();
