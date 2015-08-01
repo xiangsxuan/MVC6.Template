@@ -11,4 +11,3 @@ Currently various features are not working, because of beta limitations, that in
 - Globalization.
 - Mvc.Datalist.
 - Mvc.Grid.
-- Tests.
