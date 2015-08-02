@@ -39,7 +39,6 @@ namespace MvcTemplate.Web
         public void Configure(IApplicationBuilder app)
         {
             RegisterGlobalizationProvider(app);
-            RegisterSiteMapProvider(app);
             RegisterAuthorization(app);
             RegisterStaticFiles(app);
             RegisterRoute(app);
@@ -62,7 +61,7 @@ namespace MvcTemplate.Web
             services.AddTransient<IModelMetadataProvider, DisplayNameMetadataProvider>();
 
             services.AddTransient<IMvcSiteMapParser, MvcSiteMapParser>();
-            services.AddTransient<IMvcSiteMapProvider>(provider => new MvcSiteMapProvider(
+            services.AddSingleton<IMvcSiteMapProvider>(provider => new MvcSiteMapProvider(
                 Path.Combine(ApplicationBasePath, "Mvc.sitemap"), provider.GetService<IMvcSiteMapParser>()));
 
             services.AddTransient<IGlobalizationProvider>(provider =>
@@ -95,10 +94,6 @@ namespace MvcTemplate.Web
         public virtual void RegisterGlobalizationProvider(IApplicationBuilder app)
         {
             GlobalizationManager.Provider = app.ApplicationServices.GetService<IGlobalizationProvider>();
-        }
-        public virtual void RegisterSiteMapProvider(IApplicationBuilder app)
-        {
-            MvcSiteMap.Provider = app.ApplicationServices.GetService<IMvcSiteMapProvider>();
         }
         public virtual void RegisterAuthorization(IApplicationBuilder app)
         {

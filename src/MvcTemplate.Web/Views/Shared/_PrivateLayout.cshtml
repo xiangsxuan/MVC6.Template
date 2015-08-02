@@ -27,7 +27,8 @@
         <div class="menu-search">
             @Html.TextBox("MenuSearchInput", null, new { placeholder = Actions.Search + "..." })
         </div>
-        @Html.Partial("_SiteMap", MvcSiteMap.Provider.GetAuthorizedMenus(ViewContext))
+        @{ IMvcSiteMapProvider provider = Context.ApplicationServices.GetService(typeof(IMvcSiteMapProvider)) as IMvcSiteMapProvider; }
+        @Html.Partial("_SiteMap", provider.GetAuthorizedMenus(ViewContext))
     </div>
     <div class="content-container">
         <div class="separator"></div>
