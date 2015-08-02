@@ -44,7 +44,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Get<TView>(String id)
 
         [Fact]
-        public void GetView_GetsViewById()
+        public void Get_GetsViewById()
         {
             AccountView actual = service.Get<AccountView>(account.Id);
             AccountView expected = Mapper.Map<AccountView>(account);

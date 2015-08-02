@@ -167,7 +167,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: GetView(String id)
 
         [Fact]
-        public void GetView_OnNotFoundRoleReturnsNull()
+        public void GetView_OnNotExistingRoleReturnsNull()
         {
             Assert.Null(service.GetView(""));
         }

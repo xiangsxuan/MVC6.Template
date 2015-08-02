@@ -105,24 +105,14 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         #region Method: Details(String id)
 
         [Fact]
-        public void Details_OnModelNotFoundRedirectsToNotFound()
-        {
-            controller.When(sub => sub.RedirectToNotFound()).DoNotCallBase();
-            controller.RedirectToNotFound().Returns(new RedirectToActionResult(null, null, null));
-
-            Object expected = controller.RedirectToNotFound();
-            Object actual = controller.Details("");
-
-            Assert.Same(expected, actual);
-        }
-
-        [Fact]
-        public void Details_GetsAccountView()
+        public void Details_ReturnsNotEmptyView()
         {
             service.Get<AccountView>(account.Id).Returns(account);
+            controller.When(sub => sub.NotEmptyView(account)).DoNotCallBase();
+            controller.NotEmptyView(account).Returns(new RedirectToActionResult(null, null, null));
 
-            Object actual = (controller.Details(account.Id) as ViewResult).ViewData.Model;
-            Object expected = account;
+            Object expected = controller.NotEmptyView(account);
+            Object actual = controller.Details(account.Id);
 
             Assert.Same(expected, actual);
         }
@@ -132,24 +122,14 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         #region Method: Edit(String id)
 
         [Fact]
-        public void Edit_OnModelNotFoundRedirectsToNotFound()
+        public void Edit_ReturnsNotEmptyView()
         {
-            controller.When(sub => sub.RedirectToNotFound()).DoNotCallBase();
-            controller.RedirectToNotFound().Returns(new RedirectToActionResult(null, null, null));
+            service.Get<AccountEditView>(accountEdit.Id).Returns(accountEdit);
+            controller.When(sub => sub.NotEmptyView(accountEdit)).DoNotCallBase();
+            controller.NotEmptyView(accountEdit).Returns(new RedirectToActionResult(null, null, null));
 
-            Object expected = controller.RedirectToNotFound();
-            Object actual = controller.Edit("");
-
-            Assert.Same(expected, actual);
-        }
-
-        [Fact]
-        public void Edit_GetsAccountView()
-        {
-            service.Get<AccountEditView>(account.Id).Returns(accountEdit);
-
-            Object actual = (controller.Edit(account.Id) as ViewResult).ViewData.Model;
-            Object expected = accountEdit;
+            Object expected = controller.NotEmptyView(accountEdit);
+            Object actual = controller.Edit(accountEdit.Id);
 
             Assert.Same(expected, actual);
         }

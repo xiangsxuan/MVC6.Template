@@ -7,7 +7,7 @@
 
 // Alerts fading & closing
 (function () {
-    $('.alerts div.alert').each(function () {
+    $('.alerts .alert').each(function () {
         var alert = $(this);
 
         if (alert.data('fadeout-after') != null && alert.data('fadeout-after') != 0) {
