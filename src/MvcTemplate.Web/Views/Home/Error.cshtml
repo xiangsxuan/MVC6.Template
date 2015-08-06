@@ -11,4 +11,6 @@
 <div class="separator"></div>
 
 <div class="describtion text">@SharedTexts.SystemError</div>
-@Html.ActionLink(ContentTitles.HomeIndex, "Index", null, new { @class = "btn btn-primary public-action" })
+<a asp-action="Index" asp-controller="Home" asp-route-area="" class="btn btn-primary public-action">
+    @ContentTitles.HomeIndex
+</a>

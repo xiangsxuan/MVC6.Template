@@ -9,7 +9,7 @@
     {
         if (node != current && node.Action != null)
         {
-            <a href="@Url.Action(node.Action, node.Controller, new { area = node.Area })">
+            <a asp-route-area="@node.Area" asp-controller="@node.Controller" asp-action="@node.Action">
                 <i class="@node.IconClass"></i>
                 <span class="text">@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
             </a>

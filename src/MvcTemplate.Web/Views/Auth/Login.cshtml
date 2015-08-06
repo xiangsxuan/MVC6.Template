@@ -6,19 +6,16 @@
 <div class="title text">@ContentTitles.AuthLogin</div>
 <div class="separator"></div>
 
-@using (Html.BeginForm())
-{
+<form asp-antiforgery="true">
     @Html.Partial("_AuthAlerts")
-
-    @Html.AntiForgeryToken()
     <div class="auth-content">
         <div class="input-group">
             <span class="fa fa-user"></span>
-            @Html.TextBoxFor(model => model.Username, new { placeholder = Titles.Username })
+            <input asp-for="Username" placeholder="@Titles.Username" autocomplete="off" />
         </div>
         <div class="input-group">
             <span class="fa fa-lock"></span>
-            @Html.PasswordFor(model => model.Password, new { placeholder = Titles.Password })
+            <input asp-for="Password" type="password" placeholder="@Titles.Password" autocomplete="off" />
         </div>
         @if (GlobalizationManager.Provider.Languages.Length > 1)
         {
@@ -48,10 +45,10 @@
         }
     </div>
     <input class="btn btn-primary" type="submit" value="@Actions.Login" />
-}
+</form>
 
 <div class="separator"></div>
 <div class="auth-actions">
-    <a class="text fa fa-edit" href="@Url.Action("Register")" data-toggle="tooltip" data-original-title="@Texts.CreateNewAccount" data-placement="bottom"></a>
-    <a class="text fa fa-unlock-alt" href="@Url.Action("Recover")" data-toggle="tooltip" data-original-title="@Texts.LostPassword" data-placement="bottom"></a>
+    <a asp-action="Register" class="text fa fa-edit" data-toggle="tooltip" data-original-title="@Texts.CreateNewAccount" data-placement="bottom"></a>
+    <a asp-action="Recover" class="text fa fa-unlock-alt" data-toggle="tooltip" data-original-title="@Texts.LostPassword" data-placement="bottom"></a>
 </div>

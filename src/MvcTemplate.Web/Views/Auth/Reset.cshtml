@@ -5,19 +5,17 @@
 <div class="title text">@ContentTitles.AuthReset</div>
 <div class="separator"></div>
 
-@using (Html.BeginForm())
-{
+<form asp-antiforgery="true">
     <input type="password" style="display: none" /> @* Forcing browser to not remember following form inputs *@
     @Html.Partial("_AuthAlerts")
 
-    @Html.AntiForgeryToken()
     <div class="auth-content">
         <div class="input-group">
             <span class="fa fa-lock"></span>
-            @Html.PasswordFor(model => model.NewPassword, new { autocomplete = "off", placeholder = Titles.NewPassword })
+            <input asp-for="NewPassword" type="password" placeholder="@Titles.NewPassword" autocomplete="off" />
         </div>
     </div>
     <input class="btn btn-primary" type="submit" value="@Actions.Submit" />
-}
+</form>
 
 <div class="separator"></div>

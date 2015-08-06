@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.Data.Entity;
-using MvcTemplate.Components.Extensions.Html;
+using MvcTemplate.Components.Html;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;

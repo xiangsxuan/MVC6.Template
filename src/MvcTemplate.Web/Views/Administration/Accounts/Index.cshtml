@@ -6,26 +6,23 @@
             <span class="widget-title-icon fa fa-th"></span>
             <h5>@Headers.AdministrationAccountsIndex</h5>
             <div class="widget-title-buttons">
-                @if (Html.IsAuthorizedFor("Create"))
-                {
-                    <a class="btn" href="@Url.Action("Create")">
+                <authorize comp-action="Create">
+                    <a asp-action="Create" class="btn">
                         <i class="fa fa-file-o"></i><span class="text">@Actions.Create</span>
                     </a>
-                }
+                </authorize>
             </div>
         </div>
         <div class="widget-content">
             <table class="table">
                 <thead>
                     <tr>
-                        @if (Html.IsAuthorizedFor("Details"))
-                        {
+                        <authorize comp-action="Details">
                             <th class="action-cell"></th>
-                        }
-                        @if (Html.IsAuthorizedFor("Edit"))
-                        {
+                        </authorize>
+                        <authorize comp-action="Edit">
                             <th class="action-cell"></th>
-                        }
+                        </authorize>
                         <th>@(ResourceProvider.GetPropertyTitle<AccountView, String>(model => model.Username))</th>
                         <th>@(ResourceProvider.GetPropertyTitle<AccountView, String>(model => model.Email))</th>
                         <th>@(ResourceProvider.GetPropertyTitle<AccountView, String>(model => model.RoleTitle))</th>
@@ -35,22 +32,20 @@
                     @foreach (AccountView account in Model)
                     {
                         <tr>
-                            @if (Html.IsAuthorizedFor("Details"))
-                            {
+                            <authorize comp-action="Details">
                                 <td class="action-cell">
-                                    <a class="details-action" href="@Url.Action("Details", new { id = account.Id })">
+                                    <a asp-action="Details" asp-route-id="@account.Id" class="details-action">
                                         <i class="fa fa-info"></i>
                                     </a>
                                 </td>
-                            }
-                            @if (Html.IsAuthorizedFor("Edit"))
-                            {
+                            </authorize>
+                            <authorize comp-action="Edit">
                                 <td class="action-cell">
-                                    <a class="edit-action" href="@Url.Action("Edit", new { id = account.Id })">
+                                    <a asp-action="Edit" asp-route-id="@account.Id" class="edit-action">
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                 </td>
-                            }
+                            </authorize>
                             <td>@account.Username</td>
                             <td>@account.Email</td>
                             <td>@account.RoleTitle</td>

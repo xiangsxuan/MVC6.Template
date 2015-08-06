@@ -6,66 +6,59 @@
             <span class="widget-title-icon fa fa-th"></span>
             <h5>@Headers.AdministrationRolesIndex</h5>
             <div class="widget-title-buttons">
-                @if (Html.IsAuthorizedFor("Create"))
-                {
-                    <a class="btn" href="@Url.Action("Create")">
+                <authorize comp-action="Create">
+                    <a asp-action="Create" class="btn">
                         <i class="fa fa-file-o"></i><span class="text">@Actions.Create</span>
                     </a>
-                }
+                </authorize>
             </div>
         </div>
         <div class="widget-content">
             <table class="table">
                 <thead>
                     <tr>
-                        @if (Html.IsAuthorizedFor("Details"))
-                        {
+                        <authorize comp-action="Details">
                             <th class="action-cell"></th>
-                        }
-                        @if (Html.IsAuthorizedFor("Edit"))
-                        {
+                        </authorize>
+                        <authorize comp-action="Edit">
                             <th class="action-cell"></th>
-                        }
-                        @if (Html.IsAuthorizedFor("Delete"))
-                        {
+                        </authorize>
+                        <authorize comp-action="Delete">
                             <th class="action-cell"></th>
-                        }
+                        </authorize>
                         <th>@(ResourceProvider.GetPropertyTitle<RoleView, String>(model => model.Title))</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (RoleView account in Model)
+                    @foreach (RoleView role in Model)
                     {
                         <tr>
-                            @if (Html.IsAuthorizedFor("Details"))
-                            {
+                            <authorize comp-action="Details">
                                 <td class="action-cell">
-                                    <a class="details-action" href="@Url.Action("Details", new { id = account.Id })">
+                                    <a asp-action="Details" asp-route-id="@role.Id" class="details-action">
                                         <i class="fa fa-info"></i>
                                     </a>
                                 </td>
-                            }
-                            @if (Html.IsAuthorizedFor("Edit"))
-                            {
+                            </authorize>
+                            <authorize comp-action="Edit">
                                 <td class="action-cell">
-                                    <a class="edit-action" href="@Url.Action("Edit", new { id = account.Id })">
+                                    <a asp-action="Edit" asp-route-id="@role.Id" class="edit-action">
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                 </td>
-                            }
-                            @if (Html.IsAuthorizedFor("Delete"))
-                            {
+                            </authorize>
+                            <authorize comp-action="Delete">
                                 <td class="action-cell">
-                                    <a class="delete-action" href="@Url.Action("Delete", new { id = account.Id })">
+                                    <a asp-action="Delete" asp-route-id="@role.Id" class="delete-action">
                                         <i class="fa fa-close"></i>
                                     </a>
                                 </td>
-                            }
-                            <td>@account.Title</td>
+                            </authorize>
+                            <td>@role.Title</td>
                         </tr>
                     }
                 </tbody>
-            </table>
+  </table>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
-﻿using MvcTemplate.Components.Extensions.Html;
+﻿using MvcTemplate.Components.Html;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Extensions.Html
+namespace MvcTemplate.Tests.Unit.Components.Html
 {
     public class JsTreeTests
     {

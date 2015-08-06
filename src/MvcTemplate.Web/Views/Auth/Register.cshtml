@@ -6,31 +6,29 @@
 <div class="title text">@ContentTitles.AuthRegister</div>
 <div class="separator"></div>
 
-@using (Html.BeginForm())
-{
+<form asp-antiforgery="true">
     <input type="password" style="display: none" /> @* Forcing browser to not remember following form inputs *@
     @Html.Partial("_AuthAlerts")
 
-    @Html.AntiForgeryToken()
     <div class="auth-content">
         <div class="input-group">
             <span class="fa fa-user"></span>
-            @Html.TextBoxFor(model => model.Username, new { autocomplete = "off", placeholder = Titles.Username })
+            <input asp-for="Username" placeholder="@Titles.Username" autocomplete="off" />
         </div>
         <div class="input-group">
             <span class="fa fa-lock"></span>
-            @Html.PasswordFor(model => model.Password, new { autocomplete = "off", placeholder = Titles.Password })
+            <input asp-for="Username" type="password" placeholder="@Titles.Username" autocomplete="off" />
         </div>
         <div class="input-group">
             <span class="fa fa-envelope"></span>
-            @Html.TextBoxFor(model => model.Email, new { autocomplete = "off", placeholder = Titles.Email })
+            <input asp-for="Email" placeholder="@Titles.Email" autocomplete="off" />
         </div>
     </div>
     <input class="btn btn-primary" type="submit" value="@Actions.Register" />
-}
+</form>
 
 <div class="separator"></div>
 <div class="auth-actions">
-    <a class="text fa fa-sign-in" href="@Url.Action("Login")" data-toggle="tooltip" data-original-title="@Links.Login" data-placement="bottom"></a>
-    <a class="text fa fa-unlock-alt" href="@Url.Action("Recover")" data-toggle="tooltip" data-original-title="@Links.LostPassword" data-placement="bottom"></a>
+    <a asp-action="Login" class="text fa fa-sign-in" data-toggle="tooltip" data-original-title="@Links.Login" data-placement="bottom"></a>
+    <a asp-action="Recover" class="text fa fa-unlock-alt" data-toggle="tooltip" data-original-title="@Links.LostPassword" data-placement="bottom"></a>
 </div>

@@ -6,27 +6,24 @@
             <span class="widget-title-icon fa fa-th-list"></span>
             <h5>@Headers.ProfileDelete</h5>
             <div class="widget-title-buttons">
-                @if (Html.IsAuthorizedFor("Edit"))
-                {
-                    <a class="btn" href="@Url.Action("Edit")">
+                <authorize comp-action="Edit">
+                    <a asp-action="Edit" class="btn">
                         <i class="fa fa-pencil"></i><span class="text">@Actions.Edit</span>
                     </a>
-                }
+                </authorize>
             </div>
         </div>
         <div class="widget-content">
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
+            <form asp-antiforgery="true">
                 <div class="form-group">
                     <div class="control-label col-sm-12 col-md-3 col-lg-2">
-                        @Html.FormLabelFor(model => model.Password)
+                        <label comp-for="Password"></label>
                     </div>
                     <div class="control-content col-sm-12 col-md-9 col-lg-5">
-                        @Html.FormPasswordFor(model => model.Password)
+                        <input asp-for="Password" class="form-control" type="password" autocomplete="off" />
                     </div>
                     <div class="control-validation col-sm-12 col-lg-5">
-                        @Html.ValidationMessageFor(model => model.Password)
+                        <span asp-validation-for="Password"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -34,7 +31,7 @@
                         <input class="btn btn-primary" type="submit" value="@Actions.Submit" />
                     </div>
                 </div>
-            }
+            </form>
         </div>
     </div>
 </div>

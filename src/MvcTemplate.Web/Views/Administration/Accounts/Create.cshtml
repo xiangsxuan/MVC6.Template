@@ -7,54 +7,52 @@
             <h5>@Headers.AdministrationAccountsCreate</h5>
         </div>
         <div class="widget-content">
-            @using (Html.BeginForm())
-            {
+            <form asp-antiforgery="true">
                 <input type="password" style="display: none" /> @* Forcing browser to not remember following form inputs *@
-                @Html.AntiForgeryToken()
                 <div class="form-group">
                     <div class="control-label col-sm-12 col-md-3 col-lg-2">
-                        @Html.FormLabelFor(model => model.Username)
+                        <label comp-for="Username"></label>
                     </div>
                     <div class="control-content col-sm-12 col-md-9 col-lg-5">
-                        @Html.FormTextBoxFor(model => model.Username)
+                        <input asp-for="Username" class="form-control" autocomplete="off" />
                     </div>
                     <div class="control-validation col-sm-12 col-lg-5">
-                        @Html.ValidationMessageFor(model => model.Username)
+                        <span asp-validation-for="Username"></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="control-label col-sm-12 col-md-3 col-lg-2">
-                        @Html.FormLabelFor(model => model.Password)
+                        <label comp-for="Password"></label>
                     </div>
                     <div class="control-content col-sm-12 col-md-9 col-lg-5">
-                        @Html.FormPasswordFor(model => model.Password)
+                        <input asp-for="Password" class="form-control" type="password" autocomplete="off" />
                     </div>
                     <div class="control-validation col-sm-12 col-lg-5">
-                        @Html.ValidationMessageFor(model => model.Password)
+                        <span asp-validation-for="Password"></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="control-label col-sm-12 col-md-3 col-lg-2">
-                        @Html.FormLabelFor(model => model.Email)
+                        <label comp-for="Email"></label>
                     </div>
                     <div class="control-content col-sm-12 col-md-9 col-lg-5">
-                        @Html.FormTextBoxFor(model => model.Email)
+                        <input asp-for="Email" class="form-control" autocomplete="off" />
                     </div>
                     <div class="control-validation col-sm-12 col-lg-5">
-                        @Html.ValidationMessageFor(model => model.Email)
+                        <span asp-validation-for="Email"></span>
                     </div>
                 </div>
                 <div class="form-group">
                 </div>
                 <div class="form-group">
                     <div class="control-label col-sm-12 col-md-3 col-lg-2">
-                        @Html.FormLabelFor(model => model.RoleId)
+                        <label comp-for="RoleId"></label>
                     </div>
                     <div class="control-content col-sm-12 col-md-9 col-lg-5">
-                        @Html.FormTextBoxFor(model => model.RoleId)
+                        <input asp-for="RoleId" class="form-control" autocomplete="off" />
                     </div>
                     <div class="control-validation col-sm-12 col-lg-5">
-                        @Html.ValidationMessageFor(model => model.RoleId)
+                        <span asp-validation-for="RoleId"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -62,7 +60,7 @@
                         <input class="btn btn-primary" type="submit" value="@Actions.Submit" />
                     </div>
                 </div>
-            }
+            </form>
         </div>
     </div>
 </div>

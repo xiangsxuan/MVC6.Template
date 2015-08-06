@@ -6,46 +6,42 @@
             <span class="widget-title-icon fa fa-th-list"></span>
             <h5>@Headers.AdministrationRolesDelete</h5>
             <div class="widget-title-buttons">
-                @if (Html.IsAuthorizedFor("Details"))
-                {
-                    <a class="btn" href="@Url.Action("Details", new { id = Model.Id })">
+                <authorize comp-action="Details">
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn">
                         <i class="fa fa-info"></i><span class="text">@Actions.Details</span>
                     </a>
-                }
-                @if (Html.IsAuthorizedFor("Edit"))
-                {
-                    <a class="btn" href="@Url.Action("Edit", new { id = Model.Id })">
+                </authorize>
+                <authorize comp-action="Edit">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn">
                         <i class="fa fa-pencil"></i><span class="text">@Actions.Edit</span>
                     </a>
-                }
+                </authorize>
             </div>
         </div>
         <div class="widget-content">
             <div class="form-group">
                 <div class="control-label col-sm-12 col-md-3 col-lg-2">
-                    @Html.FormLabelFor(model => model.Title)
+                    <label comp-for="Title"></label>
                 </div>
                 <div class="control-content col-sm-12 col-md-9 col-lg-5">
-                    @Html.FormTextBoxFor(model => model.Title)
+                    <input asp-for="Title" class="form-control" autocomplete="off" />
                 </div>
             </div>
             <div class="form-group">
                 <div class="control-label col-sm-12 col-md-3 col-lg-2">
-                    @Html.FormLabelFor(model => model.PrivilegesTree)
+                    <label comp-for="PrivilegesTree"></label>
                 </div>
                 <div class="control-content col-sm-12 col-md-9 col-lg-5">
-                    @Html.JsTreeFor(model => model.PrivilegesTree)
+                    <div jstree-for="PrivilegesTree"></div>
                 </div>
             </div>
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
+            <form asp-antiforgery="true">
                 <div class="form-group">
                     <div class="form-actions col-sm-12 col-lg-7">
                         <input class="btn btn-primary" type="submit" value="@Actions.Submit" />
                     </div>
                 </div>
-            }
+            </form>
         </div>
     </div>
 </div>

@@ -6,22 +6,20 @@
 <div class="title text">@ContentTitles.AuthRecover</div>
 <div class="separator"></div>
 
-@using (Html.BeginForm())
-{
+<form asp-antiforgery="true">
     @Html.Partial("_AuthAlerts")
 
-    @Html.AntiForgeryToken()
     <div class="auth-content">
         <div class="input-group">
             <span class="fa fa-envelope"></span>
-            @Html.TextBoxFor(model => model.Email, new { autocomplete = "off", placeholder = Titles.Email })
+            <input asp-for="Email" placeholder="@Titles.Email" autocomplete="off" />
         </div>
     </div>
     <input class="btn btn-primary" type="submit" value="@Actions.Recover" />
-}
+</form>
 
 <div class="separator"></div>
 <div class="auth-actions">
-    <a class="text fa fa-sign-in" href="@Url.Action("Login")" data-toggle="tooltip" data-original-title="@Texts.Login" data-placement="bottom"></a>
-    <a class="text fa fa-edit" href="@Url.Action("Register")" data-toggle="tooltip" data-original-title="@Texts.CreateNewAccount" data-placement="bottom"></a>
+    <a asp-action="Login" class="text fa fa-sign-in" data-toggle="tooltip" data-original-title="@Texts.Login" data-placement="bottom"></a>
+    <a asp-action="Register" class="text fa fa-edit" data-toggle="tooltip" data-original-title="@Texts.CreateNewAccount" data-placement="bottom"></a>
 </div>
