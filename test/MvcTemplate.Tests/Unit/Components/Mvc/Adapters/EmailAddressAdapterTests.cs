@@ -44,7 +44,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             IModelMetadataProvider provider = new DefaultModelMetadataProvider(Substitute.For<ICompositeMetadataDetailsProvider>());
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EmailAddress");
 
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, Substitute.For<IServiceProvider>());
+            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, null);
             ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
             String expectedMessage = attribute.FormatErrorMessage(metadata.GetDisplayName());
 

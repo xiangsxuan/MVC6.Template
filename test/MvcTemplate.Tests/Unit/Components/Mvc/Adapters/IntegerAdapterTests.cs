@@ -21,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "Integer");
             IntegerAdapter adapter = new IntegerAdapter(new IntegerAttribute());
 
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, Substitute.For<IServiceProvider>());
+            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, null);
             ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
             String expectedMessage = new IntegerAttribute().FormatErrorMessage("Integer");
 

@@ -20,7 +20,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             IModelMetadataProvider provider = new DefaultModelMetadataProvider(Substitute.For<ICompositeMetadataDetailsProvider>());
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "Digits");
 
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, Substitute.For<IServiceProvider>());
+            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, null);
+
             ModelClientValidationRule actual = new DigitsAdapter(new DigitsAttribute()).GetClientValidationRules(context).Single();
             String expectedMessage = new DigitsAttribute().FormatErrorMessage(metadata.GetDisplayName());
 

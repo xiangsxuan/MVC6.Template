@@ -21,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "MinValue");
             MinValueAdapter adapter = new MinValueAdapter(new MinValueAttribute(128));
 
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, Substitute.For<IServiceProvider>());
+            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, null);
             ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
             String expectedMessage = new MinValueAttribute(128).FormatErrorMessage("MinValue");
 
