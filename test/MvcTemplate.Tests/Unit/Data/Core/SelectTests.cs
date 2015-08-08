@@ -53,7 +53,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         {
             DbSet<TestModel> set = Substitute.For<DbSet<TestModel>, IQueryable>();
             ((IQueryable)set).Expression.Returns(Expression.Constant(0));
-            DbContext context = Substitute.For<DbContext>();
+            TestingContext context = Substitute.For<TestingContext>();
             context.Set<TestModel>().Returns(set);
 
             select = new Select<TestModel>(context.Set<TestModel>());

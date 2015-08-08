@@ -124,9 +124,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
             RedirectToActionResult actual = controller.RedirectToDefault();
 
             Assert.Equal("", actual.RouteValues["area"]);
-            Assert.Equal(1, actual.RouteValues.Count);
             Assert.Equal("", actual.ControllerName);
             Assert.Equal("", actual.ActionName);
+            Assert.Single(actual.RouteValues);
         }
 
         #endregion
@@ -141,7 +141,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Assert.Equal("", actual.RouteValues["area"]);
             Assert.Equal("NotFound", actual.ActionName);
             Assert.Equal("Home", actual.ControllerName);
-            Assert.Equal(1, actual.RouteValues.Count);
+            Assert.Single(actual.RouteValues);
         }
 
         #endregion
@@ -156,7 +156,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Assert.Equal("Unauthorized", actual.ActionName);
             Assert.Equal("", actual.RouteValues["area"]);
             Assert.Equal("Home", actual.ControllerName);
-            Assert.Equal(1, actual.RouteValues.Count);
+            Assert.Single(actual.RouteValues);
         }
 
         #endregion

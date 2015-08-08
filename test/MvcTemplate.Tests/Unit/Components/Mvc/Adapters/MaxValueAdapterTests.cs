@@ -19,14 +19,14 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             IModelMetadataProvider provider = new DefaultModelMetadataProvider(Substitute.For<ICompositeMetadataDetailsProvider>());
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "MaxValue");
-            String errorMessage = new MaxValueAttribute(128).FormatErrorMessage("MaxValue");
             MaxValueAdapter adapter = new MaxValueAdapter(new MaxValueAttribute(128));
 
             ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, Substitute.For<IServiceProvider>());
             ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
+            String expectedMessage = new MaxValueAttribute(128).FormatErrorMessage("MaxValue");
 
             Assert.Equal(128M, actual.ValidationParameters["max"]);
-            Assert.Equal(errorMessage, actual.ErrorMessage);
+            Assert.Equal(expectedMessage, actual.ErrorMessage);
             Assert.Equal("range", actual.ValidationType);
             Assert.Single(actual.ValidationParameters);
         }

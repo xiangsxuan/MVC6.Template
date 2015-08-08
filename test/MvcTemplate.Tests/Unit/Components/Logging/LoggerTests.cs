@@ -77,7 +77,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
         [Fact]
         public void Dispose_DisposesContext()
         {
-            DbContext context = Substitute.For<DbContext>();
+            TestingContext context = Substitute.For<TestingContext>();
             Logger logger = new Logger(context);
 
             logger.Dispose();
@@ -88,7 +88,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
         [Fact]
         public void Dispose_CanBeCalledMultipleTimes()
         {
-            DbContext context = Substitute.For<DbContext>();
+            TestingContext context = Substitute.For<TestingContext>();
             Logger logger = new Logger(context);
 
             logger.Dispose();

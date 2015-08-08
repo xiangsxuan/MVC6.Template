@@ -27,8 +27,10 @@ namespace MvcTemplate.Tests.Unit.Objects
         [Fact]
         public void Id_AlwaysGetsUniqueValue()
         {
-            String expected = view.Id;
+            String id = view.Id;
             view.Id = null;
+
+            String expected = id;
             String actual = view.Id;
 
             Assert.NotEqual(expected, actual);

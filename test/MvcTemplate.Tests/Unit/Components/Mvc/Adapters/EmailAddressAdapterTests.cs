@@ -43,12 +43,12 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             IModelMetadataProvider provider = new DefaultModelMetadataProvider(Substitute.For<ICompositeMetadataDetailsProvider>());
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EmailAddress");
-            String errorMessage = attribute.FormatErrorMessage(metadata.GetDisplayName());
 
             ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, Substitute.For<IServiceProvider>());
             ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
+            String expectedMessage = attribute.FormatErrorMessage(metadata.GetDisplayName());
 
-            Assert.Equal(errorMessage, actual.ErrorMessage);
+            Assert.Equal(expectedMessage, actual.ErrorMessage);
             Assert.Equal("email", actual.ValidationType);
             Assert.Empty(actual.ValidationParameters);
         }

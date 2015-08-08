@@ -24,7 +24,6 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attribute.OtherPropertyDisplayName = null;
 
             ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, Substitute.For<IServiceProvider>());
-            String errorMessage = attribute.FormatErrorMessage(metadata.GetDisplayName());
             new EqualToAdapter(attribute).GetClientValidationRules(context);
 
             String expected = ResourceProvider.GetPropertyTitle(typeof(AdaptersModel), "EqualTo");
@@ -41,11 +40,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             EqualToAdapter adapter = new EqualToAdapter(new EqualToAttribute("StringLength"));
 
             ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, Substitute.For<IServiceProvider>());
-            String errorMessage = new EqualToAttribute("StringLength").FormatErrorMessage("EqualTo");
+            String expectedMessage = new EqualToAttribute("StringLength").FormatErrorMessage("EqualTo");
             ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
 
             Assert.Equal("*.StringLength", actual.ValidationParameters["other"]);
-            Assert.Equal(errorMessage, actual.ErrorMessage);
+            Assert.Equal(expectedMessage, actual.ErrorMessage);
             Assert.Equal("equalto", actual.ValidationType);
             Assert.Single(actual.ValidationParameters);
         }

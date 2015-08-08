@@ -58,7 +58,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             Assert.Equal(2, actual.Length);
 
-            Assert.Equal(0, actual[0].Children.Count());
+            Assert.Empty(actual[0].Children);
 
             Assert.Equal("Index", actual[0].Action);
             Assert.Equal("Accounts", actual[0].Controller);
@@ -73,7 +73,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             actual = actual[1].Children.ToArray();
 
             Assert.Equal(1, actual.Length);
-            Assert.Equal(0, actual[0].Children.Count());
+            Assert.Empty(actual[0].Children);
 
             Assert.Equal("Create", actual[0].Action);
             Assert.Equal("Roles", actual[0].Controller);
@@ -100,7 +100,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             Assert.Equal(1, actual.Length);
 
-            Assert.Equal(0, actual[0].Children.Count());
+            Assert.Empty(actual[0].Children);
 
             Assert.Equal("Index", actual[0].Action);
             Assert.Equal("Accounts", actual[0].Controller);
@@ -126,13 +126,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Equal(2, actual.Length);
             Assert.False(actual[0].IsActive);
             Assert.False(actual[1].IsActive);
-            Assert.Equal(0, actual[0].Children.Count());
+            Assert.Empty(actual[0].Children);
 
             actual = actual[1].Children.ToArray();
 
+            Assert.Empty(actual[0].Children);
             Assert.True(actual[0].IsActive);
             Assert.Equal(1, actual.Length);
-            Assert.Equal(0, actual[0].Children.Count());
         }
 
         [Fact]
@@ -153,13 +153,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Equal(2, actual.Length);
             Assert.True(actual[0].IsActive);
             Assert.False(actual[1].IsActive);
-            Assert.Equal(0, actual[0].Children.Count());
+            Assert.Empty(actual[0].Children);
 
             actual = actual[1].Children.ToArray();
 
             Assert.Equal(1, actual.Length);
             Assert.False(actual[0].IsActive);
-            Assert.Equal(0, actual[0].Children.Count());
+            Assert.Empty(actual[0].Children);
         }
 
         [Fact]
@@ -178,15 +178,15 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             actual = actual[0].Children.ToArray();
 
             Assert.Equal(2, actual.Length);
+            Assert.Empty(actual[0].Children);
             Assert.True(actual[1].HasActiveChildren);
             Assert.False(actual[0].HasActiveChildren);
-            Assert.Equal(0, actual[0].Children.Count());
 
             actual = actual[1].Children.ToArray();
 
             Assert.Equal(1, actual.Length);
+            Assert.Empty(actual[0].Children);
             Assert.False(actual[0].HasActiveChildren);
-            Assert.Equal(0, actual[0].Children.Count());
         }
 
         [Fact]
@@ -209,7 +209,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             Assert.Equal(1, actual.Length);
 
-            Assert.Equal(0, actual[0].Children.Count());
+            Assert.Empty(actual[0].Children);
 
             Assert.Equal("Index", actual[0].Action);
             Assert.Equal("Accounts", actual[0].Controller);

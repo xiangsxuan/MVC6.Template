@@ -232,8 +232,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Commit_SavesChanges()
         {
-            DbContext context = Substitute.For<DbContext>();
-            unitOfWork = new UnitOfWork(context);
+            TestingContext context = Substitute.For<TestingContext>();
+            UnitOfWork unitOfWork = new UnitOfWork(context);
 
             unitOfWork.Commit();
 
@@ -280,7 +280,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Dispose_DiposesContext()
         {
-            DbContext context = Substitute.For<DbContext>();
+            TestingContext context = Substitute.For<TestingContext>();
             UnitOfWork unitOfWork = new UnitOfWork(context);
 
             unitOfWork.Dispose();

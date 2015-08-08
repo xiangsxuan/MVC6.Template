@@ -15,17 +15,17 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Method: GetClientValidationRules(ClientModelValidationContext context)
 
         [Fact]
-        public void GetClientValidationRules_ReturnsMinRangeValidationRule()
+        public void GetClientValidationRules_ReturnsIntegerValidationRule()
         {
             IModelMetadataProvider provider = new DefaultModelMetadataProvider(Substitute.For<ICompositeMetadataDetailsProvider>());
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "Integer");
-            String errorMessage = new IntegerAttribute().FormatErrorMessage("Integer");
             IntegerAdapter adapter = new IntegerAdapter(new IntegerAttribute());
 
             ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, Substitute.For<IServiceProvider>());
             ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
+            String expectedMessage = new IntegerAttribute().FormatErrorMessage("Integer");
 
-            Assert.Equal(errorMessage, actual.ErrorMessage);
+            Assert.Equal(expectedMessage, actual.ErrorMessage);
             Assert.Equal("integer", actual.ValidationType);
             Assert.Empty(actual.ValidationParameters);
         }

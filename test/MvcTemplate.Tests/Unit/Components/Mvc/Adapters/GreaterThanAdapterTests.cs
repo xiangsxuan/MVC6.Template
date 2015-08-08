@@ -15,18 +15,18 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Method: GetClientValidationRules(ClientModelValidationContext context)
 
         [Fact]
-        public void GetClientValidationRules_ReturnsMinRangeValidationRule()
+        public void GetClientValidationRules_ReturnsGreaterValidationRule()
         {
             IModelMetadataProvider provider = new DefaultModelMetadataProvider(Substitute.For<ICompositeMetadataDetailsProvider>());
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "GreaterThan");
-            String errorMessage = new GreaterThanAttribute(128).FormatErrorMessage("GreaterThan");
             GreaterThanAdapter adapter = new GreaterThanAdapter(new GreaterThanAttribute(128));
 
             ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, Substitute.For<IServiceProvider>());
+            String expectedMessage = new GreaterThanAttribute(128).FormatErrorMessage("GreaterThan");
             ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
 
             Assert.Equal(128M, actual.ValidationParameters["min"]);
-            Assert.Equal(errorMessage, actual.ErrorMessage);
+            Assert.Equal(expectedMessage, actual.ErrorMessage);
             Assert.Equal("greater", actual.ValidationType);
             Assert.Single(actual.ValidationParameters);
         }
