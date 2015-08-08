@@ -4,6 +4,7 @@ using MvcTemplate.Controllers;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
 using NSubstitute;
+using System;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
@@ -48,6 +49,42 @@ namespace MvcTemplate.Tests.Unit.Controllers
             ModelStateDictionary actual = validator.ModelState;
 
             Assert.Same(expected, actual);
+        }
+
+        #endregion
+
+        #region Method: OnActionExecuting(ActionExecutingContext filterContext)
+
+        [Fact]
+        public void OnActionExecuting_SetsServiceCurrentAccountId()
+        {
+            controller.When(sub => { String get = sub.CurrentAccountId; }).DoNotCallBase();
+            controller.CurrentAccountId.Returns("Test");
+            validator.CurrentAccountId = null;
+            service.CurrentAccountId = null;
+
+            controller.OnActionExecuting(null);
+
+            String expected = controller.CurrentAccountId;
+            String actual = service.CurrentAccountId;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void OnActionExecuting_SetsValidatorCurrentAccountId()
+        {
+            controller.When(sub => { String get = sub.CurrentAccountId; }).DoNotCallBase();
+            controller.CurrentAccountId.Returns("Test");
+            validator.CurrentAccountId = null;
+            service.CurrentAccountId = null;
+
+            controller.OnActionExecuting(null);
+
+            String expected = controller.CurrentAccountId;
+            String actual = validator.CurrentAccountId;
+
+            Assert.Equal(expected, actual);
         }
 
         #endregion

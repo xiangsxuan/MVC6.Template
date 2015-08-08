@@ -61,16 +61,16 @@ namespace MvcTemplate.Validators
 
         public Boolean CanEdit(ProfileEditView view)
         {
-            Boolean isValid = IsUniqueUsername(view.Id, view.Username);
-            isValid &= IsCorrectPassword(view.Id, view.Password);
-            isValid &= IsUniqueEmail(view.Id, view.Email);
+            Boolean isValid = IsUniqueUsername(CurrentAccountId, view.Username);
+            isValid &= IsCorrectPassword(CurrentAccountId, view.Password);
+            isValid &= IsUniqueEmail(CurrentAccountId, view.Email);
             isValid &= ModelState.IsValid;
 
             return isValid;
         }
         public Boolean CanDelete(ProfileDeleteView view)
         {
-            Boolean isValid = IsCorrectPassword(view.Id, view.Password);
+            Boolean isValid = IsCorrectPassword(CurrentAccountId, view.Password);
             isValid &= ModelState.IsValid;
 
             return isValid;

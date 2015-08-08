@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding;
-using MvcTemplate.Data.Core;
+﻿using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources.Views.RoleView;
 using MvcTemplate.Tests.Data;
@@ -20,7 +19,6 @@ namespace MvcTemplate.Tests.Unit.Validators
         {
             context = new TestingContext();
             validator = new RoleValidator(new UnitOfWork(context));
-            validator.ModelState = new ModelStateDictionary();
 
             TearDownData();
             SetUpData();

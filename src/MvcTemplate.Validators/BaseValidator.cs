@@ -8,6 +8,7 @@ namespace MvcTemplate.Validators
     public abstract class BaseValidator : IValidator
     {
         public ModelStateDictionary ModelState { get; set; }
+        public String CurrentAccountId { get; set; }
         public AlertsContainer Alerts { get; set; }
         protected IUnitOfWork UnitOfWork { get; }
         private Boolean Disposed { get; set; }

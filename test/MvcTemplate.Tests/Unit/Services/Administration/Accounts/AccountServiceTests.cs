@@ -28,11 +28,12 @@ namespace MvcTemplate.Tests.Unit.Services
             hasher = Substitute.For<IHasher>();
             hasher.HashPassword(Arg.Any<String>()).Returns(info => info.Arg<String>() + "Hashed");
 
-            Authorization.Provider = Substitute.For<IAuthorizationProvider>();
-            service = new AccountService(new UnitOfWork(context), hasher);
-
             TearDownData();
             SetUpData();
+
+            Authorization.Provider = Substitute.For<IAuthorizationProvider>();
+            service = new AccountService(new UnitOfWork(context), hasher);
+            service.CurrentAccountId = account.Id;
         }
         public void Dispose()
         {
@@ -304,13 +305,14 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Edit(ProfileEditView view)
 
         [Fact]
-        public void Edit_EditsProfile()
+        public void Edit_EditsCurrentAccountProfile()
         {
             Account account = context.Set<Account>().AsNoTracking().Single();
             ProfileEditView view = ObjectFactory.CreateProfileEditView();
             account.Passhash = hasher.HashPassword(view.NewPassword);
             view.Username = account.Username += "Test";
             view.Email = account.Email += "Test";
+            view.Id += "Test";
 
             service.Edit(view);
 

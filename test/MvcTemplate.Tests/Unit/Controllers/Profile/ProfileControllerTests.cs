@@ -82,19 +82,6 @@ namespace MvcTemplate.Tests.Unit.Controllers
         }
 
         [Fact]
-        public void Edit_BeforeEditingSetsProfileIdToCurrentAccountId()
-        {
-            service.IsActive(controller.CurrentAccountId).Returns(true);
-            validator.CanEdit(profileEdit).Returns(true);
-
-            profileEdit.Id = controller.CurrentAccountId + "Edition";
-            controller.Edit(profileEdit);
-
-            validator.Received().CanEdit(Arg.Is<ProfileEditView>(view => view == profileEdit && profileEdit.Id == controller.CurrentAccountId));
-            service.Received().Edit(Arg.Is<ProfileEditView>(view => view == profileEdit && profileEdit.Id == controller.CurrentAccountId));
-        }
-
-        [Fact]
         public void Edit_ReturnsSameModelIfCanNotEdit()
         {
             service.IsActive(controller.CurrentAccountId).Returns(true);
@@ -229,18 +216,6 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Object model = (controller.DeleteConfirmed(profileDelete) as ViewResult).ViewData.Model;
 
             Assert.Null(model);
-        }
-
-        [Fact]
-        public void DeleteConfirmed_BeforeDeletingSetsProfileIdToCurrentAccountId()
-        {
-            service.IsActive(controller.CurrentAccountId).Returns(true);
-            validator.CanDelete(profileDelete).Returns(true);
-
-            profileDelete.Id = controller.CurrentAccountId + "Edition";
-            controller.DeleteConfirmed(profileDelete);
-
-            validator.Received().CanDelete(Arg.Is<ProfileDeleteView>(view => view == profileDelete && profileDelete.Id == controller.CurrentAccountId));
         }
 
         [Fact]

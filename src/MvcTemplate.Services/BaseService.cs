@@ -5,6 +5,7 @@ namespace MvcTemplate.Services
 {
     public abstract class BaseService : IService
     {
+        public String CurrentAccountId { get; set; }
         protected IUnitOfWork UnitOfWork { get; }
         private Boolean Disposed { get; set; }
 

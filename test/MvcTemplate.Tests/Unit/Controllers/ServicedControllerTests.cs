@@ -1,6 +1,7 @@
 ﻿using MvcTemplate.Controllers;
 using MvcTemplate.Services;
 using NSubstitute;
+using System;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
@@ -25,6 +26,25 @@ namespace MvcTemplate.Tests.Unit.Controllers
             IService expected = service;
 
             Assert.Same(expected, actual);
+        }
+
+        #endregion
+
+        #region Method: OnActionExecuting(ActionExecutingContext context)
+
+        [Fact]
+        public void OnActionExecuting_SetsServiceCurrentAccountId()
+        {
+            controller.When(sub => { String get = sub.CurrentAccountId; }).DoNotCallBase();
+            controller.CurrentAccountId.Returns("Test");
+            service.CurrentAccountId = null;
+
+            controller.OnActionExecuting(null);
+
+            String expected = controller.CurrentAccountId;
+            String actual = service.CurrentAccountId;
+
+            Assert.Equal(expected, actual);
         }
 
         #endregion
