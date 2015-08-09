@@ -34,6 +34,7 @@ namespace MvcTemplate.Web
             RegisterCurrentDependencyResolver(services);
             RegisterLowercaseUrls(services);
             RegisterViewEngine(services);
+            RegisterFilters(services);
             RegisterMvc(services);
         }
         public void Configure(IApplicationBuilder app)
@@ -85,6 +86,10 @@ namespace MvcTemplate.Web
                 options.ViewEngines.Clear();
                 options.ViewEngines.Add(typeof(ViewEngine));
             });
+        }
+        public virtual void RegisterFilters(IServiceCollection services)
+        {
+            services.Configure<MvcOptions>(options => options.Filters.Add(typeof(ExceptionFilter)));
         }
         public virtual void RegisterMvc(IServiceCollection services)
         {

@@ -5,7 +5,6 @@ Currently various features are not working, because of beta limitations, that in
 - Dynamic script and styling loading.
 - Authentication and authorization.
 - Model value trimming.
-- Exception logging.
 - Bootstrap alerts.
 - Audit logging.
 - Globalization.
