@@ -117,37 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AdministrationAccountsCreate" xml:space="preserve">
-    <value>Naudotojas</value>
-  </data>
-  <data name="AdministrationAccountsDetails" xml:space="preserve">
-    <value>Naudotojas</value>
-  </data>
-  <data name="AdministrationAccountsEdit" xml:space="preserve">
+  <data name="AdministrationAccounts" xml:space="preserve">
     <value>Naudotojas</value>
   </data>
   <data name="AdministrationAccountsIndex" xml:space="preserve">
     <value>Naudotojai</value>
   </data>
-  <data name="AdministrationRolesCreate" xml:space="preserve">
-    <value>Rolė</value>
-  </data>
-  <data name="AdministrationRolesDelete" xml:space="preserve">
-    <value>Rolė</value>
-  </data>
-  <data name="AdministrationRolesDetails" xml:space="preserve">
-    <value>Rolė</value>
-  </data>
-  <data name="AdministrationRolesEdit" xml:space="preserve">
+  <data name="AdministrationRoles" xml:space="preserve">
     <value>Rolė</value>
   </data>
   <data name="AdministrationRolesIndex" xml:space="preserve">
     <value>Rolės</value>
   </data>
-  <data name="ProfileDelete" xml:space="preserve">
-    <value>Paskyra</value>
-  </data>
-  <data name="ProfileEdit" xml:space="preserve">
+  <data name="Profile" xml:space="preserve">
     <value>Paskyra</value>
   </data>
 </root>
