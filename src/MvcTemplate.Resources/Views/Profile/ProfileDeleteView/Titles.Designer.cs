@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MvcTemplate.Resources.Views.AccountView {
+namespace MvcTemplate.Resources.Views.Profile.ProfileDeleteView {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace MvcTemplate.Resources.Views.AccountView {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Messages {
+    public class Titles {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Messages() {
+        internal Titles() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace MvcTemplate.Resources.Views.AccountView {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MvcTemplate.Resources.Views.AccountView.Messages", typeof(Messages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MvcTemplate.Resources.Views.Profile.ProfileDeleteView.Titles", typeof(Titles).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,65 +61,11 @@ namespace MvcTemplate.Resources.Views.AccountView {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You are about to delete your profile, all your personal information will be deleted.
+        ///   Looks up a localized string similar to Password.
         /// </summary>
-        public static string ProfileDeleteDisclaimer {
+        public static string Password {
             get {
-                return ResourceManager.GetString("ProfileDeleteDisclaimer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Profile updated successfully.
-        /// </summary>
-        public static string ProfileUpdated {
-            get {
-                return ResourceManager.GetString("ProfileUpdated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to To recover your account details, simply follow this &lt;a href=&quot;{0}&quot;&gt;link&lt;/a&gt;..
-        /// </summary>
-        public static string RecoveryEmailBody {
-            get {
-                return ResourceManager.GetString("RecoveryEmailBody", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Account recovery.
-        /// </summary>
-        public static string RecoveryEmailSubject {
-            get {
-                return ResourceManager.GetString("RecoveryEmailSubject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Account recovery information was send to your email.
-        /// </summary>
-        public static string RecoveryInformation {
-            get {
-                return ResourceManager.GetString("RecoveryInformation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Your account has been created.
-        /// </summary>
-        public static string SuccessfulRegistration {
-            get {
-                return ResourceManager.GetString("SuccessfulRegistration", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Your account password has been changed successfully.
-        /// </summary>
-        public static string SuccessfulReset {
-            get {
-                return ResourceManager.GetString("SuccessfulReset", resourceCulture);
+                return ResourceManager.GetString("Password", resourceCulture);
             }
         }
     }

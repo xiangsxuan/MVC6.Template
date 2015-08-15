@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MvcTemplate.Resources.Views.AccountView {
+namespace MvcTemplate.Resources.Views.Administration.Accounts.AccountView {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace MvcTemplate.Resources.Views.AccountView {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Texts {
+    public class Validations {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Texts() {
+        internal Validations() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace MvcTemplate.Resources.Views.AccountView {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MvcTemplate.Resources.Views.AccountView.Texts", typeof(Texts).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MvcTemplate.Resources.Views.Administration.Accounts.AccountView.Validations", typeof(Validations).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,56 @@ namespace MvcTemplate.Resources.Views.AccountView {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create new account.
+        ///   Looks up a localized string similar to Your account is locked..
         /// </summary>
-        public static string CreateNewAccount {
+        public static string AccountIsLocked {
             get {
-                return ResourceManager.GetString("CreateNewAccount", resourceCulture);
+                return ResourceManager.GetString("AccountIsLocked", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Login.
+        ///   Looks up a localized string similar to E-mail address is already being used..
         /// </summary>
-        public static string Login {
+        public static string EmailIsAlreadyUsed {
             get {
-                return ResourceManager.GetString("Login", resourceCulture);
+                return ResourceManager.GetString("EmailIsAlreadyUsed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lost password?.
+        ///   Looks up a localized string similar to The username or password is incorrect..
         /// </summary>
-        public static string LostPassword {
+        public static string IncorrectAuthentication {
             get {
-                return ResourceManager.GetString("LostPassword", resourceCulture);
+                return ResourceManager.GetString("IncorrectAuthentication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is incorrect..
+        /// </summary>
+        public static string IncorrectPassword {
+            get {
+                return ResourceManager.GetString("IncorrectPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recovery token is already expired..
+        /// </summary>
+        public static string RecoveryTokenExpired {
+            get {
+                return ResourceManager.GetString("RecoveryTokenExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username is already taken..
+        /// </summary>
+        public static string UsernameIsAlreadyTaken {
+            get {
+                return ResourceManager.GetString("UsernameIsAlreadyTaken", resourceCulture);
             }
         }
     }

@@ -2,7 +2,7 @@
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
-using MvcTemplate.Resources.Views.AccountView;
+using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
 using System;
 using System.Linq;
 

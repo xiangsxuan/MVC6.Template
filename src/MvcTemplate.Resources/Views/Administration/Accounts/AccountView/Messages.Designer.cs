@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MvcTemplate.Resources.Views.AccountCreateView {
+namespace MvcTemplate.Resources.Views.Administration.Accounts.AccountView {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace MvcTemplate.Resources.Views.AccountCreateView {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Titles {
+    public class Messages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Titles() {
+        internal Messages() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace MvcTemplate.Resources.Views.AccountCreateView {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MvcTemplate.Resources.Views.AccountCreateView.Titles", typeof(Titles).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MvcTemplate.Resources.Views.Administration.Accounts.AccountView.Messages", typeof(Messages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,65 @@ namespace MvcTemplate.Resources.Views.AccountCreateView {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to E-mail.
+        ///   Looks up a localized string similar to You are about to delete your profile, all your personal information will be deleted.
         /// </summary>
-        public static string Email {
+        public static string ProfileDeleteDisclaimer {
             get {
-                return ResourceManager.GetString("Email", resourceCulture);
+                return ResourceManager.GetString("ProfileDeleteDisclaimer", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password.
+        ///   Looks up a localized string similar to Profile updated successfully.
         /// </summary>
-        public static string Password {
+        public static string ProfileUpdated {
             get {
-                return ResourceManager.GetString("Password", resourceCulture);
+                return ResourceManager.GetString("ProfileUpdated", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Username.
+        ///   Looks up a localized string similar to To recover your account details, simply follow this &lt;a href=&quot;{0}&quot;&gt;link&lt;/a&gt;..
         /// </summary>
-        public static string Username {
+        public static string RecoveryEmailBody {
             get {
-                return ResourceManager.GetString("Username", resourceCulture);
+                return ResourceManager.GetString("RecoveryEmailBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account recovery.
+        /// </summary>
+        public static string RecoveryEmailSubject {
+            get {
+                return ResourceManager.GetString("RecoveryEmailSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account recovery information was send to your email.
+        /// </summary>
+        public static string RecoveryInformation {
+            get {
+                return ResourceManager.GetString("RecoveryInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your account has been created.
+        /// </summary>
+        public static string SuccessfulRegistration {
+            get {
+                return ResourceManager.GetString("SuccessfulRegistration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your account password has been changed successfully.
+        /// </summary>
+        public static string SuccessfulReset {
+            get {
+                return ResourceManager.GetString("SuccessfulReset", resourceCulture);
             }
         }
     }

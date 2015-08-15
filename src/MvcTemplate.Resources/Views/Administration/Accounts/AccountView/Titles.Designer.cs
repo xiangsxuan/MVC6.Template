@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MvcTemplate.Resources.Views.AccountResetView {
+namespace MvcTemplate.Resources.Views.Administration.Accounts.AccountView {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MvcTemplate.Resources.Views.AccountResetView {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MvcTemplate.Resources.Views.AccountResetView.Titles", typeof(Titles).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MvcTemplate.Resources.Views.Administration.Accounts.AccountView.Titles", typeof(Titles).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,47 @@ namespace MvcTemplate.Resources.Views.AccountResetView {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New password.
+        ///   Looks up a localized string similar to E-mail.
         /// </summary>
-        public static string NewPassword {
+        public static string Email {
             get {
-                return ResourceManager.GetString("NewPassword", resourceCulture);
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locked.
+        /// </summary>
+        public static string IsLocked {
+            get {
+                return ResourceManager.GetString("IsLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role.
+        /// </summary>
+        public static string RoleTitle {
+            get {
+                return ResourceManager.GetString("RoleTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string Username {
+            get {
+                return ResourceManager.GetString("Username", resourceCulture);
             }
         }
     }

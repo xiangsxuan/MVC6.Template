@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MvcTemplate.Resources.Views.AccountRecoveryView {
+namespace MvcTemplate.Resources.Views.Administration.Roles.RoleView {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace MvcTemplate.Resources.Views.AccountRecoveryView {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Titles {
+    public class Validations {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Titles() {
+        internal Validations() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace MvcTemplate.Resources.Views.AccountRecoveryView {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MvcTemplate.Resources.Views.AccountRecoveryView.Titles", typeof(Titles).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MvcTemplate.Resources.Views.Administration.Roles.RoleView.Validations", typeof(Validations).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace MvcTemplate.Resources.Views.AccountRecoveryView {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to E-mail address.
+        ///   Looks up a localized string similar to Role title is already being used..
         /// </summary>
-        public static string Email {
+        public static string TitleIsAlreadyUsed {
             get {
-                return ResourceManager.GetString("Email", resourceCulture);
+                return ResourceManager.GetString("TitleIsAlreadyUsed", resourceCulture);
             }
         }
     }

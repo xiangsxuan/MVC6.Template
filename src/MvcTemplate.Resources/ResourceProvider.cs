@@ -10,11 +10,13 @@ namespace MvcTemplate.Resources
 {
     public static class ResourceProvider
     {
+        private static Dictionary<String, ResourceManager> ViewTitles { get; set; }
         private static Dictionary<String, ResourceManager> Resources { get; }
 
         static ResourceProvider()
         {
             Resources = new Dictionary<String, ResourceManager>();
+            ViewTitles = new Dictionary<String, ResourceManager>();
             foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
             {
                 PropertyInfo property = type.GetProperty("ResourceManager", BindingFlags.Public | BindingFlags.Static);
@@ -23,7 +25,10 @@ namespace MvcTemplate.Resources
                     ResourceManager manager = property.GetValue(null) as ResourceManager;
                     manager.IgnoreCase = true;
 
-                    Resources.Add(type.FullName, manager);
+                    if (type.FullName.StartsWith("MvcTemplate.Resources.Views") && type.FullName.EndsWith("View.Titles"))
+                        ViewTitles.Add(type.Namespace.Split('.').Last(), manager);
+                    else
+                        Resources.Add(type.FullName, manager);
                 }
             }
         }
@@ -68,8 +73,7 @@ namespace MvcTemplate.Resources
 
         private static String GetPropertyTitle(String view, String property)
         {
-            String baseName = "MvcTemplate.Resources.Views." + view + ".Titles";
-            String title = GetResource(baseName, property);
+            String title = GetViewTitle(view, property);
             if (title != null) return title;
 
             String[] camelCasedProperties = SplitCamelCase(property);
@@ -79,14 +83,19 @@ namespace MvcTemplate.Resources
                 {
                     String joinedView = String.Concat(camelCasedProperties.Skip(skippedProperties).Take(viewSize)) + "View";
                     String joinedProperty = String.Concat(camelCasedProperties.Skip(viewSize + skippedProperties));
-                    String joinedBaseName = "MvcTemplate.Resources.Views." + joinedView + ".Titles";
 
-                    title = GetResource(joinedBaseName, joinedProperty);
+                    title = GetViewTitle(joinedView, joinedProperty);
                     if (title != null) return title;
                 }
             }
 
             return null;
+        }
+        private static String GetViewTitle(String type, String key)
+        {
+            if (!ViewTitles.ContainsKey(type)) return null;
+
+            return ViewTitles[type].GetString(key);
         }
         private static String GetResource(String type, String key)
         {

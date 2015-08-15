@@ -1,6 +1,6 @@
 ﻿using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
-using MvcTemplate.Resources.Views.RoleView;
+using MvcTemplate.Resources.Views.Administration.Roles.RoleView;
 using MvcTemplate.Tests.Data;
 using MvcTemplate.Validators;
 using System;

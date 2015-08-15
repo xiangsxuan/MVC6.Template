@@ -1,7 +1,7 @@
 ﻿using MvcTemplate.Components.Extensions.Mvc;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
-using MvcTemplate.Resources.Views.RoleView;
+using MvcTemplate.Resources.Views.Administration.Roles.RoleView;
 using System;
 using System.Linq;
 
