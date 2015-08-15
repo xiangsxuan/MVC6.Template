@@ -94,7 +94,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         }
 
         [Fact]
-        public void Edit_EditsProfileView()
+        public void Edit_EditsProfile()
         {
             service.IsActive(controller.CurrentAccountId).Returns(true);
             validator.CanEdit(profileEdit).Returns(true);

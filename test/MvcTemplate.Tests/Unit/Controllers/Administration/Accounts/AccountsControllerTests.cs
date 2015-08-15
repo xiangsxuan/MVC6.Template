@@ -78,7 +78,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Create_CreatesAccountView()
+        public void Create_CreatesAccount()
         {
             validator.CanCreate(accountCreate).Returns(true);
 
@@ -88,7 +88,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Create_AfterCreateRedirectsToIndexIfAuthorized()
+        public void Create_AfterCreateRedirectsToIndex()
         {
             validator.CanCreate(accountCreate).Returns(true);
             controller.When(sub => sub.RedirectIfAuthorized("Index")).DoNotCallBase();
@@ -160,7 +160,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Edit_AfterEditRedirectsToIndexIfAuthorized()
+        public void Edit_AfterEditRedirectsToIndex()
         {
             validator.CanEdit(accountEdit).Returns(true);
             controller.When(sub => sub.RedirectIfAuthorized("Index")).DoNotCallBase();

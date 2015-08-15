@@ -106,7 +106,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanRecover(AccountRecoveryView view)
 
         [Fact]
-        public void CanRecover_CanNotRecoverAccountWithInvalidModelState()
+        public void CanRecover_CanNotRecoverWithInvalidModelState()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -124,7 +124,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanReset(AccountResetView view)
 
         [Fact]
-        public void CanReset_CanNotResetAccountWithInvalidModelState()
+        public void CanReset_CanNotResetWithInvalidModelState()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -132,7 +132,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanReset_CanNotResetAccountWithExpiredToken()
+        public void CanReset_CanNotResetWithExpiredToken()
         {
             Account account = context.Set<Account>().Single();
             account.RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(-5);
@@ -142,7 +142,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanReset_AddsErorrMessageThenCanNotResetAccountWithExpiredToken()
+        public void CanReset_AddsErorrMessageThenCanNotResetWithExpiredToken()
         {
             Account account = context.Set<Account>().Single();
             account.RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(-5);
@@ -351,7 +351,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanEdit(AccountEditView view)
 
         [Fact]
-        public void CanEdit_CanNotEditAccountWithInvalidModelState()
+        public void CanEdit_CanNotEditWithInvalidModelState()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -369,7 +369,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanEdit(ProfileEditView view)
 
         [Fact]
-        public void CanEdit_CanNotEditWithInvalidModelState()
+        public void CanEdit_CanNotEditProfileWithInvalidModelState()
         {
             validator.ModelState.AddModelError("Key", "ErrorMessages");
 
@@ -527,7 +527,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanDelete_CanDeleteValidProfileDeleteView()
+        public void CanDelete_CanDeleteValidDeleteView()
         {
             Assert.True(validator.CanDelete(ObjectFactory.CreateProfileDeleteView()));
         }
