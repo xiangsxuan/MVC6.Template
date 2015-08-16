@@ -14,7 +14,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void IsValidForRequest_OnNullHeadersReturnsFalse()
         {
-            RouteContext context = new RouteContext(HttpContextFactory.CreateHttpContext());
+            RouteContext context = new RouteContext(Substitute.For<HttpContext>());
             context.HttpContext.Request.Headers.Returns(null as IHeaderDictionary);
 
             Assert.False(new AjaxOnlyAttribute().IsValidForRequest(context, null));
@@ -25,7 +25,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [InlineData("XMLHttpRequest", true)]
         public void IsValidForRequest_ValidatesAjaxRequests(String headerValue, Boolean expected)
         {
-            RouteContext context = new RouteContext(HttpContextFactory.CreateHttpContext());
+            RouteContext context = new RouteContext(Substitute.For<HttpContext>());
             context.HttpContext.Request.Headers["X-Requested-With"].Returns(headerValue);
 
             Boolean actual = new AjaxOnlyAttribute().IsValidForRequest(context, null);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Mvc;
 using MvcTemplate.Components.Logging;
 using MvcTemplate.Components.Mvc;
 using NSubstitute;
@@ -20,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             logger = Substitute.For<ILogger>();
             actionContext = new ActionContext();
             filter = new ExceptionFilter(logger);
-            actionContext.HttpContext = HttpContextFactory.CreateHttpContext();
+            actionContext.HttpContext = Substitute.For<HttpContext>();
         }
 
         #region Method: OnException(ExceptionContext filterContext)

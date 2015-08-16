@@ -15,14 +15,14 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         public BaseControllerTests()
         {
-            HttpContext httpContext = HttpContextFactory.CreateHttpContext();
+            HttpContext httpContext = Substitute.For<HttpContext>();
             Authorization.Provider = Substitute.For<IAuthorizationProvider>();
 
             controller = Substitute.ForPartsOf<BaseController>();
 
             controller.Url = Substitute.For<IUrlHelper>();
             controller.ActionContext.RouteData = new RouteData();
-            controller.ActionContext.HttpContext = HttpContextFactory.CreateHttpContext();
+            controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
         }
         public void Dispose()
         {

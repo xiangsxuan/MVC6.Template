@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNet.Mvc.Rendering;
@@ -23,7 +24,7 @@ namespace MvcTemplate.Tests
             html.MetadataProvider.Returns(provider);
             html.ViewContext.Returns(new ViewContext());
             html.ViewContext.RouteData = new RouteData();
-            html.ViewContext.HttpContext = HttpContextFactory.CreateHttpContext();
+            html.ViewContext.HttpContext = Substitute.For<HttpContext>();
             html.ViewContext.ViewData.Model = model;
 
             return html;
