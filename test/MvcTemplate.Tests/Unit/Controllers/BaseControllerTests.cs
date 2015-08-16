@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Routing;
-using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers;
 using NSubstitute;
@@ -27,7 +26,6 @@ namespace MvcTemplate.Tests.Unit.Controllers
         }
         public void Dispose()
         {
-            GlobalizationManager.Provider = null;
             Authorization.Provider = null;
         }
 

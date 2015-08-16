@@ -6,7 +6,8 @@
                 <span class="text">@Actions.Profile</span>
             </a>
         </li>
-        @if (GlobalizationManager.Provider.Languages.Length > 1)
+        @{ IGlobalizationProvider globalizationProvider = Context.ApplicationServices.GetService<IGlobalizationProvider>(); }
+        @if (globalizationProvider.Languages.Length > 1)
         {
             String query = (ViewContext.HttpContext.Request.Query.Count > 0) ? ViewContext.HttpContext.Request.QueryString.ToString() : "";
             String action = ViewContext.RouteData.Values["action"] as String;
@@ -19,7 +20,7 @@
                     <span class="caret"></span>
                 </a>
                 <ul role="menu" class="dropdown-menu">
-                    @foreach (Language language in GlobalizationManager.Provider.Languages)
+                    @foreach (Language language in globalizationProvider.Languages)
                     {
                         <li>
                             <a href="@(Url.Action(action, new { language = language.Abbreviation, id = id }) + query)">

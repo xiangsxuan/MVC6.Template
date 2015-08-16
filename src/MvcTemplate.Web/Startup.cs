@@ -39,7 +39,6 @@ namespace MvcTemplate.Web
         }
         public void Configure(IApplicationBuilder app)
         {
-            RegisterGlobalizationProvider(app);
             RegisterAuthorization(app);
             RegisterStaticFiles(app);
             RegisterRoute(app);
@@ -65,7 +64,7 @@ namespace MvcTemplate.Web
             services.AddSingleton<IMvcSiteMapProvider>(provider => new MvcSiteMapProvider(
                 Path.Combine(ApplicationBasePath, "Mvc.sitemap"), provider.GetService<IMvcSiteMapParser>()));
 
-            services.AddTransient<IGlobalizationProvider>(provider =>
+            services.AddSingleton<IGlobalizationProvider>(provider =>
                 new GlobalizationProvider(Path.Combine(ApplicationBasePath, "Globalization.xml")));
             services.AddInstance<IAuthorizationProvider>(new AuthorizationProvider(typeof(BaseController).Assembly));
 
@@ -96,10 +95,6 @@ namespace MvcTemplate.Web
             services.AddMvc();
         }
 
-        public virtual void RegisterGlobalizationProvider(IApplicationBuilder app)
-        {
-            GlobalizationManager.Provider = app.ApplicationServices.GetService<IGlobalizationProvider>();
-        }
         public virtual void RegisterAuthorization(IApplicationBuilder app)
         {
             Authorization.Provider = new AuthorizationProvider(typeof(BaseController).Assembly);

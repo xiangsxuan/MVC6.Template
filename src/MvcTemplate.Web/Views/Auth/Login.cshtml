@@ -17,7 +17,8 @@
             <span class="fa fa-lock"></span>
             <input asp-for="Password" type="password" placeholder="@Titles.Password" autocomplete="off" />
         </div>
-        @if (GlobalizationManager.Provider.Languages.Length > 1)
+        @{ IGlobalizationProvider globalizationProvider = Context.ApplicationServices.GetService<IGlobalizationProvider>(); }
+        @if (globalizationProvider.Languages.Length > 1)
         {
             String query = (ViewContext.HttpContext.Request.Query.Count > 0) ? ViewContext.HttpContext.Request.QueryString.ToString() : "";
 
@@ -25,13 +26,13 @@
                 <span class="fa fa-globe"></span>
                 <div class="language-container dropdown-toggle" data-toggle="dropdown">
                     <span class="current-language">
-                        <img src="@Url.Content($"~/Images/Flags/{GlobalizationManager.Provider.CurrentLanguage.Abbreviation}.gif")" alt="">
-                        @GlobalizationManager.Provider.CurrentLanguage.Name
+                        <img src="@Url.Content($"~/Images/Flags/{globalizationProvider.CurrentLanguage.Abbreviation}.gif")" alt="">
+                        @globalizationProvider.CurrentLanguage.Name
                     </span>
                     <span class="caret"></span>
                 </div>
                 <ul class="dropdown-menu" role="menu">
-                    @foreach (Language language in GlobalizationManager.Provider.Languages)
+                    @foreach (Language language in globalizationProvider.Languages)
                     {
                         <li>
                             <a href="@(Url.Action("Login", new { language = language.Abbreviation }) + query)">
