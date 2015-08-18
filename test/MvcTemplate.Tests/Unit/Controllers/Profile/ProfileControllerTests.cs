@@ -22,13 +22,13 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         public ProfileControllerTests()
         {
-            profileEdit = ObjectFactory.CreateProfileEditView(1);
-            profileDelete = ObjectFactory.CreateProfileDeleteView(2);
-
-            service = Substitute.For<IAccountService>();
             validator = Substitute.For<IAccountValidator>();
-            controller = Substitute.ForPartsOf<ProfileController>(validator, service);
+            service = Substitute.For<IAccountService>();
 
+            profileDelete = new ProfileDeleteView();
+            profileEdit = new ProfileEditView();
+
+            controller = Substitute.ForPartsOf<ProfileController>(validator, service);
             controller.When(sub => { String get = sub.CurrentAccountId; }).DoNotCallBase();
             controller.CurrentAccountId.Returns("CurrentAccount");
         }
