@@ -1,9 +1,9 @@
-﻿using MvcTemplate.Components.Mvc;
-using MvcTemplate.Data.Core;
+﻿using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
@@ -72,7 +72,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         [Fact]
         public void Resources_HasAllTranslations()
         {
-            IEnumerable<Language> languages = GlobalizationProviderFactory.CreateProvider().Languages;
+            IEnumerable<CultureInfo> languages = new[] { new CultureInfo("en-GB"), new CultureInfo("lt-LT") };
             IEnumerable<Type> resourceTypes = Assembly
                 .Load("MvcTemplate.Resources")
                 .GetTypes()
@@ -83,19 +83,19 @@ namespace MvcTemplate.Tests.Unit.Resources
                 ResourceManager manager = new ResourceManager(type);
                 IEnumerable<String> resourceKeys = new String[0];
 
-                foreach (ResourceSet set in languages.Select(language => manager.GetResourceSet(language.Culture, true, true)))
+                foreach (ResourceSet set in languages.Select(language => manager.GetResourceSet(language, true, true)))
                 {
                     resourceKeys = resourceKeys.Union(set.Cast<DictionaryEntry>().Select(resource => resource.Key.ToString()));
                     resourceKeys = resourceKeys.Distinct();
                 }
 
-                foreach (Language language in languages)
+                foreach (CultureInfo language in languages)
                 {
-                    ResourceSet set = manager.GetResourceSet(language.Culture, true, true);
+                    ResourceSet set = manager.GetResourceSet(language, true, true);
                     foreach (String key in resourceKeys)
                         Assert.True(!String.IsNullOrEmpty(set.GetString(key)),
                             String.Format("{0}, does not have translation for '{1}' in {2} language.",
-                                type.FullName, key, language.Culture.EnglishName));
+                                type.FullName, key, language.EnglishName));
                 }
             }
         }
