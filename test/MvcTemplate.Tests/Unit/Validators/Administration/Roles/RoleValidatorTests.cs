@@ -5,6 +5,7 @@ using MvcTemplate.Tests.Data;
 using MvcTemplate.Validators;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Validators
@@ -42,26 +43,14 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanCreate_CanNotCreateWithAlreadyUsedRoleTitle()
         {
-            RoleView view = ObjectFactory.CreateRoleView();
+            RoleView view = ObjectFactory.CreateRoleView(2);
             view.Title = role.Title.ToLower();
-            view.Id += "Test";
 
-            Assert.False(validator.CanCreate(view));
-        }
+            Boolean canCreate = validator.CanCreate(view);
 
-        [Fact]
-        public void CanCreate_AddsErrorMessageThenCanNotCreateWithAlreadyUsedRoleTitle()
-        {
-            RoleView view = ObjectFactory.CreateRoleView();
-            view.Title = role.Title.ToLower();
-            view.Id += "Test";
-
-            validator.CanCreate(view);
-
-            String actual = validator.ModelState["Title"].Errors[0].ErrorMessage;
-            String expected = Validations.TitleIsAlreadyUsed;
-
-            Assert.Equal(expected, actual);
+            Assert.False(canCreate);
+            Assert.Single(validator.ModelState);
+            Assert.Equal(Validations.TitleIsAlreadyUsed, validator.ModelState["Title"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -85,26 +74,14 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanEdit_CanNotEditToAlreadyUsedRoleTitle()
         {
-            RoleView view = ObjectFactory.CreateRoleView();
+            RoleView view = ObjectFactory.CreateRoleView(2);
             view.Title = role.Title.ToLower();
-            view.Id += "Test";
 
-            Assert.False(validator.CanEdit(view));
-        }
+            Boolean canEdit = validator.CanEdit(view);
 
-        [Fact]
-        public void CanEdit_AddsErrorMessageThenCanNotEditToAlreadyUsedRoleTitle()
-        {
-            RoleView view = ObjectFactory.CreateRoleView();
-            view.Title = role.Title.ToLower();
-            view.Id += "Test";
-
-            validator.CanEdit(view);
-
-            String actual = validator.ModelState["Title"].Errors[0].ErrorMessage;
-            String expected = Validations.TitleIsAlreadyUsed;
-
-            Assert.Equal(expected, actual);
+            Assert.False(canEdit);
+            Assert.Single(validator.ModelState);
+            Assert.Equal(Validations.TitleIsAlreadyUsed, validator.ModelState["Title"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
