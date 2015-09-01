@@ -39,14 +39,11 @@ namespace MvcTemplate.Tests.Unit.Components.Security.Area
         public abstract ViewResult PostActionWithName();
 
         [HttpGet]
-        public abstract ViewResult NotAuthorizedAs();
-
-        [HttpGet]
-        [AuthorizeAs("AuthorizedAsItself")]
-        public abstract ViewResult AuthorizedAsItself();
-
-        [HttpGet]
         [AuthorizeAs("Action")]
         public abstract ViewResult AuthorizedAsAction();
+
+        [HttpGet]
+        [AuthorizeAs("InheritanceAction", Controller = "InheritedAuthorized", Area = "")]
+        public abstract ViewResult AuthorizedAsOtherAction();
     }
 }

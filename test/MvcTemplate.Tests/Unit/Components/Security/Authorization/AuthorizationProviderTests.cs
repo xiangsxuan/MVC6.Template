@@ -147,39 +147,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         }
 
         [Fact(Skip = "EF not supporting navigation properties")]
-        public void IsAuthorizedFor_AuthorizesActionWithoutAuthorizeAsAttribute()
-        {
-            Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "NotAuthorizedAs");
-
-            Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "NotAuthorizedAs"));
-        }
-
-        [Fact]
-        public void IsAuthorizedFor_DoesNotAuthorizeActionWithoutAuthorizeAsAttribute()
-        {
-            Account account = CreateAccountWithPrivilegeFor("Area", "Test", "Test");
-
-            Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "NotAuthorizedAs"));
-        }
-
-        [Fact(Skip = "EF not supporting navigation properties")]
-        public void IsAuthorizedFor_AuthorizesActionAsItself()
-        {
-            Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "AuthorizedAsItself");
-
-            Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsItself"));
-        }
-
-        [Fact]
-        public void IsAuthorizedFor_DoesNotAuthorizeActionAsItself()
-        {
-            Account account = CreateAccountWithPrivilegeFor("Area", "Test", "Test");
-
-            Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsItself"));
-        }
-
-        [Fact(Skip = "EF not supporting navigation properties")]
-        public void IsAuthorizedFor_AuthorizesActionAsOtherAction()
+        public void IsAuthorizedFor_AuthorizesActionAsAction()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "Action");
 
@@ -187,11 +155,27 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         }
 
         [Fact]
-        public void IsAuthorizedFor_DoesNotAuthorizeActionAsOtherAction()
+        public void IsAuthorizedFor_DoesNotAuthorizeActionAsAction()
         {
-            Account account = CreateAccountWithPrivilegeFor("Area", "Test", "AuthorizedAsAction");
+            Account account = CreateAccountWithPrivilegeFor(null, "Authorized", "Action");
 
             Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsAction"));
+        }
+
+        [Fact(Skip = "EF not supporting navigation properties")]
+        public void IsAuthorizedFor_AuthorizesActionAsOtherAction()
+        {
+            Account account = CreateAccountWithPrivilegeFor(null, "InheritedAuthorized", "InheritanceAction");
+
+            Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsOtherAction"));
+        }
+
+        [Fact]
+        public void IsAuthorizedFor_DoesNotAuthorizeActionAsOtherAction()
+        {
+            Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "AuthorizedAsOtherAction");
+
+            Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsOtherAction"));
         }
 
         [Fact(Skip = "EF not supporting navigation properties")]

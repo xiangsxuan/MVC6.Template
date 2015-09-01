@@ -23,11 +23,11 @@ namespace MvcTemplate.Components.Security
         {
             Type authorizedController = GetControllerType(area, controller);
             MethodInfo actionInfo = GetMethod(authorizedController, action);
-            String authorizedAs = GetAuthorizedAs(actionInfo);
+            AuthorizeAsAttribute authorizeAs = GetAuthorizeAs(actionInfo);
             if (String.IsNullOrEmpty(area)) area = null;
 
-            if (authorizedAs != null)
-                return IsAuthorizedFor(accountId, area, controller, authorizedAs);
+            if (authorizeAs != null)
+                return IsAuthorizedFor(accountId, authorizeAs.Area ?? area, authorizeAs.Controller ?? controller, authorizeAs.Action);
 
             if (AllowsUnauthorized(authorizedController, actionInfo))
                 return true;
@@ -108,16 +108,12 @@ namespace MvcTemplate.Components.Security
 
             return methods[0];
         }
-        private String GetAuthorizedAs(MemberInfo action)
+        private AuthorizeAsAttribute GetAuthorizeAs(MemberInfo action)
         {
             if (!action.IsDefined(typeof(AuthorizeAsAttribute), false))
                 return null;
 
-            AuthorizeAsAttribute authorizedAs = action.GetCustomAttribute<AuthorizeAsAttribute>(false);
-            if (authorizedAs.Action == action.Name)
-                return null;
-
-            return authorizedAs.Action;
+            return action.GetCustomAttribute<AuthorizeAsAttribute>(false);
         }
     }
 }
