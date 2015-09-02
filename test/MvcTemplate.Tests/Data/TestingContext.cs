@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Entity;
 using MvcTemplate.Data.Core;
+using MvcTemplate.Objects;
 using MvcTemplate.Tests.Data.Mapping;
 using MvcTemplate.Tests.Objects;
 
@@ -16,6 +17,16 @@ namespace MvcTemplate.Tests.Data
         static TestingContext()
         {
             TestObjectMapper.MapObjects();
+        }
+
+        public void DropData()
+        {
+            Set<RolePrivilege>().RemoveRange(Set<RolePrivilege>());
+            Set<Privilege>().RemoveRange(Set<Privilege>());
+            Set<Account>().RemoveRange(Set<Account>());
+            Set<Role>().RemoveRange(Set<Role>());
+
+            SaveChanges();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

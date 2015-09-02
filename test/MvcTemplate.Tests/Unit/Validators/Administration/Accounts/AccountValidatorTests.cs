@@ -25,7 +25,7 @@ namespace MvcTemplate.Tests.Unit.Validators
             hasher = Substitute.For<IHasher>();
             hasher.VerifyPassword(Arg.Any<String>(), Arg.Any<String>()).Returns(true);
 
-            TearDownData();
+            context.DropData();
             SetUpData();
 
             validator = new AccountValidator(new UnitOfWork(context), hasher);
@@ -400,13 +400,6 @@ namespace MvcTemplate.Tests.Unit.Validators
 
             context.Set<Role>().Add(account.Role);
             context.Set<Account>().Add(account);
-            context.SaveChanges();
-        }
-        private void TearDownData()
-        {
-            context.Set<RolePrivilege>().RemoveRange(context.Set<RolePrivilege>());
-            context.Set<Account>().RemoveRange(context.Set<Account>());
-            context.Set<Role>().RemoveRange(context.Set<Role>());
             context.SaveChanges();
         }
 

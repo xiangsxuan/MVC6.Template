@@ -28,7 +28,7 @@ namespace MvcTemplate.Tests.Unit.Services
             hasher = Substitute.For<IHasher>();
             hasher.HashPassword(Arg.Any<String>()).Returns(info => info.Arg<String>() + "Hashed");
 
-            TearDownData();
+            context.DropData();
             SetUpData();
 
             Authorization.Provider = Substitute.For<IAuthorizationProvider>();
@@ -437,13 +437,6 @@ namespace MvcTemplate.Tests.Unit.Services
 
             context.Set<Role>().Add(account.Role);
             context.Set<Account>().Add(account);
-            context.SaveChanges();
-        }
-        private void TearDownData()
-        {
-            context.Set<RolePrivilege>().RemoveRange(context.Set<RolePrivilege>());
-            context.Set<Account>().RemoveRange(context.Set<Account>());
-            context.Set<Role>().RemoveRange(context.Set<Role>());
             context.SaveChanges();
         }
 

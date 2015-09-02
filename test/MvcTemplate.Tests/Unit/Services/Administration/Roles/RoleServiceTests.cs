@@ -28,7 +28,7 @@ namespace MvcTemplate.Tests.Unit.Services
             Authorization.Provider = Substitute.For<IAuthorizationProvider>();
             service = Substitute.ForPartsOf<RoleService>(new UnitOfWork(context));
 
-            TearDownData();
+            context.DropData();
         }
         public void Dispose()
         {
@@ -477,14 +477,6 @@ namespace MvcTemplate.Tests.Unit.Services
             roleView.PrivilegesTree = CreatePrivilegesTree(role);
 
             return roleView;
-        }
-        private void TearDownData()
-        {
-            context.Set<RolePrivilege>().RemoveRange(context.Set<RolePrivilege>());
-            context.Set<Privilege>().RemoveRange(context.Set<Privilege>());
-            context.Set<Account>().RemoveRange(context.Set<Account>());
-            context.Set<Role>().RemoveRange(context.Set<Role>());
-            context.SaveChanges();
         }
 
         private IEnumerable<JsTreeNode> GetAllBranchNodes(IEnumerable<JsTreeNode> nodes)

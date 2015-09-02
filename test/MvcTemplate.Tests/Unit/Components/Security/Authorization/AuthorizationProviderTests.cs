@@ -16,7 +16,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         {
             provider = new AuthorizationProvider(Assembly.GetExecutingAssembly());
 
-            TearDownData();
+            using (TestingContext context = new TestingContext()) context.DropData();
         }
 
         #region Method: IsAuthorizedFor(String accountId, String area, String controller, String action)
@@ -342,7 +342,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         public void IsAuthorizedFor_CachesAccountPrivileges()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Authorized", "Action");
-            TearDownData();
+            using (TestingContext context = new TestingContext()) context.DropData();
 
             Assert.True(provider.IsAuthorizedFor(account.Id, null, "Authorized", "Action"));
         }
@@ -357,7 +357,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "Action");
             Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
 
-            TearDownData();
+            using (TestingContext context = new TestingContext()) context.DropData();
 
             provider.Refresh();
 
@@ -403,18 +403,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
                 provider.Refresh();
 
                 return account;
-            }
-        }
-
-        private void TearDownData()
-        {
-            using (TestingContext context = new TestingContext())
-            {
-                context.Set<RolePrivilege>().RemoveRange(context.Set<RolePrivilege>());
-                context.Set<Privilege>().RemoveRange(context.Set<Privilege>());
-                context.Set<Account>().RemoveRange(context.Set<Account>());
-                context.Set<Role>().RemoveRange(context.Set<Role>());
-                context.SaveChanges();
             }
         }
 

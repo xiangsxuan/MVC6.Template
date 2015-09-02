@@ -21,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Validators
             context = new TestingContext();
             validator = new RoleValidator(new UnitOfWork(context));
 
-            TearDownData();
+            context.DropData();
             SetUpData();
         }
         public void Dispose()
@@ -122,14 +122,6 @@ namespace MvcTemplate.Tests.Unit.Validators
                 }
 
             context.Set<Role>().Add(role);
-            context.SaveChanges();
-        }
-        private void TearDownData()
-        {
-            context.Set<RolePrivilege>().RemoveRange(context.Set<RolePrivilege>());
-            context.Set<Privilege>().RemoveRange(context.Set<Privilege>());
-            context.Set<Account>().RemoveRange(context.Set<Account>());
-            context.Set<Role>().RemoveRange(context.Set<Role>());
             context.SaveChanges();
         }
 
