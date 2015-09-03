@@ -4,7 +4,6 @@ using MvcTemplate.Resources.Views.Administration.Roles.RoleView;
 using MvcTemplate.Tests.Data;
 using MvcTemplate.Validators;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -22,7 +21,9 @@ namespace MvcTemplate.Tests.Unit.Validators
             validator = new RoleValidator(new UnitOfWork(context));
 
             context.DropData();
-            SetUpData();
+            role = ObjectFactory.CreateRole();
+            context.Set<Role>().Add(role);
+            context.SaveChanges();
         }
         public void Dispose()
         {
@@ -88,41 +89,6 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanEdit_CanEditValidRole()
         {
             Assert.True(validator.CanEdit(ObjectFactory.CreateRoleView()));
-        }
-
-        #endregion
-
-        #region Test helpers
-
-        private void SetUpData()
-        {
-            Account account = ObjectFactory.CreateAccount();
-            role = ObjectFactory.CreateRole();
-            account.RoleId = role.Id;
-
-            context.Set<Account>().Add(account);
-
-            role.RolePrivileges = new List<RolePrivilege>();
-
-            Int32 privilegeNumber = 1;
-            IEnumerable<String> controllers = new[] { "Accounts", "Roles" };
-            IEnumerable<String> actions = new[] { "Index", "Create", "Details", "Edit", "Delete" };
-
-            foreach (String controller in controllers)
-                foreach (String action in actions)
-                {
-                    RolePrivilege rolePrivilege = ObjectFactory.CreateRolePrivilege(privilegeNumber++);
-                    rolePrivilege.Privilege = new Privilege { Area = "Administration", Controller = controller, Action = action };
-                    rolePrivilege.Privilege.Id = rolePrivilege.Id;
-                    rolePrivilege.PrivilegeId = rolePrivilege.Id;
-                    rolePrivilege.RoleId = role.Id;
-                    rolePrivilege.Role = role;
-
-                    role.RolePrivileges.Add(rolePrivilege);
-                }
-
-            context.Set<Role>().Add(role);
-            context.SaveChanges();
         }
 
         #endregion

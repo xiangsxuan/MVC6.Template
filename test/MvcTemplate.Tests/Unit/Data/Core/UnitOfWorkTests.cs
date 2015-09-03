@@ -252,17 +252,12 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Commit_DoesNotSaveLogsOnFailedCommit()
         {
-            try
-            {
-                unitOfWork.Insert(new TestModel { Text = new String('X', 513) });
-                unitOfWork.Commit();
-            }
-            catch
-            {
-            }
+            unitOfWork.Insert(new TestModel { Text = new String('X', 513) });
+            Exception exception = Record.Exception(() => unitOfWork.Commit());
 
             logger.Received().Log(Arg.Any<IEnumerable<EntityEntry<BaseModel>>>());
             logger.DidNotReceive().Save();
+            Assert.NotNull(exception);
         }
 
         #endregion

@@ -308,11 +308,10 @@ namespace MvcTemplate.Tests.Unit.Services
         public void Edit_EditsCurrentAccountProfile()
         {
             Account account = context.Set<Account>().AsNoTracking().Single();
-            ProfileEditView view = ObjectFactory.CreateProfileEditView();
+            ProfileEditView view = ObjectFactory.CreateProfileEditView(2);
             account.Passhash = hasher.HashPassword(view.NewPassword);
             view.Username = account.Username += "Test";
             view.Email = account.Email += "Test";
-            view.Id += "Test";
 
             service.Edit(view);
 
