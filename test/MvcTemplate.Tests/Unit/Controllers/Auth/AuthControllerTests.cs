@@ -46,11 +46,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         public void Register_RedirectsToDefaultIfAlreadyLoggedIn()
         {
             service.IsLoggedIn(controller.User).Returns(true);
-            controller.When(sub => sub.RedirectToDefault()).DoNotCallBase();
-            controller.RedirectToDefault().Returns(new RedirectToActionResult(null, null, null));
 
-            ActionResult expected = controller.RedirectToDefault();
-            ActionResult actual = controller.Register();
+            Object expected = RedirectToDefault(controller);
+            Object actual = controller.Register();
 
             Assert.Same(expected, actual);
         }
@@ -79,11 +77,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         public void Register_OnPostRedirectsToDefaultIfAlreadyLoggedIn()
         {
             service.IsLoggedIn(controller.User).Returns(true);
-            controller.When(sub => sub.RedirectToDefault()).DoNotCallBase();
-            controller.RedirectToDefault().Returns(new RedirectToActionResult(null, null, null));
 
-            ActionResult expected = controller.RedirectToDefault();
-            ActionResult actual = controller.Register(null);
+            Object expected = RedirectToDefault(controller);
+            Object actual = controller.Register(null);
 
             Assert.Same(expected, actual);
         }
@@ -147,11 +143,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         public void Recover_RedirectsToDefaultIfAlreadyLoggedIn()
         {
             service.IsLoggedIn(controller.User).Returns(true);
-            controller.When(sub => sub.RedirectToDefault()).DoNotCallBase();
-            controller.RedirectToDefault().Returns(new RedirectToActionResult(null, null, null));
 
-            ActionResult expected = controller.RedirectToDefault();
-            ActionResult actual = controller.Recover();
+            Object expected = RedirectToDefault(controller);
+            Object actual = controller.Recover(null).Result;
 
             Assert.Same(expected, actual);
         }
@@ -175,11 +169,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsLoggedIn(controller.User).Returns(true);
             validator.CanRecover(accountRecovery).Returns(true);
-            controller.When(sub => sub.RedirectToDefault()).DoNotCallBase();
-            controller.RedirectToDefault().Returns(new RedirectToActionResult(null, null, null));
 
-            ActionResult expected = controller.RedirectToDefault();
-            ActionResult actual = controller.Recover(null).Result;
+            Object expected = RedirectToDefault(controller);
+            Object actual = controller.Reset("");
 
             Assert.Same(expected, actual);
         }
@@ -278,11 +270,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         public void Reset_RedirectsToDefaultIfAlreadyLoggedIn()
         {
             service.IsLoggedIn(controller.User).Returns(true);
-            controller.When(sub => sub.RedirectToDefault()).DoNotCallBase();
-            controller.RedirectToDefault().Returns(new RedirectToActionResult(null, null, null));
 
-            ActionResult expected = controller.RedirectToDefault();
-            ActionResult actual = controller.Reset("");
+            Object expected = RedirectToDefault(controller);
+            Object actual = controller.Reset(accountReset);
 
             Assert.Same(expected, actual);
         }
@@ -391,8 +381,8 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller.When(sub => sub.RedirectToLocal("/")).DoNotCallBase();
             controller.RedirectToLocal("/").Returns(new RedirectResult("/"));
 
-            ActionResult expected = controller.RedirectToLocal("/");
-            ActionResult actual = controller.Login("/");
+            Object expected = controller.RedirectToLocal("/");
+            Object actual = controller.Login("/");
 
             Assert.Same(expected, actual);
         }
@@ -418,8 +408,8 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller.When(sub => sub.RedirectToLocal("/")).DoNotCallBase();
             controller.RedirectToLocal("/").Returns(new RedirectResult("/"));
 
-            ActionResult expected = controller.RedirectToLocal("/");
-            ActionResult actual = controller.Login(null, "/");
+            Object expected = controller.RedirectToLocal("/");
+            Object actual = controller.Login(null, "/");
 
             Assert.Same(expected, actual);
         }
@@ -454,8 +444,8 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller.When(sub => sub.RedirectToLocal("/")).DoNotCallBase();
             controller.RedirectToLocal("/").Returns(new RedirectResult("/"));
 
-            ActionResult actual = controller.Login(accountLogin, "/");
-            ActionResult expected = controller.RedirectToLocal("/");
+            Object actual = controller.Login(accountLogin, "/");
+            Object expected = controller.RedirectToLocal("/");
 
             Assert.Same(expected, actual);
         }

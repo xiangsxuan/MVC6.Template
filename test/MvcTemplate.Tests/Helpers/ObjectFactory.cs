@@ -131,7 +131,13 @@ namespace MvcTemplate.Tests
         {
             return new RolePrivilege
             {
-                Id = "Id" + id
+                Id = "Id" + id,
+
+                RoleId = "Id" + id,
+                Role = CreateRole(id),
+
+                PrivilegeId = "Id" + id,
+                Privilege = CreatePrivilege(id)
             };
         }
 

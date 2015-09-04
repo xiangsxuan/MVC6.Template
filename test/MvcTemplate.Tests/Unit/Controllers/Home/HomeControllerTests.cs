@@ -7,7 +7,7 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
 {
-    public class HomeControllerTests
+    public class HomeControllerTests : AControllerTests
     {
         private HomeController controller;
         private IAccountService service;
@@ -17,8 +17,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service = Substitute.For<IAccountService>();
             controller = Substitute.ForPartsOf<HomeController>(service);
 
-            controller.When(sub => { String get = sub.CurrentAccountId; }).DoNotCallBase();
-            controller.CurrentAccountId.Returns("CurrentAccount");
+            ReturnsCurrentAccountId(controller, "Test");
         }
 
         #region Method: Index()

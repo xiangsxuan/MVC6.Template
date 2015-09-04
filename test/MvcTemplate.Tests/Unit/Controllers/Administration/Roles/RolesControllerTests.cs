@@ -107,11 +107,9 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         public void Create_AfterCreateRedirectsToIndex()
         {
             validator.CanCreate(role).Returns(true);
-            controller.When(sub => sub.RedirectIfAuthorized("Index")).DoNotCallBase();
-            controller.RedirectIfAuthorized("Index").Returns(new RedirectToActionResult(null, null, null));
 
-            ActionResult expected = controller.RedirectIfAuthorized("Index");
-            ActionResult actual = controller.Create(role);
+            Object expected = RedirectIfAuthorized(controller, "Index");
+            Object actual = controller.Create(role);
 
             Assert.Same(expected, actual);
         }
@@ -124,10 +122,8 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         public void Details_ReturnsNotEmptyView()
         {
             service.GetView(role.Id).Returns(role);
-            controller.When(sub => sub.NotEmptyView(role)).DoNotCallBase();
-            controller.NotEmptyView(role).Returns(new RedirectToActionResult(null, null, null));
 
-            Object expected = controller.NotEmptyView(role);
+            Object expected = NotEmptyView(controller, role);
             Object actual = controller.Details(role.Id);
 
             Assert.Same(expected, actual);
@@ -141,10 +137,8 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         public void Edit_ReturnsNotEmptyView()
         {
             service.GetView(role.Id).Returns(role);
-            controller.When(sub => sub.NotEmptyView(role)).DoNotCallBase();
-            controller.NotEmptyView(role).Returns(new RedirectToActionResult(null, null, null));
 
-            Object expected = controller.NotEmptyView(role);
+            Object expected = NotEmptyView(controller, role);
             Object actual = controller.Edit(role.Id);
 
             Assert.Same(expected, actual);
@@ -189,11 +183,9 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         public void Edit_AfterEditRedirectsToIndex()
         {
             validator.CanEdit(role).Returns(true);
-            controller.When(sub => sub.RedirectIfAuthorized("Index")).DoNotCallBase();
-            controller.RedirectIfAuthorized("Index").Returns(new RedirectToActionResult(null, null, null));
 
-            ActionResult expected = controller.RedirectIfAuthorized("Index");
-            ActionResult actual = controller.Edit(role);
+            Object expected = RedirectIfAuthorized(controller, "Index");
+            Object actual = controller.Edit(role);
 
             Assert.Same(expected, actual);
         }
@@ -206,10 +198,8 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         public void Delete_OnModelNotFoundRedirectsToNotFound()
         {
             service.GetView(role.Id).Returns(role);
-            controller.When(sub => sub.NotEmptyView(role)).DoNotCallBase();
-            controller.NotEmptyView(role).Returns(new RedirectToActionResult(null, null, null));
 
-            Object expected = controller.NotEmptyView(role);
+            Object expected = NotEmptyView(controller, role);
             Object actual = controller.Delete(role.Id);
 
             Assert.Same(expected, actual);
@@ -230,11 +220,8 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         [Fact]
         public void Delete_AfterDeleteRedirectsToIndex()
         {
-            controller.When(sub => sub.RedirectIfAuthorized("Index")).DoNotCallBase();
-            controller.RedirectIfAuthorized("Index").Returns(new RedirectToActionResult(null, null, null));
-
-            ActionResult expected = controller.RedirectIfAuthorized("Index");
-            ActionResult actual = controller.DeleteConfirmed(role.Id);
+            Object expected = RedirectIfAuthorized(controller, "Index");
+            Object actual = controller.DeleteConfirmed(role.Id);
 
             Assert.Same(expected, actual);
         }

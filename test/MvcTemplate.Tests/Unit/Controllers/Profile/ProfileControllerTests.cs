@@ -29,8 +29,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             profileEdit = new ProfileEditView();
 
             controller = Substitute.ForPartsOf<ProfileController>(validator, service);
-            controller.When(sub => { String get = sub.CurrentAccountId; }).DoNotCallBase();
-            controller.CurrentAccountId.Returns("CurrentAccount");
+            ReturnsCurrentAccountId(controller, "Test");
         }
 
         #region Method: Edit()

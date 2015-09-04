@@ -35,8 +35,8 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions.Mvc
             Exception exception = new Exception();
             modelState.AddModelError<AllTypesView>(model => model.Child.StringField, exception);
 
-            Exception actual = modelState.Single().Value.Errors.Single().Exception;
-            Exception expected = exception;
+            Object actual = modelState.Single().Value.Errors.Single().Exception;
+            Object expected = exception;
 
             Assert.Same(expected, actual);
         }

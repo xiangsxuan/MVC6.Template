@@ -371,20 +371,12 @@ namespace MvcTemplate.Tests.Unit.Services
         public void Delete_DeletesRolePrivileges()
         {
             RolePrivilege rolePrivilege = ObjectFactory.CreateRolePrivilege();
-            Privilege privilege = ObjectFactory.CreatePrivilege();
-            Role role = ObjectFactory.CreateRole();
-
-            rolePrivilege.PrivilegeId = privilege.Id;
-            rolePrivilege.Privilege = privilege;
-            rolePrivilege.RoleId = role.Id;
-            rolePrivilege.Role = role;
-
-            context.Set<Role>().Add(rolePrivilege.Role);
             context.Set<Privilege>().Add(rolePrivilege.Privilege);
             context.Set<RolePrivilege>().Add(rolePrivilege);
+            context.Set<Role>().Add(rolePrivilege.Role);
             context.SaveChanges();
 
-            service.Delete(role.Id);
+            service.Delete(rolePrivilege.RoleId);
 
             Assert.Empty(context.Set<RolePrivilege>());
         }
@@ -454,14 +446,13 @@ namespace MvcTemplate.Tests.Unit.Services
             Role role = ObjectFactory.CreateRole();
             role.RolePrivileges = new List<RolePrivilege>();
 
-            foreach (String controller in controllers)
-                foreach (String action in actions)
+            foreach (String controller in new[] { "Roles", "Profile" })
+                foreach (String action in new[] { "Edit", "Delete" })
                 {
                     RolePrivilege rolePrivilege = ObjectFactory.CreateRolePrivilege(privilegeNumber++);
-                    rolePrivilege.Privilege = new Privilege { Controller = controller, Action = action };
-                    rolePrivilege.Privilege.Area = controller != "Roles" ? "Administration" : null;
-                    rolePrivilege.Privilege.Id = rolePrivilege.Id;
-                    rolePrivilege.PrivilegeId = rolePrivilege.Id;
+                    rolePrivilege.Privilege.Area = controller == "Roles" ? "Administration" : null;
+                    rolePrivilege.Privilege.Controller = controller;
+                    rolePrivilege.Privilege.Action = action;
                     rolePrivilege.RoleId = role.Id;
                     rolePrivilege.Role = role;
 

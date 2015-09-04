@@ -2,7 +2,6 @@
 using MvcTemplate.Objects;
 using MvcTemplate.Tests.Data;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Xunit;
 
@@ -372,27 +371,16 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         {
             using (TestingContext context = new TestingContext())
             {
-                Account account = ObjectFactory.CreateAccount();
-                Role role = ObjectFactory.CreateRole();
-                account.IsLocked = isLocked;
-                account.RoleId = role.Id;
-                account.Role = role;
-
-                role.RolePrivileges = new List<RolePrivilege>();
                 RolePrivilege rolePrivilege = ObjectFactory.CreateRolePrivilege();
-                Privilege privilege = ObjectFactory.CreatePrivilege();
-                rolePrivilege.PrivilegeId = privilege.Id;
-                rolePrivilege.Privilege = privilege;
-                rolePrivilege.RoleId = role.Id;
-                rolePrivilege.Role = role;
+                Account account = ObjectFactory.CreateAccount();
+                account.RoleId = rolePrivilege.RoleId;
+                account.IsLocked = isLocked;
 
-                privilege.Controller = controller;
-                privilege.Action = action;
-                privilege.Area = area;
+                rolePrivilege.Privilege.Controller = controller;
+                rolePrivilege.Privilege.Action = action;
+                rolePrivilege.Privilege.Area = area;
 
-                role.RolePrivileges.Add(rolePrivilege);
-
-                context.Set<Role>().Add(account.Role);
+                context.Set<Role>().Add(rolePrivilege.Role);
                 context.Set<Account>().Add(account);
                 context.SaveChanges();
 
