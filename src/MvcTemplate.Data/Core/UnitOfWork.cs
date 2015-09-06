@@ -20,29 +20,22 @@ namespace MvcTemplate.Data.Core
             Logger = logger;
         }
 
-        public ISelect<TModel> Select<TModel>() where TModel : BaseModel
+        public TDestination GetAs<TModel, TDestination>(String id) where TModel : BaseModel
         {
-            return new Select<TModel>(Context.Set<TModel>());
+            return To<TDestination>(Get<TModel>(id));
         }
-
-        public TModel To<TModel>(BaseView view) where TModel : BaseModel
-        {
-            return Mapper.Map<TModel>(view);
-        }
-        public TView To<TView>(BaseModel model) where TView : BaseView
-        {
-            return Mapper.Map<TView>(model);
-        }
-
         public TModel Get<TModel>(String id) where TModel : BaseModel
         {
             return Context.Set<TModel>().SingleOrDefault(model => model.Id == id);
         }
-        public TView GetAs<TModel, TView>(String id)
-            where TModel : BaseModel
-            where TView : BaseView
+        public TDestination To<TDestination>(Object source)
         {
-            return To<TView>(Get<TModel>(id));
+            return Mapper.Map<TDestination>(source);
+        }
+
+        public ISelect<TModel> Select<TModel>() where TModel : BaseModel
+        {
+            return new Select<TModel>(Context.Set<TModel>());
         }
 
         public void Insert<TModel>(TModel model) where TModel : BaseModel

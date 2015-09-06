@@ -35,49 +35,17 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Dispose();
         }
 
-        #region Method: Select<TModel>()
+        #region Method: GetAs<TModel, TDestination>(String id)
 
         [Fact]
-        public void Select_CreatesSelectForSet()
+        public void GetAs_ReturnsModelAsDestinationModelById()
         {
             TestModel model = ObjectFactory.CreateTestModel();
             context.Set<TestModel>().Add(model);
             context.SaveChanges();
 
-            IEnumerable<TestModel> actual = unitOfWork.Select<TestModel>();
-            IEnumerable<TestModel> expected = context.Set<TestModel>();
-
-            Assert.Equal(expected, actual);
-        }
-
-        #endregion
-
-        #region Method: To<TModel>(BaseView view)
-
-        [Fact]
-        public void ToModel_ConvertsViewToModel()
-        {
-            TestView view = ObjectFactory.CreateTestView();
-
-            TestModel actual = unitOfWork.To<TestModel>(view);
-            TestModel expected = Mapper.Map<TestModel>(view);
-
-            Assert.Equal(expected.CreationDate, actual.CreationDate);
-            Assert.Equal(expected.Text, actual.Text);
-            Assert.Equal(expected.Id, actual.Id);
-        }
-
-        #endregion
-
-        #region Method: To<TView>(BaseModel model)
-
-        [Fact]
-        public void ToView_ConvertsModelToView()
-        {
-            TestModel model = ObjectFactory.CreateTestModel();
-
-            TestView actual = unitOfWork.To<TestView>(model);
-            TestView expected = Mapper.Map<TestView>(model);
+            TestView expected = Mapper.Map<TestView>(context.Set<TestModel>().AsNoTracking().Single());
+            TestView actual = unitOfWork.GetAs<TestModel, TestView>(model.Id);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Text, actual.Text);
@@ -111,21 +79,36 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
-        #region Method: GetAs<TModel, TView>(String id)
+        #region Method: To<TDestination>(Object source)
 
         [Fact]
-        public void GetAs_ReturnsModelAsViewById()
+        public void ToDestination_ConvertsModelToDestinationModel()
+        {
+            TestModel model = ObjectFactory.CreateTestModel();
+
+            TestView actual = unitOfWork.To<TestView>(model);
+            TestView expected = Mapper.Map<TestView>(model);
+
+            Assert.Equal(expected.CreationDate, actual.CreationDate);
+            Assert.Equal(expected.Text, actual.Text);
+            Assert.Equal(expected.Id, actual.Id);
+        }
+
+        #endregion
+
+        #region Method: Select<TModel>()
+
+        [Fact]
+        public void Select_CreatesSelectForSet()
         {
             TestModel model = ObjectFactory.CreateTestModel();
             context.Set<TestModel>().Add(model);
             context.SaveChanges();
 
-            TestView expected = Mapper.Map<TestView>(context.Set<TestModel>().AsNoTracking().Single());
-            TestView actual = unitOfWork.GetAs<TestModel, TestView>(model.Id);
+            IEnumerable<TestModel> actual = unitOfWork.Select<TestModel>();
+            IEnumerable<TestModel> expected = context.Set<TestModel>();
 
-            Assert.Equal(expected.CreationDate, actual.CreationDate);
-            Assert.Equal(expected.Text, actual.Text);
-            Assert.Equal(expected.Id, actual.Id);
+            Assert.Equal(expected, actual);
         }
 
         #endregion
