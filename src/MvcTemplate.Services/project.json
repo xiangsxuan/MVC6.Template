@@ -6,6 +6,10 @@
     "MvcTemplate.Data": "",
     "MvcTemplate.Components": ""
   },
+    
+  "compilationOptions": {
+    "warningsAsErrors": true
+  },
 
   "frameworks": {
     "dnx451": { }

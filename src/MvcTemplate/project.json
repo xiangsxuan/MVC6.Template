@@ -5,6 +5,10 @@
   "dependencies": {
     "MvcTemplate.Data": ""
   },
+    
+  "compilationOptions": {
+    "warningsAsErrors": true
+  },
 
   "frameworks": {
     "dnx451": { }

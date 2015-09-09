@@ -9,6 +9,10 @@
     "Microsoft.AspNet.Mvc": "6.0.0-beta6",
     "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-beta6"
   },
+    
+  "compilationOptions": {
+    "warningsAsErrors": true
+  },
 
   "frameworks": {
     "dnx451": { }

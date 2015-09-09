@@ -10,6 +10,10 @@
     "EntityFramework.Commands": "7.0.0-beta6",
     "EntityFramework.SqlServer": "7.0.0-beta6"
   },
+    
+  "compilationOptions": {
+    "warningsAsErrors": true
+  },
 
   "commands": {
     "ef": "EntityFramework.Commands"

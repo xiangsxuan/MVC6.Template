@@ -6,6 +6,10 @@
     "MvcTemplate.Services": "",
     "MvcTemplate.Validators": ""
   },
+    
+  "compilationOptions": {
+    "warningsAsErrors": true
+  },
 
   "frameworks": {
     "dnx451": { }
