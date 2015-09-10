@@ -47,7 +47,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         }
 
         [Fact]
-        public void Edit_ReturnsCurrentProfileEditView()
+        public void Edit_ReturnsCurrentProfileView()
         {
             service.Get<ProfileEditView>(controller.CurrentAccountId).Returns(new ProfileEditView());
             service.IsActive(controller.CurrentAccountId).Returns(true);
@@ -218,7 +218,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         }
 
         [Fact]
-        public void DeleteConfirmed_DeletesProfileView()
+        public void DeleteConfirmed_DeletesProfile()
         {
             service.IsActive(controller.CurrentAccountId).Returns(true);
             validator.CanDelete(profileDelete).Returns(true);

@@ -210,7 +210,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         #region Method: DeleteConfirmed(String id)
 
         [Fact]
-        public void DeleteConfirmed_DeletesRoleView()
+        public void DeleteConfirmed_DeletesRole()
         {
             controller.DeleteConfirmed(role.Id);
 

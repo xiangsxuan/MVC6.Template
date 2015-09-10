@@ -153,14 +153,6 @@ namespace MvcTemplate.Tests
                 Text = "Text" + id
             };
         }
-        public static TestView CreateTestView(Int32 id = 1)
-        {
-            return new TestView
-            {
-                Id = "Id" + id,
-                Text = "Text" + id
-            };
-        }
 
         #endregion
     }
