@@ -113,6 +113,26 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
+        #region Method: InsertRange<TModel>(IEnumerable<TModel> models)
+
+        [Fact]
+        public void InsertRange_AddsModelsToDbSet()
+        {
+            IEnumerable<TestModel> models = new[] { ObjectFactory.CreateTestModel(1), ObjectFactory.CreateTestModel(2) };
+            unitOfWork.InsertRange(models);
+
+            IEnumerator<TestModel> actual = context.ChangeTracker.Entries<TestModel>().Select(entry => entry.Entity).GetEnumerator();
+            IEnumerator<TestModel> expected = models.GetEnumerator();
+
+            while (expected.MoveNext() | actual.MoveNext())
+            {
+                Assert.Equal(EntityState.Added, context.Entry(actual.Current).State);
+                Assert.Same(expected.Current, actual.Current);
+            }
+        }
+
+        #endregion
+
         #region Method: Insert<TModel>(TModel model)
 
         [Fact]
@@ -161,7 +181,26 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
-        #region Method: Delete(TModel model)
+        #region Method: DeleteRange<TModel>(IEnumerable<TModel> models)
+
+        [Fact]
+        public void DeleteRange_DeletesModels()
+        {
+            IEnumerable<TestModel> models = new[] { ObjectFactory.CreateTestModel(1), ObjectFactory.CreateTestModel(2) };
+            foreach (TestModel model in models)
+                context.Set<TestModel>().Add(model);
+
+            context.SaveChanges();
+
+            unitOfWork.DeleteRange(models);
+            unitOfWork.Commit();
+
+            Assert.Empty(context.Set<TestModel>());
+        }
+
+        #endregion
+
+        #region Method: Delete<TModel>(TModel model)
 
         [Fact]
         public void Delete_DeletesModel()
@@ -171,14 +210,14 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.SaveChanges();
 
             unitOfWork.Delete(model);
-            context.SaveChanges();
+            unitOfWork.Commit();
 
             Assert.Empty(context.Set<TestModel>());
         }
 
         #endregion
 
-        #region Method: Delete(String id)
+        #region Method: Delete<TModel>(String id)
 
         [Fact]
         public void Delete_DeletesModelById()
@@ -188,7 +227,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.SaveChanges();
 
             unitOfWork.Delete<TestModel>(model.Id);
-            context.SaveChanges();
+            unitOfWork.Commit();
 
             Assert.Empty(context.Set<TestModel>());
         }

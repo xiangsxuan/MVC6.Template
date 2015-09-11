@@ -4,6 +4,7 @@ using Microsoft.Data.Entity.ChangeTracking;
 using MvcTemplate.Data.Logging;
 using MvcTemplate.Objects;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MvcTemplate.Data.Core
@@ -38,6 +39,10 @@ namespace MvcTemplate.Data.Core
             return new Select<TModel>(Context.Set<TModel>());
         }
 
+        public void InsertRange<TModel>(IEnumerable<TModel> models) where TModel : BaseModel
+        {
+            Context.Set<TModel>().AddRange(models);
+        }
         public void Insert<TModel>(TModel model) where TModel : BaseModel
         {
             Context.Set<TModel>().Add(model);
@@ -46,6 +51,11 @@ namespace MvcTemplate.Data.Core
         {
             EntityEntry<TModel> entry = Context.Update(model);
             entry.Property(property => property.CreationDate).IsModified = false;
+        }
+
+        public void DeleteRange<TModel>(IEnumerable<TModel> models) where TModel : BaseModel
+        {
+            Context.Set<TModel>().RemoveRange(models);
         }
         public void Delete<TModel>(TModel model) where TModel : BaseModel
         {
