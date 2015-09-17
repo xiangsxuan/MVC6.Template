@@ -80,8 +80,8 @@
     }
 
     var datetimePickers = $(".datetimepicker");
-    for (i = 0; i < datetimePickers.length; i++) {
-        $(datetimePickers[i]).datetimepicker({
+    for (var j = 0; j < datetimePickers.length; j++) {
+        $(datetimePickers[j]).datetimepicker({
             beforeShow: function (e) {
                 return !$(e).attr('readonly');
             }
