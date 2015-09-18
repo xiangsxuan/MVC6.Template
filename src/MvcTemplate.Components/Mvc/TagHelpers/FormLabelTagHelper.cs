@@ -12,13 +12,19 @@ namespace MvcTemplate.Components.Mvc
         [HtmlAttributeName("comp-for")]
         public ModelExpression For { get; set; }
 
+        [HtmlAttributeName("comp-required")]
+        public Boolean? Required { get; set; }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.Attributes["for"] = TagBuilder.CreateSanitizedId(For.Name, "_");
             TagBuilder requiredSpan = new TagBuilder("span");
             requiredSpan.AddCssClass("require");
 
-            if (IsRequiredExpression())
+            if (Required == true)
+                requiredSpan.InnerHtml = "*";
+
+            if (!Required.HasValue && IsRequiredExpression())
                 requiredSpan.InnerHtml = "*";
 
             output.Content.SetContent(For.ModelExplorer.Metadata.DisplayName + requiredSpan);

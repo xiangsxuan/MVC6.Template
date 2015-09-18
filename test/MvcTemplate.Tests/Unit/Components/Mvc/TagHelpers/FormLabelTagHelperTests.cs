@@ -116,6 +116,39 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void Process_AddsRequiredSymbolOnNotAnyProperties()
+        {
+            ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "NotRequired", typeof(TagHelperModel)));
+            helper.For = new ModelExpression("NotRequired", new ModelExplorer(null, metadata, null));
+            helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
+            helper.Required = true;
+
+            helper.Process(null, output);
+
+            String expected = "Title<span class=\"require\">*</span>";
+            String actual = output.Content.GetContent();
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void Process_DoesNotAddRequiredSymbolOnAnyProperties()
+        {
+            ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "Required", typeof(TagHelperModel)));
+            helper.For = new ModelExpression("Required", new ModelExplorer(null, metadata, null));
+            metadata.ValidatorMetadata.Returns(new[] { new RequiredAttribute() });
+            helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
+            helper.Required = false;
+
+            helper.Process(null, output);
+
+            String expected = "Title<span class=\"require\"></span>";
+            String actual = output.Content.GetContent();
+
+            Assert.Equal(expected, actual);
+        }
+
         #endregion
     }
 }
