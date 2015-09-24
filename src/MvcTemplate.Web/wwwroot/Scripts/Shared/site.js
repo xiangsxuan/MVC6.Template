@@ -135,6 +135,13 @@
     });
 }());
 
+// Read only checkbox binding
+(function () {
+    $(document).on('click', 'input:checkbox[readonly]', function (e) {
+        return false;
+    });
+}());
+
 // Input focus binding
 (function () {
     var invalidInput = $('.content-container .input-validation-error:visible:not([readonly],.datepicker,.datetimepicker):first');
