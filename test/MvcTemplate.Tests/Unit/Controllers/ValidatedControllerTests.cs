@@ -31,24 +31,6 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Assert.Same(expected, actual);
         }
 
-        [Fact]
-        public void ValidatedController_SetsValidatorAlerts()
-        {
-            Object expected = controller.Alerts;
-            Object actual = validator.Alerts;
-
-            Assert.Same(expected, actual);
-        }
-
-        [Fact]
-        public void ValidatedController_SetsModelState()
-        {
-            Object expected = controller.ModelState;
-            Object actual = validator.ModelState;
-
-            Assert.Same(expected, actual);
-        }
-
         #endregion
 
         #region Method: OnActionExecuting(ActionExecutingContext filterContext)
@@ -77,6 +59,32 @@ namespace MvcTemplate.Tests.Unit.Controllers
             String actual = validator.CurrentAccountId;
 
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void OnActionExecuting_SetsValidatorAlerts()
+        {
+            ReturnsCurrentAccountId(controller, "Test");
+
+            controller.OnActionExecuting(null);
+
+            Object expected = controller.Alerts;
+            Object actual = validator.Alerts;
+
+            Assert.Same(expected, actual);
+        }
+
+        [Fact]
+        public void OnActionExecuting_SetsModelState()
+        {
+            ReturnsCurrentAccountId(controller, "Test");
+
+            controller.OnActionExecuting(null);
+
+            Object expected = controller.ModelState;
+            Object actual = validator.ModelState;
+
+            Assert.Same(expected, actual);
         }
 
         #endregion
