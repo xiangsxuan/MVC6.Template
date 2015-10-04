@@ -7,7 +7,7 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
 {
-    public class ValidatedControllerTests : AControllerTests
+    public class ValidatedControllerTests : ControllerTests
     {
         private ValidatedController<IValidator, IService> controller;
         private IValidator validator;

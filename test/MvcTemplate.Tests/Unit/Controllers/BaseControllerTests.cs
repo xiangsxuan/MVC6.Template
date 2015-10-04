@@ -9,7 +9,7 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
 {
-    public class BaseControllerTests : AControllerTests, IDisposable
+    public class BaseControllerTests : ControllerTests, IDisposable
     {
         private BaseController controller;
 

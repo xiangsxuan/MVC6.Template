@@ -24,6 +24,12 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Constructor: BaseValidator(IUnitOfWork unitOfWork)
 
         [Fact]
+        public void BaseValidator_CreatesEmptyModelState()
+        {
+            Assert.Empty(validator.ModelState);
+        }
+
+        [Fact]
         public void BaseValidator_CreateEmptyAlertsContainer()
         {
             Assert.Empty(validator.Alerts);

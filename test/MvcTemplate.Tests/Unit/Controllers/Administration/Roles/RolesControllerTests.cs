@@ -11,7 +11,7 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers.Administration
 {
-    public class RolesControllerTests : AControllerTests
+    public class RolesControllerTests : ControllerTests
     {
         private RolesController controller;
         private IRoleValidator validator;
@@ -195,7 +195,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         #region Method: Delete(String id)
 
         [Fact]
-        public void Delete_OnModelNotFoundRedirectsToNotFound()
+        public void Delete_ReturnsNotEmptyView()
         {
             service.GetView(role.Id).Returns(role);
 

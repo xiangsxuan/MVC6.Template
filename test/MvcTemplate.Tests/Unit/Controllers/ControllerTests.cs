@@ -9,7 +9,7 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
 {
-    public abstract class AControllerTests
+    public abstract class ControllerTests
     {
         protected void ReturnsCurrentAccountId(BaseController controller, String id)
         {
@@ -26,12 +26,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
                     method.Name == postMethod &&
                     method.IsDefined(typeof(HttpPostAttribute), false));
 
-            BindExcludeIdAttribute actual = methodInfo
-                .GetParameters()
-                .First()
-                .GetCustomAttribute<BindExcludeIdAttribute>(false);
-
-            Assert.NotNull(actual);
+            Assert.NotNull(methodInfo.GetParameters()[0].IsDefined(typeof(BindExcludeIdAttribute), false));
         }
 
         protected RedirectToActionResult NotEmptyView(BaseController controller, Object model)

@@ -1,7 +1,7 @@
 ﻿{
   "authors": [ "NonFactors" ],
   "version": "0.1.0",
-    
+
   "compilationOptions": {
     "warningsAsErrors": true
   },

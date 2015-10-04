@@ -11,7 +11,7 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers.Administration
 {
-    public class AccountsControllerTests : AControllerTests
+    public class AccountsControllerTests : ControllerTests
     {
         private AccountCreateView accountCreate;
         private AccountsController controller;
@@ -144,7 +144,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Edit_EditsAccountView()
+        public void Edit_EditsAccount()
         {
             validator.CanEdit(accountEdit).Returns(true);
 

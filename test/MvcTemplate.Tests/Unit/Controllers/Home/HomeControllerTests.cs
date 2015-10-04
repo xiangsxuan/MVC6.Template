@@ -7,7 +7,7 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
 {
-    public class HomeControllerTests : AControllerTests
+    public class HomeControllerTests : ControllerTests
     {
         private HomeController controller;
         private IAccountService service;

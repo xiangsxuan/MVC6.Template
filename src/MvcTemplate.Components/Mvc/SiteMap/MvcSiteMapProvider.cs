@@ -74,7 +74,7 @@ namespace MvcTemplate.Components.Mvc
                 copy.Children = CopyAndSetState(node.Children, area, controller, action);
                 copy.HasActiveChildren = copy.Children.Any(child => child.IsActive || child.HasActiveChildren);
                 copy.IsActive =
-                    copy.Children.Any(childNode => childNode.IsActive && !childNode.IsMenu) || 
+                    copy.Children.Any(childNode => childNode.IsActive && !childNode.IsMenu) ||
                     (
                         String.Equals(node.Area, area, StringComparison.OrdinalIgnoreCase) &&
                         String.Equals(node.Action, action, StringComparison.OrdinalIgnoreCase) &&

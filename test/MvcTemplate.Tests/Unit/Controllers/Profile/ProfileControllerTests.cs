@@ -12,7 +12,7 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
 {
-    public class ProfileControllerTests : AControllerTests
+    public class ProfileControllerTests : ControllerTests
     {
         private ProfileDeleteView profileDelete;
         private ProfileController controller;

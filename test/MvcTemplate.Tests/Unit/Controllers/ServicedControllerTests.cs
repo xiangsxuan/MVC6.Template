@@ -6,7 +6,7 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
 {
-    public class ServicedControllerTests : AControllerTests
+    public class ServicedControllerTests : ControllerTests
     {
         private ServicedController<IService> controller;
         private IService service;

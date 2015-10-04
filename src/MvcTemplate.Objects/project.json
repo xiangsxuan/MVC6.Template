@@ -5,7 +5,7 @@
   "dependencies": {
     "MvcTemplate.Components": ""
   },
-    
+
   "compilationOptions": {
     "warningsAsErrors": true
   },
