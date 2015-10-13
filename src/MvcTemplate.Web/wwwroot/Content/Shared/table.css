@@ -17,11 +17,12 @@ table td {
 }
 table .action-cell {
   text-align: center;
-  width: 28px;
+  width: 36px;
 }
 table .action-cell + .action-cell {
   border-left: none;
   padding-left: 0;
+  width: 28px;
 }
 table .action-cell .details-action {
   background-color: #5cb85c;
