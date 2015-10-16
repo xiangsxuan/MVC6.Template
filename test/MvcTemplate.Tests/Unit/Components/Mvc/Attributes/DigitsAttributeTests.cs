@@ -37,22 +37,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.True(attribute.IsValid(null));
         }
 
-        [Fact]
-        public void IsValid_RealValueIsNotValid()
+        [Theory]
+        [InlineData(12.549)]
+        [InlineData("+1402")]
+        [InlineData(-2546798)]
+        public void IsValid_NotDigitsAreNotValid(Object value)
         {
-            Assert.False(attribute.IsValid(12.549));
-        }
-
-        [Fact]
-        public void IsValid_StringValueIsNotValid()
-        {
-            Assert.False(attribute.IsValid("+1402"));
-        }
-
-        [Fact]
-        public void IsValid_NegativeValueIsNotValid()
-        {
-            Assert.False(attribute.IsValid(-2546798));
+            Assert.False(attribute.IsValid(value));
         }
 
         [Fact]

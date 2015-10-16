@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Mvc;
+using MvcTemplate.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void AllControllerPostMethods_HasValidateAntiForgeryToken()
         {
-            IEnumerable<MethodInfo> postMethods = Assembly
-                .Load("MvcTemplate.Controllers")
+            IEnumerable<MethodInfo> postMethods = typeof(BaseController)
+                .Assembly
                 .GetTypes()
                 .Where(type => typeof(Controller).IsAssignableFrom(type))
                 .SelectMany(type => type.GetMethods())

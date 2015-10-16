@@ -8,15 +8,12 @@ namespace MvcTemplate.Tests.Unit.Components.Html
         #region Constructor: JsTree()
 
         [Fact]
-        public void JsTree_CreatesEmptyTree()
+        public void JsTree_CreatesEmpty()
         {
-            Assert.Empty(new JsTree().Nodes);
-        }
+            JsTree actual = new JsTree();
 
-        [Fact]
-        public void JsTree_CreatesUnselectedTree()
-        {
-            Assert.Empty(new JsTree().SelectedIds);
+            Assert.Empty(actual.Nodes);
+            Assert.Empty(actual.SelectedIds);
         }
 
         #endregion

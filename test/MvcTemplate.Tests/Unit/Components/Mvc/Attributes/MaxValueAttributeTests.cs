@@ -74,34 +74,18 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.True(attribute.IsValid(null));
         }
 
-        [Fact]
-        public void IsValid_StringValueIsValid()
+        [Theory]
+        [InlineData(12.56)]
+        [InlineData("12.559")]
+        public void IsValid_LowerOrEqualValueIsValid(Object value)
         {
-            Assert.True(attribute.IsValid("5"));
-        }
-
-        [Fact]
-        public void IsValid_StringValueIsNotValid()
-        {
-            Assert.False(attribute.IsValid("100"));
+            Assert.True(attribute.IsValid(value));
         }
 
         [Fact]
         public void IsValid_GreaterValueIsNotValid()
         {
-            Assert.False(attribute.IsValid(13));
-        }
-
-        [Fact]
-        public void IsValid_EqualValueIsValid()
-        {
-            Assert.True(attribute.IsValid(12.56));
-        }
-
-        [Fact]
-        public void IsValid_LowerValueIsValid()
-        {
-            Assert.True(attribute.IsValid(12.559));
+            Assert.False(attribute.IsValid(12.5601));
         }
 
         [Fact]

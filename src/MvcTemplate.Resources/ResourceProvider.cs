@@ -105,7 +105,7 @@ namespace MvcTemplate.Resources
         }
         private static String[] SplitCamelCase(String value)
         {
-            return Regex.Split(value, @"(?<!^)(?=[A-Z])");
+            return Regex.Split(value, "(?<!^)(?=[A-Z])");
         }
     }
 }

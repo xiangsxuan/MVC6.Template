@@ -21,7 +21,7 @@ namespace MvcTemplate.Controllers
         public ActionResult Edit()
         {
             if (!Service.IsActive(CurrentAccountId))
-                return LogOut();
+                return RedirectToAction("Logout", "Auth");
 
             return View(Service.Get<ProfileEditView>(CurrentAccountId));
         }
@@ -31,7 +31,7 @@ namespace MvcTemplate.Controllers
         public ActionResult Edit([BindExcludeId] ProfileEditView profile)
         {
             if (!Service.IsActive(CurrentAccountId))
-                return LogOut();
+                return RedirectToAction("Logout", "Auth");
 
             if (!Validator.CanEdit(profile))
                 return View(profile);
@@ -47,7 +47,7 @@ namespace MvcTemplate.Controllers
         public ActionResult Delete()
         {
             if (!Service.IsActive(CurrentAccountId))
-                return LogOut();
+                return RedirectToAction("Logout", "Auth");
 
             Alerts.Add(AlertType.Danger, Messages.ProfileDeleteDisclaimer, 0);
 
@@ -60,7 +60,7 @@ namespace MvcTemplate.Controllers
         public ActionResult DeleteConfirmed([BindExcludeId] ProfileDeleteView profile)
         {
             if (!Service.IsActive(CurrentAccountId))
-                return LogOut();
+                return RedirectToAction("Logout", "Auth");
 
             if (!Validator.CanDelete(profile))
             {
@@ -71,11 +71,6 @@ namespace MvcTemplate.Controllers
 
             Service.Delete(CurrentAccountId);
 
-            return LogOut();
-        }
-
-        private RedirectToActionResult LogOut()
-        {
             return RedirectToAction("Logout", "Auth");
         }
     }
