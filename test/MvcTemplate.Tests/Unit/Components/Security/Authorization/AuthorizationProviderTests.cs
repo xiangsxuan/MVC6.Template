@@ -20,7 +20,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
 
         #region Method: IsAuthorizedFor(String accountId, String area, String controller, String action)
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesControllerByIgnoringCase()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "Action");
@@ -38,7 +37,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
 
         [InlineData("")]
         [InlineData(null)]
-        [Theory(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesControllerWithoutArea(String area)
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Authorized", "Action");
@@ -56,7 +54,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, area, "Authorized", "Action"));
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesControllerWithArea()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "Action");
@@ -72,7 +69,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesGetAction()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "AuthorizedGetAction");
@@ -88,7 +84,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedGetAction"));
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesNamedGetAction()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "AuthorizedNamedGetAction");
@@ -113,7 +108,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.Equal(expected, actual);
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesNonGetAction()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "AuthorizedPostAction");
@@ -129,7 +123,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedPostAction"));
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesNamedNonGetAction()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "AuthorizedNamedPostAction");
@@ -145,7 +138,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedNamedPostAction"));
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesActionAsAction()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "Action");
@@ -161,7 +153,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsAction"));
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesActionAsOtherAction()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "InheritedAuthorized", "InheritanceAction");
@@ -177,7 +168,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsOtherAction"));
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesEmptyAreaAsNull()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Authorized", "Action");
@@ -193,7 +183,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, "", "Authorized", "Action"));
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesAuthorizedAction()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "AllowAnonymous", "AuthorizedAction");
@@ -225,7 +214,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, null, "Authorized", "AllowUnauthorizedAction"));
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesAuthorizedController()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "Action");
@@ -257,7 +245,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, null, "AllowUnauthorized", "Action"));
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesInheritedAuthorizedController()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "InheritedAuthorized", "InheritanceAction");
@@ -321,7 +308,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(null, null, "Authorized", "Action"));
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_AuthorizesByIgnoringCase()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "Action");
@@ -337,7 +323,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, "area", "authorized", "action"));
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void IsAuthorizedFor_CachesAccountPrivileges()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Authorized", "Action");
@@ -350,7 +335,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
 
         #region Method: Refresh()
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void Refresh_RefreshesPrivileges()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "Action");

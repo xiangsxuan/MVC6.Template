@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.ViewFeatures;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Mail;
 using MvcTemplate.Controllers;
@@ -32,6 +33,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             validator = Substitute.For<IAccountValidator>();
             controller = Substitute.ForPartsOf<AuthController>(validator, service, mailClient);
             controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
+            controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.Url = Substitute.For<IUrlHelper>();
 
             accountRegister = ObjectFactory.CreateAccountRegisterView();

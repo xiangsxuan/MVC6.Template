@@ -6,7 +6,7 @@ namespace MvcTemplate.Components.Mvc
     public class MaxValueAdapter : DataAnnotationsClientModelValidator<MaxValueAttribute>
     {
         public MaxValueAdapter(MaxValueAttribute attribute)
-            : base(attribute)
+            : base(attribute, null)
         {
         }
 

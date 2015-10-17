@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.ViewFeatures;
 using Microsoft.AspNet.Routing;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers;
@@ -22,6 +23,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
             controller.Url = Substitute.For<IUrlHelper>();
             controller.ActionContext.RouteData = new RouteData();
+            controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
         }
         public void Dispose()

@@ -196,7 +196,7 @@ namespace MvcTemplate.Tests.Unit.Services
             Role role = CreateRoleWithPrivileges();
             using (TestingContext testingContext = new TestingContext())
             {
-                testingContext.Set<Role>().Add(role);
+                testingContext.Set<Role>().Add(role, GraphBehavior.SingleObject);
                 testingContext.SaveChanges();
 
                 foreach (RolePrivilege rolePriv in role.RolePrivileges)
@@ -244,7 +244,6 @@ namespace MvcTemplate.Tests.Unit.Services
             Assert.Equal(expected.Id, actual.Id);
         }
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void Create_CreatesRolePrivileges()
         {
             IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
@@ -298,7 +297,7 @@ namespace MvcTemplate.Tests.Unit.Services
             Role role = CreateRoleWithPrivileges();
             using (TestingContext testingContext = new TestingContext())
             {
-                testingContext.Set<Role>().Add(role);
+                testingContext.Set<Role>().Add(role, GraphBehavior.SingleObject);
                 testingContext.SaveChanges();
 
                 foreach (RolePrivilege rolePriv in role.RolePrivileges)
@@ -439,9 +438,6 @@ namespace MvcTemplate.Tests.Unit.Services
         }
         private Role CreateRoleWithPrivileges()
         {
-            String[] actions = { "Edit", "Delete" };
-            String[] controllers = { "Roles", "Profile" };
-
             Int32 privilegeNumber = 1;
             Role role = ObjectFactory.CreateRole();
             role.RolePrivileges = new List<RolePrivilege>();

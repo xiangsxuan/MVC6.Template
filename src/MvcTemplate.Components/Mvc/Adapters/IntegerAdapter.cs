@@ -6,7 +6,7 @@ namespace MvcTemplate.Components.Mvc
     public class IntegerAdapter : DataAnnotationsClientModelValidator<IntegerAttribute>
     {
         public IntegerAdapter(IntegerAttribute attribute)
-            : base(attribute)
+            : base(attribute, null)
         {
         }
 

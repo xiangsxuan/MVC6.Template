@@ -39,7 +39,6 @@ namespace MvcTemplate.Tests.Unit.Resources
             {
                 String[] controllers = context
                     .Set<Privilege>()
-                    .ToArray()
                     .Select(priv => priv.Area + priv.Controller)
                     .Distinct()
                     .ToArray();
@@ -58,7 +57,6 @@ namespace MvcTemplate.Tests.Unit.Resources
             {
                 String[] actions = context
                     .Set<Privilege>()
-                    .ToArray()
                     .Select(priv => priv.Area + priv.Controller + priv.Action)
                     .Distinct()
                     .ToArray();

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
+using Microsoft.Framework.Primitives;
 using MvcTemplate.Components.Mvc;
 using NSubstitute;
 using System;
@@ -26,7 +27,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void IsValidForRequest_ValidatesAjaxRequests(String headerValue, Boolean expected)
         {
             RouteContext context = new RouteContext(Substitute.For<HttpContext>());
-            context.HttpContext.Request.Headers["X-Requested-With"].Returns(headerValue);
+            context.HttpContext.Request.Headers["X-Requested-With"].Returns(new StringValues(headerValue));
 
             Boolean actual = new AjaxOnlyAttribute().IsValidForRequest(context, null);
 

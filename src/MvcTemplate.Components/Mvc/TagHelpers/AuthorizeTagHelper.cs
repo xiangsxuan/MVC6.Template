@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.AspNet.Mvc.ViewFeatures;
 using Microsoft.AspNet.Razor.Runtime.TagHelpers;
 using MvcTemplate.Components.Security;
 using System;
 
 namespace MvcTemplate.Components.Mvc
 {
-    [TargetElement("authorize", Attributes = "comp-area")]
-    [TargetElement("authorize", Attributes = "comp-action")]
-    [TargetElement("authorize", Attributes = "comp-controller")]
+    [HtmlTargetElement("authorize", Attributes = "comp-area")]
+    [HtmlTargetElement("authorize", Attributes = "comp-action")]
+    [HtmlTargetElement("authorize", Attributes = "comp-controller")]
     public class AuthorizeTagHelper : TagHelper
     {
         [HtmlAttributeName("comp-area")]

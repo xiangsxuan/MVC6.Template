@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.AspNet.Mvc.Rendering.Expressions;
+﻿using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.AspNet.Mvc.ViewFeatures;
 using Microsoft.AspNet.Razor.Runtime.TagHelpers;
 using MvcTemplate.Components.Html;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MvcTemplate.Components.Mvc
 {
-    [TargetElement("div", Attributes = "jstree-for")]
+    [HtmlTargetElement("div", Attributes = "jstree-for")]
     public class JsTreeTagHelper : TagHelper
     {
         [HtmlAttributeName("jstree-for")]
@@ -32,52 +30,57 @@ namespace MvcTemplate.Components.Mvc
             JsTree tree = ExpressionMetadataProvider.FromStringExpression(For.Name, ViewContext.ViewData, Html.MetadataProvider).Model as JsTree;
             output.Attributes["class"] = (output.Attributes["class"]?.Value + " js-tree").Trim();
 
-            output.Content.SetContent(JsTreeFor(For.Name + ".SelectedIds", tree));
+            output.Content.Append(HiddenIdsFor(tree));
+            output.Content.Append(JsTreeFor(tree));
         }
 
-        private static String JsTreeFor(String name, JsTree jsTree)
+        private TagBuilder HiddenIdsFor(JsTree jsTree)
         {
+            String name = For.Name + ".SelectedIds";
             TagBuilder ids = new TagBuilder("div");
             ids.AddCssClass("js-tree-view-ids");
 
-            StringBuilder hiddenInputs = new StringBuilder();
-            TagBuilder input = new TagBuilder("input");
-            input.MergeAttribute("type", "hidden");
-            input.MergeAttribute("name", name);
-
             foreach (String id in jsTree.SelectedIds)
             {
-                input.MergeAttribute("value", id, true);
-                hiddenInputs.Append(input.ToString(TagRenderMode.SelfClosing));
+                TagBuilder input = new TagBuilder("input");
+
+                input.TagRenderMode = TagRenderMode.SelfClosing;
+                input.MergeAttribute("type", "hidden");
+                input.MergeAttribute("name", name);
+                input.MergeAttribute("value", id);
+
+                ids.InnerHtml.Append(input);
             }
 
-            ids.InnerHtml = hiddenInputs.ToString();
+            return ids;
+        }
+        private TagBuilder JsTreeFor(JsTree jsTree)
+        {
+            String name = For.Name + ".SelectedIds";
             TagBuilder tree = new TagBuilder("div");
             tree.MergeAttribute("for", name);
             tree.AddCssClass("js-tree-view");
             AddNodes(tree, jsTree.Nodes);
 
-            return ids + tree.ToString();
+            return tree;
         }
-        private static void AddNodes(TagBuilder root, IList<JsTreeNode> nodes)
+        private void AddNodes(TagBuilder root, IList<JsTreeNode> nodes)
         {
             if (nodes.Count == 0) return;
-
-            StringBuilder leafBuilder = new StringBuilder();
+            
             TagBuilder branch = new TagBuilder("ul");
 
             foreach (JsTreeNode treeNode in nodes)
             {
                 TagBuilder node = new TagBuilder("li");
                 node.MergeAttribute("id", treeNode.Id);
-                node.InnerHtml = treeNode.Title;
+                node.InnerHtml.Append(treeNode.Title);
 
                 AddNodes(node, treeNode.Nodes);
-                leafBuilder.Append(node);
+                branch.InnerHtml.Append(node);
             }
 
-            branch.InnerHtml = leafBuilder.ToString();
-            root.InnerHtml += branch.ToString();
+            root.InnerHtml.Append(branch);
         }
     }
 }

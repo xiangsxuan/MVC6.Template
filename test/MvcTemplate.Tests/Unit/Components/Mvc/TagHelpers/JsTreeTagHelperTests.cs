@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Mvc.Rendering;
+﻿using Microsoft.AspNet.Mvc.ModelBinding;
+using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.AspNet.Mvc.ViewFeatures;
 using Microsoft.AspNet.Razor.Runtime.TagHelpers;
 using MvcTemplate.Components.Html;
 using MvcTemplate.Components.Mvc;
@@ -21,9 +23,12 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             tree.JsTree.Nodes[0].Nodes.Add(new JsTreeNode("12345", "Test1"));
             tree.JsTree.Nodes[0].Nodes.Add(new JsTreeNode("23456", "Test2"));
 
+            EmptyModelMetadataProvider provider = new EmptyModelMetadataProvider();
+            ModelExplorer explorer = new ModelExplorer(provider, provider.GetMetadataForProperty(tree.GetType(), "JsTree"), tree);
+
             helper = new JsTreeTagHelper(HtmlHelperFactory.CreateHtmlHelper(tree));
             output = new TagHelperOutput("div", new TagHelperAttributeList());
-            helper.For = new ModelExpression("JsTree", null);
+            helper.For = new ModelExpression("JsTree", explorer);
             helper.ViewContext = helper.Html.ViewContext;
         }
 

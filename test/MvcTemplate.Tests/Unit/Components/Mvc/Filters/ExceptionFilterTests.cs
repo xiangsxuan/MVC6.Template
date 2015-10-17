@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Filters;
 using MvcTemplate.Components.Logging;
 using MvcTemplate.Components.Mvc;
 using NSubstitute;

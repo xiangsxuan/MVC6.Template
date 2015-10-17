@@ -1,4 +1,4 @@
-﻿{
+{
   "authors": [ "NonFactors" ],
   "webroot": "wwwroot",
   "version": "0.1.0",
@@ -7,12 +7,12 @@
     "MvcTemplate": "",
     "MvcTemplate.Controllers": "",
 
-    "Microsoft.AspNet.Server.IIS": "1.0.0-beta6",
-    "Microsoft.AspNet.StaticFiles": "1.0.0-beta6",
-    "Microsoft.AspNet.Tooling.Razor": "1.0.0-beta6",
-    "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-beta6",
-    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta6",
-    "Microsoft.Framework.Configuration.Json": "1.0.0-beta6"
+    "Microsoft.AspNet.StaticFiles": "1.0.0-beta8",
+    "Microsoft.AspNet.Tooling.Razor": "1.0.0-beta8",
+    "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-beta8",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-beta8",
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-beta8",
+    "Microsoft.Framework.Configuration.Json": "1.0.0-beta8"
   },
 
   "compilationOptions": {
@@ -20,7 +20,7 @@
   },
 
   "commands": {
-    "web": "Microsoft.AspNet.Hosting --config hosting.ini"
+    "web": "Microsoft.AspNet.Server.Kestrel"
   },
 
   "frameworks": {

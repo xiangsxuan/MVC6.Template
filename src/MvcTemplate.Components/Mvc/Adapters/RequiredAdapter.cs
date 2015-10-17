@@ -7,7 +7,7 @@ namespace MvcTemplate.Components.Mvc
     public class RequiredAdapter : RequiredAttributeAdapter
     {
         public RequiredAdapter(RequiredAttribute attribute)
-            : base(attribute)
+            : base(attribute, null)
         {
             Attribute.ErrorMessage = Validations.FieldIsRequired;
         }

@@ -7,7 +7,7 @@ namespace MvcTemplate.Components.Mvc
     public class StringLengthAdapter : StringLengthAttributeAdapter
     {
         public StringLengthAdapter(StringLengthAttribute attribute)
-            : base(attribute)
+            : base(attribute, null)
         {
             if (Attribute.MinimumLength == 0)
                 Attribute.ErrorMessage = Validations.FieldMustNotExceedLength;

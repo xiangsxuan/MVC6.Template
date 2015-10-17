@@ -7,19 +7,26 @@ namespace MvcTemplate.Components.Mvc
 {
     public class TrimmingModelBinder : IModelBinder
     {
-        public async Task<ModelBindingResult> BindModelAsync(ModelBindingContext context)
+        public Task<ModelBindingResult> BindModelAsync(ModelBindingContext context)
         {
-            ValueProviderResult value = await context.ValueProvider.GetValueAsync(context.ModelName);
-            if (value?.AttemptedValue == null)
-                return new ModelBindingResult(null, context.ModelName, false);
+            if (context.ModelType == typeof(String))
+            {
+                ValueProviderResult result = context.ValueProvider.GetValue(context.ModelName);
+                if (result == ValueProviderResult.None)
+                    return ModelBindingResult.NoResultAsync;
 
-            Type containerType = context.ModelMetadata.ContainerType;
-            PropertyInfo property = containerType?.GetProperty(context.ModelName);
+                Type containerType = context.ModelMetadata.ContainerType;
+                PropertyInfo property = containerType?.GetProperty(context.ModelName);
 
-            if (property?.GetCustomAttribute<NotTrimmedAttribute>() != null)
-                return new ModelBindingResult(value.AttemptedValue, context.ModelName, true);
+                if (property?.IsDefined(typeof(NotTrimmedAttribute), false) == true)
+                    return ModelBindingResult.NoResultAsync;
 
-            return new ModelBindingResult(value.AttemptedValue.Trim(), context.ModelName, true);
+                context.ModelState.SetModelValue(context.ModelName, result.FirstValue, result.FirstValue);
+
+                return ModelBindingResult.SuccessAsync(context.ModelName, result.FirstValue.Trim());
+            }
+
+            return ModelBindingResult.NoResultAsync;
         }
     }
 }

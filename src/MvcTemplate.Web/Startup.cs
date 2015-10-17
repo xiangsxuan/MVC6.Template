@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.AspNet.Routing;
 using Microsoft.Data.Entity;
+using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Runtime;
 using MvcTemplate.Components.Logging;
 using MvcTemplate.Components.Mail;
 using MvcTemplate.Components.Mvc;
@@ -33,7 +34,6 @@ namespace MvcTemplate.Web
         {
             RegisterCurrentDependencyResolver(services);
             RegisterLowercaseUrls(services);
-            RegisterViewEngine(services);
             RegisterFilters(services);
             RegisterMvc(services);
         }
@@ -78,21 +78,18 @@ namespace MvcTemplate.Web
         {
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         }
-        public virtual void RegisterViewEngine(IServiceCollection services)
-        {
-            services.Configure<MvcViewOptions>(options =>
-            {
-                options.ViewEngines.Clear();
-                options.ViewEngines.Add(typeof(ViewEngine));
-            });
-        }
         public virtual void RegisterFilters(IServiceCollection services)
         {
             services.Configure<MvcOptions>(options => options.Filters.Add(typeof(ExceptionFilter)));
         }
         public virtual void RegisterMvc(IServiceCollection services)
         {
-            services.AddMvc();
+            services
+                .AddMvc()
+                .AddRazorOptions(options =>
+                {
+                    options.ViewLocationExpanders.Add(new ViewLocationExpander());
+                });
         }
 
         public virtual void RegisterAuthorization(IApplicationBuilder app)

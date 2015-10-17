@@ -6,7 +6,7 @@ namespace MvcTemplate.Components.Mvc
     public class GreaterThanAdapter : DataAnnotationsClientModelValidator<GreaterThanAttribute>
     {
         public GreaterThanAdapter(GreaterThanAttribute attribute)
-            : base(attribute)
+            : base(attribute, null)
         {
         }
 

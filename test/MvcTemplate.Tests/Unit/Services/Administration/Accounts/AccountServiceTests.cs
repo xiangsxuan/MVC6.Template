@@ -62,7 +62,6 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #region Method: GetViews()
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void GetViews_GetsAccountViews()
         {
             IEnumerator<AccountView> actual = service.GetViews().GetEnumerator();
@@ -371,7 +370,6 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #region Method: Login(String username)
 
-        [Fact(Skip = "FormsAuthentication does not exist in MVC6")]
         public void Login_IsCaseInsensitive()
         {
             AccountLoginView view = ObjectFactory.CreateAccountLoginView();
@@ -384,7 +382,6 @@ namespace MvcTemplate.Tests.Unit.Services
             Assert.Equal(expected, actual);
         }
 
-        [Fact(Skip = "FormsAuthentication does not exist in MVC6")]
         public void Login_CreatesPersistentAuthenticationTicket()
         {
             AccountLoginView view = ObjectFactory.CreateAccountLoginView();
@@ -394,7 +391,6 @@ namespace MvcTemplate.Tests.Unit.Services
             Assert.True(null);
         }
 
-        [Fact(Skip = "FormsAuthentication does not exist in MVC6")]
         public void Login_SetAccountIdAsAuthenticationTicketValue()
         {
             AccountLoginView view = ObjectFactory.CreateAccountLoginView();
@@ -411,7 +407,6 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #region Method: Logout()
 
-        [Fact(Skip = "FormsAuthentication does not exist in MVC6")]
         public void Logout_MakesAccountCookieExpired()
         {
             AccountLoginView view = ObjectFactory.CreateAccountLoginView();

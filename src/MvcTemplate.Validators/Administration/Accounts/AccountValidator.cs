@@ -1,4 +1,4 @@
-﻿using MvcTemplate.Components.Extensions.Mvc;
+﻿using Microsoft.AspNet.Mvc.ModelBinding;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;

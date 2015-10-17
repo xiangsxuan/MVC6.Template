@@ -6,7 +6,7 @@ namespace MvcTemplate.Components.Mvc
     public class DigitsAdapter : DataAnnotationsClientModelValidator<DigitsAttribute>
     {
         public DigitsAdapter(DigitsAttribute attribute)
-            : base(attribute)
+            : base(attribute, null)
         {
         }
 

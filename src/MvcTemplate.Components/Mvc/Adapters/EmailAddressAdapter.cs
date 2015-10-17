@@ -8,7 +8,7 @@ namespace MvcTemplate.Components.Mvc
     public class EmailAddressAdapter : DataAnnotationsClientModelValidator<EmailAddressAttribute>
     {
         public EmailAddressAdapter(EmailAddressAttribute attribute)
-            : base(attribute)
+            : base(attribute, null)
         {
             Attribute.ErrorMessage = Validations.FieldIsNotValidEmail;
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.AspNet.Mvc.ViewFeatures;
 using Microsoft.AspNet.Razor.Runtime.TagHelpers;
 using MvcTemplate.Components.Mvc;
 using NSubstitute;
@@ -12,12 +13,14 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class FormLabelTagHelperTests
     {
+        private EmptyModelMetadataProvider provider;
         private FormLabelTagHelper helper;
         private TagHelperOutput output;
 
         public FormLabelTagHelperTests()
         {
             output = new TagHelperOutput("label", new TagHelperAttributeList());
+            provider = new EmptyModelMetadataProvider();
             helper = new FormLabelTagHelper();
         }
 
@@ -27,7 +30,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void Process_SetsForAttributeValue()
         {
             ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "NotRequired", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("Relation.NotRequired", new ModelExplorer(null, metadata, null));
+            helper.For = new ModelExpression("Relation.NotRequired", new ModelExplorer(provider, metadata, null));
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
 
             helper.Process(null, output);
@@ -42,7 +45,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void Process_OverridesForAttributeValue()
         {
             ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "NotRequired", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("Relation.NotRequired", new ModelExplorer(null, metadata, null));
+            helper.For = new ModelExpression("Relation.NotRequired", new ModelExplorer(provider, metadata, null));
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
             output.Attributes["for"] = "Test";
 
@@ -59,7 +62,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void Process_AddsRequiredSymbolOnRequiredProperties()
         {
             ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "Required", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("Required", new ModelExplorer(null, metadata, null));
+            helper.For = new ModelExpression("Required", new ModelExplorer(provider, metadata, null));
             metadata.ValidatorMetadata.Returns(new[] { new RequiredAttribute() });
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
 
@@ -75,7 +78,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void Process_AddsRequiredSymbolOnValueTypes()
         {
             ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(Int64), "RequiredValue", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("RequiredValue", new ModelExplorer(null, metadata, null));
+            helper.For = new ModelExpression("RequiredValue", new ModelExplorer(provider, metadata, null));
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
 
             helper.Process(null, output);
@@ -90,7 +93,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void Process_DoesNotAddRequiredSymbolOnNotRequiredProperties()
         {
             ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "NotRequired", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("NotRequired", new ModelExplorer(null, metadata, null));
+            helper.For = new ModelExpression("NotRequired", new ModelExplorer(provider, metadata, null));
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
 
             helper.Process(null, output);
@@ -105,7 +108,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void Process_DoesNotAddRequiredSymbolOnNullableValueTypes()
         {
             ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(Int64?), "NotRequiredNullableValue", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("NotRequiredNullableValue", new ModelExplorer(null, metadata, null));
+            helper.For = new ModelExpression("NotRequiredNullableValue", new ModelExplorer(provider, metadata, null));
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
 
             helper.Process(null, output);
@@ -120,7 +123,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void Process_AddsRequiredSymbolOnNotAnyProperties()
         {
             ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "NotRequired", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("NotRequired", new ModelExplorer(null, metadata, null));
+            helper.For = new ModelExpression("NotRequired", new ModelExplorer(provider, metadata, null));
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
             helper.Required = true;
 
@@ -136,7 +139,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void Process_DoesNotAddRequiredSymbolOnAnyProperties()
         {
             ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "Required", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("Required", new ModelExplorer(null, metadata, null));
+            helper.For = new ModelExpression("Required", new ModelExplorer(provider, metadata, null));
             metadata.ValidatorMetadata.Returns(new[] { new RequiredAttribute() });
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
             helper.Required = false;

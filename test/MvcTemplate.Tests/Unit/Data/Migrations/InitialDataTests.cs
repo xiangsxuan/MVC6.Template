@@ -32,7 +32,6 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
 
         #region Table: Accounts
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void AccountsTable_HasSysAdminAccountWithAdminRole()
         {
             Assert.NotNull(context.Set<Account>()
@@ -77,7 +76,6 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
 
         #region Table: RolePrivileges
 
-        [Fact(Skip = "EF not supporting navigation properties")]
         public void RolesPrivilegesTable_HasAllPrivilegesForAdminRole()
         {
             IEnumerable<String> expected = context

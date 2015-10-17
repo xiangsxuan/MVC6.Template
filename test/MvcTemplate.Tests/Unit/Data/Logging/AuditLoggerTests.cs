@@ -53,7 +53,6 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
 
         #region Method: Log(IEnumerable<DbEntityEntry<BaseModel>> entries)
 
-        [Fact(Skip = "Log class implementation not supported by EF")]
         public void Log_LogsAddedEntities()
         {
             entry.State = EntityState.Added;
@@ -61,7 +60,6 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             Logs(entry);
         }
 
-        [Fact(Skip = "Log class implementation not supported by EF")]
         public void Log_LogsModifiedEntities()
         {
             (entry.Entity as TestModel).Text += "Test";
@@ -80,7 +78,6 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             logger.DidNotReceiveWithAnyArgs().Log((LoggableEntity)null);
         }
 
-        [Fact(Skip = "Log class implementation not supported by EF")]
         public void Log_LogsDeletedEntities()
         {
             entry.State = EntityState.Deleted;
@@ -122,17 +119,11 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
 
         #region Method: Log(LoggableEntity entity)
 
-        [InlineData("", "", null)]
-        [InlineData(null, "", null)]
-        [InlineData("", null, null)]
-        [InlineData(null, null, null)]
-        [InlineData("", "IdentityId", null)]
-        [InlineData("AccountId", "", "AccountId")]
-        [InlineData("AccountId", null, "AccountId")]
-        [InlineData(null, "IdentityId", "IdentityId")]
-        [InlineData("AccountId", "IdentityId", "AccountId")]
-        [Theory(Skip = "Log class implementation not supported by EF")]
-        public void Log_AddsLogToTheSet(String accountId, String identityName, String expectedAccountId)
+        [Theory]
+        [InlineData("", null)]
+        [InlineData(null, null)]
+        [InlineData("AccountId", "AccountId")]
+        public void Log_AddsLogToTheSet(String accountId, String expectedAccountId)
         {
             LoggableEntity entity = new LoggableEntity(entry);
             logger = new AuditLogger(context, accountId);
@@ -142,8 +133,8 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             AuditLog actual = context.ChangeTracker.Entries<AuditLog>().First().Entity;
             LoggableEntity expected = entity;
 
-            Assert.Equal(expectedAccountId, actual.AccountId);
             Assert.Equal(expected.ToString(), actual.Changes);
+            Assert.Equal(expectedAccountId, actual.AccountId);
             Assert.Equal(expected.Name, actual.EntityName);
             Assert.Equal(expected.Action, actual.Action);
             Assert.Equal(expected.Id, actual.EntityId);

@@ -112,12 +112,10 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanReset_CanNotResetWithExpiredToken()
         {
-            account = context.Set<Account>().Single();
-            AccountResetView view = ObjectFactory.CreateAccountResetView();
             account.RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(-5);
             context.SaveChanges();
 
-            Boolean canReset = validator.CanReset(view);
+            Boolean canReset = validator.CanReset(ObjectFactory.CreateAccountResetView());
             Alert alert = validator.Alerts.Single();
 
             Assert.False(canReset);
@@ -150,7 +148,6 @@ namespace MvcTemplate.Tests.Unit.Validators
         {
             hasher.VerifyPassword(null, null).Returns(false);
             AccountLoginView view = new AccountLoginView();
-            view.Username = "Test";
 
             Boolean canLogin = validator.CanLogin(view);
 

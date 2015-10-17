@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Mvc.Rendering;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using NSubstitute;

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.AspNet.Mvc.ViewFeatures;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Security;
 using System;

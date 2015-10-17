@@ -1,164 +1,166 @@
 using Microsoft.Data.Entity.Migrations;
-using Microsoft.Data.Entity.Migrations.Builders;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MvcTemplate.Tests.Data.Migrations
 {
+    [ExcludeFromCodeCoverage]
     public partial class Initial : Migration
     {
-        public override void Up(MigrationBuilder migration)
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migration.CreateTable(
+            migrationBuilder.CreateTable(
                 name: "AuditLog",
                 columns: table => new
                 {
-                    Id = table.Column(type: "nvarchar(128)", nullable: false),
-                    AccountId = table.Column(type: "nvarchar(128)", nullable: true),
-                    Action = table.Column(type: "nvarchar(128)", nullable: false),
-                    Changes = table.Column(type: "nvarchar(max)", nullable: false),
-                    CreationDate = table.Column(type: "datetime2", nullable: false),
-                    EntityId = table.Column(type: "nvarchar(128)", nullable: false),
-                    EntityName = table.Column(type: "nvarchar(128)", nullable: false)
+                    Id = table.Column<string>(nullable: false),
+                    AccountId = table.Column<string>(nullable: true),
+                    Action = table.Column<string>(nullable: false),
+                    Changes = table.Column<string>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    EntityId = table.Column<string>(nullable: false),
+                    EntityName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AuditLog", x => x.Id);
                 });
-            migration.CreateTable(
+            migrationBuilder.CreateTable(
                 name: "Log",
                 columns: table => new
                 {
-                    Id = table.Column(type: "nvarchar(128)", nullable: false),
-                    AccountId = table.Column(type: "nvarchar(128)", nullable: true),
-                    CreationDate = table.Column(type: "datetime2", nullable: false),
-                    Message = table.Column(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<string>(nullable: false),
+                    AccountId = table.Column<string>(nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    Message = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Log", x => x.Id);
                 });
-            migration.CreateTable(
+            migrationBuilder.CreateTable(
                 name: "Privilege",
                 columns: table => new
                 {
-                    Id = table.Column(type: "nvarchar(128)", nullable: false),
-                    Action = table.Column(type: "nvarchar(128)", nullable: false),
-                    Area = table.Column(type: "nvarchar(128)", nullable: true),
-                    Controller = table.Column(type: "nvarchar(128)", nullable: false),
-                    CreationDate = table.Column(type: "datetime2", nullable: false)
+                    Id = table.Column<string>(nullable: false),
+                    Action = table.Column<string>(nullable: false),
+                    Area = table.Column<string>(nullable: true),
+                    Controller = table.Column<string>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Privilege", x => x.Id);
                 });
-            migration.CreateTable(
+            migrationBuilder.CreateTable(
                 name: "Role",
                 columns: table => new
                 {
-                    Id = table.Column(type: "nvarchar(128)", nullable: false),
-                    CreationDate = table.Column(type: "datetime2", nullable: false),
-                    Title = table.Column(type: "nvarchar(128)", nullable: false)
+                    Id = table.Column<string>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    Title = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Role", x => x.Id);
                 });
-            migration.CreateTable(
+            migrationBuilder.CreateTable(
                 name: "TestModel",
                 columns: table => new
                 {
-                    Id = table.Column(type: "nvarchar(128)", nullable: false),
-                    CreationDate = table.Column(type: "datetime2", nullable: false),
-                    Text = table.Column(type: "nvarchar(512)", nullable: true)
+                    Id = table.Column<string>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    Text = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TestModel", x => x.Id);
                 });
-            migration.CreateTable(
+            migrationBuilder.CreateTable(
                 name: "Account",
                 columns: table => new
                 {
-                    Id = table.Column(type: "nvarchar(128)", nullable: false),
-                    CreationDate = table.Column(type: "datetime2", nullable: false),
-                    Email = table.Column(type: "nvarchar(256)", nullable: false),
-                    IsLocked = table.Column(type: "bit", nullable: false),
-                    Passhash = table.Column(type: "nvarchar(512)", nullable: false),
-                    RecoveryToken = table.Column(type: "nvarchar(128)", nullable: true),
-                    RecoveryTokenExpirationDate = table.Column(type: "datetime2", nullable: true),
-                    RoleId = table.Column(type: "nvarchar(128)", nullable: true),
-                    Username = table.Column(type: "nvarchar(128)", nullable: false)
+                    Id = table.Column<string>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    IsLocked = table.Column<bool>(nullable: false),
+                    Passhash = table.Column<string>(nullable: false),
+                    RecoveryToken = table.Column<string>(nullable: true),
+                    RecoveryTokenExpirationDate = table.Column<DateTime>(nullable: true),
+                    RoleId = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Account", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Account_Role_RoleId",
-                        columns: x => x.RoleId,
-                        referencedTable: "Role",
-                        referencedColumn: "Id");
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "Id");
                 });
-            migration.CreateTable(
+            migrationBuilder.CreateTable(
                 name: "RolePrivilege",
                 columns: table => new
                 {
-                    Id = table.Column(type: "nvarchar(128)", nullable: false),
-                    CreationDate = table.Column(type: "datetime2", nullable: false),
-                    PrivilegeId = table.Column(type: "nvarchar(128)", nullable: false),
-                    RoleId = table.Column(type: "nvarchar(128)", nullable: false)
+                    Id = table.Column<string>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    PrivilegeId = table.Column<string>(nullable: false),
+                    RoleId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RolePrivilege", x => x.Id);
                     table.ForeignKey(
                         name: "FK_RolePrivilege_Privilege_PrivilegeId",
-                        columns: x => x.PrivilegeId,
-                        referencedTable: "Privilege",
-                        referencedColumn: "Id");
+                        column: x => x.PrivilegeId,
+                        principalTable: "Privilege",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_RolePrivilege_Role_RoleId",
-                        columns: x => x.RoleId,
-                        referencedTable: "Role",
-                        referencedColumn: "Id");
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "Id");
                 });
 
-            migration.CreateIndex(
+            migrationBuilder.CreateIndex(
                 name: "IX_Email",
                 table: "Account",
                 column: "Email",
                 unique: true);
-            migration.CreateIndex(
+            migrationBuilder.CreateIndex(
                 name: "IX_RoleId",
                 table: "Account",
                 column: "RoleId");
-            migration.CreateIndex(
+            migrationBuilder.CreateIndex(
                 name: "IX_Username",
                 table: "Account",
                 column: "Username",
                 unique: true);
-            migration.CreateIndex(
+            migrationBuilder.CreateIndex(
                 name: "IX_Title",
                 table: "Role",
                 column: "Title",
                 unique: true);
-            migration.CreateIndex(
+            migrationBuilder.CreateIndex(
                 name: "IX_PrivilegeId",
                 table: "RolePrivilege",
                 column: "PrivilegeId");
-            migration.CreateIndex(
+            migrationBuilder.CreateIndex(
                 name: "IX_RoleId",
                 table: "RolePrivilege",
                 column: "RoleId");
         }
 
-        public override void Down(MigrationBuilder migration)
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migration.DropTable("Account");
-            migration.DropTable("AuditLog");
-            migration.DropTable("Log");
-            migration.DropTable("RolePrivilege");
-            migration.DropTable("TestModel");
-            migration.DropTable("Privilege");
-            migration.DropTable("Role");
+            migrationBuilder.DropTable("Account");
+            migrationBuilder.DropTable("AuditLog");
+            migrationBuilder.DropTable("Log");
+            migrationBuilder.DropTable("RolePrivilege");
+            migrationBuilder.DropTable("TestModel");
+            migrationBuilder.DropTable("Privilege");
+            migrationBuilder.DropTable("Role");
         }
     }
 }

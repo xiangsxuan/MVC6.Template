@@ -7,7 +7,7 @@ namespace MvcTemplate.Components.Mvc
     public class EqualToAdapter : DataAnnotationsClientModelValidator<EqualToAttribute>
     {
         public EqualToAdapter(EqualToAttribute attribute)
-            : base(attribute)
+            : base(attribute, null)
         {
         }
 

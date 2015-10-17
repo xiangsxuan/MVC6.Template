@@ -3,7 +3,9 @@
   "version": "0.1.0",
 
   "dependencies": {
-    "MvcTemplate.Data": ""
+    "MvcTemplate.Data": "",
+
+    "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-beta8"
   },
 
   "compilationOptions": {

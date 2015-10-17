@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Mvc.Rendering;
 using System.Collections.Generic;
 
 namespace MvcTemplate.Components.Mvc

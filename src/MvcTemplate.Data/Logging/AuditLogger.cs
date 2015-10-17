@@ -39,7 +39,7 @@ namespace MvcTemplate.Data.Logging
         public virtual void Log(LoggableEntity entity)
         {
             AuditLog log = new AuditLog();
-            log.AccountId = !String.IsNullOrEmpty(log.AccountId) ? log.AccountId : null;
+            log.AccountId = !String.IsNullOrEmpty(AccountId) ? AccountId : null;
             log.Changes = entity.ToString();
             log.EntityName = entity.Name;
             log.Action = entity.Action;

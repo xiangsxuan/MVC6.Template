@@ -6,7 +6,7 @@ namespace MvcTemplate.Components.Mvc
     public class MinValueAdapter : DataAnnotationsClientModelValidator<MinValueAttribute>
     {
         public MinValueAdapter(MinValueAttribute attribute)
-            : base(attribute)
+            : base(attribute, null)
         {
         }
 

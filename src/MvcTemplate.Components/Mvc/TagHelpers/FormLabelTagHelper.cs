@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace MvcTemplate.Components.Mvc
 {
-    [TargetElement("label", Attributes = "comp-for")]
+    [HtmlTargetElement("label", Attributes = "comp-for")]
     public class FormLabelTagHelper : TagHelper
     {
         [HtmlAttributeName("comp-for")]
@@ -22,12 +22,13 @@ namespace MvcTemplate.Components.Mvc
             requiredSpan.AddCssClass("require");
 
             if (Required == true)
-                requiredSpan.InnerHtml = "*";
+                requiredSpan.InnerHtml.Append("*");
 
             if (!Required.HasValue && IsRequiredExpression())
-                requiredSpan.InnerHtml = "*";
+                requiredSpan.InnerHtml.Append("*");
 
-            output.Content.SetContent(For.ModelExplorer.Metadata.DisplayName + requiredSpan);
+            output.Content.Append(For.ModelExplorer.Metadata.DisplayName);
+            output.Content.Append(requiredSpan);
         }
 
         private Boolean IsRequiredExpression()
