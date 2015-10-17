@@ -134,7 +134,7 @@ namespace MvcTemplate.Controllers
             if (!Validator.CanLogin(account))
                 return View(account);
 
-            Service.Login(account.Username);
+            Service.Login(HttpContext.Authentication, account.Username);
 
             return RedirectToLocal(returnUrl);
         }
@@ -142,7 +142,7 @@ namespace MvcTemplate.Controllers
         [HttpGet]
         public RedirectToActionResult Logout()
         {
-            Service.Logout();
+            Service.Logout(HttpContext.Authentication);
 
             return RedirectToAction("Login");
         }

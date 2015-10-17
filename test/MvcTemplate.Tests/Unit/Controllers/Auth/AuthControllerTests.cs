@@ -430,7 +430,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
             controller.Login(accountLogin, null);
 
-            service.Received().Login(accountLogin.Username);
+            service.Received().Login(controller.HttpContext.Authentication, accountLogin.Username);
         }
 
         [Fact]
@@ -455,7 +455,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             controller.Logout();
 
-            service.Received().Logout();
+            service.Received().Logout(controller.HttpContext.Authentication);
         }
 
         [Fact]

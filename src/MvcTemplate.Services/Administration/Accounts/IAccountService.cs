@@ -1,3 +1,4 @@
+using Microsoft.AspNet.Http.Authentication;
 using MvcTemplate.Objects;
 using System;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace MvcTemplate.Services
         void Edit(ProfileEditView view);
         void Delete(String id);
 
-        void Login(String username);
-        void Logout();
+        void Login(AuthenticationManager authentication, String username);
+        void Logout(AuthenticationManager authentication);
     }
 }

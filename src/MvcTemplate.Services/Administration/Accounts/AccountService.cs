@@ -1,8 +1,10 @@
+using Microsoft.AspNet.Http.Authentication;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Principal;
 
 namespace MvcTemplate.Services
@@ -114,11 +116,16 @@ namespace MvcTemplate.Services
             Authorization.Provider.Refresh();
         }
 
-        public void Login(String username)
+        public void Login(AuthenticationManager authentication, String username)
         {
+            Claim[] claims = { new Claim("name", GetAccountId(username)) };
+            ClaimsIdentity identity = new ClaimsIdentity(claims, "local", "name", "role");
+
+            authentication.SignInAsync("Cookies", new ClaimsPrincipal(identity)).Wait();
         }
-        public void Logout()
+        public void Logout(AuthenticationManager authentication)
         {
+            authentication.SignOutAsync("Cookies").Wait();
         }
 
         private String GetAccountId(String username)

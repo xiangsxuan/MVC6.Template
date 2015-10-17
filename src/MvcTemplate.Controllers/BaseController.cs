@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.ViewFeatures;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Security;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 
 namespace MvcTemplate.Controllers
 {
+    [Authorize]
     public abstract class BaseController : Controller
     {
         public IAuthorizationProvider AuthorizationProvider { get; protected set; }

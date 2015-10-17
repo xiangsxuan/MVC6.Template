@@ -97,6 +97,12 @@ namespace MvcTemplate.Web
         }
         public virtual void RegisterStaticFiles(IApplicationBuilder app)
         {
+            app.UseCookieAuthentication(options =>
+            {
+                options.LoginPath = "/auth/login";
+                options.AutomaticAuthentication = true;
+                options.AuthenticationScheme = "Cookies";
+            });
             app.UseStaticFiles();
         }
         public virtual void RegisterRoute(IApplicationBuilder app)

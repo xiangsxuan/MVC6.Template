@@ -1,5 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNet.Http.Authentication;
 using Microsoft.Data.Entity;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
@@ -10,6 +11,7 @@ using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Principal;
 using Xunit;
 
@@ -366,6 +368,41 @@ namespace MvcTemplate.Tests.Unit.Services
             service.Delete(account.Id);
 
             Authorization.Provider.Received().Refresh();
+        }
+
+        #endregion
+
+        #region Method: Login(AuthenticationManager authentication, String username)
+
+        [Fact]
+        public void Login_Account()
+        {
+            AuthenticationManager authentication = Substitute.For<AuthenticationManager>();
+            AccountLoginView view = ObjectFactory.CreateAccountLoginView();
+
+            service.Login(authentication, view.Username.ToUpper());
+
+            authentication.Received().SignInAsync("Cookies", Arg.Is<ClaimsPrincipal>(principal =>
+                principal.Claims.Single().Subject.NameClaimType == "name" &&
+                principal.Claims.Single().Subject.RoleClaimType == "role" &&
+                principal.Claims.Single().Subject.Name == view.Id &&
+                principal.Identity.AuthenticationType == "local" &&
+                principal.Identity.IsAuthenticated &&
+                principal.Identity.Name == view.Id));
+        }
+
+        #endregion
+
+        #region Method: Logout(AuthenticationManager authentication)
+
+        [Fact]
+        public void Logout_Account()
+        {
+            AuthenticationManager authentication = Substitute.For<AuthenticationManager>();
+
+            service.Logout(authentication);
+
+            authentication.Received().SignOutAsync("Cookies");
         }
 
         #endregion
