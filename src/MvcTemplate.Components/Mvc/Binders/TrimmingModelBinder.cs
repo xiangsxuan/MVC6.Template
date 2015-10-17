@@ -17,11 +17,10 @@ namespace MvcTemplate.Components.Mvc
 
                 Type containerType = context.ModelMetadata.ContainerType;
                 PropertyInfo property = containerType?.GetProperty(context.ModelName);
+                context.ModelState.SetModelValue(context.ModelName, result.FirstValue, result.FirstValue);
 
                 if (property?.IsDefined(typeof(NotTrimmedAttribute), false) == true)
-                    return ModelBindingResult.NoResultAsync;
-
-                context.ModelState.SetModelValue(context.ModelName, result.FirstValue, result.FirstValue);
+                    return ModelBindingResult.SuccessAsync(context.ModelName, result.FirstValue);
 
                 return ModelBindingResult.SuccessAsync(context.ModelName, result.FirstValue.Trim());
             }

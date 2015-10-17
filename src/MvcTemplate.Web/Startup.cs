@@ -86,10 +86,8 @@ namespace MvcTemplate.Web
         {
             services
                 .AddMvc()
-                .AddRazorOptions(options =>
-                {
-                    options.ViewLocationExpanders.Add(new ViewLocationExpander());
-                });
+                .AddMvcOptions(options => options.ModelBinders.Insert(0, new TrimmingModelBinder()))
+                .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()));
         }
 
         public virtual void RegisterAuthorization(IApplicationBuilder app)
