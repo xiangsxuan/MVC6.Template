@@ -30,7 +30,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void BaseValidator_CreateEmptyAlertsContainer()
+        public void BaseValidator_CreatesEmptyAlerts()
         {
             Assert.Empty(validator.Alerts);
         }
@@ -40,7 +40,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Dispose()
 
         [Fact]
-        public void Dispose_DisposesUnitOfWork()
+        public void Dispose_UnitOfWork()
         {
             validator.Dispose();
 
@@ -48,7 +48,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Dispose_CanBeCalledMultipleTimes()
+        public void Dispose_MultipleTimes()
         {
             validator.Dispose();
             validator.Dispose();

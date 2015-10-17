@@ -13,7 +13,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Method: IsValidForRequest(RouteContext routeContext, ActionDescriptor action)
 
         [Fact]
-        public void IsValidForRequest_OnNullHeadersReturnsFalse()
+        public void IsValidForRequest_NullHeader_ReturnsFalse()
         {
             RouteContext context = new RouteContext(Substitute.For<HttpContext>());
             context.HttpContext.Request.Headers.Returns(null as IHeaderDictionary);
@@ -24,7 +24,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Theory]
         [InlineData("", false)]
         [InlineData("XMLHttpRequest", true)]
-        public void IsValidForRequest_ValidatesAjaxRequests(String headerValue, Boolean expected)
+        public void IsValidForRequest_Ajax(String headerValue, Boolean expected)
         {
             RouteContext context = new RouteContext(Substitute.For<HttpContext>());
             context.HttpContext.Request.Headers["X-Requested-With"].Returns(new StringValues(headerValue));

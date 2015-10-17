@@ -40,7 +40,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanRegister(AccountRegisterView view)
 
         [Fact]
-        public void CanRegister_CanNotRegisterWithInvalidModelState()
+        public void CanRegister_InvalidState_ReturnsFalse()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -48,7 +48,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanRegister_CanNotRegisterWithAlreadyTakenUsername()
+        public void CanRegister_UsedUsername_ReturnsFalse()
         {
             AccountRegisterView view = ObjectFactory.CreateAccountRegisterView(2);
             view.Username = account.Username.ToLower();
@@ -61,7 +61,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanRegister_CanNotRegisterWithAlreadyUsedEmail()
+        public void CanRegister_UsedEmail_ReturnsFalse()
         {
             AccountRegisterView view = ObjectFactory.CreateAccountRegisterView(2);
             view.Email = account.Email;
@@ -74,7 +74,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanRegister_CanRegisterValidAccount()
+        public void CanRegister_ValidAccount()
         {
             Assert.True(validator.CanRegister(ObjectFactory.CreateAccountRegisterView(2)));
         }
@@ -84,7 +84,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanRecover(AccountRecoveryView view)
 
         [Fact]
-        public void CanRecover_CanNotRecoverWithInvalidModelState()
+        public void CanRecover_InvalidState_ReturnsFalse()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -92,7 +92,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanRecover_CanRecoverValidAccount()
+        public void CanRecover_ValidAccount()
         {
             Assert.True(validator.CanRecover(ObjectFactory.CreateAccountRecoveryView()));
         }
@@ -102,7 +102,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanReset(AccountResetView view)
 
         [Fact]
-        public void CanReset_CanNotResetWithInvalidModelState()
+        public void CanReset_InvalidState_ReturnsFalse()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -110,7 +110,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanReset_CanNotResetWithExpiredToken()
+        public void CanReset_ExpiredToken_ReturnsFalse()
         {
             account.RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(-5);
             context.SaveChanges();
@@ -126,7 +126,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanReset_CanResetValidAccount()
+        public void CanReset_ValidAccount()
         {
             Assert.True(validator.CanRecover(ObjectFactory.CreateAccountRecoveryView()));
         }
@@ -136,7 +136,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanLogin(AccountLoginView view)
 
         [Fact]
-        public void CanLogin_CanNotLoginWithInvalidModelState()
+        public void CanLogin_InvalidState_ReturnsFalse()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -144,7 +144,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanLogin_CanNotLoginFromNonExistingAccount()
+        public void CanLogin_NoAccount_ReturnsFalse()
         {
             hasher.VerifyPassword(null, null).Returns(false);
             AccountLoginView view = new AccountLoginView();
@@ -158,7 +158,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanLogin_CanNotLoginWithIncorrectPassword()
+        public void CanLogin_IncorrectPassword_ReturnsFalse()
         {
             account = context.Set<Account>().Single();
             account.IsLocked = true;
@@ -176,16 +176,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanLogin_CanLoginWithCaseInsensitiveUsername()
-        {
-            AccountLoginView view = ObjectFactory.CreateAccountLoginView();
-            view.Username = view.Username.ToUpper();
-
-            Assert.True(validator.CanLogin(view));
-        }
-
-        [Fact]
-        public void CanLogin_CanNotLoginWithLockedAccount()
+        public void CanLogin_LockedAccount_ReturnsFalse()
         {
             AccountLoginView view = ObjectFactory.CreateAccountLoginView();
             account = context.Set<Account>().Single();
@@ -203,7 +194,16 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanLogin_CanLoginWithValidAccount()
+        public void CanLogin_IsCaseInsensitive()
+        {
+            AccountLoginView view = ObjectFactory.CreateAccountLoginView();
+            view.Username = view.Username.ToUpper();
+
+            Assert.True(validator.CanLogin(view));
+        }
+
+        [Fact]
+        public void CanLogin_ValidAccount()
         {
             Assert.True(validator.CanLogin(ObjectFactory.CreateAccountLoginView()));
         }
@@ -213,7 +213,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanCreate(AccountCreateView view)
 
         [Fact]
-        public void CanCreate_CanNotCreateWithInvalidModelState()
+        public void CanCreate_InvalidState_ReturnsFalse()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -221,7 +221,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanCreate_CanNotCreateWithAlreadyTakenUsername()
+        public void CanCreate_UsedUsername_ReturnsFalse()
         {
             AccountCreateView view = ObjectFactory.CreateAccountCreateView(2);
             view.Username = account.Username.ToLower();
@@ -234,7 +234,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanCreate_CanNotCreateWithAlreadyUsedEmail()
+        public void CanCreate_UsedEmail_ReturnsFalse()
         {
             AccountCreateView view = ObjectFactory.CreateAccountCreateView(2);
             view.Email = account.Email.ToUpper();
@@ -247,7 +247,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanCreate_CanCreateValidAccount()
+        public void CanCreate_ValidAccount()
         {
             Assert.True(validator.CanCreate(ObjectFactory.CreateAccountCreateView(2)));
         }
@@ -257,7 +257,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanEdit(AccountEditView view)
 
         [Fact]
-        public void CanEdit_CanNotEditWithInvalidModelState()
+        public void CanEdit_InvalidAccountState_ReturnsFalse()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -265,7 +265,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_CanEditValidAccount()
+        public void CanEdit_ValidAccount()
         {
             Assert.True(validator.CanEdit(ObjectFactory.CreateAccountEditView()));
         }
@@ -275,7 +275,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanEdit(ProfileEditView view)
 
         [Fact]
-        public void CanEdit_CanNotEditProfileWithInvalidModelState()
+        public void CanEdit_InvalidProfileState_ReturnsFalse()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -283,7 +283,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_CanNotEditWithIncorrectPassword()
+        public void CanEdit_IncorrectPassword_ReturnsFalse()
         {
             ProfileEditView view = ObjectFactory.CreateProfileEditView(1577);
             hasher.VerifyPassword(view.Password, Arg.Any<String>()).Returns(false);
@@ -296,7 +296,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_CanNotEditToAlreadyTakenUsername()
+        public void CanEdit_UsedUsername_ReturnsFalse()
         {
             Account takenAccount = ObjectFactory.CreateAccount(2);
             context.Set<Account>().Add(takenAccount);
@@ -313,7 +313,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_CanEditUsingItsOwnUsername()
+        public void CanEdit_ToSameUsername()
         {
             ProfileEditView view = ObjectFactory.CreateProfileEditView(2);
             view.Username = account.Username.ToUpper();
@@ -322,7 +322,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_CanNotEditToAlreadyUsedEmail()
+        public void CanEdit_UsedEmail_ReturnsFalse()
         {
             Account usedEmailAccount = ObjectFactory.CreateAccount(2);
             context.Set<Account>().Add(usedEmailAccount);
@@ -339,7 +339,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_CanEditUsingItsOwnEmail()
+        public void CanEdit_ToSameEmail()
         {
             ProfileEditView view = ObjectFactory.CreateProfileEditView(2);
             view.Email = account.Email.ToUpper();
@@ -348,7 +348,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_CanEditValidProfile()
+        public void CanEdit_ValidProfile()
         {
             Assert.True(validator.CanEdit(ObjectFactory.CreateProfileEditView(1457)));
         }
@@ -358,7 +358,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanDelete(ProfileDeleteView view)
 
         [Fact]
-        public void CanEdit_CanNotDeleteWithInvalidModelState()
+        public void CanDelete_InvalidState_ReturnsFalse()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -366,7 +366,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanDelete_CanNotDeleteWithIncorrectPassword()
+        public void CanDelete_IncorrectPassword_ReturnsFalse()
         {
             ProfileDeleteView view = ObjectFactory.CreateProfileDeleteView();
             hasher.VerifyPassword(view.Password, Arg.Any<String>()).Returns(false);
@@ -379,7 +379,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanDelete_CanDeleteValidProfile()
+        public void CanDelete_ValidProfile()
         {
             Assert.True(validator.CanDelete(ObjectFactory.CreateProfileDeleteView()));
         }

@@ -40,7 +40,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: SeedPrivilegesTree(RoleView view)
 
         [Fact]
-        public void SeedPrivilegesTree_SeedsFirstLevelNodes()
+        public void SeedPrivilegesTree_FirstDepth()
         {
             IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
             context.Set<Privilege>().AddRange(privileges);
@@ -61,7 +61,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void SeedPrivilegesTree_SeedsSecondLevelNodes()
+        public void SeedPrivilegesTree_SecondDepth()
         {
             IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
             context.Set<Privilege>().AddRange(privileges);
@@ -82,7 +82,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void SeedPrivilegesTree_SeedsThirdLevelNodes()
+        public void SeedPrivilegesTree_ThirdDepth()
         {
             IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
             context.Set<Privilege>().AddRange(privileges);
@@ -103,7 +103,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void SeedPrivilegesTree_SeedsBranchesWithoutId()
+        public void SeedPrivilegesTree_BranchesWithoutId()
         {
             IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
             context.Set<Privilege>().AddRange(privileges);
@@ -119,7 +119,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void SeedPrivilegesTree_SeedsLeafsWithId()
+        public void SeedPrivilegesTree_LeafsWithId()
         {
             IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
             context.Set<Privilege>().AddRange(privileges);
@@ -139,7 +139,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: GetViews()
 
         [Fact]
-        public void GetViews_GetsRoleViews()
+        public void GetViews_ReturnsRoleViews()
         {
             context.Set<Role>().Add(ObjectFactory.CreateRole(1));
             context.Set<Role>().Add(ObjectFactory.CreateRole(2));
@@ -167,13 +167,13 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: GetView(String id)
 
         [Fact]
-        public void GetView_OnNotExistingRoleReturnsNull()
+        public void GetView_NoRole_ReturnsNull()
         {
             Assert.Null(service.GetView(""));
         }
 
         [Fact]
-        public void GetView_GetsViewById()
+        public void GetView_ReturnsViewById()
         {
             service.When(sub => sub.SeedPrivilegesTree(Arg.Any<RoleView>())).DoNotCallBase();
             Role role = ObjectFactory.CreateRole();
@@ -190,7 +190,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void GetView_SeedsSelectedIds()
+        public void GetView_SetsSelectedIds()
         {
             service.When(sub => sub.SeedPrivilegesTree(Arg.Any<RoleView>())).DoNotCallBase();
             Role role = CreateRoleWithPrivileges();
@@ -230,7 +230,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Create(RoleView view)
 
         [Fact]
-        public void Create_CreatesRole()
+        public void Create_Role()
         {
             RoleView view = ObjectFactory.CreateRoleView();
 
@@ -244,7 +244,8 @@ namespace MvcTemplate.Tests.Unit.Services
             Assert.Equal(expected.Id, actual.Id);
         }
 
-        public void Create_CreatesRolePrivileges()
+        [Fact]
+        public void Create_RolePrivileges()
         {
             IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
             context.Set<Privilege>().AddRange(privileges);
@@ -254,10 +255,8 @@ namespace MvcTemplate.Tests.Unit.Services
 
             IEnumerable<String> expected = privileges.Select(privilege => privilege.Id).OrderBy(privilegeId => privilegeId);
             IEnumerable<String> actual = context
-                .Set<Role>()
+                .Set<RolePrivilege>()
                 .AsNoTracking()
-                .Single()
-                .RolePrivileges
                 .Select(role => role.PrivilegeId)
                 .OrderBy(privilegeId => privilegeId);
 
@@ -269,7 +268,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Edit(RoleView view)
 
         [Fact]
-        public void Edit_EditsRole()
+        public void Edit_Role()
         {
             Role role = ObjectFactory.CreateRole();
             using (TestingContext testingContext = new TestingContext())
@@ -292,7 +291,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Edit_EditsRolePrivileges()
+        public void Edit_RolePrivileges()
         {
             Role role = CreateRoleWithPrivileges();
             using (TestingContext testingContext = new TestingContext())
@@ -319,7 +318,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Edit_RefreshesAuthorizationProvider()
+        public void Edit_RefreshesAuthorization()
         {
             using (TestingContext context = new TestingContext())
             {
@@ -338,7 +337,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Delete(String id)
 
         [Fact]
-        public void Delete_NullifiesDeletedRoleInAccounts()
+        public void Delete_NullsAccountRoles()
         {
             Account account = ObjectFactory.CreateAccount();
             Role role = ObjectFactory.CreateRole();
@@ -355,7 +354,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Delete_DeletesRole()
+        public void Delete_Role()
         {
             Role role = ObjectFactory.CreateRole();
             context.Set<Role>().Add(role);
@@ -367,7 +366,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Delete_DeletesRolePrivileges()
+        public void Delete_RolePrivileges()
         {
             RolePrivilege rolePrivilege = ObjectFactory.CreateRolePrivilege();
             context.Set<Privilege>().Add(rolePrivilege.Privilege);
@@ -381,7 +380,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Delete_RefreshesAuthorizationProvider()
+        public void Delete_RefreshesAuthorization()
         {
             Role role = ObjectFactory.CreateRole();
             context.Set<Role>().Add(role);

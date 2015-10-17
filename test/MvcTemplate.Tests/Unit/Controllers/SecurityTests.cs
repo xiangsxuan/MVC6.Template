@@ -13,7 +13,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         #region ValidateAntiForgeryToken
 
         [Fact]
-        public void AllControllerPostMethods_HasValidateAntiForgeryToken()
+        public void PostMethods_HasValidateAntiForgeryToken()
         {
             IEnumerable<MethodInfo> postMethods = typeof(BaseController)
                 .Assembly

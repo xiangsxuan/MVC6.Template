@@ -17,7 +17,7 @@ namespace MvcTemplate.Tests.Unit.Objects
         #region Property: Id
 
         [Fact]
-        public void Id_AlwaysGetsNotNull()
+        public void Id_ReturnsNotNull()
         {
             model.Id = null;
 
@@ -25,7 +25,7 @@ namespace MvcTemplate.Tests.Unit.Objects
         }
 
         [Fact]
-        public void Id_AlwaysGetsUniqueValue()
+        public void Id_ReturnsUniqueValue()
         {
             String id = model.Id;
             model.Id = null;
@@ -37,7 +37,7 @@ namespace MvcTemplate.Tests.Unit.Objects
         }
 
         [Fact]
-        public void Id_AlwaysGetsSameValue()
+        public void Id_ReturnsSameValue()
         {
             String expected = model.Id;
             String actual = model.Id;
@@ -50,7 +50,7 @@ namespace MvcTemplate.Tests.Unit.Objects
         #region Property: CreationDate
 
         [Fact]
-        public void CreationDate_AlwaysGetsSameValue()
+        public void CreationDate_ReturnsSameValue()
         {
             DateTime expected = model.CreationDate;
             DateTime actual = model.CreationDate;

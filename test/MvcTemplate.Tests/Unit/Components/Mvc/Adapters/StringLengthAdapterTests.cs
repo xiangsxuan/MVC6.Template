@@ -11,7 +11,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Constructor: StringLengthAdapter(StringLengthAttribute attribute)
 
         [Fact]
-        public void StringLengthAdapter_SetsMaxLengthErrorMessage()
+        public void StringLengthAdapter_SetsExceededErrorMessage()
         {
             StringLengthAttribute attribute = new StringLengthAttribute(128);
             new StringLengthAdapter(attribute);
@@ -23,7 +23,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void StringLengthAdapter_SetsMinMaxLengthErrorMessage()
+        public void StringLengthAdapter_SetsRangeErrorMessage()
         {
             StringLengthAttribute attribute = new StringLengthAttribute(128) { MinimumLength = 4 };
             new StringLengthAdapter(attribute);

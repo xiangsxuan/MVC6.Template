@@ -11,7 +11,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Constructor: RequiredAdapter(RequiredAttribute attribute)
 
         [Fact]
-        public void RequiredAdapter_SetsRequiredErrorMessage()
+        public void RequiredAdapter_SetsErrorMessage()
         {
             RequiredAttribute attribute = new RequiredAttribute();
             new RequiredAdapter(attribute);

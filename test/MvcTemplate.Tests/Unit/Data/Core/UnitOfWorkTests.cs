@@ -57,7 +57,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         #region Method: Get<TModel>(String id)
 
         [Fact]
-        public void Get_GetsModelById()
+        public void Get_ModelById()
         {
             TestModel model = ObjectFactory.CreateTestModel();
             context.Set<TestModel>().Add(model);
@@ -72,7 +72,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         }
 
         [Fact]
-        public void Get_OnModelNotFoundReturnsNull()
+        public void Get_NotFound_ReturnsNull()
         {
             Assert.Null(unitOfWork.Get<TestModel>(""));
         }
@@ -82,7 +82,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         #region Method: To<TDestination>(Object source)
 
         [Fact]
-        public void ToDestination_ConvertsModelToDestinationModel()
+        public void To_ConvertsSourceToDestination()
         {
             TestModel model = ObjectFactory.CreateTestModel();
 
@@ -99,7 +99,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         #region Method: Select<TModel>()
 
         [Fact]
-        public void Select_CreatesSelectForSet()
+        public void Select_FromSet()
         {
             TestModel model = ObjectFactory.CreateTestModel();
             context.Set<TestModel>().Add(model);
@@ -153,7 +153,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         #region Method: Update(TModel model)
 
         [Fact]
-        public void Update_UpdatesModel()
+        public void Update_UpdatesNotAttachedModel()
         {
             TestModel model = ObjectFactory.CreateTestModel();
             model.Text += "Test";
@@ -184,7 +184,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         #region Method: DeleteRange<TModel>(IEnumerable<TModel> models)
 
         [Fact]
-        public void DeleteRange_DeletesModels()
+        public void DeleteRange_Models()
         {
             IEnumerable<TestModel> models = new[] { ObjectFactory.CreateTestModel(1), ObjectFactory.CreateTestModel(2) };
             foreach (TestModel model in models)
@@ -203,7 +203,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         #region Method: Delete<TModel>(TModel model)
 
         [Fact]
-        public void Delete_DeletesModel()
+        public void Delete_Model()
         {
             TestModel model = ObjectFactory.CreateTestModel();
             context.Set<TestModel>().Add(model);
@@ -220,7 +220,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         #region Method: Delete<TModel>(String id)
 
         [Fact]
-        public void Delete_DeletesModelById()
+        public void Delete_ModelById()
         {
             TestModel model = ObjectFactory.CreateTestModel();
             context.Set<TestModel>().Add(model);
@@ -237,7 +237,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         #region Method: Rollback()
 
         [Fact]
-        public void RollBack_RollbacksChanges()
+        public void Rollback_Changes()
         {
             context.Set<TestModel>().Add(ObjectFactory.CreateTestModel());
 
@@ -263,7 +263,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         }
 
         [Fact]
-        public void Commit_LogsEntities()
+        public void Commit_Logs()
         {
             unitOfWork.Commit();
 
@@ -272,7 +272,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         }
 
         [Fact]
-        public void Commit_DoesNotSaveLogsOnFailedCommit()
+        public void Commit_Failed_DoesNotSaveLogs()
         {
             unitOfWork.Insert(new TestModel { Text = new String('X', 513) });
             Exception exception = Record.Exception(() => unitOfWork.Commit());
@@ -287,7 +287,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         #region Method: Dispose()
 
         [Fact]
-        public void Dispose_DiposesLogger()
+        public void Dispose_Logger()
         {
             unitOfWork.Dispose();
 
@@ -295,7 +295,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         }
 
         [Fact]
-        public void Dispose_DiposesContext()
+        public void Dispose_Context()
         {
             TestingContext context = Substitute.For<TestingContext>();
             UnitOfWork unitOfWork = new UnitOfWork(context);
@@ -306,7 +306,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         }
 
         [Fact]
-        public void Dispose_CanBeCalledMultipleTimes()
+        public void Dispose_MultipleTimes()
         {
             unitOfWork.Dispose();
             unitOfWork.Dispose();

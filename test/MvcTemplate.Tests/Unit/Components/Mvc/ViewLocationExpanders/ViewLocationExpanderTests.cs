@@ -16,7 +16,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Method: ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<String> viewLocations)
 
         [Fact]
-        public void ExpandViewLocations_OnActionWithAreaReturnsAreaLocations()
+        public void ExpandViewLocations_Area_ReturnsAreaLocations()
         {
             RouteData routeData = new RouteData();
             routeData.Values.Add("area", "Test");
@@ -32,7 +32,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void ExpandViewLocations_OnActionWithoutAreaReturnsViewLocations()
+        public void ExpandViewLocations_ReturnsViewLocations()
         {
             ActionContext actionContext = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
             ViewLocationExpanderContext context = new ViewLocationExpanderContext(actionContext, "Index", false);

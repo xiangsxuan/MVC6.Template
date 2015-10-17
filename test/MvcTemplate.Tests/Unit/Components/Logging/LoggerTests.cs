@@ -31,7 +31,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
         #region Method: Log(String message)
 
         [Fact]
-        public void Log_LogsMessage()
+        public void Log_Message()
         {
             logger.Log(new String('L', 10000));
 
@@ -47,19 +47,19 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
         #region Method: Log(String accountId, String message)
 
         [Fact]
-        public void Log_LogsEmptyAccountIdAsNull()
+        public void Log_EmptyAccountId()
         {
             logger.Log("", "Test");
 
-            Log expected = new Log { Message = "Test" };
             Log actual = context.Set<Log>().Single();
+            Log expected = new Log { Message = "Test" };
 
-            Assert.Equal(expected.AccountId, actual.AccountId);
             Assert.Equal(expected.Message, actual.Message);
+            Assert.Equal(expected.AccountId, actual.AccountId);
         }
 
         [Fact]
-        public void Log_LogsAccountIdAndMessage()
+        public void Log_AccountIdAndMessage()
         {
             logger.Log("Test", new String('L', 10000));
 
@@ -75,7 +75,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
         #region Method: Dispose()
 
         [Fact]
-        public void Dispose_DisposesContext()
+        public void Dispose_Context()
         {
             TestingContext context = Substitute.For<TestingContext>();
             Logger logger = new Logger(context);
@@ -86,7 +86,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
         }
 
         [Fact]
-        public void Dispose_CanBeCalledMultipleTimes()
+        public void Dispose_MultipleTimes()
         {
             TestingContext context = Substitute.For<TestingContext>();
             Logger logger = new Logger(context);

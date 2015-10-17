@@ -34,7 +34,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanCreate(RoleView view)
 
         [Fact]
-        public void CanCreate_CanNotCreateWithInvalidModelState()
+        public void CanCreate_InvalidState_ReturnsFalse()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -42,7 +42,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanCreate_CanNotCreateWithAlreadyUsedRoleTitle()
+        public void CanCreate_UsedTitle_ReturnsFalse()
         {
             RoleView view = ObjectFactory.CreateRoleView(2);
             view.Title = role.Title.ToLower();
@@ -55,7 +55,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanCreate_CanCreateValidRole()
+        public void CanCreate_ValidRole()
         {
             Assert.True(validator.CanCreate(ObjectFactory.CreateRoleView()));
         }
@@ -65,7 +65,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region Method: CanEdit(RoleView view)
 
         [Fact]
-        public void CanEdit_CanNotEditWithInvalidModelState()
+        public void CanEdit_InvalidState_ReturnsFalse()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -73,7 +73,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_CanNotEditToAlreadyUsedRoleTitle()
+        public void CanEdit_UsedTitle_ReturnsFalse()
         {
             RoleView view = ObjectFactory.CreateRoleView(2);
             view.Title = role.Title.ToLower();
@@ -86,7 +86,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_CanEditValidRole()
+        public void CanEdit_ValidRole()
         {
             Assert.True(validator.CanEdit(ObjectFactory.CreateRoleView()));
         }

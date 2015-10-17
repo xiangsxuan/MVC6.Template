@@ -11,7 +11,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Constructor: MinLengthAdapter(MinLengthAttribute attribute)
 
         [Fact]
-        public void MinLengthAdapter_SetsMinLengthErrorMessage()
+        public void MinLengthAdapter_SetsErrorMessage()
         {
             MinLengthAttribute attribute = new MinLengthAttribute(128);
             new MinLengthAdapter(attribute);

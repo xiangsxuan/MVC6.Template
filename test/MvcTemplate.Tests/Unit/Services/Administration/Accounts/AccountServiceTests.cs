@@ -45,7 +45,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Get<TView>(String id)
 
         [Fact]
-        public void Get_GetsViewById()
+        public void Get_ReturnsViewById()
         {
             AccountView actual = service.Get<AccountView>(account.Id);
             AccountView expected = Mapper.Map<AccountView>(account);
@@ -62,7 +62,8 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #region Method: GetViews()
 
-        public void GetViews_GetsAccountViews()
+        [Fact]
+        public void GetViews_ReturnsAccountViews()
         {
             IEnumerator<AccountView> actual = service.GetViews().GetEnumerator();
             IEnumerator<AccountView> expected = context
@@ -90,7 +91,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void IsLoggedIn_ReturnsUserAuthenticationState(Boolean expected)
+        public void IsLoggedIn_ReturnsIsAuthenticated(Boolean expected)
         {
             IPrincipal user = Substitute.For<IPrincipal>();
             user.Identity.IsAuthenticated.Returns(expected);
@@ -105,20 +106,21 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: IsActive(String id)
 
         [Theory]
-        [InlineData(true, false)]
-        [InlineData(false, true)]
-        public void IsActive_ReturnsAccountState(Boolean isLocked, Boolean expected)
+        [InlineData(true)]
+        [InlineData(false)]
+        public void IsActive_ReturnsAccountState(Boolean isLocked)
         {
             account.IsLocked = isLocked;
             context.SaveChanges();
 
             Boolean actual = service.IsActive(account.Id);
+            Boolean expected = !isLocked;
 
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void IsActive_IsNotActiveThenAccountDoesNotExist()
+        public void IsActive_NoAccount_ReturnsFalse()
         {
             Assert.False(service.IsActive("Test"));
         }
@@ -128,7 +130,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Recover(AccountRecoveryView view)
 
         [Fact]
-        public void Recover_OnNonExistingAccountReturnsNullToken()
+        public void Recover_NoEmail_ReturnsNull()
         {
             AccountRecoveryView view = ObjectFactory.CreateAccountRecoveryView();
             view.Email = "not@existing.email";
@@ -137,7 +139,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Recover_UpdatesAccountRecoveryInformation()
+        public void Recover_Information()
         {
             Account account = context.Set<Account>().AsNoTracking().Single();
             account.RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(30);
@@ -170,7 +172,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Register(AccountRegisterView view)
 
         [Fact]
-        public void Register_RegistersAccount()
+        public void Register_Account()
         {
             AccountRegisterView view = ObjectFactory.CreateAccountRegisterView(2);
             view.Email = view.Email.ToUpper();
@@ -197,7 +199,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Reset(AccountResetView view)
 
         [Fact]
-        public void Reset_ResetsAccount()
+        public void Reset_Account()
         {
             Account account = context.Set<Account>().AsNoTracking().Single();
             AccountResetView view = ObjectFactory.CreateAccountResetView();
@@ -227,7 +229,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Create(AccountCreateView view)
 
         [Fact]
-        public void Create_CreatesAccount()
+        public void Create_Account()
         {
             AccountCreateView view = ObjectFactory.CreateAccountCreateView(2);
             view.Email = view.Email.ToUpper();
@@ -250,7 +252,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Create_RefreshesAuthorizationProvider()
+        public void Create_RefreshesAuthorization()
         {
             AccountCreateView view = ObjectFactory.CreateAccountCreateView(2);
 
@@ -264,7 +266,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Edit(AccountEditView view)
 
         [Fact]
-        public void Edit_EditsAccount()
+        public void Edit_Account()
         {
             Account account = context.Set<Account>().AsNoTracking().Single();
             AccountEditView view = ObjectFactory.CreateAccountEditView();
@@ -290,7 +292,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Edit_RefreshesAuthorizationProvider()
+        public void Edit_RefreshesAuthorization()
         {
             AccountEditView view = ObjectFactory.CreateAccountEditView();
 
@@ -304,7 +306,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Edit(ProfileEditView view)
 
         [Fact]
-        public void Edit_EditsCurrentAccountProfile()
+        public void Edit_Profile()
         {
             Account account = context.Set<Account>().AsNoTracking().Single();
             ProfileEditView view = ObjectFactory.CreateProfileEditView(2);
@@ -332,7 +334,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [InlineData("")]
         [InlineData(null)]
         [InlineData("   ")]
-        public void Edit_OnNotSpecifiedNewPasswordDoesNotEditPassword(String newPassword)
+        public void Edit_NullOrEmptyNewPassword_DoesNotEditPassword(String newPassword)
         {
             String passhash = context.Set<Account>().AsNoTracking().Single().Passhash;
             ProfileEditView view = ObjectFactory.CreateProfileEditView();
@@ -351,7 +353,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Delete(String id)
 
         [Fact]
-        public void Delete_DeletesAccount()
+        public void Delete_Account()
         {
             service.Delete(account.Id);
 
@@ -359,64 +361,11 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Delete_RefreshesAuthorizationProvider()
+        public void Delete_RefreshesAuthorization()
         {
             service.Delete(account.Id);
 
             Authorization.Provider.Received().Refresh();
-        }
-
-        #endregion
-
-        #region Method: Login(String username)
-
-        public void Login_IsCaseInsensitive()
-        {
-            AccountLoginView view = ObjectFactory.CreateAccountLoginView();
-
-            service.Login(view.Username.ToUpper());
-
-            String actual = null;
-            String expected = view.Id;
-
-            Assert.Equal(expected, actual);
-        }
-
-        public void Login_CreatesPersistentAuthenticationTicket()
-        {
-            AccountLoginView view = ObjectFactory.CreateAccountLoginView();
-
-            service.Login(view.Username);
-
-            Assert.True(null);
-        }
-
-        public void Login_SetAccountIdAsAuthenticationTicketValue()
-        {
-            AccountLoginView view = ObjectFactory.CreateAccountLoginView();
-
-            service.Login(view.Username);
-
-            String actual = null;
-            String expected = view.Id;
-
-            Assert.Equal(expected, actual);
-        }
-
-        #endregion
-
-        #region Method: Logout()
-
-        public void Logout_MakesAccountCookieExpired()
-        {
-            AccountLoginView view = ObjectFactory.CreateAccountLoginView();
-
-            service.Login(view.Username);
-            service.Logout();
-
-            DateTime expirationDate = new DateTime(3000, 1, 1);
-
-            Assert.True(expirationDate < DateTime.Now);
         }
 
         #endregion

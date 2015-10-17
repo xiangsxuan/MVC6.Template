@@ -7,12 +7,12 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
-    public class AuthorizeTahHelperTests : IDisposable
+    public class AuthorizeTagHelperTests : IDisposable
     {
         private AuthorizeTagHelper helper;
         private TagHelperOutput output;
 
-        public AuthorizeTahHelperTests()
+        public AuthorizeTagHelperTests()
         {
             helper = new AuthorizeTagHelper();
             helper.ViewContext = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
@@ -27,24 +27,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #region Method: Process(TagHelperContext context, TagHelperOutput output)
 
-        [Fact]
-        public void Process_OnNullAuthorizationProviderRemovesWrappingTag()
-        {
-            output.Content.SetContent("Content");
-            Authorization.Provider = null;
-            output.TagName = "TagName";
-
-            helper.Process(null, output);
-
-            Assert.Equal("Content", output.Content.GetContent());
-            Assert.Null(output.TagName);
-        }
-
         [Theory]
         [InlineData("A", "B", "C", "D", "E", "F", "A", "B", "C")]
         [InlineData(null, null, null, "A", "B", "C", "A", "B", "C")]
         [InlineData(null, null, null, null, null, null, null, null, null)]
-        public void Process_OnNotAuthorizedSurpressesTheOutput(
+        public void Process_NotAuthorized_SurpressesOutput(
             String area, String controller, String action,
             String routeArea, String routeController, String routeAction,
             String authArea, String authController, String authAction)
@@ -82,7 +69,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [InlineData("A", "B", "C", "D", "E", "F", "A", "B", "C")]
         [InlineData(null, null, null, "A", "B", "C", "A", "B", "C")]
         [InlineData(null, null, null, null, null, null, null, null, null)]
-        public void Process_OnAuthorizedRemovesWrappingTag(
+        public void Process_RemovesWrappingTag(
             String area, String controller, String action,
             String routeArea, String routeController, String routeAction,
             String authArea, String authController, String authAction)

@@ -27,7 +27,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void CreateModelMetadata_OnNullContainerTypeDoesNotSetDisplayName()
+        public void CreateModelMetadata_NullContainerType_DoesNotSetDisplayName()
         {
             DefaultMetadataDetails metaDetails = new DefaultMetadataDetails(
                 ModelMetadataIdentity.ForProperty(typeof(String), "Title", null), ModelAttributes.GetAttributesForType(typeof(RoleView)));

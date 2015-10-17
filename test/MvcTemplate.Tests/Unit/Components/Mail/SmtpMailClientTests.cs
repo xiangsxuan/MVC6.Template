@@ -8,7 +8,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mail
         #region Dispose()
 
         [Fact]
-        public void Dispose_CanBeCalledMultipleTimes()
+        public void Dispose_MultipleTimes()
         {
             SmtpMailClient client = new SmtpMailClient("", 587, "", "");
 

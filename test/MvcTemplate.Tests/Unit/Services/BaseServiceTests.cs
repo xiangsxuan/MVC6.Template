@@ -24,7 +24,7 @@ namespace MvcTemplate.Tests.Unit.Services
         #region Method: Dispose()
 
         [Fact]
-        public void Dispose_DisposesUnitOfWork()
+        public void Dispose_UnitOfWork()
         {
             service.Dispose();
 
@@ -32,7 +32,7 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Dispose_CanBeCalledMultipleTimes()
+        public void Dispose_MultipleTimes()
         {
             service.Dispose();
             service.Dispose();

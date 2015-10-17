@@ -31,7 +31,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         #region Method: Index()
 
         [Fact]
-        public void Index_GetsRoleViews()
+        public void Index_ReturnsRoleViews()
         {
             service.GetViews().Returns(new RoleView[0].AsQueryable());
 
@@ -73,7 +73,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Create_SeedsPrivilegesTreeIfCanNotCreate()
+        public void Create_CanNotCreate_SeedsPrivilegesTree()
         {
             validator.CanCreate(role).Returns(false);
 
@@ -83,7 +83,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Create_ReturnsSameModelIfCanNotCreate()
+        public void Create_CanNotCreate_ReturnsSameView()
         {
             validator.CanCreate(role).Returns(false);
 
@@ -94,7 +94,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Create_CreatesRole()
+        public void Create_Role()
         {
             validator.CanCreate(role).Returns(true);
 
@@ -104,7 +104,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Create_AfterCreateRedirectsToIndex()
+        public void Create_RedirectsToIndex()
         {
             validator.CanCreate(role).Returns(true);
 
@@ -149,7 +149,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         #region Method: Edit(RoleView role)
 
         [Fact]
-        public void Edit_SeedsPrivilegesTreeIfCanNotEdit()
+        public void Edit_CanNotEdit_SeedsPrivilegesTree()
         {
             validator.CanEdit(role).Returns(false);
 
@@ -159,7 +159,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Edit_ReturnsSameModelIfCanNotEdit()
+        public void Edit_CanNotEdit_ReturnsSameView()
         {
             validator.CanEdit(role).Returns(false);
 
@@ -170,7 +170,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Edit_EditsRole()
+        public void Edit_Role()
         {
             validator.CanEdit(role).Returns(true);
 
@@ -180,7 +180,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Edit_AfterEditRedirectsToIndex()
+        public void Edit_RedirectsToIndex()
         {
             validator.CanEdit(role).Returns(true);
 
@@ -218,7 +218,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Delete_AfterDeleteRedirectsToIndex()
+        public void Delete_RedirectsToIndex()
         {
             Object expected = RedirectIfAuthorized(controller, "Index");
             Object actual = controller.DeleteConfirmed(role.Id);

@@ -28,7 +28,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Method: OnException(ExceptionContext filterContext)
 
         [Fact]
-        public void OnException_LogsFormattedException()
+        public void OnException_LogsException()
         {
             ExceptionContext context = new ExceptionContext(actionContext, null);
             context.Exception = exception;
@@ -44,7 +44,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void OnException_LogsOnlyInnerMostException()
+        public void OnException_LogsInnerMostException()
         {
             ExceptionContext context = new ExceptionContext(actionContext, null);
             context.Exception = new Exception("O", exception);

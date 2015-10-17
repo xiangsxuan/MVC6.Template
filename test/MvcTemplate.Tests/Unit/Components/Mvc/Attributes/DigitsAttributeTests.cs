@@ -32,7 +32,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Method: IsValid(Object value)
 
         [Fact]
-        public void IsValid_NullValueIsValid()
+        public void IsValid_Null()
         {
             Assert.True(attribute.IsValid(null));
         }
@@ -41,13 +41,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [InlineData(12.549)]
         [InlineData("+1402")]
         [InlineData(-2546798)]
-        public void IsValid_NotDigitsAreNotValid(Object value)
+        public void IsValid_NotDigits_ReturnsFalse(Object value)
         {
             Assert.False(attribute.IsValid(value));
         }
 
         [Fact]
-        public void IsValid_DigitsValue()
+        public void IsValid_Digits()
         {
             Assert.True(attribute.IsValid("92233720368547758074878484887777"));
         }

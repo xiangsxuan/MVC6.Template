@@ -9,7 +9,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         #region Constructor: AuthorizeAsAttribute(String action)
 
         [Fact]
-        public void AuthorizeAsAttribute_OnNullThrows()
+        public void AuthorizeAsAttribute_NullAction_Throws()
         {
             ArgumentNullException exception = Assert.Throws<ArgumentNullException>(() => new AuthorizeAsAttribute(null));
             Assert.Equal("action", exception.ParamName);

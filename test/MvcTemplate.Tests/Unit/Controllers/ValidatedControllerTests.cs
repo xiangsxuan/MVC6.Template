@@ -40,7 +40,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void OnActionExecuting_SetsServiceCurrentAccountId()
         {
-            ReturnsCurrentAccountId(controller, "Test");
+            ReturnCurrentAccountId(controller, "Test");
 
             controller.OnActionExecuting(new ActionExecutingContext(new ActionContext(), null, null, null));
 
@@ -53,7 +53,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void OnActionExecuting_SetsValidatorCurrentAccountId()
         {
-            ReturnsCurrentAccountId(controller, "Test");
+            ReturnCurrentAccountId(controller, "Test");
 
             controller.OnActionExecuting(new ActionExecutingContext(new ActionContext(), null, null, null));
 
@@ -66,7 +66,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void OnActionExecuting_SetsValidatorAlerts()
         {
-            ReturnsCurrentAccountId(controller, "Test");
+            ReturnCurrentAccountId(controller, "Test");
 
             controller.OnActionExecuting(new ActionExecutingContext(new ActionContext(), null, null, null));
 
@@ -79,7 +79,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void OnActionExecuting_SetsModelState()
         {
-            ReturnsCurrentAccountId(controller, "Test");
+            ReturnCurrentAccountId(controller, "Test");
 
             controller.OnActionExecuting(new ActionExecutingContext(new ActionContext(), null, null, null));
 
@@ -94,16 +94,23 @@ namespace MvcTemplate.Tests.Unit.Controllers
         #region Method: Dispose()
 
         [Fact]
-        public void Dispose_DisposesValidatorAndService()
+        public void Dispose_Service()
         {
             controller.Dispose();
 
             service.Received().Dispose();
+        }
+
+        [Fact]
+        public void Dispose_Validator()
+        {
+            controller.Dispose();
+
             validator.Received().Dispose();
         }
 
         [Fact]
-        public void Dispose_CanBeCalledMultipleTimes()
+        public void Dispose_MultipleTimes()
         {
             controller.Dispose();
             controller.Dispose();

@@ -16,7 +16,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         #region Method: Hash(String value)
 
         [Fact]
-        public void Hash_Hashes()
+        public void Hash_Value()
         {
             String value = "Test";
             String hash = crypter.Hash(value);
@@ -29,7 +29,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         #region Method: HashPassword(String value)
 
         [Fact]
-        public void HashPassword_Hashes()
+        public void HashPassword_Value()
         {
             String value = "Test";
             String hash = crypter.HashPassword(value);
@@ -42,19 +42,19 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         #region Method: Verify(String value, String hash)
 
         [Fact]
-        public void Verify_OnNullValueFails()
+        public void Verify_NullValue_ReturnsFalse()
         {
             Assert.False(crypter.Verify(null, ""));
         }
 
         [Fact]
-        public void Verify_OnNullHashFails()
+        public void Verify_NullHash_ReturnsFalse()
         {
             Assert.False(crypter.Verify("", null));
         }
 
         [Fact]
-        public void Verify_VerifiesHash()
+        public void Verify_Hash()
         {
             Assert.True(crypter.Verify("Test", "$2a$04$tXfDH9cZGOqFbCV8CF1ik.kW8R7.UKpEi5G7P4K842As1DI1bwDxm"));
         }
@@ -64,19 +64,19 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         #region Method: VerifyPassword(String value, String passhash)
 
         [Fact]
-        public void VerifyPassword_OnNullValueFails()
+        public void VerifyPassword_NullValue_ReturnsFalse()
         {
             Assert.False(crypter.VerifyPassword(null, ""));
         }
 
         [Fact]
-        public void VerifyPassword_OnNullHashFails()
+        public void VerifyPassword_NullHash_ReturnsFalse()
         {
             Assert.False(crypter.VerifyPassword("", null));
         }
 
         [Fact]
-        public void VerifyPassword_VerifiesPasshash()
+        public void VerifyPassword_Passhash()
         {
             Assert.True(crypter.VerifyPassword("Test", "$2a$13$g7QgmyFicKkyI4kiHM8XQ.LfBdpdcLUbw1tkr9.owCN5qY9eCj8Lq"));
         }

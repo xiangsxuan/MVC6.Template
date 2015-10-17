@@ -28,7 +28,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
         #region Method: Add(AlertType type, String message)
 
         [Fact]
-        public void Add_AddsTypedMessage()
+        public void Add_TypedMessage()
         {
             container.Add(AlertType.Success, "Message");
 
@@ -44,7 +44,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
         #region Method: Add(AlertType type, String message, Decimal fadeoutAfter)
 
         [Fact]
-        public void Add_AddsFadingTypedMessage()
+        public void Add_FadingTypedMessage()
         {
             container.Add(AlertType.Danger, "Message", 20);
 
@@ -60,7 +60,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
         #region Method: AddError(String message)
 
         [Fact]
-        public void AddError_AddsErrorMessage()
+        public void AddError_Message()
         {
             container.AddError("Message");
 
@@ -76,7 +76,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
         #region Method: AddError(String message, Decimal fadeoutAfter)
 
         [Fact]
-        public void AddError_AddsFadingErrorMessage()
+        public void AddError_FadingMessage()
         {
             container.AddError("Message", 1);
 
@@ -106,7 +106,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
         }
 
         [Fact]
-        public void Merge_MergesAlerts()
+        public void Merge_Alerts()
         {
             AlertsContainer part = new AlertsContainer();
             container.AddError("FirstError");

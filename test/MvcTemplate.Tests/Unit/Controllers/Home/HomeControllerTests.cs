@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.ViewFeatures;
 using MvcTemplate.Controllers;
 using MvcTemplate.Services;
 using NSubstitute;
-using System;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
@@ -17,13 +17,13 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service = Substitute.For<IAccountService>();
             controller = Substitute.ForPartsOf<HomeController>(service);
 
-            ReturnsCurrentAccountId(controller, "Test");
+            ReturnCurrentAccountId(controller, "Test");
         }
 
         #region Method: Index()
 
         [Fact]
-        public void Index_RedirectsToLogoutIfAccountIsNotActive()
+        public void Index_NotActive_RedirectsToLogout()
         {
             service.IsActive(controller.CurrentAccountId).Returns(false);
 
@@ -39,9 +39,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsActive(controller.CurrentAccountId).Returns(true);
 
-            Object model = (controller.Index() as ViewResult).ViewData.Model;
+            ViewDataDictionary actual = (controller.Index() as ViewResult).ViewData;
 
-            Assert.Null(model);
+            Assert.Null(actual.Model);
         }
 
         #endregion
@@ -51,9 +51,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void Error_ReturnsEmptyView()
         {
-            Object model = (controller.Error() as ViewResult).ViewData.Model;
+            ViewDataDictionary actual = (controller.Error() as ViewResult).ViewData;
 
-            Assert.Null(model);
+            Assert.Null(actual.Model);
         }
 
         #endregion
@@ -63,9 +63,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void NotFound_ReturnsEmptyView()
         {
-            Object model = (controller.NotFound() as ViewResult).ViewData.Model;
+            ViewDataDictionary actual = (controller.NotFound() as ViewResult).ViewData;
 
-            Assert.Null(model);
+            Assert.Null(actual.Model);
         }
 
         #endregion
@@ -73,7 +73,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         #region Method: Unauthorized()
 
         [Fact]
-        public void Unauthorized_RedirectsToLogoutIfAccountIsNotActive()
+        public void Unauthorized_NotActive_RedirectsToLogout()
         {
             service.IsActive(controller.CurrentAccountId).Returns(false);
 
@@ -89,9 +89,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsActive(controller.CurrentAccountId).Returns(true);
 
-            Object model = (controller.Unauthorized() as ViewResult).ViewData.Model;
+            ViewDataDictionary actual = (controller.Unauthorized() as ViewResult).ViewData;
 
-            Assert.Null(model);
+            Assert.Null(actual.Model);
         }
 
         #endregion

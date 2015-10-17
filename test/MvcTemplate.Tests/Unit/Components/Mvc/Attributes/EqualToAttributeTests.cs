@@ -33,7 +33,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Method: FormatErrorMessage(String name)
 
         [Fact]
-        public void FormatErrorMessage_FormatsErrorMessage()
+        public void FormatErrorMessage_ForProperty()
         {
             attribute.OtherPropertyDisplayName = "Other";
 
@@ -48,7 +48,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Method: IsValid(Object value, ValidationContext validationContext)
 
         [Fact]
-        public void IsValid_OnEqualValuesReturnsNull()
+        public void IsValid_EqualValue()
         {
             AttributesModel model = new AttributesModel();
             ValidationContext context = new ValidationContext(model);
@@ -71,7 +71,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void IsValid_OnNotEqualValuesReturnsValidationResult()
+        public void IsValid_NotEqualValue_ReturnsValidationResult()
         {
             AttributesModel model = new AttributesModel { Total = 10 };
             ValidationContext context = new ValidationContext(model);

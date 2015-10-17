@@ -1,4 +1,5 @@
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.ViewFeatures;
 using Microsoft.AspNet.Routing;
 using MvcTemplate.Controllers.Administration;
 using MvcTemplate.Objects;
@@ -36,7 +37,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         #region Method: Index()
 
         [Fact]
-        public void Index_GetsAccountViews()
+        public void Index_ReturnsAccountViews()
         {
             service.GetViews().Returns(new AccountView[0].AsQueryable());
 
@@ -53,7 +54,9 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         [Fact]
         public void Create_ReturnsEmptyView()
         {
-            Assert.Null(controller.Create().ViewData.Model);
+            ViewDataDictionary actual = controller.Create().ViewData;
+
+            Assert.Null(actual.Model);
         }
 
         #endregion
@@ -67,7 +70,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Create_ReturnsSameModelIfCanNotCreate()
+        public void Create_CanNotCreate_ReturnsSameView()
         {
             validator.CanCreate(accountCreate).Returns(false);
 
@@ -78,7 +81,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Create_CreatesAccount()
+        public void Create_Account()
         {
             validator.CanCreate(accountCreate).Returns(true);
 
@@ -88,7 +91,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Create_AfterCreateRedirectsToIndex()
+        public void Create_RedirectsToIndex()
         {
             validator.CanCreate(accountCreate).Returns(true);
 
@@ -133,7 +136,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         #region Method: Edit(AccountEditView account)
 
         [Fact]
-        public void Edit_ReturnsSameModelIfCanNotEdit()
+        public void Edit_CanNotEdit_ReturnsSameView()
         {
             validator.CanEdit(accountEdit).Returns(false);
 
@@ -144,7 +147,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Edit_EditsAccount()
+        public void Edit_Account()
         {
             validator.CanEdit(accountEdit).Returns(true);
 
@@ -154,7 +157,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Edit_AfterEditRedirectsToIndex()
+        public void Edit_RedirectsToIndex()
         {
             validator.CanEdit(accountEdit).Returns(true);
 

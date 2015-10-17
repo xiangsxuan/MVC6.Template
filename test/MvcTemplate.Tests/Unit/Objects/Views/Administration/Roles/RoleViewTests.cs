@@ -1,4 +1,5 @@
-﻿using MvcTemplate.Objects;
+﻿using MvcTemplate.Components.Html;
+using MvcTemplate.Objects;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Objects
@@ -8,9 +9,12 @@ namespace MvcTemplate.Tests.Unit.Objects
         #region Constructor: RoleView()
 
         [Fact]
-        public void RoleView_PrivilegesTreeIsNotNull()
+        public void RoleView_CreatesEmpty()
         {
-            Assert.NotNull(new RoleView().PrivilegesTree);
+            JsTree actual = new RoleView().PrivilegesTree;
+
+            Assert.Empty(actual.SelectedIds);
+            Assert.Empty(actual.Nodes);
         }
 
         #endregion

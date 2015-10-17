@@ -43,7 +43,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Method: FormatErrorMessage(String name)
 
         [Fact]
-        public void FormatErrorMessage_FormatsErrorMessageForInteger()
+        public void FormatErrorMessage_ForInteger()
         {
             attribute = new GreaterThanAttribute(10);
 
@@ -54,7 +54,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void FormatErrorMessage_FormatsErrorMessageForDouble()
+        public void FormatErrorMessage_ForDouble()
         {
             attribute = new GreaterThanAttribute(12.56);
 
@@ -69,7 +69,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Method: IsValid(Object value)
 
         [Fact]
-        public void IsValid_NullValueIsValid()
+        public void IsValid_Null()
         {
             Assert.True(attribute.IsValid(null));
         }
@@ -78,7 +78,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [InlineData("1")]
         [InlineData(12.56)]
         [InlineData(12.559)]
-        public void IsValid_LowerOrEqualValueIsNotValid(Object value)
+        public void IsValid_LowerOrEqualValue_ReturnsFalse(Object value)
         {
             Assert.False(attribute.IsValid(value));
         }
@@ -86,13 +86,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Theory]
         [InlineData(13)]
         [InlineData("100")]
-        public void IsValid_GreaterValueIsValid(Object value)
+        public void IsValid_GreaterValue(Object value)
         {
             Assert.True(attribute.IsValid(value));
         }
 
         [Fact]
-        public void IsValid_NotDecimalValueIsNotValid()
+        public void IsValid_NotDecimal_ReturnsFalse()
         {
             Assert.False(attribute.IsValid("12.60M"));
         }

@@ -38,7 +38,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         }
 
         [Fact]
-        public void LoggableProperty_IsNotModifiedWithDifferentValues()
+        public void LoggableProperty_DifferentValues_IsNotModified()
         {
             textProperty.CurrentValue = "Current";
             textProperty.IsModified = false;
@@ -47,7 +47,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         }
 
         [Fact]
-        public void LoggableProperty_IsNotModifiedWithSameValues()
+        public void LoggableProperty_SameValues_IsNotModified()
         {
             textProperty.CurrentValue = "Original";
             textProperty.IsModified = true;
@@ -56,7 +56,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         }
 
         [Fact]
-        public void LoggableProperty_IsModifiedWithDifferentValues()
+        public void LoggableProperty_DifferentValues_IsModified()
         {
             textProperty.CurrentValue = "Current";
             textProperty.IsModified = true;
@@ -69,7 +69,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         #region Method: ToString()
 
         [Fact]
-        public void ToString_FormatsModifiedWithCurrentValueNull()
+        public void ToString_Modified_CurrentValueNull()
         {
             textProperty.CurrentValue = null;
             textProperty.IsModified = true;
@@ -81,7 +81,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         }
 
         [Fact]
-        public void ToString_FormatsModifiedWithOriginalValueNull()
+        public void ToString_Modified_OriginalValueNull()
         {
             textProperty.CurrentValue = "Current";
             textProperty.IsModified = true;
@@ -93,7 +93,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         }
 
         [Fact]
-        public void ToString_FormatsModifiedToIsoDateTimeFormat()
+        public void ToString_Modified_Date()
         {
             dateProperty.CurrentValue = new DateTime(2014, 6, 8, 14, 16, 19);
             dateProperty.IsModified = true;
@@ -105,7 +105,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         }
 
         [Fact]
-        public void ToString_FormatsModifiedToJson()
+        public void ToString_Modified_Json()
         {
             textProperty.CurrentValue = "Current\r\nValue";
             textProperty.IsModified = true;
@@ -117,7 +117,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         }
 
         [Fact]
-        public void ToString_FormatsNotModified()
+        public void ToString_NotModified()
         {
             textProperty.IsModified = false;
 
@@ -128,7 +128,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         }
 
         [Fact]
-        public void ToString_FormatsNotModifiedWithOriginalValueNull()
+        public void ToString_NotModified_OriginalValueNull()
         {
             textProperty.CurrentValue = "Current";
             textProperty.IsModified = false;
@@ -140,7 +140,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         }
 
         [Fact]
-        public void ToString_FormatsNotModifiedToIsoDateTimeFormat()
+        public void ToString_NotModified_Date()
         {
             dateProperty.CurrentValue = new DateTime(2014, 6, 8, 14, 16, 19);
             dateProperty.IsModified = false;
@@ -152,7 +152,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         }
 
         [Fact]
-        public void ToString_FormatsNotModifiedToJson()
+        public void ToString_NotModified_Json()
         {
             textProperty.CurrentValue = "Current\r\nValue";
             textProperty.IsModified = false;
