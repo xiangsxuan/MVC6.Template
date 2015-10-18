@@ -6,7 +6,7 @@
             <span class="widget-title-icon fa fa-th-list"></span>
             <h5>@Headers.Profile</h5>
             <div class="widget-title-buttons">
-                <authorize comp-action="Edit">
+                <authorize action="Edit">
                     <a asp-action="Edit" class="btn">
                         <i class="fa fa-pencil"></i><span class="text">@Actions.Edit</span>
                     </a>
@@ -17,7 +17,7 @@
             <form asp-antiforgery="true">
                 <div class="form-group">
                     <div class="control-label col-sm-12 col-md-3 col-lg-2">
-                        <label comp-for="Password"></label>
+                        <label for="Password"></label>
                     </div>
                     <div class="control-content col-sm-12 col-md-9 col-lg-5">
                         <input asp-for="Password" class="form-control" type="password" autocomplete="off" />

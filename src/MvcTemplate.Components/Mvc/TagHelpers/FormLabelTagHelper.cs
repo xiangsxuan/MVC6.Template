@@ -6,13 +6,11 @@ using System.Linq;
 
 namespace MvcTemplate.Components.Mvc
 {
-    [HtmlTargetElement("label", Attributes = "comp-for")]
+    [HtmlTargetElement("label", Attributes = "for")]
     public class FormLabelTagHelper : TagHelper
     {
-        [HtmlAttributeName("comp-for")]
         public ModelExpression For { get; set; }
 
-        [HtmlAttributeName("comp-required")]
         public Boolean? Required { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)

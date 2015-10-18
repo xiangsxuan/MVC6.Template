@@ -6,7 +6,7 @@
             <span class="widget-title-icon fa fa-th"></span>
             <h5>@Headers.AdministrationAccountsIndex</h5>
             <div class="widget-title-buttons">
-                <authorize comp-action="Create">
+                <authorize action="Create">
                     <a asp-action="Create" class="btn">
                         <i class="fa fa-file-o"></i><span class="text">@Actions.Create</span>
                     </a>
@@ -17,10 +17,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <authorize comp-action="Details">
+                        <authorize action="Details">
                             <th class="action-cell"></th>
                         </authorize>
-                        <authorize comp-action="Edit">
+                        <authorize action="Edit">
                             <th class="action-cell"></th>
                         </authorize>
                         <th>@(ResourceProvider.GetPropertyTitle<AccountView, String>(model => model.Username))</th>
@@ -32,14 +32,14 @@
                     @foreach (AccountView account in Model)
                     {
                         <tr>
-                            <authorize comp-action="Details">
+                            <authorize action="Details">
                                 <td class="action-cell">
                                     <a asp-action="Details" asp-route-id="@account.Id" class="details-action">
                                         <i class="fa fa-info"></i>
                                     </a>
                                 </td>
                             </authorize>
-                            <authorize comp-action="Edit">
+                            <authorize action="Edit">
                                 <td class="action-cell">
                                     <a asp-action="Edit" asp-route-id="@account.Id" class="edit-action">
                                         <i class="fa fa-pencil"></i>

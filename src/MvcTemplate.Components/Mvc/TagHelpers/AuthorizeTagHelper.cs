@@ -6,18 +6,13 @@ using System;
 
 namespace MvcTemplate.Components.Mvc
 {
-    [HtmlTargetElement("authorize", Attributes = "comp-area")]
-    [HtmlTargetElement("authorize", Attributes = "comp-action")]
-    [HtmlTargetElement("authorize", Attributes = "comp-controller")]
+    [HtmlTargetElement("authorize", Attributes = "area")]
+    [HtmlTargetElement("authorize", Attributes = "action")]
+    [HtmlTargetElement("authorize", Attributes = "controller")]
     public class AuthorizeTagHelper : TagHelper
     {
-        [HtmlAttributeName("comp-area")]
         public String Area { get; set; }
-
-        [HtmlAttributeName("comp-action")]
         public String Action { get; set; }
-
-        [HtmlAttributeName("comp-controller")]
         public String Controller { get; set; }
 
         [ViewContext]
