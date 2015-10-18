@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.Entity.ChangeTracking;
 using Newtonsoft.Json;
 using System;
-using System.IO;
 
 namespace MvcTemplate.Data.Logging
 {
@@ -36,15 +35,7 @@ namespace MvcTemplate.Data.Logging
             if (value is DateTime?)
                 return "\"" + ((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss") + "\"";
 
-            using (StringWriter stringWiter = new StringWriter())
-            {
-                using (JsonTextWriter jsonWriter = new JsonTextWriter(stringWiter))
-                {
-                    jsonWriter.WriteValue(value);
-
-                    return stringWiter.ToString();
-                }
-            }
+            return JsonConvert.ToString(value);
         }
     }
 }
