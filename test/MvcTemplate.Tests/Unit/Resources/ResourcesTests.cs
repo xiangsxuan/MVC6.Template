@@ -68,7 +68,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         }
 
         [Fact]
-        public void Resources_HasAllTranslations()
+        public void Resources_HasEquivalents()
         {
             IEnumerable<CultureInfo> languages = new[] { new CultureInfo("en-GB"), new CultureInfo("lt-LT") };
             IEnumerable<Type> resourceTypes = Assembly
@@ -91,7 +91,7 @@ namespace MvcTemplate.Tests.Unit.Resources
                 {
                     ResourceSet set = manager.GetResourceSet(language, true, true);
                     foreach (String key in resourceKeys)
-                        Assert.True(!String.IsNullOrEmpty(set.GetString(key)),
+                        Assert.True((set.GetObject(key) ?? "").ToString() != "",
                             String.Format("{0}, does not have translation for '{1}' in {2} language.",
                                 type.FullName, key, language.EnglishName));
                 }
