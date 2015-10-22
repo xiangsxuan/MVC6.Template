@@ -25,7 +25,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             ViewLocationExpanderContext context = new ViewLocationExpanderContext(actionContext, "Index", false);
             actionContext.ActionDescriptor.RouteConstraints = new List<RouteDataActionConstraint>();
 
-            IEnumerable<String> expected = new[] { "/Views/{2}/{1}/{0}.cshtml", "/Views/Shared/{0}.cshtml" };
+            IEnumerable<String> expected = new[] { "~/Views/{2}/Shared/{0}.cshtml", "/Views/{2}/{1}/{0}.cshtml", "/Views/Shared/{0}.cshtml" };
             IEnumerable<String> actual = new ViewLocationExpander().ExpandViewLocations(context, null);
 
             Assert.Equal(expected, actual);
