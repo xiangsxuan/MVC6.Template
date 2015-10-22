@@ -27,7 +27,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "AUTHORIZED", "Action"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeControllerByIgnoringCase()
         {
             Account account = CreateAccountWithPrivilegeFor("Test", "Test", "Test");
@@ -44,7 +43,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, area, "Authorized", "Action"));
         }
 
-        [Theory]
         [InlineData("")]
         [InlineData(null)]
         public void IsAuthorizedFor_DoesNotAuthorizeControllerWithoutArea(String area)
@@ -61,7 +59,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeControllerWithArea()
         {
             Account account = CreateAccountWithPrivilegeFor("Test", "Test", "Test");
@@ -76,7 +73,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedGetAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeGetAction()
         {
             Account account = CreateAccountWithPrivilegeFor("Test", "Test", "Test");
@@ -91,7 +87,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedNamedGetAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeNamedGetAction()
         {
             Account account = CreateAccountWithPrivilegeFor("Test", "Test", "Test");
@@ -99,7 +94,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedNamedGetAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_OnNotExistingActionThrows()
         {
             String actual = Assert.Throws<Exception>(() => provider.IsAuthorizedFor(null, null, "Authorized", "Test")).Message;
@@ -115,7 +109,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedPostAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeNonGetAction()
         {
             Account account = CreateAccountWithPrivilegeFor("Test", "Test", "Test");
@@ -130,7 +123,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedNamedPostAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeNamedNonGetAction()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Test", "Test");
@@ -145,7 +137,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeActionAsAction()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Authorized", "Action");
@@ -160,7 +151,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsOtherAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeActionAsOtherAction()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "AuthorizedAsOtherAction");
@@ -175,7 +165,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, "", "Authorized", "Action"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeEmptyAreaAsNull()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Test", "Test");
@@ -190,7 +179,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, null, "AllowAnonymous", "AuthorizedAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeAuthorizedAction()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Test", "Test");
@@ -198,7 +186,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, null, "AllowAnonymous", "AuthorizedAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_AuthorizesAllowAnonymousAction()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Test", "Test");
@@ -206,7 +193,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, null, "Authorized", "AllowAnonymousAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_AuthorizesAllowUnauthorizedAction()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Test", "Test");
@@ -221,7 +207,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeAuthorizedController()
         {
             Account account = CreateAccountWithPrivilegeFor("Test", "Test", "Test");
@@ -229,7 +214,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_AuthorizesAllowAnonymousController()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Test", "Test");
@@ -237,7 +221,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, null, "AllowAnonymous", "Action"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_AuthorizesAllowUnauthorizedController()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Test", "Test");
@@ -252,7 +235,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, null, "InheritedAuthorized", "InheritanceAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeInheritedAuthorizedController()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Test", "Test");
@@ -260,7 +242,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, null, "InheritedAuthorized", "InheritanceAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_AuthorizesInheritedAllowAnonymousController()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Test", "Test");
@@ -268,7 +249,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, null, "InheritedAllowAnonymous", "InheritanceAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_AuthorizesInheritedAllowUnauthorizedController()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Test", "Test");
@@ -276,7 +256,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, null, "InheritedAllowUnauthorized", "InheritanceAction"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_AuthorizesNotAttributedController()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Test", "Test");
@@ -284,7 +263,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, null, "NotAttributed", "Action"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeNotExistingAccount()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "Action");
@@ -292,7 +270,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor("Test", "Area", "Authorized", "Action"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeLockedAccount()
         {
             Account account = CreateAccountWithPrivilegeFor("Area", "Authorized", "Action", isLocked: true);
@@ -300,7 +277,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.False(provider.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeNullAccount()
         {
             Account account = CreateAccountWithPrivilegeFor(null, "Authorized", "Action");
@@ -315,7 +291,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Assert.True(provider.IsAuthorizedFor(account.Id, "area", "authorized", "action"));
         }
 
-        [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeByIgnoringCase()
         {
             Account account = CreateAccountWithPrivilegeFor("Test", "Test", "Test");

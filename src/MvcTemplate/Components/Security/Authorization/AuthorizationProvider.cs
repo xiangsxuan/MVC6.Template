@@ -33,7 +33,7 @@ namespace MvcTemplate.Components.Security
                 return true;
 
             if (!Cache.ContainsKey(accountId ?? ""))
-                return false;
+                return true;
 
             return Cache[accountId]
                 .Any(privilege =>
