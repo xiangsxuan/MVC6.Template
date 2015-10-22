@@ -16,6 +16,7 @@ using MvcTemplate.Data.Logging;
 using MvcTemplate.Data.Migrations;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
+using NonFactors.Mvc.Grid;
 using System;
 using System.IO;
 
@@ -35,6 +36,7 @@ namespace MvcTemplate.Web
             RegisterCurrentDependencyResolver(services);
             RegisterLowercaseUrls(services);
             RegisterFilters(services);
+            RegisterMvcGrid(services);
             RegisterMvc(services);
         }
         public void Configure(IApplicationBuilder app)
@@ -81,6 +83,10 @@ namespace MvcTemplate.Web
         public virtual void RegisterFilters(IServiceCollection services)
         {
             services.Configure<MvcOptions>(options => options.Filters.Add(typeof(ExceptionFilter)));
+        }
+        public virtual void RegisterMvcGrid(IServiceCollection services)
+        {
+            services.AddMvcGrid();
         }
         public virtual void RegisterMvc(IServiceCollection services)
         {

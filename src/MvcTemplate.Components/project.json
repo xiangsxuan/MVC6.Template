@@ -7,6 +7,7 @@
 
     "BCrypt-Official": "0.1.109",
     "Microsoft.AspNet.Mvc": "6.0.0-beta8",
+    "NonFactors.Grid.Core.Mvc6": "0.8.0-beta8",
     "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-beta8"
   },
 

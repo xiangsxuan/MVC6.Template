@@ -151,6 +151,33 @@
     }
 }
 
+/* Mvc.Grid */
+.mvc-grid {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.mvc-grid-header {
+    text-align: center;
+}
+
+.mvc-grid-pager {
+    text-align: center;
+
+    ul {
+        margin: 8px 0 3px;
+    }
+}
+
+.mvc-grid-popup .invalid {
+    border-color: @validation-color;
+
+    &:focus {
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px lighten(@validation-color, 40%);
+        border-color: @validation-color;
+    }
+}
+
 /* JsTree */
 .js-tree-view {
     padding: 7px 0 3px;

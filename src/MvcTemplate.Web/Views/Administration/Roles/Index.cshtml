@@ -14,51 +14,18 @@
             </div>
         </div>
         <div class="widget-content">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <authorize action="Details">
-                            <th class="action-cell"></th>
-                        </authorize>
-                        <authorize action="Edit">
-                            <th class="action-cell"></th>
-                        </authorize>
-                        <authorize action="Delete">
-                            <th class="action-cell"></th>
-                        </authorize>
-                        <th>@(ResourceProvider.GetPropertyTitle<RoleView, String>(model => model.Title))</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (RoleView role in Model)
-                    {
-                        <tr>
-                            <authorize action="Details">
-                                <td class="action-cell">
-                                    <a asp-action="Details" asp-route-id="@role.Id" class="details-action">
-                                        <i class="fa fa-info"></i>
-                                    </a>
-                                </td>
-                            </authorize>
-                            <authorize action="Edit">
-                                <td class="action-cell">
-                                    <a asp-action="Edit" asp-route-id="@role.Id" class="edit-action">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                </td>
-                            </authorize>
-                            <authorize action="Delete">
-                                <td class="action-cell">
-                                    <a asp-action="Delete" asp-route-id="@role.Id" class="delete-action">
-                                        <i class="fa fa-close"></i>
-                                    </a>
-                                </td>
-                            </authorize>
-                            <td>@role.Title</td>
-                        </tr>
-                    }
-                </tbody>
-  </table>
+            @(Html
+                .Grid(Model)
+                .Build(columns =>
+                {
+                    columns.AddActionLink("Details", "fa fa-info");
+                    columns.AddActionLink("Edit", "fa fa-pencil");
+                    columns.AddActionLink("Delete", "fa fa-times");
+
+                    columns.AddProperty(model => model.Title);
+                })
+                .ApplyDefaults()
+            )
         </div>
     </div>
 </div>

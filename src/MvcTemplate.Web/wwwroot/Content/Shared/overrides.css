@@ -117,6 +117,27 @@
 .ui-datepicker .ui-timepicker-div .ui_tpicker_timezone {
   margin: 0 15px 10px;
 }
+/* Mvc.Grid */
+.mvc-grid {
+  overflow-x: auto;
+  width: 100%;
+}
+.mvc-grid-header {
+  text-align: center;
+}
+.mvc-grid-pager {
+  text-align: center;
+}
+.mvc-grid-pager ul {
+  margin: 8px 0 3px;
+}
+.mvc-grid-popup .invalid {
+  border-color: #d11919;
+}
+.mvc-grid-popup .invalid:focus {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #f7bfbf;
+  border-color: #d11919;
+}
 /* JsTree */
 .js-tree-view {
   padding: 7px 0 3px;

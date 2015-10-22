@@ -14,45 +14,19 @@
             </div>
         </div>
         <div class="widget-content">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <authorize action="Details">
-                            <th class="action-cell"></th>
-                        </authorize>
-                        <authorize action="Edit">
-                            <th class="action-cell"></th>
-                        </authorize>
-                        <th>@(ResourceProvider.GetPropertyTitle<AccountView, String>(model => model.Username))</th>
-                        <th>@(ResourceProvider.GetPropertyTitle<AccountView, String>(model => model.Email))</th>
-                        <th>@(ResourceProvider.GetPropertyTitle<AccountView, String>(model => model.RoleTitle))</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (AccountView account in Model)
-                    {
-                        <tr>
-                            <authorize action="Details">
-                                <td class="action-cell">
-                                    <a asp-action="Details" asp-route-id="@account.Id" class="details-action">
-                                        <i class="fa fa-info"></i>
-                                    </a>
-                                </td>
-                            </authorize>
-                            <authorize action="Edit">
-                                <td class="action-cell">
-                                    <a asp-action="Edit" asp-route-id="@account.Id" class="edit-action">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                </td>
-                            </authorize>
-                            <td>@account.Username</td>
-                            <td>@account.Email</td>
-                            <td>@account.RoleTitle</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            @(Html
+                .Grid(Model)
+                .Build(columns =>
+                {
+                    columns.AddActionLink("Details", "fa fa-info");
+                    columns.AddActionLink("Edit", "fa fa-pencil");
+
+                    columns.AddProperty(model => model.Username);
+                    columns.AddProperty(model => model.Email);
+                    columns.AddProperty(model => model.RoleTitle);
+                })
+                .ApplyDefaults()
+            )
         </div>
     </div>
 </div>

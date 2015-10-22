@@ -7,6 +7,7 @@
     "MvcTemplate": "",
     "MvcTemplate.Controllers": "",
 
+    "NonFactors.Grid.Mvc6": "0.8.0-beta8",
     "Microsoft.AspNet.StaticFiles": "1.0.0-beta8",
     "Microsoft.AspNet.Tooling.Razor": "1.0.0-beta8",
     "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-beta8",

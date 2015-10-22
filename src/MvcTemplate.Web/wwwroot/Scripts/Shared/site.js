@@ -135,6 +135,22 @@
     });
 }());
 
+// Mvc.Grid binding
+(function () {
+    if (window.MvcGridNumberFilter) {
+        MvcGridNumberFilter.prototype.isValid = function (value) {
+            var pattern = new RegExp('^(?=.*\\d+.*)[-+]?\\d*[' + Globalize.culture().numberFormat['.'] + ']?\\d*$');
+
+            return value == '' || pattern.test(value);
+        }
+    }
+
+    var mvcGrids = $('.mvc-grid');
+    for (var i = 0; i < mvcGrids.length; i++) {
+        $(mvcGrids[i]).mvcgrid();
+    }
+}());
+
 // Read only checkbox binding
 (function () {
     $(document).on('click', 'input:checkbox[readonly]', function (e) {

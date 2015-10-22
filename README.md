@@ -9,4 +9,3 @@ Currently various features are not working, because of beta limitations, that in
 - Authorization.
 - Globalization.
 - Mvc.Datalist.
-- Mvc.Grid.
