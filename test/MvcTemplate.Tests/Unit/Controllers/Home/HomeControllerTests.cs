@@ -3,6 +3,7 @@ using Microsoft.AspNet.Mvc.ViewFeatures;
 using MvcTemplate.Controllers;
 using MvcTemplate.Services;
 using NSubstitute;
+using System;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
@@ -27,11 +28,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsActive(controller.CurrentAccountId).Returns(false);
 
-            RedirectToActionResult actual = controller.Index() as RedirectToActionResult;
+            Object expected = RedirectToAction(controller, "Logout", "Auth");
+            Object actual = controller.Index();
 
-            Assert.Equal("Auth", actual.ControllerName);
-            Assert.Equal("Logout", actual.ActionName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -77,11 +77,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsActive(controller.CurrentAccountId).Returns(false);
 
-            RedirectToActionResult actual = controller.Unauthorized() as RedirectToActionResult;
+            Object expected = RedirectToAction(controller, "Logout", "Auth");
+            Object actual = controller.Unauthorized();
 
-            Assert.Equal("Auth", actual.ControllerName);
-            Assert.Equal("Logout", actual.ActionName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]

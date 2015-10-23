@@ -95,7 +95,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             validator.CanCreate(accountCreate).Returns(true);
 
-            Object expected = RedirectIfAuthorized(controller, "Index");
+            Object expected = RedirectToAction(controller, "Index");
             Object actual = controller.Create(accountCreate);
 
             Assert.Same(expected, actual);
@@ -161,7 +161,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             validator.CanEdit(accountEdit).Returns(true);
 
-            Object expected = RedirectIfAuthorized(controller, "Index");
+            Object expected = RedirectToAction(controller, "Index");
             Object actual = controller.Edit(accountEdit);
 
             Assert.Same(expected, actual);

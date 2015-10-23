@@ -109,7 +109,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             validator.CanCreate(role).Returns(true);
 
-            Object expected = RedirectIfAuthorized(controller, "Index");
+            Object expected = RedirectToAction(controller, "Index");
             Object actual = controller.Create(role);
 
             Assert.Same(expected, actual);
@@ -185,7 +185,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             validator.CanEdit(role).Returns(true);
 
-            Object expected = RedirectIfAuthorized(controller, "Index");
+            Object expected = RedirectToAction(controller, "Index");
             Object actual = controller.Edit(role);
 
             Assert.Same(expected, actual);
@@ -221,7 +221,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         [Fact]
         public void Delete_RedirectsToIndex()
         {
-            Object expected = RedirectIfAuthorized(controller, "Index");
+            Object expected = RedirectToAction(controller, "Index");
             Object actual = controller.DeleteConfirmed(role.Id);
 
             Assert.Same(expected, actual);

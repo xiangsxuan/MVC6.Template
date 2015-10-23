@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.ViewFeatures;
+using Microsoft.AspNet.Routing;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Controllers;
 using MvcTemplate.Objects;
@@ -30,6 +31,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             profileEdit = ObjectFactory.CreateProfileEditView();
 
             controller = Substitute.ForPartsOf<ProfileController>(validator, service);
+            controller.ActionContext.RouteData = new RouteData();
             ReturnCurrentAccountId(controller, "Test");
         }
 
@@ -40,11 +42,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsActive(controller.CurrentAccountId).Returns(false);
 
-            RedirectToActionResult actual = controller.Edit() as RedirectToActionResult;
+            Object expected = RedirectToAction(controller, "Logout", "Auth");
+            Object actual = controller.Edit();
 
-            Assert.Equal("Auth", actual.ControllerName);
-            Assert.Equal("Logout", actual.ActionName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Same(expected, actual);
         }
 
         [Fact]
@@ -74,11 +75,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsActive(controller.CurrentAccountId).Returns(false);
 
-            RedirectToActionResult actual = controller.Edit(null) as RedirectToActionResult;
+            Object expected = RedirectToAction(controller, "Logout", "Auth");
+            Object actual = controller.Edit(null);
 
-            Assert.Equal("Auth", actual.ControllerName);
-            Assert.Equal("Logout", actual.ActionName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Same(expected, actual);
         }
 
         [Fact]
@@ -111,6 +111,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             validator.CanEdit(profileEdit).Returns(true);
 
             controller.Edit(profileEdit);
+
             Alert actual = controller.Alerts.Single();
 
             Assert.Equal(AlertsContainer.DefaultFadeout, actual.FadeoutAfter);
@@ -124,11 +125,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
             validator.CanEdit(profileEdit).Returns(true);
             service.IsActive(controller.CurrentAccountId).Returns(true);
 
-            RedirectToActionResult actual = controller.Edit(profileEdit) as RedirectToActionResult;
+            Object expected = RedirectToAction(controller, "Edit");
+            Object actual = controller.Edit(profileEdit);
 
-            Assert.Equal("Edit", actual.ActionName);
-            Assert.Null(actual.ControllerName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Same(expected, actual);
         }
 
         #endregion
@@ -140,11 +140,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsActive(controller.CurrentAccountId).Returns(false);
 
-            RedirectToActionResult actual = controller.Delete() as RedirectToActionResult;
+            Object expected = RedirectToAction(controller, "Logout", "Auth");
+            Object actual = controller.Delete();
 
-            Assert.Equal("Auth", actual.ControllerName);
-            Assert.Equal("Logout", actual.ActionName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Same(expected, actual);
         }
 
         [Fact]
@@ -186,11 +185,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsActive(controller.CurrentAccountId).Returns(false);
 
-            RedirectToActionResult actual = controller.DeleteConfirmed(profileDelete) as RedirectToActionResult;
+            Object expected = RedirectToAction(controller, "Logout", "Auth");
+            Object actual = controller.DeleteConfirmed(profileDelete);
 
-            Assert.Equal("Auth", actual.ControllerName);
-            Assert.Equal("Logout", actual.ActionName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Same(expected, actual);
         }
 
         [Fact]
@@ -236,11 +234,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service.IsActive(controller.CurrentAccountId).Returns(true);
             validator.CanDelete(profileDelete).Returns(true);
 
-            RedirectToActionResult actual = controller.DeleteConfirmed(profileDelete) as RedirectToActionResult;
+            Object expected = RedirectToAction(controller, "Logout", "Auth");
+            Object actual = controller.DeleteConfirmed(profileDelete);
 
-            Assert.Equal("Auth", actual.ControllerName);
-            Assert.Equal("Logout", actual.ActionName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Equal(expected, actual);
         }
 
         #endregion

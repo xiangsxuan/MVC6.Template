@@ -43,7 +43,7 @@ namespace MvcTemplate.Controllers.Administration
 
             Service.Create(role);
 
-            return RedirectIfAuthorized("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -71,7 +71,7 @@ namespace MvcTemplate.Controllers.Administration
 
             Service.Edit(role);
 
-            return RedirectIfAuthorized("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -87,7 +87,7 @@ namespace MvcTemplate.Controllers.Administration
         {
             Service.Delete(id);
 
-            return RedirectIfAuthorized("Index");
+            return RedirectToAction("Index");
         }
     }
 }

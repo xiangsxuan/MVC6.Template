@@ -54,11 +54,19 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
             return result;
         }
-        protected RedirectToActionResult RedirectIfAuthorized(BaseController controller, String action)
+        protected RedirectToActionResult RedirectToAction(BaseController controller, String actionName)
         {
             RedirectToActionResult result = new RedirectToActionResult(null, null, null);
-            controller.When(sub => sub.RedirectIfAuthorized(action)).DoNotCallBase();
-            controller.RedirectIfAuthorized(action).Returns(result);
+            controller.When(sub => sub.RedirectToAction(actionName)).DoNotCallBase();
+            controller.RedirectToAction(actionName).Returns(result);
+
+            return result;
+        }
+        protected RedirectToActionResult RedirectToAction(BaseController controller, String actionName, String controllerName)
+        {
+            RedirectToActionResult result = new RedirectToActionResult(null, null, null);
+            controller.When(sub => sub.RedirectToAction(actionName, controllerName)).DoNotCallBase();
+            controller.RedirectToAction(actionName, controllerName).Returns(result);
 
             return result;
         }

@@ -13,6 +13,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
     public class BaseControllerTests : ControllerTests, IDisposable
     {
         private BaseController controller;
+        private String controllerName;
+        private String actionName;
+        private String areaName;
 
         public BaseControllerTests()
         {
@@ -25,6 +28,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller.ActionContext.RouteData = new RouteData();
             controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
+
+            controllerName = controller.RouteData.Values["controller"] as String;
+            actionName = controller.RouteData.Values["action"] as String;
+            areaName = controller.RouteData.Values["area"] as String;
         }
         public void Dispose()
         {
@@ -119,8 +126,8 @@ namespace MvcTemplate.Tests.Unit.Controllers
             RedirectToActionResult actual = controller.RedirectToDefault();
 
             Assert.Equal("", actual.RouteValues["area"]);
-            Assert.Equal("", actual.ControllerName);
-            Assert.Equal("", actual.ActionName);
+            Assert.Equal("Home", actual.ControllerName);
+            Assert.Equal("Index", actual.ActionName);
             Assert.Single(actual.RouteValues);
         }
 
@@ -156,102 +163,64 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: RedirectIfAuthorized(String action)
+        #region Method: RedirectToAction(String actionName, String controllerName, Object routeValues)
 
         [Fact]
-        public void RedirectIfAuthorized_NotAuthorized_RedirectsToDefault()
+        public void RedirectToAction_Action_Controller_Route_NotAuthorized_RedirectsToDefault()
         {
-            controller.IsAuthorizedFor("Action").Returns(false);
+            controller.IsAuthorizedFor("Action", "Controller", areaName).Returns(false);
 
             Object expected = RedirectToDefault(controller);
-            Object actual = controller.RedirectIfAuthorized("Action");
+            Object actual = controller.RedirectToAction("Action", "Controller", new { id = "Id" });
 
             Assert.Same(expected, actual);
         }
 
         [Fact]
-        public void RedirectIfAuthorized_RedirectsToAction()
+        public void RedirectToAction_Action_NullController_NullRoute_RedirectsToAction()
         {
-            controller.IsAuthorizedFor("Action").Returns(true);
+            controller.IsAuthorizedFor("Action", controllerName, areaName).Returns(true);
 
-            RedirectToActionResult actual = controller.RedirectIfAuthorized("Action");
-            RedirectToActionResult expected = controller.RedirectToAction("Action");
+            RedirectToActionResult expected = controller.RedirectToAction("Action", null, null);
+            RedirectToActionResult actual = controller.RedirectToAction("Action", null, null);
 
-            Assert.Equal(expected.RouteValues.Count, actual.RouteValues.Count);
             Assert.Equal(expected.ControllerName, actual.ControllerName);
             Assert.Equal(expected.ActionName, actual.ActionName);
-        }
-
-        #endregion
-
-        #region Method: RedirectIfAuthorized(String action, Object routeValues)
-
-        [Fact]
-        public void RedirectIfAuthorized_SpecificRoute_NotAuthorized_RedirectsToDefault()
-        {
-            controller.IsAuthorizedFor("Area", "Controller", "Action").Returns(false);
-
-            Object expected = RedirectToDefault(controller);
-            Object actual = controller.RedirectIfAuthorized("Action", new { controller = "Control", area = "Area" });
-
-            Assert.Same(expected, actual);
+            Assert.Equal("", actual.RouteValues["area"]);
+            Assert.Single(actual.RouteValues);
         }
 
         [Fact]
-        public void RedirectIfAuthorized_DefaultRoute_NotAuthorized_RedirectsToDefault()
+        public void RedirectToAction_Action_Controller_NullRoute_RedirectsToAction()
         {
-            String areaRoute = controller.RouteData.Values["area"] as String;
-            String controllerRoute = controller.RouteData.Values["controller"] as String;
-            controller.IsAuthorizedFor(areaRoute, controllerRoute, "Action").Returns(false);
+            controller.IsAuthorizedFor("Action", "Controller", areaName).Returns(true);
 
-            Object expected = RedirectToDefault(controller);
-            Object actual = controller.RedirectIfAuthorized("Action", new { id = "Id" });
+            RedirectToActionResult expected = controller.RedirectToAction("Action", "Controller", null);
+            RedirectToActionResult actual = controller.RedirectToAction("Action", "Controller", null);
 
-            Assert.Same(expected, actual);
-        }
-
-        [Fact]
-        public void RedirectIfAuthorized_Route_RedirectsToAction()
-        {
-            controller.IsAuthorizedFor("Area", "Control", "Action").Returns(true);
-
-            RedirectToActionResult actual = controller.RedirectIfAuthorized("Action", new { controller = "Control", area = "Area", id = "Id" });
-            RedirectToActionResult expected = controller.RedirectToAction("Action", new { controller = "Control", area = "Area", id = "Id" });
-
-            Assert.Equal(expected.RouteValues["area"], actual.RouteValues["area"]);
-            Assert.Equal(expected.RouteValues["id"], actual.RouteValues["id"]);
-            Assert.Equal(expected.RouteValues.Count, actual.RouteValues.Count);
             Assert.Equal(expected.ControllerName, actual.ControllerName);
             Assert.Equal(expected.ActionName, actual.ActionName);
+            Assert.Equal("", actual.RouteValues["area"]);
+            Assert.Single(actual.RouteValues);
+        }
+
+        [Fact]
+        public void RedirectToAction_Action_Controller_Route_RedirectsToAction()
+        {
+            controller.IsAuthorizedFor("Action", "Controller", "Area").Returns(true);
+
+            RedirectToActionResult expected = controller.RedirectToAction("Action", "Controller", new { area = "Area", id = "Id" });
+            RedirectToActionResult actual = controller.RedirectToAction("Action", "Controller", new { area = "Area", id = "Id" });
+
+            Assert.Equal(expected.ControllerName, actual.ControllerName);
+            Assert.Equal(expected.ActionName, actual.ActionName);
+            Assert.Equal("", actual.RouteValues["area"]);
+            Assert.Single(actual.RouteValues);
         }
 
         #endregion
 
-        #region Method: IsAuthorizedFor(String action)
-
-        [Fact]
-        public void IsAuthorizedFor_True()
-        {
-            controller.IsAuthorizedFor("Area", "Controller", "Action").Returns(true);
-            controller.RouteData.Values["controller"] = "Controller";
-            controller.RouteData.Values["area"] = "Area";
-
-            Assert.True(controller.IsAuthorizedFor("Action"));
-        }
-
-        [Fact]
-        public void IsAuthorizedFor_False()
-        {
-            controller.IsAuthorizedFor("Area", "Controller", "Action").Returns(false);
-            controller.RouteData.Values["controller"] = "Controller";
-            controller.RouteData.Values["area"] = "Area";
-
-            Assert.False(controller.IsAuthorizedFor("Action"));
-        }
-
-        #endregion
-
-        #region Method: IsAuthorizedFor(String area, String controller, String action)
+        #region Method: IsAuthorizedFor(String action, String controller, String area)
 
         [Fact]
         public void IsAuthorizedFor_NullAuthorizationProvider_ReturnsTrue()
@@ -266,9 +235,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void IsAuthorizedFor_ReturnsAuthorizationResult()
         {
-            Authorization.Provider.IsAuthorizedFor(controller.CurrentAccountId, "AR", "CO", "AC").Returns(true);
+            Authorization.Provider.IsAuthorizedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
 
-            Assert.True(controller.IsAuthorizedFor("AR", "CO", "AC"));
+            Assert.True(controller.IsAuthorizedFor("Action", "Controller", "Area"));
         }
 
         #endregion

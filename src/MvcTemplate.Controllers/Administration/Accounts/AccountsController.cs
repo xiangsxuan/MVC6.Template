@@ -36,7 +36,7 @@ namespace MvcTemplate.Controllers.Administration
 
             Service.Create(account);
 
-            return RedirectIfAuthorized("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -60,7 +60,7 @@ namespace MvcTemplate.Controllers.Administration
 
             Service.Edit(account);
 
-            return RedirectIfAuthorized("Index");
+            return RedirectToAction("Index");
         }
     }
 }

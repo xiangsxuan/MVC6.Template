@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.ViewFeatures;
+using Microsoft.AspNet.Routing;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Mail;
 using MvcTemplate.Controllers;
@@ -34,6 +35,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller = Substitute.ForPartsOf<AuthController>(validator, service, mailClient);
             controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
             controller.TempData = Substitute.For<ITempDataDictionary>();
+            controller.ActionContext.RouteData = new RouteData();
             controller.Url = Substitute.For<IUrlHelper>();
 
             accountRegister = ObjectFactory.CreateAccountRegisterView();
@@ -130,11 +132,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
             validator.CanRegister(accountRegister).Returns(true);
             service.IsLoggedIn(controller.User).Returns(false);
 
-            RedirectToActionResult actual = controller.Register(accountRegister) as RedirectToActionResult;
+            Object expected = RedirectToAction(controller, "Login");
+            Object actual = controller.Register(accountRegister);
 
-            Assert.Equal("Login", actual.ActionName);
-            Assert.Null(actual.ControllerName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Same(expected, actual);
         }
 
         #endregion
@@ -253,11 +254,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
             validator.CanRecover(accountRecovery).Returns(true);
             service.Recover(accountRecovery).Returns("RecoveryToken");
 
-            RedirectToActionResult actual = controller.Recover(accountRecovery).Result as RedirectToActionResult;
+            Object expected = RedirectToAction(controller, "Login");
+            Object actual = controller.Recover(accountRecovery).Result;
 
-            Assert.Equal("Login", actual.ActionName);
-            Assert.Null(actual.ControllerName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Same(expected, actual);
         }
 
         #endregion
@@ -281,11 +281,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanReset(Arg.Any<AccountResetView>()).Returns(false);
 
-            RedirectToActionResult actual = controller.Reset("Token") as RedirectToActionResult;
+            Object expected = RedirectToAction(controller, "Recover");
+            Object actual = controller.Reset("Token");
 
-            Assert.Equal("Recover", actual.ActionName);
-            Assert.Null(actual.ControllerName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Same(expected, actual);
         }
 
         [Fact]
@@ -320,11 +319,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanReset(accountReset).Returns(false);
 
-            RedirectToActionResult actual = controller.Reset(accountReset) as RedirectToActionResult;
+            Object expected = RedirectToAction(controller, "Recover");
+            Object actual = controller.Reset(accountReset);
 
-            Assert.Equal("Recover", actual.ActionName);
-            Assert.Null(actual.ControllerName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Same(expected, actual);
         }
 
         [Fact]
@@ -359,11 +357,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanReset(accountReset).Returns(true);
 
-            RedirectToActionResult actual = controller.Reset(accountReset) as RedirectToActionResult;
-
-            Assert.Equal("Login", actual.ActionName);
-            Assert.Null(actual.ControllerName);
-            Assert.Empty(actual.RouteValues);
+            Object expected = RedirectToAction(controller, "Login");
+            Object actual = controller.Reset(accountReset);
+            
+            Assert.Same(expected, actual);
         }
 
         #endregion
@@ -461,11 +458,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void Logout_RedirectsToLogin()
         {
-            RedirectToActionResult actual = controller.Logout();
+            Object expected = RedirectToAction(controller, "Login");
+            Object actual = controller.Logout();
 
-            Assert.Equal("Login", actual.ActionName);
-            Assert.Null(actual.ControllerName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Same(expected, actual);
         }
 
         #endregion
