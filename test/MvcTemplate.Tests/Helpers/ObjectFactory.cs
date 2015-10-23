@@ -13,52 +13,47 @@ namespace MvcTemplate.Tests
             return new Account
             {
                 Id = "Id" + id,
-                IsLocked = true,
+
                 Username = "Username" + id,
-                Passhash = "$2a$04$zNgYw403HgH1N69j4kj/peGI7SUvGiR5awIPZ2Yh/6O5BwyUO3qZe", // Password1
+                Passhash = "Passhash" + id,
+
                 Email = id + "@tests.com",
+
+                IsLocked = true,
 
                 RecoveryToken = "Token" + id,
-                RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(5)
-            };
-        }
+                RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(5),
 
-        public static ProfileEditView CreateProfileEditView(Int32 id = 1)
-        {
-            return new ProfileEditView
-            {
-                Id = "Id" + id,
-                Email = id + "@tests.com",
-                Username = "Username" + id,
-                NewPassword = "NewPassword1",
-                Password = "Password1"
+                RoleId = "Id" + id,
+                Role = CreateRole(id)
             };
         }
-        public static ProfileDeleteView CreateProfileDeleteView(Int32 id = 1)
+        public static AccountView CreateAccountView(Int32 id = 1)
         {
-            return new ProfileDeleteView
+            return new AccountView
             {
                 Id = "Id" + id,
-                Password = "Password1"
-            };
-        }
 
-        public static AccountRegisterView CreateAccountRegisterView(Int32 id = 1)
-        {
-            return new AccountRegisterView
-            {
-                Id = "Id" + id,
                 Username = "Username" + id,
                 Email = id + "@tests.com",
-                Password = "Password1"
+
+                IsLocked = true,
+
+                RoleTitle = "Title" + id
             };
         }
-        public static AccountRecoveryView CreateAccountRecoveryView(Int32 id = 1)
+        public static AccountEditView CreateAccountEditView(Int32 id = 1)
         {
-            return new AccountRecoveryView
+            return new AccountEditView
             {
                 Id = "Id" + id,
-                Email = id + "@tests.com"
+
+                Username = "Username" + id,
+                Email = id + "@tests.com",
+
+                IsLocked = true,
+
+                RoleId = "Id" + id
             };
         }
         public static AccountCreateView CreateAccountCreateView(Int32 id = 1)
@@ -66,9 +61,24 @@ namespace MvcTemplate.Tests
             return new AccountCreateView
             {
                 Id = "Id" + id,
+
                 Username = "Username" + id,
+                Password = "Password" + id,
+
                 Email = id + "@tests.com",
-                Password = "Password1"
+
+                RoleId = "Id" + id
+            };
+        }
+
+        public static AccountLoginView CreateAccountLoginView(Int32 id = 1)
+        {
+            return new AccountLoginView
+            {
+                Id = "Id" + id,
+
+                Username = "Username" + id,
+                Password = "Password" + id,
             };
         }
         public static AccountResetView CreateAccountResetView(Int32 id = 1)
@@ -78,25 +88,52 @@ namespace MvcTemplate.Tests
                 Id = "Id" + id,
 
                 Token = "Token" + id,
-                NewPassword = "NewPassword1"
+                NewPassword = "NewPassword" + id,
             };
         }
-        public static AccountLoginView CreateAccountLoginView(Int32 id = 1)
+        public static AccountRegisterView CreateAccountRegisterView(Int32 id = 1)
         {
-            return new AccountLoginView
+            return new AccountRegisterView
             {
                 Id = "Id" + id,
+
                 Username = "Username" + id,
-                Password = "Password1"
+                Password = "Password" + id,
+
+                Email = id + "@tests.com"
             };
         }
-        public static AccountEditView CreateAccountEditView(Int32 id = 1)
+        public static AccountRecoveryView CreateAccountRecoveryView(Int32 id = 1)
         {
-            return new AccountEditView
+            return new AccountRecoveryView
             {
                 Id = "Id" + id,
-                IsLocked = true,
-                Username = "Username" + id
+
+                Email = id + "@tests.com"
+            };
+        }
+
+        public static ProfileEditView CreateProfileEditView(Int32 id = 1)
+        {
+            return new ProfileEditView
+            {
+                Id = "Id" + id,
+
+                Email = id + "@tests.com",
+                Username = "Username" + id,
+
+                Password = "Password" + id,
+                NewPassword = "NewPassword" + id,
+
+            };
+        }
+        public static ProfileDeleteView CreateProfileDeleteView(Int32 id = 1)
+        {
+            return new ProfileDeleteView
+            {
+                Id = "Id" + id,
+
+                Password = "Password" + id
             };
         }
 
@@ -105,6 +142,7 @@ namespace MvcTemplate.Tests
             return new Role
             {
                 Id = "Id" + id,
+
                 Title = "Title" + id
             };
         }
@@ -113,6 +151,7 @@ namespace MvcTemplate.Tests
             return new RoleView
             {
                 Id = "Id" + id,
+
                 Title = "Title" + id
             };
         }
@@ -122,6 +161,7 @@ namespace MvcTemplate.Tests
             return new Privilege
             {
                 Id = "Id" + id,
+
                 Area = "Area" + id,
                 Action = "Action" + id,
                 Controller = "Controller" + id
@@ -150,6 +190,7 @@ namespace MvcTemplate.Tests
             return new TestModel
             {
                 Id = "Id" + id,
+
                 Text = "Text" + id
             };
         }

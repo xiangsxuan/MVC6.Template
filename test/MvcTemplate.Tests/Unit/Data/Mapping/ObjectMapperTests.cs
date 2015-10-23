@@ -45,12 +45,8 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         [Fact]
         public void MapAccounts_MapsAccountToAccountView()
         {
-            Account model = ObjectFactory.CreateAccount();
-            model.Role = ObjectFactory.CreateRole();
-            model.IsLocked = true;
-
-            AccountView actual = Mapper.Map<AccountView>(model);
-            Account expected = model;
+            Account expected = ObjectFactory.CreateAccount();
+            AccountView actual = Mapper.Map<AccountView>(expected);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Role.Title, actual.RoleTitle);
@@ -63,12 +59,8 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         [Fact]
         public void MapAccounts_MapsAccountToAccountEditView()
         {
-            Account model = ObjectFactory.CreateAccount();
-            model.IsLocked = true;
-            model.RoleId = "Test";
-
-            AccountEditView actual = Mapper.Map<AccountEditView>(model);
-            Account expected = model;
+            Account expected = ObjectFactory.CreateAccount();
+            AccountEditView actual = Mapper.Map<AccountEditView>(expected);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.IsLocked, actual.IsLocked);
@@ -95,11 +87,8 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         [Fact]
         public void MapAccounts_MapsAccountCreateViewToAccount()
         {
-            AccountCreateView view = ObjectFactory.CreateAccountCreateView();
-            view.RoleId = "Test";
-
-            Account actual = Mapper.Map<Account>(view);
-            AccountCreateView expected = view;
+            AccountCreateView expected = ObjectFactory.CreateAccountCreateView();
+            Account actual = Mapper.Map<Account>(expected);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Username, actual.Username);

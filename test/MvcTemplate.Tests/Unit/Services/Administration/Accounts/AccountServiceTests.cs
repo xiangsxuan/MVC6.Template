@@ -205,10 +205,9 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             Account account = context.Set<Account>().AsNoTracking().Single();
             AccountResetView view = ObjectFactory.CreateAccountResetView();
-            hasher.HashPassword(view.NewPassword).Returns("Reset");
+            account.Passhash = hasher.HashPassword(view.NewPassword);
             account.RecoveryTokenExpirationDate = null;
             account.RecoveryToken = null;
-            account.Passhash = "Reset";
 
             service.Reset(view);
 
@@ -257,6 +256,7 @@ namespace MvcTemplate.Tests.Unit.Services
         public void Create_RefreshesAuthorization()
         {
             AccountCreateView view = ObjectFactory.CreateAccountCreateView(2);
+            view.RoleId = null;
 
             service.Create(view);
 
@@ -378,17 +378,16 @@ namespace MvcTemplate.Tests.Unit.Services
         public void Login_Account()
         {
             AuthenticationManager authentication = Substitute.For<AuthenticationManager>();
-            AccountLoginView view = ObjectFactory.CreateAccountLoginView();
 
-            service.Login(authentication, view.Username.ToUpper());
+            service.Login(authentication, account.Username.ToUpper());
 
             authentication.Received().SignInAsync("Cookies", Arg.Is<ClaimsPrincipal>(principal =>
                 principal.Claims.Single().Subject.NameClaimType == "name" &&
                 principal.Claims.Single().Subject.RoleClaimType == "role" &&
-                principal.Claims.Single().Subject.Name == view.Id &&
+                principal.Claims.Single().Subject.Name == account.Id &&
                 principal.Identity.AuthenticationType == "local" &&
-                principal.Identity.IsAuthenticated &&
-                principal.Identity.Name == view.Id));
+                principal.Identity.Name == account.Id &&
+                principal.Identity.IsAuthenticated));
         }
 
         #endregion
@@ -412,8 +411,6 @@ namespace MvcTemplate.Tests.Unit.Services
         private void SetUpData()
         {
             account = ObjectFactory.CreateAccount();
-            account.Role = ObjectFactory.CreateRole();
-            account.RoleId = account.Role.Id;
 
             context.Set<Role>().Add(account.Role);
             context.Set<Account>().Add(account);

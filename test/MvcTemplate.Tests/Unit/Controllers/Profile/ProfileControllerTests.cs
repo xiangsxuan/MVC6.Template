@@ -26,8 +26,8 @@ namespace MvcTemplate.Tests.Unit.Controllers
             validator = Substitute.For<IAccountValidator>();
             service = Substitute.For<IAccountService>();
 
-            profileDelete = new ProfileDeleteView();
-            profileEdit = new ProfileEditView();
+            profileDelete = ObjectFactory.CreateProfileDeleteView();
+            profileEdit = ObjectFactory.CreateProfileEditView();
 
             controller = Substitute.ForPartsOf<ProfileController>(validator, service);
             ReturnCurrentAccountId(controller, "Test");

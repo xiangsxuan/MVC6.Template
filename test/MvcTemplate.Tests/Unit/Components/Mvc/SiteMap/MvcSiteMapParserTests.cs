@@ -7,10 +7,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class MvcSiteMapParserTests
     {
-        private static MvcSiteMapParser parser;
-        private static XElement siteMap;
+        private MvcSiteMapParser parser;
+        private XElement siteMap;
 
-        static MvcSiteMapParserTests()
+        public MvcSiteMapParserTests()
         {
             parser = new MvcSiteMapParser();
             siteMap = CreateSiteMap();
@@ -47,7 +47,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #region Test helpers
 
-        private static XElement CreateSiteMap()
+        private XElement CreateSiteMap()
         {
             return XElement.Parse(
             @"<siteMap>
