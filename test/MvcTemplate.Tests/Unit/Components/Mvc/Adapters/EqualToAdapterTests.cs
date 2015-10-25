@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNet.Mvc.ModelBinding;
-using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNet.Mvc.ModelBinding.Validation;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Resources;
 using MvcTemplate.Tests.Objects;
-using NSubstitute;
 using System;
 using System.Linq;
 using Xunit;
@@ -18,7 +16,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetClientValidationRules_SetsOtherPropertyDisplayName()
         {
-            IModelMetadataProvider provider = new DefaultModelMetadataProvider(Substitute.For<ICompositeMetadataDetailsProvider>());
+            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EqualTo");
             EqualToAttribute attribute = new EqualToAttribute("EqualTo");
             attribute.OtherPropertyDisplayName = null;
@@ -35,7 +33,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetClientValidationRules_ReturnsEqualToValidationRule()
         {
-            IModelMetadataProvider provider = new DefaultModelMetadataProvider(Substitute.For<ICompositeMetadataDetailsProvider>());
+            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EqualTo");
             EqualToAdapter adapter = new EqualToAdapter(new EqualToAttribute("StringLength"));
 

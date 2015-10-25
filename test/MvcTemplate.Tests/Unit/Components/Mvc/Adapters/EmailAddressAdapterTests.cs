@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNet.Mvc.ModelBinding;
-using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNet.Mvc.ModelBinding.Validation;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Resources.Form;
 using MvcTemplate.Tests.Objects;
-using NSubstitute;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -41,7 +39,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetClientValidationRules_ReturnsEmailValidationRule()
         {
-            IModelMetadataProvider provider = new DefaultModelMetadataProvider(Substitute.For<ICompositeMetadataDetailsProvider>());
+            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EmailAddress");
 
             ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, null);
