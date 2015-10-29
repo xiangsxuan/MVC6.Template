@@ -29,7 +29,7 @@
         <div class="menu-search">
             <input id="MenuSearchInput" placeholder="@(Actions.Search + "...")" />
         </div>
-        @{ IMvcSiteMapProvider provider = Context.ApplicationServices.GetService(typeof(IMvcSiteMapProvider)) as IMvcSiteMapProvider; }
+        @{ IMvcSiteMapProvider provider = Context.ApplicationServices.GetRequiredService<IMvcSiteMapProvider>(); }
         @Html.Partial("_SiteMap", provider.GetAuthorizedMenus(ViewContext))
     </div>
     <div class="content-container">
