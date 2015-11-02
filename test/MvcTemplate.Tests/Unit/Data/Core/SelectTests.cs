@@ -106,7 +106,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void To_ProjectsSet()
         {
-            IEnumerable<String> expected = context.Set<TestModel>().Project().To<TestView>().Select(view => view.Id).ToArray();
+            IEnumerable<String> expected = context.Set<TestModel>().ProjectTo<TestView>().Select(view => view.Id).ToArray();
             IEnumerable<String> actual = select.To<TestView>().Select(view => view.Id).ToArray();
 
             Assert.Equal(expected, actual);

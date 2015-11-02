@@ -30,7 +30,7 @@ namespace MvcTemplate.Data.Core
 
         public IQueryable<TView> To<TView>() where TView : BaseView
         {
-            return Set.Project().To<TView>();
+            return Set.ProjectTo<TView>();
         }
 
         public IEnumerator<TModel> GetEnumerator()

@@ -5,7 +5,7 @@
   "dependencies": {
     "MvcTemplate.Objects": "",
 
-    "AutoMapper": "3.3.1",
+    "AutoMapper": "4.1.1",
     "EntityFramework.Core": "7.0.0-beta8",
     "EntityFramework.Commands": "7.0.0-beta8",
     "EntityFramework.SqlServer": "7.0.0-beta8"
