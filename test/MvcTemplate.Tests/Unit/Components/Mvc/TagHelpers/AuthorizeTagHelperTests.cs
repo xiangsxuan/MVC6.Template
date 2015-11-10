@@ -7,22 +7,17 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
-    public class AuthorizeTagHelperTests : IDisposable
+    public class AuthorizeTagHelperTests
     {
+        private IAuthorizationProvider authorizationProvider;
         private AuthorizeTagHelper helper;
         private TagHelperOutput output;
 
         public AuthorizeTagHelperTests()
         {
-            helper = new AuthorizeTagHelper();
-            helper.ViewContext = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
+            helper = new AuthorizeTagHelper(authorizationProvider = Substitute.For<IAuthorizationProvider>());
             output = new TagHelperOutput("authorize", new TagHelperAttributeList());
-
-            Authorization.Provider = Substitute.For<IAuthorizationProvider>();
-        }
-        public void Dispose()
-        {
-            Authorization.Provider = null;
+            helper.ViewContext = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
         }
 
         #region Method: Process(TagHelperContext context, TagHelperOutput output)
@@ -36,8 +31,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             String routeArea, String routeController, String routeAction,
             String authArea, String authController, String authAction)
         {
-            Authorization.Provider.IsAuthorizedFor("Acc", Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
-            Authorization.Provider.IsAuthorizedFor("Acc", authArea, authController, authAction).Returns(false);
+            authorizationProvider.IsAuthorizedFor("Acc", Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
+            authorizationProvider.IsAuthorizedFor("Acc", authArea, authController, authAction).Returns(false);
             helper.ViewContext.HttpContext.User.Identity.Name.Returns("Acc");
 
             helper.ViewContext.RouteData.Values["controller"] = routeController;
@@ -74,8 +69,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             String routeArea, String routeController, String routeAction,
             String authArea, String authController, String authAction)
         {
-            Authorization.Provider.IsAuthorizedFor("Acc", Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(false);
-            Authorization.Provider.IsAuthorizedFor("Acc", authArea, authController, authAction).Returns(true);
+            authorizationProvider.IsAuthorizedFor("Acc", Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(false);
+            authorizationProvider.IsAuthorizedFor("Acc", authArea, authController, authAction).Returns(true);
             helper.ViewContext.HttpContext.User.Identity.Name.Returns("Acc");
 
             helper.ViewContext.RouteData.Values["controller"] = routeController;

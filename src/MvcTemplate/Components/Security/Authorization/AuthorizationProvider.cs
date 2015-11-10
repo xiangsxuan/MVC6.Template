@@ -17,9 +17,11 @@ namespace MvcTemplate.Components.Security
         public AuthorizationProvider(Assembly controllersAssembly)
         {
             ControllerTypes = controllersAssembly.GetTypes().Where(type => typeof(Controller).IsAssignableFrom(type)).ToArray();
+
+            Refresh();
         }
 
-        public virtual Boolean IsAuthorizedFor(String accountId, String area, String controller, String action)
+        public Boolean IsAuthorizedFor(String accountId, String area, String controller, String action)
         {
             Type authorizedController = GetControllerType(area, controller);
             MethodInfo actionInfo = GetMethod(authorizedController, action);
@@ -42,7 +44,7 @@ namespace MvcTemplate.Components.Security
                     String.Equals(privilege.Controller, controller, StringComparison.OrdinalIgnoreCase));
         }
 
-        public virtual void Refresh()
+        public void Refresh()
         {
             using (IUnitOfWork unitOfWork = new UnitOfWork(new Context()))
             {

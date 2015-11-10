@@ -12,11 +12,13 @@ namespace MvcTemplate.Services
     public class AccountService : BaseService, IAccountService
     {
         private IHasher Hasher { get; }
+        private IAuthorizationProvider AuthorizationProvider { get; set; }
 
-        public AccountService(IUnitOfWork unitOfWork, IHasher hasher)
+        public AccountService(IUnitOfWork unitOfWork, IHasher hasher, IAuthorizationProvider provider)
             : base(unitOfWork)
         {
             Hasher = hasher;
+            AuthorizationProvider = provider;
         }
 
         public TView Get<TView>(String id) where TView : BaseView
@@ -82,7 +84,7 @@ namespace MvcTemplate.Services
             UnitOfWork.Insert(account);
             UnitOfWork.Commit();
 
-            Authorization.Provider.Refresh();
+            AuthorizationProvider.Refresh();
         }
         public void Edit(AccountEditView view)
         {
@@ -93,7 +95,7 @@ namespace MvcTemplate.Services
             UnitOfWork.Update(account);
             UnitOfWork.Commit();
 
-            Authorization.Provider.Refresh();
+            AuthorizationProvider.Refresh();
         }
 
         public void Edit(ProfileEditView view)
@@ -113,7 +115,7 @@ namespace MvcTemplate.Services
             UnitOfWork.Delete<Account>(id);
             UnitOfWork.Commit();
 
-            Authorization.Provider.Refresh();
+            AuthorizationProvider.Refresh();
         }
 
         public void Login(AuthenticationManager authentication, String username)

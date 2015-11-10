@@ -1,6 +1,8 @@
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ViewFeatures;
+using Microsoft.Framework.DependencyInjection;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Security;
 using System;
@@ -17,7 +19,6 @@ namespace MvcTemplate.Controllers
 
         protected BaseController()
         {
-            AuthorizationProvider = Authorization.Provider;
             Alerts = new AlertsContainer();
         }
 
@@ -55,10 +56,17 @@ namespace MvcTemplate.Controllers
             controller = controller ?? RouteData.Values["controller"] as String;
             area = area ?? RouteData.Values["area"] as String;
 
-            if (!IsAuthorizedFor(area, controller, actionName))
+            if (!IsAuthorizedFor(actionName, controller, area))
                 return RedirectToDefault();
 
             return base.RedirectToAction(actionName, controllerName, routeValues);
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            AuthorizationProvider = HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
         }
 
         public virtual Boolean IsAuthorizedFor(String action, String controller, String area)

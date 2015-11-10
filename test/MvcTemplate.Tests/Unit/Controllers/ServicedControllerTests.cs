@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Filters;
 using MvcTemplate.Controllers;
 using MvcTemplate.Services;
@@ -17,6 +18,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service = Substitute.For<IService>();
             controller = Substitute.ForPartsOf<ServicedController<IService>>(service);
+            controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
         }
 
         #region Constructor: ServicedController(TService service)

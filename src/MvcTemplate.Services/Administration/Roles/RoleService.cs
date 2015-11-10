@@ -12,9 +12,12 @@ namespace MvcTemplate.Services
 {
     public class RoleService : BaseService, IRoleService
     {
-        public RoleService(IUnitOfWork unitOfWork)
+        private IAuthorizationProvider AuthorizationProvider { get; }
+
+        public RoleService(IUnitOfWork unitOfWork, IAuthorizationProvider provider)
             : base(unitOfWork)
         {
+            AuthorizationProvider = provider;
         }
 
         public virtual void SeedPrivilegesTree(RoleView view)
@@ -96,7 +99,7 @@ namespace MvcTemplate.Services
 
             UnitOfWork.Commit();
 
-            Authorization.Provider.Refresh();
+            AuthorizationProvider.Refresh();
         }
         public void Delete(String id)
         {
@@ -106,7 +109,7 @@ namespace MvcTemplate.Services
 
             UnitOfWork.Commit();
 
-            Authorization.Provider.Refresh();
+            AuthorizationProvider.Refresh();
         }
 
         private void CreateRole(RoleView view)

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Filters;
 using MvcTemplate.Controllers;
 using MvcTemplate.Services;
@@ -20,6 +21,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service = Substitute.For<IService>();
             validator = Substitute.For<IValidator>();
             controller = Substitute.ForPartsOf<ValidatedController<IValidator, IService>>(validator, service);
+            controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
         }
 
         #region Constructor: ValidatedController(TService service, TValidator validator)

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ViewFeatures;
 using Microsoft.AspNet.Routing;
+using Microsoft.Framework.DependencyInjection;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers;
 using NSubstitute;
@@ -10,7 +12,7 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
 {
-    public class BaseControllerTests : ControllerTests, IDisposable
+    public class BaseControllerTests : ControllerTests
     {
         private BaseController controller;
         private String controllerName;
@@ -19,23 +21,17 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         public BaseControllerTests()
         {
-            HttpContext httpContext = Substitute.For<HttpContext>();
-            Authorization.Provider = Substitute.For<IAuthorizationProvider>();
-
             controller = Substitute.ForPartsOf<BaseController>();
 
             controller.Url = Substitute.For<IUrlHelper>();
             controller.ActionContext.RouteData = new RouteData();
             controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
+            controller.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
 
             controllerName = controller.RouteData.Values["controller"] as String;
             actionName = controller.RouteData.Values["action"] as String;
             areaName = controller.RouteData.Values["area"] as String;
-        }
-        public void Dispose()
-        {
-            Authorization.Provider = null;
         }
 
         #region Property: CurrentAccountId
@@ -52,15 +48,6 @@ namespace MvcTemplate.Tests.Unit.Controllers
         #endregion
 
         #region Constructor: BaseController()
-
-        [Fact]
-        public void BaseController_SetsAuthorization()
-        {
-            IAuthorizationProvider actual = controller.AuthorizationProvider;
-            IAuthorizationProvider expected = Authorization.Provider;
-
-            Assert.Equal(expected, actual);
-        }
 
         [Fact]
         public void BaseController_CreatesEmptyAlerts()
@@ -181,27 +168,23 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             controller.IsAuthorizedFor("Action", controllerName, areaName).Returns(true);
 
-            RedirectToActionResult expected = controller.RedirectToAction("Action", null, null);
             RedirectToActionResult actual = controller.RedirectToAction("Action", null, null);
 
-            Assert.Equal(expected.ControllerName, actual.ControllerName);
-            Assert.Equal(expected.ActionName, actual.ActionName);
-            Assert.Equal("", actual.RouteValues["area"]);
-            Assert.Single(actual.RouteValues);
+            Assert.Equal(controllerName, actual.ControllerName);
+            Assert.Equal("Action", actual.ActionName);
+            Assert.Empty(actual.RouteValues);
         }
 
         [Fact]
         public void RedirectToAction_Action_Controller_NullRoute_RedirectsToAction()
         {
             controller.IsAuthorizedFor("Action", "Controller", areaName).Returns(true);
-
-            RedirectToActionResult expected = controller.RedirectToAction("Action", "Controller", null);
+            
             RedirectToActionResult actual = controller.RedirectToAction("Action", "Controller", null);
 
-            Assert.Equal(expected.ControllerName, actual.ControllerName);
-            Assert.Equal(expected.ActionName, actual.ActionName);
-            Assert.Equal("", actual.RouteValues["area"]);
-            Assert.Single(actual.RouteValues);
+            Assert.Equal("Controller", actual.ControllerName);
+            Assert.Equal("Action", actual.ActionName);
+            Assert.Empty(actual.RouteValues);
         }
 
         [Fact]
@@ -209,13 +192,30 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             controller.IsAuthorizedFor("Action", "Controller", "Area").Returns(true);
 
-            RedirectToActionResult expected = controller.RedirectToAction("Action", "Controller", new { area = "Area", id = "Id" });
             RedirectToActionResult actual = controller.RedirectToAction("Action", "Controller", new { area = "Area", id = "Id" });
 
-            Assert.Equal(expected.ControllerName, actual.ControllerName);
-            Assert.Equal(expected.ActionName, actual.ActionName);
-            Assert.Equal("", actual.RouteValues["area"]);
-            Assert.Single(actual.RouteValues);
+            Assert.Equal("Controller", actual.ControllerName);
+            Assert.Equal("Area", actual.RouteValues["area"]);
+            Assert.Equal("Id", actual.RouteValues["id"]);
+            Assert.Equal("Action", actual.ActionName);
+            Assert.Equal(2, actual.RouteValues.Count);
+        }
+
+        #endregion
+
+        #region Method: OnActionExecuting(ActionExecutingContext context)
+
+        [Fact]
+        public void OnActionExecuting_SetsAuthorizationProvider()
+        {
+            IAuthorizationProvider provider = controller.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
+
+            controller.OnActionExecuting(new ActionExecutingContext(new ActionContext(), null, null, null));
+
+            Object actual = controller.AuthorizationProvider;
+            Object expected = provider;
+
+            Assert.Same(expected, actual);
         }
 
         #endregion
@@ -225,7 +225,6 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void IsAuthorizedFor_NullAuthorizationProvider_ReturnsTrue()
         {
-            Authorization.Provider = null;
             controller = Substitute.ForPartsOf<BaseController>();
 
             Assert.Null(controller.AuthorizationProvider);
@@ -235,9 +234,12 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void IsAuthorizedFor_ReturnsAuthorizationResult()
         {
-            Authorization.Provider.IsAuthorizedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
+            IAuthorizationProvider provider = controller.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
+            provider.IsAuthorizedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
+            controller.OnActionExecuting(new ActionExecutingContext(new ActionContext(), null, null, null));
 
             Assert.True(controller.IsAuthorizedFor("Action", "Controller", "Area"));
+            Assert.Same(provider, controller.AuthorizationProvider);
         }
 
         #endregion

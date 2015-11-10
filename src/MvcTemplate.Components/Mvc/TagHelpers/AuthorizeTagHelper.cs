@@ -19,17 +19,24 @@ namespace MvcTemplate.Components.Mvc
         [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
 
+        private IAuthorizationProvider AuthorizationProvider { get; }
+
+        public AuthorizeTagHelper(IAuthorizationProvider provider)
+        {
+            AuthorizationProvider = provider;
+        }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = null;
-            if (Authorization.Provider == null) return;
+            if (AuthorizationProvider == null) return;
 
             String accountId = ViewContext.HttpContext.User.Identity.Name;
             String area = Area ?? ViewContext.RouteData.Values["area"] as String;
             String action = Action ?? ViewContext.RouteData.Values["action"] as String;
             String controller = Controller ?? ViewContext.RouteData.Values["controller"] as String;
 
-            if (!Authorization.Provider.IsAuthorizedFor(accountId, area, controller, action))
+            if (!AuthorizationProvider.IsAuthorizedFor(accountId, area, controller, action))
                 output.SuppressOutput();
         }
     }

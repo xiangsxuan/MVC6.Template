@@ -19,20 +19,20 @@ namespace MvcTemplate.Tests.Unit.Services
 {
     public class RoleServiceTests : IDisposable
     {
+        private IAuthorizationProvider authorizationProvider;
         private TestingContext context;
         private RoleService service;
 
         public RoleServiceTests()
         {
             context = new TestingContext();
-            Authorization.Provider = Substitute.For<IAuthorizationProvider>();
-            service = Substitute.ForPartsOf<RoleService>(new UnitOfWork(context));
+            authorizationProvider = Substitute.For<IAuthorizationProvider>();
+            service = Substitute.ForPartsOf<RoleService>(new UnitOfWork(context), authorizationProvider);
 
             context.DropData();
         }
         public void Dispose()
         {
-            Authorization.Provider = null;
             context.Dispose();
             service.Dispose();
         }
@@ -328,7 +328,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
             service.Edit(ObjectFactory.CreateRoleView());
 
-            Authorization.Provider.Received().Refresh();
+            authorizationProvider.Received().Refresh();
         }
 
         #endregion
@@ -387,7 +387,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
             service.Delete(role.Id);
 
-            Authorization.Provider.Received().Refresh();
+            authorizationProvider.Received().Refresh();
         }
 
         #endregion

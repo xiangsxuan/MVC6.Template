@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.AspNet.Routing;
+using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.WebEncoders;
 using MvcTemplate.Components.Extensions;
 using MvcTemplate.Components.Security;
@@ -17,7 +18,7 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Extensions
 {
-    public class MvcGridExtensionsTests : IDisposable
+    public class MvcGridExtensionsTests
     {
         private IGridColumnsOf<AllTypesView> columns;
         private IHtmlGrid<AllTypesView> html;
@@ -29,19 +30,13 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             html = new HtmlGrid<AllTypesView>(htmlHelper, grid);
             columns = new GridColumns<AllTypesView>(grid);
         }
-        public void Dispose()
-        {
-            Authorization.Provider = null;
-        }
 
         #region Extension method: AddActionLink<T>(this IGridColumnsOf<T> columns, String action, String iconClass)
 
         [Fact]
         public void AddActionLink_Unauthorized_Empty()
         {
-            Authorization.Provider = Substitute.For<IAuthorizationProvider>();
-            columns.Grid.ViewContext = new ViewContext { RouteData = new RouteData(), HttpContext = Substitute.For<HttpContext>() };
-            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService(typeof(IUrlHelper)).Returns(Substitute.For<IUrlHelper>());
+            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IUrlHelper>().Returns(Substitute.For<IUrlHelper>());
 
             IGridColumn<AllTypesView> actual = columns.AddActionLink("Edit", "fa fa-pencil");
 
@@ -56,10 +51,10 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             StringWriter writer = new StringWriter();
             IUrlHelper urlHelper = Substitute.For<IUrlHelper>();
             urlHelper.Action("Details", Arg.Any<Object>()).Returns("Test");
-            Authorization.Provider = Substitute.For<IAuthorizationProvider>();
-            Authorization.Provider.IsAuthorizedFor(Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
+            IAuthorizationProvider authorizationProvider = columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
+            authorizationProvider.IsAuthorizedFor(Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
             columns.Grid.ViewContext = new ViewContext { RouteData = new RouteData(), HttpContext = Substitute.For<HttpContext>() };
-            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService(typeof(IUrlHelper)).Returns(urlHelper);
+            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IUrlHelper>().Returns(urlHelper);
 
             IGridColumn<AllTypesView> column = columns.AddActionLink("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
@@ -77,13 +72,13 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         [Fact]
         public void AddActionLink_NullAuthorization_Renders()
         {
-            Authorization.Provider = null;
             AllTypesView view = new AllTypesView();
             StringWriter writer = new StringWriter();
             IUrlHelper urlHelper = Substitute.For<IUrlHelper>();
             urlHelper.Action("Details", Arg.Any<Object>()).Returns("Test");
+            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>().Returns(null as IAuthorizationProvider);
             columns.Grid.ViewContext = new ViewContext { RouteData = new RouteData(), HttpContext = Substitute.For<HttpContext>() };
-            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService(typeof(IUrlHelper)).Returns(urlHelper);
+            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IUrlHelper>().Returns(urlHelper);
 
             IGridColumn<AllTypesView> column = columns.AddActionLink("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
@@ -104,7 +99,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             IGrid<Object> grid = new Grid<Object>(new Object[0]);
             IGridColumnsOf<Object> columns = new GridColumns<Object>(grid);
             columns.Grid.ViewContext = new ViewContext { HttpContext = Substitute.For<HttpContext>() };
-            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService(typeof(IUrlHelper)).Returns(Substitute.For<IUrlHelper>());
+            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IUrlHelper>().Returns(Substitute.For<IUrlHelper>());
 
             IGridColumn<Object> column = columns.AddActionLink("Delete", "fa fa-times");
 
@@ -117,6 +112,8 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         [Fact]
         public void AddActionLink_Column()
         {
+            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>().Returns(null as IAuthorizationProvider);
+
             IGridColumn<AllTypesView> actual = columns.AddActionLink("Edit", "fa fa-pencil");
 
             Assert.Equal("action-cell", actual.CssClasses);

@@ -11,11 +11,12 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
-    public class MvcSiteMapProviderTests : IDisposable
+    public class MvcSiteMapProviderTests
     {
         private static MvcSiteMapParser parser;
         private static String siteMapPath;
 
+        private IAuthorizationProvider authorizationProvider;
         private IDictionary<String, Object> routeValues;
         private MvcSiteMapProvider provider;
         private ViewContext viewContext;
@@ -29,13 +30,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
         public MvcSiteMapProviderTests()
         {
+            authorizationProvider = Substitute.For<IAuthorizationProvider>();
             viewContext = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
-            provider = new MvcSiteMapProvider(siteMapPath, parser);
+
+            provider = new MvcSiteMapProvider(siteMapPath, parser, authorizationProvider);
             routeValues = viewContext.RouteData.Values;
-        }
-        public void Dispose()
-        {
-            Authorization.Provider = null;
         }
 
         #region Method: GetAuthorizedMenus(ViewContext context)
@@ -43,7 +42,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetAuthorizedMenus_NullAuthorization_ReturnsAllMenus()
         {
-            Authorization.Provider = null;
+            provider = new MvcSiteMapProvider(siteMapPath, parser, null);
 
             MvcSiteMapNode[] actual = provider.GetAuthorizedMenus(viewContext).ToArray();
 
@@ -84,8 +83,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetAuthorizedMenus_ReturnsAuthorizedMenus()
         {
-            Authorization.Provider = Substitute.For<IAuthorizationProvider>();
-            Authorization.Provider.IsAuthorizedFor(viewContext.HttpContext.User.Identity.Name, "Administration", "Accounts", "Index").Returns(true);
+            authorizationProvider.IsAuthorizedFor(viewContext.HttpContext.User.Identity.Name, "Administration", "Accounts", "Index").Returns(true);
 
             MvcSiteMapNode[] actual = provider.GetAuthorizedMenus(viewContext).ToArray();
 
@@ -111,10 +109,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetAuthorizedMenus_SetsActiveMenu()
         {
-            Authorization.Provider = null;
             routeValues["action"] = "Create";
             routeValues["controller"] = "Roles";
             routeValues["area"] = "Administration";
+
+            provider = new MvcSiteMapProvider(siteMapPath, parser, null);
 
             MvcSiteMapNode[] actual = provider.GetAuthorizedMenus(viewContext).ToArray();
 
@@ -138,10 +137,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetAuthorizedMenus_NonMenuChildrenNodeIsActive_SetsActiveMenu()
         {
-            Authorization.Provider = null;
             routeValues["action"] = "Edit";
             routeValues["controller"] = "Accounts";
             routeValues["area"] = "Administration";
+
+            provider = new MvcSiteMapProvider(siteMapPath, parser, null);
 
             MvcSiteMapNode[] actual = provider.GetAuthorizedMenus(viewContext).ToArray();
 
@@ -165,10 +165,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetAuthorizedMenus_ActiveMenuParents_SetsHasActiveChildren()
         {
-            Authorization.Provider = null;
             routeValues["action"] = "Create";
             routeValues["controller"] = "Roles";
             routeValues["area"] = "Administration";
+
+            provider = new MvcSiteMapProvider(siteMapPath, parser, null);
 
             MvcSiteMapNode[] actual = provider.GetAuthorizedMenus(viewContext).ToArray();
 
@@ -192,9 +193,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetAuthorizedMenus_RemovesEmptyMenus()
         {
-            Authorization.Provider = Substitute.For<IAuthorizationProvider>();
-            Authorization.Provider.IsAuthorizedFor(Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
-            Authorization.Provider.IsAuthorizedFor(viewContext.HttpContext.User.Identity.Name, "Administration", "Roles", "Create").Returns(false);
+            authorizationProvider.IsAuthorizedFor(Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
+            authorizationProvider.IsAuthorizedFor(viewContext.HttpContext.User.Identity.Name, "Administration", "Roles", "Create").Returns(false);
 
             MvcSiteMapNode[] actual = provider.GetAuthorizedMenus(viewContext).ToArray();
 

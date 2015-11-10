@@ -41,7 +41,6 @@ namespace MvcTemplate.Web
         }
         public void Configure(IApplicationBuilder app)
         {
-            RegisterAuthorization(app);
             RegisterStaticFiles(app);
             RegisterRoute(app);
 
@@ -62,13 +61,13 @@ namespace MvcTemplate.Web
             services.AddTransient<IExceptionFilter, ExceptionFilter>();
             services.AddTransient<IModelMetadataProvider, DisplayNameMetadataProvider>();
 
-            services.AddTransient<IMvcSiteMapParser, MvcSiteMapParser>();
-            services.AddSingleton<IMvcSiteMapProvider>(provider => new MvcSiteMapProvider(
-                Path.Combine(ApplicationBasePath, "Mvc.sitemap"), provider.GetService<IMvcSiteMapParser>()));
-
             services.AddSingleton<IGlobalizationProvider>(provider =>
                 new GlobalizationProvider(Path.Combine(ApplicationBasePath, "Globalization.xml")));
             services.AddInstance<IAuthorizationProvider>(new AuthorizationProvider(typeof(BaseController).Assembly));
+
+            services.AddTransient<IMvcSiteMapParser, MvcSiteMapParser>();
+            services.AddSingleton<IMvcSiteMapProvider>(provider => new MvcSiteMapProvider(
+                Path.Combine(ApplicationBasePath, "Mvc.sitemap"), provider.GetService<IMvcSiteMapParser>(), provider.GetService<IAuthorizationProvider>()));
 
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IAccountService, AccountService>();
@@ -96,11 +95,6 @@ namespace MvcTemplate.Web
                 .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()));
         }
 
-        public virtual void RegisterAuthorization(IApplicationBuilder app)
-        {
-            Authorization.Provider = new AuthorizationProvider(typeof(BaseController).Assembly);
-            Authorization.Provider.Refresh();
-        }
         public virtual void RegisterStaticFiles(IApplicationBuilder app)
         {
             app.UseCookieAuthentication(options =>

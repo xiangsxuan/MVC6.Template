@@ -103,14 +103,15 @@ namespace MvcTemplate.Components.Extensions
         }
         private static Boolean IsAuthorizedToView(IGrid grid, String action)
         {
-            if (Authorization.Provider == null)
+            IAuthorizationProvider provider = grid.ViewContext.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
+            if (provider == null)
                 return true;
 
             String account = grid.ViewContext.HttpContext.User.Identity.Name;
             String area = grid.ViewContext.RouteData.Values["area"] as String;
             String controller = grid.ViewContext.RouteData.Values["controller"] as String;
 
-            return Authorization.Provider.IsAuthorizedFor(account, area, controller, action);
+            return provider.IsAuthorizedFor(account, area, controller, action);
         }
         private static IDictionary<String, Object> GetRouteValuesFor<T>(T model)
         {

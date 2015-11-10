@@ -19,6 +19,7 @@ namespace MvcTemplate.Tests.Unit.Services
 {
     public class AccountServiceTests : IDisposable
     {
+        private IAuthorizationProvider authorizationProvider;
         private AccountService service;
         private TestingContext context;
         private Account account;
@@ -28,18 +29,17 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             context = new TestingContext();
             hasher = Substitute.For<IHasher>();
+            authorizationProvider = Substitute.For<IAuthorizationProvider>();
             hasher.HashPassword(Arg.Any<String>()).Returns(info => info.Arg<String>() + "Hashed");
 
             context.DropData();
             SetUpData();
 
-            Authorization.Provider = Substitute.For<IAuthorizationProvider>();
-            service = new AccountService(new UnitOfWork(context), hasher);
+            service = new AccountService(new UnitOfWork(context), hasher, authorizationProvider);
             service.CurrentAccountId = account.Id;
         }
         public void Dispose()
         {
-            Authorization.Provider = null;
             service.Dispose();
             context.Dispose();
         }
@@ -259,7 +259,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
             service.Create(view);
 
-            Authorization.Provider.Received().Refresh();
+            authorizationProvider.Received().Refresh();
         }
 
         #endregion
@@ -299,7 +299,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
             service.Edit(view);
 
-            Authorization.Provider.Received().Refresh();
+            authorizationProvider.Received().Refresh();
         }
 
         #endregion
@@ -366,7 +366,7 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             service.Delete(account.Id);
 
-            Authorization.Provider.Received().Refresh();
+            authorizationProvider.Received().Refresh();
         }
 
         #endregion
