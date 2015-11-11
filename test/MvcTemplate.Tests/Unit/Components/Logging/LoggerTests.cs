@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.Entity;
-using MvcTemplate.Components.Logging;
+﻿using MvcTemplate.Components.Logging;
 using MvcTemplate.Objects;
 using MvcTemplate.Tests.Data;
 using NSubstitute;

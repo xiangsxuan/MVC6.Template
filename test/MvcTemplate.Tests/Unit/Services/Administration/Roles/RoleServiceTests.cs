@@ -149,7 +149,7 @@ namespace MvcTemplate.Tests.Unit.Services
             IEnumerator<RoleView> expected = context
                 .Set<Role>()
                 .ProjectTo<RoleView>()
-                .OrderByDescending(role => role.CreationDate)
+                .OrderByDescending(view => view.CreationDate)
                 .GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())

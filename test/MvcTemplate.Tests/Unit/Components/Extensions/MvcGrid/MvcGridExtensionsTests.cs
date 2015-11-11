@@ -60,11 +60,10 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
             String actual = writer.ToString();
-            String expected = String.Format(
-                "<a class=\"details-action\" href=\"{0}\">" +
+            String expected =
+                $"<a class=\"details-action\" href=\"{urlHelper.Action("Details", new {id = view.Id})}\">" +
                     "<i class=\"fa fa-info\"></i>" +
-                "</a>",
-                urlHelper.Action("Details", new { id = view.Id }));
+                "</a>";
 
             Assert.Equal(expected, actual);
         }
@@ -84,11 +83,10 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
             String actual = writer.ToString();
-            String expected = String.Format(
-                "<a class=\"details-action\" href=\"{0}\">" +
+            String expected =
+                $"<a class=\"details-action\" href=\"{urlHelper.Action("Details", new { id = view.Id })}\">" +
                     "<i class=\"fa fa-info\"></i>" +
-                "</a>",
-                urlHelper.Action("Details", new { id = view.Id }));
+                "</a>";
 
             Assert.Equal(expected, actual);
         }

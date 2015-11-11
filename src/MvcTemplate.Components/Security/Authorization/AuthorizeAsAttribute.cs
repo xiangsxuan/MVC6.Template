@@ -12,7 +12,7 @@ namespace MvcTemplate.Components.Security
         public AuthorizeAsAttribute(String action)
         {
             if (action == null)
-                throw new ArgumentNullException("action");
+                throw new ArgumentNullException(nameof(action));
 
             Action = action;
         }

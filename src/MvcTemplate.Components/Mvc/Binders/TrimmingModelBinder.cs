@@ -9,23 +9,21 @@ namespace MvcTemplate.Components.Mvc
     {
         public Task<ModelBindingResult> BindModelAsync(ModelBindingContext context)
         {
-            if (context.ModelType == typeof(String))
-            {
-                ValueProviderResult result = context.ValueProvider.GetValue(context.ModelName);
-                if (result == ValueProviderResult.None)
-                    return ModelBindingResult.NoResultAsync;
+            if (context.ModelType != typeof(String))
+                return ModelBindingResult.NoResultAsync;
 
-                Type containerType = context.ModelMetadata.ContainerType;
-                PropertyInfo property = containerType?.GetProperty(context.ModelName);
-                context.ModelState.SetModelValue(context.ModelName, result.FirstValue, result.FirstValue);
+            ValueProviderResult result = context.ValueProvider.GetValue(context.ModelName);
+            if (result == ValueProviderResult.None)
+                return ModelBindingResult.NoResultAsync;
 
-                if (property?.IsDefined(typeof(NotTrimmedAttribute), false) == true)
-                    return ModelBindingResult.SuccessAsync(context.ModelName, result.FirstValue);
+            Type containerType = context.ModelMetadata.ContainerType;
+            PropertyInfo property = containerType?.GetProperty(context.ModelName);
+            context.ModelState.SetModelValue(context.ModelName, result.FirstValue, result.FirstValue);
 
-                return ModelBindingResult.SuccessAsync(context.ModelName, result.FirstValue.Trim());
-            }
+            if (property?.IsDefined(typeof(NotTrimmedAttribute), false) == true)
+                return ModelBindingResult.SuccessAsync(context.ModelName, result.FirstValue);
 
-            return ModelBindingResult.NoResultAsync;
+            return ModelBindingResult.SuccessAsync(context.ModelName, result.FirstValue.Trim());
         }
     }
 }

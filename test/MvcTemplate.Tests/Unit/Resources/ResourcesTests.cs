@@ -27,7 +27,7 @@ namespace MvcTemplate.Tests.Unit.Resources
 
                 foreach (String area in areas)
                     Assert.True(!String.IsNullOrEmpty(manager.GetString(area)),
-                        String.Format("Privilege area '{0}', does not have a title.", area));
+                        $"Privilege area '{area}', does not have a title.");
             }
         }
 
@@ -45,7 +45,7 @@ namespace MvcTemplate.Tests.Unit.Resources
 
                 foreach (String controller in controllers)
                     Assert.True(!String.IsNullOrEmpty(manager.GetString(controller)),
-                        String.Format("Privilege controller '{0}', does not have a title.", controller));
+                        $"Privilege controller '{controller}', does not have a title.");
             }
         }
 
@@ -63,7 +63,7 @@ namespace MvcTemplate.Tests.Unit.Resources
 
                 foreach (String action in actions)
                     Assert.True(!String.IsNullOrEmpty(manager.GetString(action)),
-                        String.Format("Privilege action '{0}', does not have a title.", action));
+                        $"Privilege action '{action}', does not have a title.");
             }
         }
 
@@ -92,8 +92,7 @@ namespace MvcTemplate.Tests.Unit.Resources
                     ResourceSet set = manager.GetResourceSet(language, true, true);
                     foreach (String key in resourceKeys)
                         Assert.True((set.GetObject(key) ?? "").ToString() != "",
-                            String.Format("{0}, does not have translation for '{1}' in {2} language.",
-                                type.FullName, key, language.EnglishName));
+                            $"{type.FullName}, does not have translation for '{key}' in {language.EnglishName} language.");
                 }
             }
         }

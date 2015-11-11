@@ -71,7 +71,7 @@ namespace MvcTemplate.Tests.Unit.Services
             IEnumerator<AccountView> expected = context
                 .Set<Account>()
                 .ProjectTo<AccountView>()
-                .OrderByDescending(account => account.CreationDate)
+                .OrderByDescending(view => view.CreationDate)
                 .GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
@@ -142,7 +142,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Recover_Information()
         {
-            Account account = context.Set<Account>().AsNoTracking().Single();
+            account = context.Set<Account>().AsNoTracking().Single();
             account.RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(30);
 
             AccountRecoveryView view = ObjectFactory.CreateAccountRecoveryView();
@@ -180,7 +180,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
             service.Register(view);
 
-            Account actual = context.Set<Account>().AsNoTracking().Single(account => account.Id == view.Id);
+            Account actual = context.Set<Account>().AsNoTracking().Single(model => model.Id == view.Id);
             AccountRegisterView expected = view;
 
             Assert.Equal(hasher.HashPassword(expected.Password), actual.Passhash);
@@ -202,8 +202,8 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Reset_Account()
         {
-            Account account = context.Set<Account>().AsNoTracking().Single();
             AccountResetView view = ObjectFactory.CreateAccountResetView();
+            account = context.Set<Account>().AsNoTracking().Single();
             account.Passhash = hasher.HashPassword(view.NewPassword);
             account.RecoveryTokenExpirationDate = null;
             account.RecoveryToken = null;
@@ -269,8 +269,8 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_Account()
         {
-            Account account = context.Set<Account>().AsNoTracking().Single();
             AccountEditView view = ObjectFactory.CreateAccountEditView();
+            account = context.Set<Account>().AsNoTracking().Single();
             view.IsLocked = account.IsLocked = !account.IsLocked;
             view.Username = account.Username + "Test";
             view.RoleId = account.RoleId = null;
@@ -309,8 +309,8 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_Profile()
         {
-            Account account = context.Set<Account>().AsNoTracking().Single();
             ProfileEditView view = ObjectFactory.CreateProfileEditView(2);
+            account = context.Set<Account>().AsNoTracking().Single();
             account.Passhash = hasher.HashPassword(view.NewPassword);
             view.Username = account.Username += "Test";
             view.Email = account.Email += "Test";

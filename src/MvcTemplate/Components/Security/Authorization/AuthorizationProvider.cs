@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
-using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using System;
 using System.Collections.Generic;
@@ -46,10 +45,7 @@ namespace MvcTemplate.Components.Security
 
         public void Refresh()
         {
-            using (IUnitOfWork unitOfWork = new UnitOfWork(new Context()))
-            {
-                Cache = new Dictionary<String, IEnumerable<Privilege>>();
-            }
+            Cache = new Dictionary<String, IEnumerable<Privilege>>();
         }
 
         private Boolean AllowsUnauthorized(Type authorizedControllerType, MethodInfo method)

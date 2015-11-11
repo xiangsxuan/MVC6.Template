@@ -11,9 +11,9 @@ namespace MvcTemplate.Data.Core
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private IAuditLogger Logger { get; set; }
         private DbContext Context { get; set; }
         private Boolean Disposed { get; set; }
+        private IAuditLogger Logger { get; }
 
         public UnitOfWork(DbContext context, IAuditLogger logger = null)
         {

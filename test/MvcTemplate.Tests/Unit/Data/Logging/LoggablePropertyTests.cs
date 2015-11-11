@@ -74,8 +74,8 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             textProperty.CurrentValue = null;
             textProperty.IsModified = true;
 
-            String expected = String.Format("{0}: {1} => {2}", textProperty.Metadata.Name, "\"Original\"", "null");
             String actual = new LoggableProperty(textProperty, "Original").ToString();
+            String expected = $"{textProperty.Metadata.Name}: \"Original\" => null";
 
             Assert.Equal(expected, actual);
         }
@@ -86,7 +86,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             textProperty.CurrentValue = "Current";
             textProperty.IsModified = true;
 
-            String expected = String.Format("{0}: {1} => {2}", textProperty.Metadata.Name, "null", "\"Current\"");
+            String expected = $"{textProperty.Metadata.Name}: null => \"Current\"";
             String actual = new LoggableProperty(textProperty, null).ToString();
 
             Assert.Equal(expected, actual);
@@ -98,7 +98,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             dateProperty.CurrentValue = new DateTime(2014, 6, 8, 14, 16, 19);
             dateProperty.IsModified = true;
 
-            String expected = String.Format("{0}: {1} => {2}", dateProperty.Metadata.Name, "\"2010-04-03 18:33:17\"", "\"2014-06-08 14:16:19\"");
+            String expected = $"{dateProperty.Metadata.Name}: \"2010-04-03 18:33:17\" => \"2014-06-08 14:16:19\"";
             String actual = new LoggableProperty(dateProperty, new DateTime(2010, 4, 3, 18, 33, 17)).ToString();
 
             Assert.Equal(expected, actual);
@@ -110,7 +110,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             textProperty.CurrentValue = "Current\r\nValue";
             textProperty.IsModified = true;
 
-            String expected = String.Format("{0}: {1} => {2}", textProperty.Metadata.Name, "157.45", "\"Current\\r\\nValue\"");
+            String expected = $"{textProperty.Metadata.Name}: {157.45} => \"Current\\r\\nValue\"";
             String actual = new LoggableProperty(textProperty, 157.45).ToString();
 
             Assert.Equal(expected, actual);
@@ -121,8 +121,8 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         {
             textProperty.IsModified = false;
 
-            String expected = String.Format("{0}: {1}", textProperty.Metadata.Name, "\"Original\"");
             String actual = new LoggableProperty(textProperty, "Original").ToString();
+            String expected = $"{textProperty.Metadata.Name}: \"Original\"";
 
             Assert.Equal(expected, actual);
         }
@@ -133,8 +133,8 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             textProperty.CurrentValue = "Current";
             textProperty.IsModified = false;
 
-            String expected = String.Format("{0}: {1}", textProperty.Metadata.Name, "null");
             String actual = new LoggableProperty(textProperty, null).ToString();
+            String expected = $"{textProperty.Metadata.Name}: null";
 
             Assert.Equal(expected, actual);
         }
@@ -146,7 +146,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             dateProperty.IsModified = false;
 
             String actual = new LoggableProperty(dateProperty, new DateTime(2014, 6, 8, 14, 16, 19)).ToString();
-            String expected = String.Format("{0}: {1}", dateProperty.Metadata.Name, "\"2014-06-08 14:16:19\"");
+            String expected = $"{dateProperty.Metadata.Name}: \"2014-06-08 14:16:19\"";
 
             Assert.Equal(expected, actual);
         }
@@ -157,8 +157,8 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             textProperty.CurrentValue = "Current\r\nValue";
             textProperty.IsModified = false;
 
-            String expected = String.Format("{0}: {1}", textProperty.Metadata.Name, "\"Original\\r\\nValue\"");
             String actual = new LoggableProperty(textProperty, "Original\r\nValue").ToString();
+            String expected = $"{textProperty.Metadata.Name}: \"Original\\r\\nValue\"";
 
             Assert.Equal(expected, actual);
         }

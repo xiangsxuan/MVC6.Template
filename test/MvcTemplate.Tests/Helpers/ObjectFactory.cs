@@ -78,7 +78,7 @@ namespace MvcTemplate.Tests
                 Id = "Id" + id,
 
                 Username = "Username" + id,
-                Password = "Password" + id,
+                Password = "Password" + id
             };
         }
         public static AccountResetView CreateAccountResetView(Int32 id = 1)
@@ -88,7 +88,7 @@ namespace MvcTemplate.Tests
                 Id = "Id" + id,
 
                 Token = "Token" + id,
-                NewPassword = "NewPassword" + id,
+                NewPassword = "NewPassword" + id
             };
         }
         public static AccountRegisterView CreateAccountRegisterView(Int32 id = 1)
@@ -123,7 +123,7 @@ namespace MvcTemplate.Tests
                 Username = "Username" + id,
 
                 Password = "Password" + id,
-                NewPassword = "NewPassword" + id,
+                NewPassword = "NewPassword" + id
 
             };
         }

@@ -159,7 +159,7 @@
 
 // Read only checkbox binding
 (function () {
-    $(document).on('click', 'input:checkbox[readonly]', function (e) {
+    $(document).on('click', 'input:checkbox[readonly]', function () {
         return false;
     });
 }());

@@ -12,7 +12,7 @@ namespace MvcTemplate.Services
     public class AccountService : BaseService, IAccountService
     {
         private IHasher Hasher { get; }
-        private IAuthorizationProvider AuthorizationProvider { get; set; }
+        private IAuthorizationProvider AuthorizationProvider { get; }
 
         public AccountService(IUnitOfWork unitOfWork, IHasher hasher, IAuthorizationProvider provider)
             : base(unitOfWork)

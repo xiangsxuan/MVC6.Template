@@ -10,7 +10,7 @@ namespace MvcTemplate.Resources
 {
     public static class ResourceProvider
     {
-        private static Dictionary<String, ResourceManager> ViewTitles { get; set; }
+        private static Dictionary<String, ResourceManager> ViewTitles { get; }
         private static Dictionary<String, ResourceManager> Resources { get; }
 
         static ResourceProvider()

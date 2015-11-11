@@ -20,7 +20,7 @@
         @{ IGlobalizationProvider globalizationProvider = Context.ApplicationServices.GetService<IGlobalizationProvider>(); }
         @if (globalizationProvider.Languages.Length > 1)
         {
-            String query = (ViewContext.HttpContext.Request.Query.Count > 0) ? ViewContext.HttpContext.Request.QueryString.ToString() : "";
+            String query = ViewContext.HttpContext.Request.Query.Count > 0 ? ViewContext.HttpContext.Request.QueryString.ToString() : "";
 
             <div class="input-group">
                 <span class="fa fa-globe"></span>
