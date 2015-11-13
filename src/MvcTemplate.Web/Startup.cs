@@ -41,7 +41,7 @@ namespace MvcTemplate.Web
         }
         public void Configure(IApplicationBuilder app)
         {
-            RegisterStaticFiles(app);
+            RegisterAppServices(app);
             RegisterRoute(app);
 
             SeedData(app);
@@ -95,7 +95,7 @@ namespace MvcTemplate.Web
                 .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()));
         }
 
-        public virtual void RegisterStaticFiles(IApplicationBuilder app)
+        public virtual void RegisterAppServices(IApplicationBuilder app)
         {
             app.UseCookieAuthentication(options =>
             {
@@ -103,6 +103,7 @@ namespace MvcTemplate.Web
                 options.AutomaticAuthentication = true;
                 options.AuthenticationScheme = "Cookies";
             });
+            app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
         }
         public virtual void RegisterRoute(IApplicationBuilder app)
