@@ -11,6 +11,7 @@
         {
             String query = ViewContext.HttpContext.Request.Query.Count > 0 ? ViewContext.HttpContext.Request.QueryString.ToString() : "";
             String action = ViewContext.RouteData.Values["action"] as String;
+            String area = ViewContext.RouteData.Values["area"] as String;
             String id = ViewContext.RouteData.Values["id"] as String;
 
             <li class="btn dropdown">
@@ -23,7 +24,7 @@
                     @foreach (Language language in globalizationProvider.Languages)
                     {
                         <li>
-                            <a href="@(Url.Action(action, new { language = language.Abbreviation, id = id }) + query)">
+                            <a href="@(Url.Action(action, new { language = language.Abbreviation, area = area, id = id }) + query)">
                                 <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" alt="">
                                 @language.Name
                             </a>
