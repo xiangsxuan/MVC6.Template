@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Mvc.ModelBinding.Validation;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Tests.Objects;
+using NSubstitute;
 using System;
 using System.Linq;
 using Xunit;
@@ -15,11 +16,12 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetClientValidationRules_ReturnsMaxRangeValidationRule()
         {
+            IServiceProvider services = Substitute.For<IServiceProvider>();
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
             MaxValueAdapter adapter = new MaxValueAdapter(new MaxValueAttribute(128));
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "MaxValue");
 
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, null);
+            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, services);
             ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
             String expectedMessage = new MaxValueAttribute(128).FormatErrorMessage("MaxValue");
 

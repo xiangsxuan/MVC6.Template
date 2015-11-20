@@ -2,7 +2,7 @@ using Microsoft.Data.Entity.Migrations;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MvcTemplate.Tests.Data.Migrations
+namespace MvcTemplate.Data.Migrations
 {
     [ExcludeFromCodeCoverage]
     public partial class Initial : Migration
@@ -65,18 +65,6 @@ namespace MvcTemplate.Tests.Data.Migrations
                     table.PrimaryKey("PK_Role", x => x.Id);
                 });
             migrationBuilder.CreateTable(
-                name: "TestModel",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    Text = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TestModel", x => x.Id);
-                });
-            migrationBuilder.CreateTable(
                 name: "Account",
                 columns: table => new
                 {
@@ -97,7 +85,8 @@ namespace MvcTemplate.Tests.Data.Migrations
                         name: "FK_Account_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
                 name: "RolePrivilege",
@@ -158,7 +147,6 @@ namespace MvcTemplate.Tests.Data.Migrations
             migrationBuilder.DropTable("AuditLog");
             migrationBuilder.DropTable("Log");
             migrationBuilder.DropTable("RolePrivilege");
-            migrationBuilder.DropTable("TestModel");
             migrationBuilder.DropTable("Privilege");
             migrationBuilder.DropTable("Role");
         }

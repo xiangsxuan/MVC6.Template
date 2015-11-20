@@ -2,7 +2,7 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ViewFeatures;
-using Microsoft.Framework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Security;
 using System;

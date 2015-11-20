@@ -3,6 +3,7 @@ using Microsoft.AspNet.Mvc.ModelBinding.Validation;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Resources;
 using MvcTemplate.Tests.Objects;
+using NSubstitute;
 using System;
 using System.Linq;
 using Xunit;
@@ -16,12 +17,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetClientValidationRules_SetsOtherPropertyDisplayName()
         {
+            IServiceProvider services = Substitute.For<IServiceProvider>();
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EqualTo");
             EqualToAttribute attribute = new EqualToAttribute("EqualTo");
             attribute.OtherPropertyDisplayName = null;
 
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, null);
+            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, services);
             new EqualToAdapter(attribute).GetClientValidationRules(context);
 
             String expected = ResourceProvider.GetPropertyTitle(typeof(AdaptersModel), "EqualTo");
@@ -33,11 +35,12 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetClientValidationRules_ReturnsEqualToValidationRule()
         {
+            IServiceProvider services = Substitute.For<IServiceProvider>();
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EqualTo");
             EqualToAdapter adapter = new EqualToAdapter(new EqualToAttribute("StringLength"));
 
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, null);
+            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, services);
             String expectedMessage = new EqualToAttribute("StringLength").FormatErrorMessage("EqualTo");
             ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
 

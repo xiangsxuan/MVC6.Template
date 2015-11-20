@@ -2,8 +2,8 @@
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.AspNet.Routing;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.WebEncoders;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.WebEncoders;
 using MvcTemplate.Components.Extensions;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Resources;

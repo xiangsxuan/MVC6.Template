@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Services;
 

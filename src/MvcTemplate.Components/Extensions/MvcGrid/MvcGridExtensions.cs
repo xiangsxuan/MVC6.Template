@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Html.Abstractions;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.Framework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Resources;
 using MvcTemplate.Resources.Table;

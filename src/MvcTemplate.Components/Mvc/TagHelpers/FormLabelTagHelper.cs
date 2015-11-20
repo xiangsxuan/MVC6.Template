@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.AspNet.Razor.Runtime.TagHelpers;
+using Microsoft.AspNet.Razor.TagHelpers;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;

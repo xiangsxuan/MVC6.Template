@@ -3,6 +3,7 @@ using Microsoft.AspNet.Mvc.ModelBinding.Validation;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Resources.Form;
 using MvcTemplate.Tests.Objects;
+using NSubstitute;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -39,10 +40,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetClientValidationRules_ReturnsEmailValidationRule()
         {
+            IServiceProvider services = Substitute.For<IServiceProvider>();
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EmailAddress");
 
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, null);
+            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, services);
             ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
             String expectedMessage = attribute.FormatErrorMessage(metadata.GetDisplayName());
 

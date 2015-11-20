@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ViewFeatures;
 using Microsoft.AspNet.Routing;
-using Microsoft.Framework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers;
 using NSubstitute;
@@ -208,7 +207,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             IAuthorizationProvider provider = controller.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
 
-            controller.OnActionExecuting(new ActionExecutingContext(new ActionContext(), null, null, null));
+            controller.OnActionExecuting(null);
 
             Object actual = controller.AuthorizationProvider;
             Object expected = provider;
@@ -234,7 +233,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             IAuthorizationProvider provider = controller.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
             provider.IsAuthorizedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
-            controller.OnActionExecuting(new ActionExecutingContext(new ActionContext(), null, null, null));
+            controller.OnActionExecuting(null);
 
             Assert.True(controller.IsAuthorizedFor("Action", "Controller", "Area"));
             Assert.Same(provider, controller.AuthorizationProvider);

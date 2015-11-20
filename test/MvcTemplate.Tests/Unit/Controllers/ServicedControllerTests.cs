@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Filters;
 using MvcTemplate.Controllers;
 using MvcTemplate.Services;
 using NSubstitute;
@@ -41,7 +39,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             ReturnCurrentAccountId(controller, "Test");
 
-            controller.OnActionExecuting(new ActionExecutingContext(new ActionContext(), null, null, null));
+            controller.OnActionExecuting(null);
 
             String expected = controller.CurrentAccountId;
             String actual = service.CurrentAccountId;

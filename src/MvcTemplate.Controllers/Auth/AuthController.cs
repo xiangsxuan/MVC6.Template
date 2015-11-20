@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Mail;
 using MvcTemplate.Components.Mvc;

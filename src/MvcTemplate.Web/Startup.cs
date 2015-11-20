@@ -4,8 +4,8 @@ using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.AspNet.Routing;
 using Microsoft.Data.Entity;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 using MvcTemplate.Components.Logging;
 using MvcTemplate.Components.Mail;
 using MvcTemplate.Components.Mvc;
@@ -30,21 +30,21 @@ namespace MvcTemplate.Web
         {
             ApplicationBasePath = env.ApplicationBasePath;
         }
-
-        public void ConfigureServices(IServiceCollection services)
-        {
-            RegisterCurrentDependencyResolver(services);
-            RegisterLowercaseUrls(services);
-            RegisterFilters(services);
-            RegisterMvcGrid(services);
-            RegisterMvc(services);
-        }
         public void Configure(IApplicationBuilder app)
         {
             RegisterAppServices(app);
             RegisterRoute(app);
 
             SeedData(app);
+        }
+        public void ConfigureServices(IServiceCollection services)
+        {
+            RegisterCurrentDependencyResolver(services);
+            RegisterLowercaseUrls(services);
+            RegisterFilters(services);
+            RegisterMvcGrid(services);
+            RegisterSession(services);
+            RegisterMvc(services);
         }
 
         public virtual void RegisterCurrentDependencyResolver(IServiceCollection services)
@@ -87,6 +87,11 @@ namespace MvcTemplate.Web
         {
             services.AddMvcGrid();
         }
+        public virtual void RegisterSession(IServiceCollection services)
+        {
+            services.AddCaching();
+            services.AddSession();
+        }
         public virtual void RegisterMvc(IServiceCollection services)
         {
             services
@@ -100,11 +105,12 @@ namespace MvcTemplate.Web
             app.UseCookieAuthentication(options =>
             {
                 options.LoginPath = "/auth/login";
-                options.AutomaticAuthentication = true;
+                options.AutomaticAuthenticate = true;
                 options.AuthenticationScheme = "Cookies";
             });
             app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
+            app.UseSession();
         }
         public virtual void RegisterRoute(IApplicationBuilder app)
         {

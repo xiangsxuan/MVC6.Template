@@ -30,7 +30,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void CreateModelMetadata_NullContainerType_DoesNotSetDisplayName()
         {
             DefaultMetadataDetails metaDetails = new DefaultMetadataDetails(
-                ModelMetadataIdentity.ForProperty(typeof(String), "Title", null), ModelAttributes.GetAttributesForType(typeof(RoleView)));
+                new ModelMetadataIdentity(), ModelAttributes.GetAttributesForType(typeof(RoleView)));
             ICompositeMetadataDetailsProvider details = Substitute.For<ICompositeMetadataDetailsProvider>();
             DisplayNameMetadataProviderProxy provider = new DisplayNameMetadataProviderProxy(details);
 

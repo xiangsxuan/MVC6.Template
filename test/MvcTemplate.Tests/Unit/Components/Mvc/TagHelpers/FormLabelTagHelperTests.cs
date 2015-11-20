@@ -2,7 +2,7 @@
 using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.AspNet.Mvc.ViewFeatures;
-using Microsoft.AspNet.Razor.Runtime.TagHelpers;
+using Microsoft.AspNet.Razor.TagHelpers;
 using MvcTemplate.Components.Mvc;
 using NSubstitute;
 using System;
@@ -19,7 +19,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         public FormLabelTagHelperTests()
         {
-            output = new TagHelperOutput("label", new TagHelperAttributeList());
+            output = new TagHelperOutput("label", new TagHelperAttributeList(), _ => null);
             provider = new EmptyModelMetadataProvider();
             helper = new FormLabelTagHelper();
         }

@@ -7,15 +7,15 @@
     "MvcTemplate": "",
     "MvcTemplate.Controllers": "",
 
-    "NonFactors.Grid.Mvc6": "0.8.0-beta8",
-    "Microsoft.AspNet.Diagnostics": "1.0.0-beta8",
-    "Microsoft.AspNet.StaticFiles": "1.0.0-beta8",
-    "Microsoft.AspNet.Tooling.Razor": "1.0.0-beta8",
-    "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-beta8",
-    "Microsoft.AspNet.Server.Kestrel": "1.0.0-beta8",
-    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-beta8",
-    "Microsoft.Framework.Configuration.Json": "1.0.0-beta8",
-    "Microsoft.AspNet.Authentication.Cookies": "1.0.0-beta8"
+    "NonFactors.Grid.Mvc6": "0.9.0-rc1-final",
+    "Microsoft.AspNet.Session": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Tooling.Razor": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-rc1-final",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final"
   },
 
   "compilationOptions": {
