@@ -105,6 +105,7 @@ namespace MvcTemplate.Web
             app.UseCookieAuthentication(options =>
             {
                 options.LoginPath = "/auth/login";
+                options.AutomaticChallenge = true;
                 options.AutomaticAuthenticate = true;
                 options.AuthenticationScheme = "Cookies";
             });
