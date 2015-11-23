@@ -12,7 +12,7 @@ namespace MvcTemplate.Components.Mvc
             {
                 return new[]
                 {
-                    "~/Views/{2}/Shared/{0}.cshtml",
+                    "/Views/{2}/Shared/{0}.cshtml",
                     "/Views/{2}/{1}/{0}.cshtml",
                     "/Views/Shared/{0}.cshtml"
                 };
