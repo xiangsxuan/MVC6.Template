@@ -32,42 +32,46 @@ namespace MvcTemplate.Data.Migrations
         {
             Privilege[] privileges =
             {
-                new Privilege { Area = "Administration", Controller = "Accounts", Action = "Index" },
-                new Privilege { Area = "Administration", Controller = "Accounts", Action = "Create" },
-                new Privilege { Area = "Administration", Controller = "Accounts", Action = "Details" },
-                new Privilege { Area = "Administration", Controller = "Accounts", Action = "Edit" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000001", Area = "Administration", Controller = "Accounts", Action = "Index" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000002", Area = "Administration", Controller = "Accounts", Action = "Create" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000003", Area = "Administration", Controller = "Accounts", Action = "Details" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000004", Area = "Administration", Controller = "Accounts", Action = "Edit" },
 
-                new Privilege { Area = "Administration", Controller = "Roles", Action = "Index" },
-                new Privilege { Area = "Administration", Controller = "Roles", Action = "Create" },
-                new Privilege { Area = "Administration", Controller = "Roles", Action = "Details" },
-                new Privilege { Area = "Administration", Controller = "Roles", Action = "Edit" },
-                new Privilege { Area = "Administration", Controller = "Roles", Action = "Delete" }
+                new Privilege { Id = "00000000-0000-0000-0000-000000000005", Area = "Administration", Controller = "Roles", Action = "Index" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000006", Area = "Administration", Controller = "Roles", Action = "Create" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000007", Area = "Administration", Controller = "Roles", Action = "Details" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000008", Area = "Administration", Controller = "Roles", Action = "Edit" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000009", Area = "Administration", Controller = "Roles", Action = "Delete" }
             };
 
-            DeleteUnused(privileges);
-            CreateMissing(privileges);
-        }
-        private void DeleteUnused(Privilege[] privileges)
-        {
-            foreach (Privilege privilege in UnitOfWork.Select<Privilege>())
-                if (!privileges.Any(priv => privilege.Area == priv.Area && privilege.Action == priv.Action && privilege.Controller == priv.Controller))
+            Privilege[] currentPrivileges = UnitOfWork.Select<Privilege>().ToArray();
+            foreach (Privilege privilege in currentPrivileges)
+            {
+                if (!privileges.Any(priv => priv.Id == privilege.Id))
                 {
-                    foreach (RolePrivilege rolePrivilege in UnitOfWork.Select<RolePrivilege>().Where(rolePriv => rolePriv.PrivilegeId == privilege.Id))
+                    foreach (RolePrivilege rolePrivilege in UnitOfWork.Select<RolePrivilege>().Where(role => role.PrivilegeId == privilege.Id))
                         UnitOfWork.Delete(rolePrivilege);
 
                     UnitOfWork.Delete(privilege);
                 }
+            }
 
-            UnitOfWork.Commit();
-        }
-        private void CreateMissing(Privilege[] privileges)
-        {
-            Privilege[] dbPrivileges = UnitOfWork.Select<Privilege>().ToArray();
             foreach (Privilege privilege in privileges)
-                if (!dbPrivileges.Any(priv => privilege.Area == priv.Area && privilege.Action == priv.Action && privilege.Controller == priv.Controller))
+            {
+                Privilege currentPrivilege = currentPrivileges.SingleOrDefault(priv => priv.Id == privilege.Id);
+                if (currentPrivilege == null)
                 {
                     UnitOfWork.Insert(privilege);
                 }
+                else
+                {
+                    currentPrivilege.Controller = privilege.Controller;
+                    currentPrivilege.Action = privilege.Action;
+                    currentPrivilege.Area = privilege.Area;
+
+                    UnitOfWork.Update(currentPrivilege);
+                }
+            }
 
             UnitOfWork.Commit();
         }
