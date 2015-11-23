@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Mvc.ModelBinding;
+using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Tests.Objects;
 using NSubstitute;
@@ -48,14 +49,49 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void BindModelAsync_NotTrimmed_ReturnsNotTrimmedResult()
+        public void BindModelAsync_NotTrimmed_ReturnsNoResult()
         {
             ModelMetadata metadata = new EmptyModelMetadataProvider().GetMetadataForProperty(typeof(BindersModel), "NotTrimmed");
             context.ValueProvider.GetValue("NotTrimmed").Returns(new ValueProviderResult(" Value "));
             context.ModelMetadata = metadata;
             context.ModelName = "NotTrimmed";
 
-            ModelBindingResult expected = ModelBindingResult.Success("NotTrimmed", " Value ");
+            ModelBindingResult actual = binder.BindModelAsync(context).Result;
+            ModelBindingResult expected = ModelBindingResult.NoResult;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("  ")]
+        public void BindModelAsync_ReturnsNullResult(String value)
+        {
+            ModelMetadata metadata = new EmptyModelMetadataProvider().GetMetadataForProperty(typeof(BindersModel), "Trimmed");
+            context.ValueProvider.GetValue("Trimmed").Returns(new ValueProviderResult(value));
+            context.ModelMetadata = metadata;
+            context.ModelName = "Trimmed";
+
+            ModelBindingResult expected = ModelBindingResult.Success("Trimmed", null);
+            ModelBindingResult actual = binder.BindModelAsync(context).Result;
+
+            Assert.Equal(expected.IsModelSet, actual.IsModelSet);
+            Assert.Equal(expected.Model, actual.Model);
+            Assert.Equal(expected.Key, actual.Key);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("  ")]
+        public void BindModelAsync_ReturnsEmptyResult(String value)
+        {
+            ModelMetadata metadata = Substitute.For<ModelMetadata>(ModelMetadataIdentity.ForType(typeof(String)));
+            context.ValueProvider.GetValue("Trimmed").Returns(new ValueProviderResult(value));
+            metadata.ConvertEmptyStringToNull.Returns(false);
+            context.ModelMetadata = metadata;
+            context.ModelName = "Trimmed";
+
+            ModelBindingResult expected = ModelBindingResult.Success("Trimmed", "");
             ModelBindingResult actual = binder.BindModelAsync(context).Result;
 
             Assert.Equal(expected.IsModelSet, actual.IsModelSet);

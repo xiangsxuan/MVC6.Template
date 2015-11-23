@@ -18,12 +18,16 @@ namespace MvcTemplate.Components.Mvc
 
             Type containerType = context.ModelMetadata.ContainerType;
             PropertyInfo property = containerType?.GetProperty(context.ModelName);
-            context.ModelState.SetModelValue(context.ModelName, result.FirstValue, result.FirstValue);
 
             if (property?.IsDefined(typeof(NotTrimmedAttribute), false) == true)
-                return ModelBindingResult.SuccessAsync(context.ModelName, result.FirstValue);
+                return ModelBindingResult.NoResultAsync;
 
-            return ModelBindingResult.SuccessAsync(context.ModelName, result.FirstValue.Trim());
+            String value = result.FirstValue.Trim();
+            context.ModelState.SetModelValue(context.ModelName, result);
+            if (context.ModelMetadata.ConvertEmptyStringToNull && value.Length == 0)
+                return ModelBindingResult.SuccessAsync(context.ModelName, null);
+
+            return ModelBindingResult.SuccessAsync(context.ModelName, value);
         }
     }
 }
