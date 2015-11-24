@@ -118,7 +118,7 @@ namespace MvcTemplate.Data.Migrations
 
             foreach (Account account in accounts)
             {
-                Account dbAccount = UnitOfWork.Select<Account>().FirstOrDefault(acc => acc.Username == account.Username);
+                Account dbAccount = UnitOfWork.Select<Account>().FirstOrDefault(model => model.Username == account.Username);
                 if (dbAccount != null)
                 {
                     dbAccount.IsLocked = account.IsLocked;

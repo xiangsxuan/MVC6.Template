@@ -22,6 +22,7 @@ namespace MvcTemplate.Tests.Unit.Services
         private IAuthorizationProvider authorizationProvider;
         private TestingContext context;
         private RoleService service;
+        private Role role;
 
         public RoleServiceTests()
         {
@@ -30,6 +31,7 @@ namespace MvcTemplate.Tests.Unit.Services
             service = Substitute.ForPartsOf<RoleService>(new UnitOfWork(context), authorizationProvider);
 
             context.DropData();
+            SetUpData();
         }
         public void Dispose()
         {
@@ -42,15 +44,11 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void SeedPrivilegesTree_FirstDepth()
         {
-            IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
-            context.Set<Privilege>().AddRange(privileges);
-            context.SaveChanges();
+            RoleView view = new RoleView();
+            service.SeedPrivilegesTree(view);
 
-            RoleView role = new RoleView();
-            service.SeedPrivilegesTree(role);
-
-            IEnumerator<JsTreeNode> expected = CreateRoleView().PrivilegesTree.Nodes.GetEnumerator();
-            IEnumerator<JsTreeNode> actual = role.PrivilegesTree.Nodes.GetEnumerator();
+            IEnumerator<JsTreeNode> expected = CreatePrivilegesTree(role).Nodes.GetEnumerator();
+            IEnumerator<JsTreeNode> actual = view.PrivilegesTree.Nodes.GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
             {
@@ -63,15 +61,11 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void SeedPrivilegesTree_SecondDepth()
         {
-            IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
-            context.Set<Privilege>().AddRange(privileges);
-            context.SaveChanges();
+            RoleView view = new RoleView();
+            service.SeedPrivilegesTree(view);
 
-            RoleView role = new RoleView();
-            service.SeedPrivilegesTree(role);
-
-            IEnumerator<JsTreeNode> expected = CreateRoleView().PrivilegesTree.Nodes.SelectMany(node => node.Nodes).GetEnumerator();
-            IEnumerator<JsTreeNode> actual = role.PrivilegesTree.Nodes.SelectMany(node => node.Nodes).GetEnumerator();
+            IEnumerator<JsTreeNode> expected = CreatePrivilegesTree(role).Nodes.SelectMany(node => node.Nodes).GetEnumerator();
+            IEnumerator<JsTreeNode> actual = view.PrivilegesTree.Nodes.SelectMany(node => node.Nodes).GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
             {
@@ -84,15 +78,11 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void SeedPrivilegesTree_ThirdDepth()
         {
-            IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
-            context.Set<Privilege>().AddRange(privileges);
-            context.SaveChanges();
+            RoleView view = new RoleView();
+            service.SeedPrivilegesTree(view);
 
-            RoleView role = new RoleView();
-            service.SeedPrivilegesTree(role);
-
-            IEnumerator<JsTreeNode> expected = CreateRoleView().PrivilegesTree.Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
-            IEnumerator<JsTreeNode> actual = role.PrivilegesTree.Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
+            IEnumerator<JsTreeNode> expected = CreatePrivilegesTree(role).Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
+            IEnumerator<JsTreeNode> actual = view.PrivilegesTree.Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
             {
@@ -105,14 +95,10 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void SeedPrivilegesTree_BranchesWithoutId()
         {
-            IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
-            context.Set<Privilege>().AddRange(privileges);
-            context.SaveChanges();
+            RoleView view = new RoleView();
+            service.SeedPrivilegesTree(view);
 
-            RoleView role = new RoleView();
-            service.SeedPrivilegesTree(role);
-
-            IEnumerable<JsTreeNode> nodes = role.PrivilegesTree.Nodes;
+            IEnumerable<JsTreeNode> nodes = view.PrivilegesTree.Nodes;
             IEnumerable<JsTreeNode> branches = GetAllBranchNodes(nodes);
 
             Assert.Empty(branches.Where(branch => branch.Id != null));
@@ -121,14 +107,10 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void SeedPrivilegesTree_LeafsWithId()
         {
-            IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
-            context.Set<Privilege>().AddRange(privileges);
-            context.SaveChanges();
+            RoleView view = new RoleView();
+            service.SeedPrivilegesTree(view);
 
-            RoleView role = new RoleView();
-            service.SeedPrivilegesTree(role);
-
-            IEnumerable<JsTreeNode> nodes = role.PrivilegesTree.Nodes;
+            IEnumerable<JsTreeNode> nodes = view.PrivilegesTree.Nodes;
             IEnumerable<JsTreeNode> leafs = GetAllLeafNodes(nodes);
 
             Assert.Empty(leafs.Where(leaf => leaf.Id == null));
@@ -141,10 +123,6 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void GetViews_ReturnsRoleViews()
         {
-            context.Set<Role>().Add(ObjectFactory.CreateRole(1));
-            context.Set<Role>().Add(ObjectFactory.CreateRole(2));
-            context.SaveChanges();
-
             IEnumerator<RoleView> actual = service.GetViews().GetEnumerator();
             IEnumerator<RoleView> expected = context
                 .Set<Role>()
@@ -175,15 +153,12 @@ namespace MvcTemplate.Tests.Unit.Services
         public void GetView_ReturnsViewById()
         {
             service.When(sub => sub.SeedPrivilegesTree(Arg.Any<RoleView>())).DoNotCallBase();
-            Role role = ObjectFactory.CreateRole();
-            context.Set<Role>().Add(role);
-            context.SaveChanges();
 
             RoleView expected = Mapper.Map<RoleView>(role);
             RoleView actual = service.GetView(role.Id);
 
-            Assert.Equal(expected.PrivilegesTree.SelectedIds, actual.PrivilegesTree.SelectedIds);
             Assert.Equal(expected.CreationDate, actual.CreationDate);
+            Assert.NotEmpty(actual.PrivilegesTree.SelectedIds);
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(expected.Id, actual.Id);
         }
@@ -192,18 +167,6 @@ namespace MvcTemplate.Tests.Unit.Services
         public void GetView_SetsSelectedIds()
         {
             service.When(sub => sub.SeedPrivilegesTree(Arg.Any<RoleView>())).DoNotCallBase();
-            Role role = CreateRoleWithPrivileges();
-            using (TestingContext testingContext = new TestingContext())
-            {
-                testingContext.Set<Role>().Add(role, GraphBehavior.SingleObject);
-                testingContext.SaveChanges();
-
-                foreach (RolePrivilege rolePriv in role.RolePrivileges)
-                    testingContext.Set<Privilege>().Add(rolePriv.Privilege);
-                foreach (RolePrivilege rolePriv in role.RolePrivileges)
-                    testingContext.Set<RolePrivilege>().Add(rolePriv);
-                testingContext.SaveChanges();
-            }
 
             IEnumerable<String> expected = role.RolePrivileges.Select(rolePrivilege => rolePrivilege.PrivilegeId);
             IEnumerable<String> actual = service.GetView(role.Id).PrivilegesTree.SelectedIds;
@@ -215,13 +178,10 @@ namespace MvcTemplate.Tests.Unit.Services
         public void GetView_SeedsPrivilegesTree()
         {
             service.When(sub => sub.SeedPrivilegesTree(Arg.Any<RoleView>())).DoNotCallBase();
-            Role role = ObjectFactory.CreateRole();
-            context.Set<Role>().Add(role);
-            context.SaveChanges();
 
-            RoleView roleView = service.GetView(role.Id);
+            RoleView view = service.GetView(role.Id);
 
-            service.Received().SeedPrivilegesTree(roleView);
+            service.Received().SeedPrivilegesTree(view);
         }
 
         #endregion
@@ -231,11 +191,11 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Create_Role()
         {
-            RoleView view = ObjectFactory.CreateRoleView();
+            RoleView view = ObjectFactory.CreateRoleView(2);
 
             service.Create(view);
 
-            Role actual = context.Set<Role>().AsNoTracking().SingleOrDefault();
+            Role actual = context.Set<Role>().AsNoTracking().Single(role => role.Id == view.Id);
             RoleView expected = view;
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
@@ -246,17 +206,17 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Create_RolePrivileges()
         {
-            IEnumerable<Privilege> privileges = CreateRoleWithPrivileges().RolePrivileges.Select(rolePriv => rolePriv.Privilege);
-            context.Set<Privilege>().AddRange(privileges);
-            context.SaveChanges();
+            RoleView view = ObjectFactory.CreateRoleView(2);
+            view.PrivilegesTree = CreatePrivilegesTree(role);
 
-            service.Create(CreateRoleView());
+            service.Create(view);
 
-            IEnumerable<String> expected = privileges.Select(privilege => privilege.Id).OrderBy(privilegeId => privilegeId);
+            IEnumerable<String> expected = view.PrivilegesTree.SelectedIds.OrderBy(privilegeId => privilegeId);
             IEnumerable<String> actual = context
                 .Set<RolePrivilege>()
                 .AsNoTracking()
-                .Select(role => role.PrivilegeId)
+                .Where(rolePrivilege => rolePrivilege.RoleId == view.Id)
+                .Select(rolePrivilege => rolePrivilege.PrivilegeId)
                 .OrderBy(privilegeId => privilegeId);
 
             Assert.Equal(expected, actual);
@@ -269,20 +229,14 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_Role()
         {
-            Role role = ObjectFactory.CreateRole();
-            using (TestingContext testingContext = new TestingContext())
-            {
-                testingContext.Set<Role>().Add(role);
-                testingContext.SaveChanges();
-            }
+            role = context.Set<Role>().AsNoTracking().Single();
+            RoleView view = Mapper.Map<RoleView>(role);
+            view.Title = role.Title += "Test";
 
-            RoleView roleView = Mapper.Map<RoleView>(role);
-            roleView.Title = role.Title += "Test";
-
-            service.Edit(roleView);
+            service.Edit(view);
 
             Role actual = context.Set<Role>().AsNoTracking().Single();
-            RoleView expected = roleView;
+            RoleView expected = view;
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Title, actual.Title);
@@ -292,29 +246,19 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_RolePrivileges()
         {
-            Role role = CreateRoleWithPrivileges();
             Privilege privilege = ObjectFactory.CreatePrivilege(100);
-            using (TestingContext testingContext = new TestingContext())
-            {
-                testingContext.Set<Role>().Add(role, GraphBehavior.SingleObject);
-                testingContext.Set<Privilege>().Add(privilege);
-                testingContext.SaveChanges();
+            context.Add(privilege);
+            context.SaveChanges();
 
-                foreach (RolePrivilege rolePriv in role.RolePrivileges)
-                    testingContext.Set<Privilege>().Add(rolePriv.Privilege);
-                foreach (RolePrivilege rolePriv in role.RolePrivileges)
-                    testingContext.Set<RolePrivilege>().Add(rolePriv);
-                testingContext.SaveChanges();
-            }
+            RoleView view = ObjectFactory.CreateRoleView();
+            view.PrivilegesTree = CreatePrivilegesTree(role);
+            view.PrivilegesTree.SelectedIds.Add(privilege.Id);
+            view.PrivilegesTree.SelectedIds.RemoveAt(0);
 
-            RoleView roleView = CreateRoleView();
-            roleView.PrivilegesTree.SelectedIds.RemoveAt(0);
-            roleView.PrivilegesTree.SelectedIds.Add(privilege.Id);
-
-            service.Edit(roleView);
+            service.Edit(view);
 
             IEnumerable<String> actual = context.Set<RolePrivilege>().AsNoTracking().Select(rolePriv => rolePriv.PrivilegeId).OrderBy(privilegeId => privilegeId);
-            IEnumerable<String> expected = roleView.PrivilegesTree.SelectedIds.OrderBy(privilegeId => privilegeId);
+            IEnumerable<String> expected = view.PrivilegesTree.SelectedIds.OrderBy(privilegeId => privilegeId);
 
             Assert.Equal(expected, actual);
         }
@@ -322,13 +266,6 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_RefreshesAuthorization()
         {
-            using (TestingContext context = new TestingContext())
-            {
-                Role role = ObjectFactory.CreateRole();
-                context.Set<Role>().Add(role);
-                context.SaveChanges();
-            }
-
             service.Edit(ObjectFactory.CreateRoleView());
 
             authorizationProvider.Received().Refresh();
@@ -342,26 +279,20 @@ namespace MvcTemplate.Tests.Unit.Services
         public void Delete_NullsAccountRoles()
         {
             Account account = ObjectFactory.CreateAccount();
-            Role role = ObjectFactory.CreateRole();
             account.RoleId = role.Id;
-            account.Role = role;
+            account.Role = null;
 
-            context.Set<Role>().Add(account.Role);
-            context.Set<Account>().Add(account);
+            context.Add(account);
             context.SaveChanges();
 
             service.Delete(role.Id);
 
-            Assert.NotEmpty(context.Set<Account>().Where(acc => acc.Id == account.Id && acc.RoleId == null));
+            Assert.NotEmpty(context.Set<Account>().Where(model => model.Id == account.Id && model.RoleId == null));
         }
 
         [Fact]
         public void Delete_Role()
         {
-            Role role = ObjectFactory.CreateRole();
-            context.Set<Role>().Add(role);
-            context.SaveChanges();
-
             service.Delete(role.Id);
 
             Assert.Empty(context.Set<Role>());
@@ -370,13 +301,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Delete_RolePrivileges()
         {
-            RolePrivilege rolePrivilege = ObjectFactory.CreateRolePrivilege();
-            context.Set<Privilege>().Add(rolePrivilege.Privilege);
-            context.Set<RolePrivilege>().Add(rolePrivilege);
-            context.Set<Role>().Add(rolePrivilege.Role);
-            context.SaveChanges();
-
-            service.Delete(rolePrivilege.RoleId);
+            service.Delete(role.Id);
 
             Assert.Empty(context.Set<RolePrivilege>());
         }
@@ -384,10 +309,6 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Delete_RefreshesAuthorization()
         {
-            Role role = ObjectFactory.CreateRole();
-            context.Set<Role>().Add(role);
-            context.SaveChanges();
-
             service.Delete(role.Id);
 
             authorizationProvider.Received().Refresh();
@@ -396,6 +317,26 @@ namespace MvcTemplate.Tests.Unit.Services
         #endregion
 
         #region Test helpers
+
+        private void SetUpData()
+        {
+            context.Add(role = ObjectFactory.CreateRole());
+            foreach (String controller in new[] { "Roles", "Profile" })
+                foreach (String action in new[] { "Edit", "Delete" })
+                {
+                    RolePrivilege rolePrivilege = ObjectFactory.CreateRolePrivilege(role.RolePrivileges.Count + 1);
+                    rolePrivilege.Privilege.Area = controller == "Roles" ? "Administration" : null;
+                    rolePrivilege.Privilege.Controller = controller;
+                    rolePrivilege.Privilege.Action = action;
+                    rolePrivilege.RoleId = role.Id;
+                    rolePrivilege.Role = null;
+
+                    role.RolePrivileges.Add(rolePrivilege);
+                    context.Add(rolePrivilege.Privilege);
+                }
+
+            context.SaveChanges();
+        }
 
         private JsTree CreatePrivilegesTree(Role role)
         {
@@ -437,43 +378,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
             return expectedTree;
         }
-        private Role CreateRoleWithPrivileges()
-        {
-            Int32 privilegeNumber = 1;
-            Role role = ObjectFactory.CreateRole();
 
-            foreach (String controller in new[] { "Roles", "Profile" })
-                foreach (String action in new[] { "Edit", "Delete" })
-                {
-                    RolePrivilege rolePrivilege = ObjectFactory.CreateRolePrivilege(privilegeNumber++);
-                    rolePrivilege.Privilege.Area = controller == "Roles" ? "Administration" : null;
-                    rolePrivilege.Privilege.Controller = controller;
-                    rolePrivilege.Privilege.Action = action;
-                    rolePrivilege.RoleId = role.Id;
-                    rolePrivilege.Role = role;
-
-                    role.RolePrivileges.Add(rolePrivilege);
-                }
-
-            return role;
-        }
-        private RoleView CreateRoleView()
-        {
-            Role role = CreateRoleWithPrivileges();
-            RoleView roleView = Mapper.Map<RoleView>(role);
-            roleView.PrivilegesTree = CreatePrivilegesTree(role);
-
-            return roleView;
-        }
-
-        private IEnumerable<JsTreeNode> GetAllBranchNodes(IEnumerable<JsTreeNode> nodes)
-        {
-            List<JsTreeNode> branches = nodes.Where(node => node.Nodes.Count > 0).ToList();
-            foreach (JsTreeNode branch in branches.ToArray())
-                branches.AddRange(GetAllBranchNodes(branch.Nodes));
-
-            return branches;
-        }
         private IEnumerable<JsTreeNode> GetAllLeafNodes(IEnumerable<JsTreeNode> nodes)
         {
             List<JsTreeNode> leafs = nodes.Where(node => node.Nodes.Count == 0).ToList();
@@ -483,6 +388,14 @@ namespace MvcTemplate.Tests.Unit.Services
                 leafs.AddRange(GetAllLeafNodes(branch.Nodes));
 
             return leafs;
+        }
+        private IEnumerable<JsTreeNode> GetAllBranchNodes(IEnumerable<JsTreeNode> nodes)
+        {
+            List<JsTreeNode> branches = nodes.Where(node => node.Nodes.Count > 0).ToList();
+            foreach (JsTreeNode branch in branches.ToArray())
+                branches.AddRange(GetAllBranchNodes(branch.Nodes));
+
+            return branches;
         }
 
         #endregion

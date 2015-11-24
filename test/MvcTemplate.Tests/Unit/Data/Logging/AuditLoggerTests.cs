@@ -26,8 +26,8 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             TestModel model = ObjectFactory.CreateTestModel();
             logger = Substitute.ForPartsOf<AuditLogger>(context, null);
 
-            entry = dataContext.Entry<BaseModel>(dataContext.Set<TestModel>().Add(model).Entity);
-            dataContext.Set<TestModel>().RemoveRange(dataContext.Set<TestModel>());
+            entry = dataContext.Entry<BaseModel>(dataContext.Add(model).Entity);
+            dataContext.RemoveRange(dataContext.Set<TestModel>());
             dataContext.SaveChanges();
         }
         public void Dispose()

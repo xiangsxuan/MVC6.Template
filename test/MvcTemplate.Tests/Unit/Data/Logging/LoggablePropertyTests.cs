@@ -19,7 +19,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             {
                 TestModel model = ObjectFactory.CreateTestModel();
 
-                context.Set<TestModel>().Add(model);
+                context.Add(model);
                 context.Entry(model).State = EntityState.Modified;
                 textProperty = context.Entry(model).Property(prop => prop.Text);
                 dateProperty = context.Entry(model).Property(prop => prop.CreationDate);

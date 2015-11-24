@@ -44,7 +44,7 @@ namespace MvcTemplate.Services
 
         public String Recover(AccountRecoveryView view)
         {
-            Account account = UnitOfWork.Select<Account>().SingleOrDefault(acc => acc.Email.ToLower() == view.Email.ToLower());
+            Account account = UnitOfWork.Select<Account>().SingleOrDefault(model => model.Email.ToLower() == view.Email.ToLower());
             if (account == null) return null;
 
             account.RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(30);
@@ -66,7 +66,7 @@ namespace MvcTemplate.Services
         }
         public void Reset(AccountResetView view)
         {
-            Account account = UnitOfWork.Select<Account>().Single(acc => acc.RecoveryToken == view.Token);
+            Account account = UnitOfWork.Select<Account>().Single(model => model.RecoveryToken == view.Token);
             account.Passhash = Hasher.HashPassword(view.NewPassword);
             account.RecoveryTokenExpirationDate = null;
             account.RecoveryToken = null;

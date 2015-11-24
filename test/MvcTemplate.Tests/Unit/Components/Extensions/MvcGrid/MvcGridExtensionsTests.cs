@@ -61,7 +61,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
             String actual = writer.ToString();
             String expected =
-                $"<a class=\"details-action\" href=\"{urlHelper.Action("Details", new {id = view.Id})}\">" +
+                $"<a class=\"details-action\" href=\"{urlHelper.Action("Details", new { view.Id })}\">" +
                     "<i class=\"fa fa-info\"></i>" +
                 "</a>";
 
@@ -84,7 +84,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
             String actual = writer.ToString();
             String expected =
-                $"<a class=\"details-action\" href=\"{urlHelper.Action("Details", new { id = view.Id })}\">" +
+                $"<a class=\"details-action\" href=\"{urlHelper.Action("Details", new { view.Id })}\">" +
                     "<i class=\"fa fa-info\"></i>" +
                 "</a>";
 

@@ -18,7 +18,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
             context = new TestingContext();
             logger = new Logger(context);
 
-            context.Set<Log>().RemoveRange(context.Set<Log>());
+            context.RemoveRange(context.Set<Log>());
             context.SaveChanges();
         }
         public void Dispose()

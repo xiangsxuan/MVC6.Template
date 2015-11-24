@@ -339,12 +339,12 @@ namespace MvcTemplate.Tests.Unit.Components.Security
                 rolePrivilege.Privilege.Action = action;
                 rolePrivilege.Privilege.Area = area;
 
-                context.Set<Role>().Add(rolePrivilege.Role);
-                context.Set<Account>().Add(account);
+                context.Add(rolePrivilege.Role);
+                context.Add(account);
                 context.SaveChanges();
 
-                context.Set<Privilege>().Add(rolePrivilege.Privilege);
-                context.Set<RolePrivilege>().Add(rolePrivilege);
+                context.Add(rolePrivilege.Privilege);
+                context.Add(rolePrivilege);
                 context.SaveChanges();
 
                 provider.Refresh();

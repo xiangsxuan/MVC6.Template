@@ -24,7 +24,7 @@ namespace MvcTemplate.Components.Logging
             log.Message = message;
             log.AccountId = !String.IsNullOrEmpty(accountId) ? accountId : null;
 
-            Context.Set<Log>().Add(log);
+            Context.Add(log);
             Context.SaveChanges();
         }
 

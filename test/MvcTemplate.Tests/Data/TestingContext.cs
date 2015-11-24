@@ -21,10 +21,10 @@ namespace MvcTemplate.Tests.Data
 
         public void DropData()
         {
-            Set<RolePrivilege>().RemoveRange(Set<RolePrivilege>());
-            Set<Privilege>().RemoveRange(Set<Privilege>());
-            Set<Account>().RemoveRange(Set<Account>());
-            Set<Role>().RemoveRange(Set<Role>());
+            RemoveRange(Set<RolePrivilege>());
+            RemoveRange(Set<Privilege>());
+            RemoveRange(Set<Account>());
+            RemoveRange(Set<Role>());
 
             SaveChanges();
         }

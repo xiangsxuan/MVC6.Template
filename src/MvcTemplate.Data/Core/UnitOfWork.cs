@@ -41,11 +41,11 @@ namespace MvcTemplate.Data.Core
 
         public void InsertRange<TModel>(IEnumerable<TModel> models) where TModel : BaseModel
         {
-            Context.Set<TModel>().AddRange(models);
+            Context.AddRange(models);
         }
         public void Insert<TModel>(TModel model) where TModel : BaseModel
         {
-            Context.Set<TModel>().Add(model);
+            Context.Add(model);
         }
         public void Update<TModel>(TModel model) where TModel : BaseModel
         {
@@ -55,11 +55,11 @@ namespace MvcTemplate.Data.Core
 
         public void DeleteRange<TModel>(IEnumerable<TModel> models) where TModel : BaseModel
         {
-            Context.Set<TModel>().RemoveRange(models);
+            Context.RemoveRange(models);
         }
         public void Delete<TModel>(TModel model) where TModel : BaseModel
         {
-            Context.Set<TModel>().Remove(model);
+            Context.Remove(model);
         }
         public void Delete<TModel>(String id) where TModel : BaseModel
         {

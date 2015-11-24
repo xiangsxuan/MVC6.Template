@@ -22,10 +22,10 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context = new TestingContext();
             select = new Select<TestModel>(context.Set<TestModel>());
 
-            context.Set<TestModel>().RemoveRange(context.Set<TestModel>());
+            context.RemoveRange(context.Set<TestModel>());
             context.SaveChanges();
 
-            context.Set<TestModel>().Add(ObjectFactory.CreateTestModel());
+            context.Add(ObjectFactory.CreateTestModel());
             context.SaveChanges();
         }
         public void Dispose()

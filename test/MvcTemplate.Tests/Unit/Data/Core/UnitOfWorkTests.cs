@@ -26,7 +26,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             logger = Substitute.For<IAuditLogger>();
             unitOfWork = new UnitOfWork(context, logger);
 
-            context.Set<TestModel>().RemoveRange(context.Set<TestModel>());
+            context.RemoveRange(context.Set<TestModel>());
             context.SaveChanges();
         }
         public void Dispose()
@@ -40,12 +40,12 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void GetAs_ReturnsModelAsDestinationModelById()
         {
-            TestModel model = ObjectFactory.CreateTestModel();
-            context.Set<TestModel>().Add(model);
+            TestModel testModel = ObjectFactory.CreateTestModel();
+            context.Add(testModel);
             context.SaveChanges();
 
             TestView expected = Mapper.Map<TestView>(context.Set<TestModel>().AsNoTracking().Single());
-            TestView actual = unitOfWork.GetAs<TestModel, TestView>(model.Id);
+            TestView actual = unitOfWork.GetAs<TestModel, TestView>(testModel.Id);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Text, actual.Text);
@@ -59,12 +59,12 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Get_ModelById()
         {
-            TestModel model = ObjectFactory.CreateTestModel();
-            context.Set<TestModel>().Add(model);
+            TestModel testModel = ObjectFactory.CreateTestModel();
+            context.Add(testModel);
             context.SaveChanges();
 
             TestModel expected = context.Set<TestModel>().AsNoTracking().Single();
-            TestModel actual = unitOfWork.Get<TestModel>(model.Id);
+            TestModel actual = unitOfWork.Get<TestModel>(testModel.Id);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Text, actual.Text);
@@ -101,8 +101,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Select_FromSet()
         {
-            TestModel model = ObjectFactory.CreateTestModel();
-            context.Set<TestModel>().Add(model);
+            TestModel testModel = ObjectFactory.CreateTestModel();
+            context.Add(testModel);
             context.SaveChanges();
 
             IEnumerable<TestModel> actual = unitOfWork.Select<TestModel>();
@@ -188,7 +188,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         {
             IEnumerable<TestModel> models = new[] { ObjectFactory.CreateTestModel(1), ObjectFactory.CreateTestModel(2) };
             foreach (TestModel model in models)
-                context.Set<TestModel>().Add(model);
+                context.Add(model);
 
             context.SaveChanges();
 
@@ -205,11 +205,11 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Delete_Model()
         {
-            TestModel model = ObjectFactory.CreateTestModel();
-            context.Set<TestModel>().Add(model);
+            TestModel testModel = ObjectFactory.CreateTestModel();
+            context.Add(testModel);
             context.SaveChanges();
 
-            unitOfWork.Delete(model);
+            unitOfWork.Delete(testModel);
             unitOfWork.Commit();
 
             Assert.Empty(context.Set<TestModel>());
@@ -222,11 +222,11 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Delete_ModelById()
         {
-            TestModel model = ObjectFactory.CreateTestModel();
-            context.Set<TestModel>().Add(model);
+            TestModel testModel = ObjectFactory.CreateTestModel();
+            context.Add(testModel);
             context.SaveChanges();
 
-            unitOfWork.Delete<TestModel>(model.Id);
+            unitOfWork.Delete<TestModel>(testModel.Id);
             unitOfWork.Commit();
 
             Assert.Empty(context.Set<TestModel>());
@@ -239,7 +239,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Rollback_Changes()
         {
-            context.Set<TestModel>().Add(ObjectFactory.CreateTestModel());
+            context.Add(ObjectFactory.CreateTestModel());
 
             unitOfWork.Rollback();
             unitOfWork.Commit();

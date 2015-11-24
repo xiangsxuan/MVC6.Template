@@ -45,7 +45,7 @@ namespace MvcTemplate.Data.Logging
             log.Action = entity.Action;
             log.EntityId = entity.Id;
 
-            Context.Set<AuditLog>().Add(log);
+            Context.Add(log);
         }
         public virtual void Save()
         {

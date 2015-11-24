@@ -21,8 +21,8 @@ namespace MvcTemplate.Tests.Unit.Validators
             validator = new RoleValidator(new UnitOfWork(context));
 
             context.DropData();
-            role = ObjectFactory.CreateRole();
-            context.Set<Role>().Add(role);
+
+            context.Add(role = ObjectFactory.CreateRole());
             context.SaveChanges();
         }
         public void Dispose()

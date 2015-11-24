@@ -237,7 +237,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
             service.Create(view);
 
-            Account actual = context.Set<Account>().AsNoTracking().Single(acc => acc.Id == view.Id);
+            Account actual = context.Set<Account>().AsNoTracking().Single(model => model.Id == view.Id);
             AccountCreateView expected = view;
 
             Assert.Equal(hasher.HashPassword(expected.Password), actual.Passhash);
@@ -411,8 +411,9 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             account = ObjectFactory.CreateAccount();
 
-            context.Set<Role>().Add(account.Role);
-            context.Set<Account>().Add(account);
+            context.Add(account.Role);
+            context.Add(account);
+
             context.SaveChanges();
         }
 
