@@ -1,9 +1,11 @@
 ﻿using MvcTemplate.Components.Security;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MvcTemplate.Tests.Unit.Components.Security
 {
     [AllowUnauthorized]
-    public abstract class AllowUnauthorizedController : AuthorizedController
+    [ExcludeFromCodeCoverage]
+    public class AllowUnauthorizedController : AuthorizedController
     {
     }
 }

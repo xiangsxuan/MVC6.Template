@@ -63,7 +63,7 @@ namespace MvcTemplate.Web
 
             services.AddSingleton<IGlobalizationProvider>(provider =>
                 new GlobalizationProvider(Path.Combine(ApplicationBasePath, "Globalization.xml")));
-            services.AddInstance<IAuthorizationProvider>(new AuthorizationProvider(typeof(BaseController).Assembly));
+            services.AddSingleton<IAuthorizationProvider>(provider => new AuthorizationProvider(typeof(BaseController).Assembly, provider));
 
             services.AddTransient<IMvcSiteMapParser, MvcSiteMapParser>();
             services.AddSingleton<IMvcSiteMapProvider>(provider => new MvcSiteMapProvider(

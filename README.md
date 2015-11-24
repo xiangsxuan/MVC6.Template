@@ -6,6 +6,5 @@ Currently various features are not working, because of beta limitations, that in
 - Project renaming.
 - Bootstrap alerts.
 - Audit logging.
-- Authorization.
 - Globalization.
 - Mvc.Datalist.

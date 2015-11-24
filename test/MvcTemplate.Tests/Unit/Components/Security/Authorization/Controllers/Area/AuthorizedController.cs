@@ -2,48 +2,80 @@
 using Microsoft.AspNet.Mvc;
 using MvcTemplate.Components.Security;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MvcTemplate.Tests.Unit.Components.Security.Area
 {
     [Authorize]
     [Area("Area")]
-    public abstract class AuthorizedController : Controller
+    [ExcludeFromCodeCoverage]
+    public class AuthorizedController : Controller
     {
         [HttpGet]
-        public abstract ViewResult Action();
+        public ViewResult Action()
+        {
+            return null;
+        }
 
         [HttpPost]
-        public abstract ViewResult Action(Object obj);
+        public ViewResult Action(Object obj)
+        {
+            return null;
+        }
 
         [HttpGet]
-        public abstract ViewResult AuthorizedGetAction();
+        public ViewResult AuthorizedGetAction()
+        {
+            return null;
+        }
 
         [HttpPost]
         [AllowAnonymous]
-        public abstract ViewResult AuthorizedGetAction(Object obj);
+        public ViewResult AuthorizedGetAction(Object obj)
+        {
+            return null;
+        }
 
         [HttpPost]
-        public abstract ViewResult AuthorizedPostAction();
+        public ViewResult AuthorizedPostAction()
+        {
+            return null;
+        }
 
         [HttpGet]
         [ActionName("AuthorizedNamedGetAction")]
-        public abstract ViewResult GetActionWithName();
+        public ViewResult GetActionWithName()
+        {
+            return null;
+        }
 
         [HttpPost]
         [AllowAnonymous]
         [ActionName("AuthorizedNamedGetAction")]
-        public abstract ViewResult GetActionWithName(Object obj);
+        public ViewResult GetActionWithName(Object obj)
+        {
+            return null;
+        }
 
         [HttpPost]
         [ActionName("AuthorizedNamedPostAction")]
-        public abstract ViewResult PostActionWithName();
+        public ViewResult PostActionWithName()
+        {
+            return null;
+        }
 
         [HttpGet]
         [AuthorizeAs("Action")]
-        public abstract ViewResult AuthorizedAsAction();
+        public ViewResult AuthorizedAsAction()
+        {
+            return null;
+        }
 
         [HttpGet]
         [AuthorizeAs("InheritanceAction", Controller = "InheritedAuthorized", Area = "")]
-        public abstract ViewResult AuthorizedAsOtherAction();
+        public ViewResult AuthorizedAsOtherAction()
+        {
+            return null;
+        }
     }
 }
