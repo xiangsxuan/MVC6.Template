@@ -1,6 +1,7 @@
 ﻿using MvcTemplate.Objects;
 using MvcTemplate.Tests.Objects;
 using System;
+using System.Collections.Generic;
 
 namespace MvcTemplate.Tests
 {
@@ -143,7 +144,9 @@ namespace MvcTemplate.Tests
             {
                 Id = "Id" + id,
 
-                Title = "Title" + id
+                Title = "Title" + id,
+
+                RolePrivileges = new List<RolePrivilege>()
             };
         }
         public static RoleView CreateRoleView(Int32 id = 1)

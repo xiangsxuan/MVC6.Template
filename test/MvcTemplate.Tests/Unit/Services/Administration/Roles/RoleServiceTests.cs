@@ -293,9 +293,11 @@ namespace MvcTemplate.Tests.Unit.Services
         public void Edit_RolePrivileges()
         {
             Role role = CreateRoleWithPrivileges();
+            Privilege privilege = ObjectFactory.CreatePrivilege(100);
             using (TestingContext testingContext = new TestingContext())
             {
                 testingContext.Set<Role>().Add(role, GraphBehavior.SingleObject);
+                testingContext.Set<Privilege>().Add(privilege);
                 testingContext.SaveChanges();
 
                 foreach (RolePrivilege rolePriv in role.RolePrivileges)
@@ -307,11 +309,12 @@ namespace MvcTemplate.Tests.Unit.Services
 
             RoleView roleView = CreateRoleView();
             roleView.PrivilegesTree.SelectedIds.RemoveAt(0);
+            roleView.PrivilegesTree.SelectedIds.Add(privilege.Id);
 
             service.Edit(roleView);
 
-            IEnumerable<String> actual = context.Set<RolePrivilege>().AsNoTracking().Select(rolePriv => rolePriv.PrivilegeId);
-            IEnumerable<String> expected = CreateRoleView().PrivilegesTree.SelectedIds.Skip(1);
+            IEnumerable<String> actual = context.Set<RolePrivilege>().AsNoTracking().Select(rolePriv => rolePriv.PrivilegeId).OrderBy(privilegeId => privilegeId);
+            IEnumerable<String> expected = roleView.PrivilegesTree.SelectedIds.OrderBy(privilegeId => privilegeId);
 
             Assert.Equal(expected, actual);
         }
@@ -438,7 +441,6 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             Int32 privilegeNumber = 1;
             Role role = ObjectFactory.CreateRole();
-            role.RolePrivileges = new List<RolePrivilege>();
 
             foreach (String controller in new[] { "Roles", "Profile" })
                 foreach (String action in new[] { "Edit", "Delete" })

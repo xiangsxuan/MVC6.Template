@@ -93,9 +93,9 @@ namespace MvcTemplate.Services
         }
         public void Edit(RoleView view)
         {
-            DeleteRolePrivileges(view.Id);
-            CreateRolePrivileges(view);
-            EditRole(view);
+            Role role = UnitOfWork.Get<Role>(view.Id);
+            EditRolePrivileges(role, view);
+            EditRole(role, view);
 
             UnitOfWork.Commit();
 
@@ -118,17 +118,35 @@ namespace MvcTemplate.Services
 
             UnitOfWork.Insert(role);
         }
-        private void EditRole(RoleView view)
+        private void CreateRolePrivileges(RoleView view)
         {
-            Role role = UnitOfWork.To<Role>(view);
+            foreach (String privilegeId in view.PrivilegesTree.SelectedIds)
+                UnitOfWork.Insert(new RolePrivilege { RoleId = view.Id, PrivilegeId = privilegeId });
+        }
+
+        private void EditRole(Role role, RoleView view)
+        {
+            role.Title = view.Title;
 
             UnitOfWork.Update(role);
         }
+        private void EditRolePrivileges(Role role, RoleView view)
+        {
+            List<String> selectedPrivileges = view.PrivilegesTree.SelectedIds.ToList();
+            RolePrivilege[] rolePrivileges = UnitOfWork.Select<RolePrivilege>().Where(rolePrivilege => rolePrivilege.RoleId == role.Id).ToArray();
+
+            foreach (RolePrivilege rolePrivilege in rolePrivileges)
+                if (!selectedPrivileges.Remove(rolePrivilege.PrivilegeId))
+                    UnitOfWork.Delete(rolePrivilege);
+
+            foreach (String privilegeId in selectedPrivileges)
+                UnitOfWork.Insert(new RolePrivilege { RoleId = role.Id, PrivilegeId = privilegeId });
+        }
+
         private void DeleteRole(String id)
         {
             UnitOfWork.Delete<Role>(id);
         }
-
         private void DeleteRolePrivileges(String roleId)
         {
             IQueryable<RolePrivilege> rolePrivileges = UnitOfWork
@@ -137,15 +155,6 @@ namespace MvcTemplate.Services
 
             foreach (RolePrivilege rolePrivilege in rolePrivileges)
                 UnitOfWork.Delete(rolePrivilege);
-        }
-        private void CreateRolePrivileges(RoleView role)
-        {
-            foreach (String privilegeId in role.PrivilegesTree.SelectedIds)
-                UnitOfWork.Insert(new RolePrivilege
-                {
-                    RoleId = role.Id,
-                    PrivilegeId = privilegeId
-                });
         }
         private void RemoveRoleFromAccounts(String roleId)
         {
