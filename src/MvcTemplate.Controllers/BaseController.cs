@@ -4,6 +4,7 @@ using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Alerts;
+using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,8 @@ namespace MvcTemplate.Controllers
         {
             base.OnActionExecuting(context);
 
+            IGlobalizationProvider globalizationProvider = HttpContext.ApplicationServices.GetRequiredService<IGlobalizationProvider>();
+            globalizationProvider.CurrentLanguage = globalizationProvider[RouteData.Values["language"] as String];
             AuthorizationProvider = HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
         }
 

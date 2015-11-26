@@ -1,4 +1,5 @@
 ﻿<!doctype html>
+@{ String culture = Thread.CurrentThread.CurrentUICulture.Name; }
 <html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 <head>
     <meta charset="UTF-8" />
@@ -61,8 +62,9 @@
     <script src="/Scripts/Bootstrap/bootstrap.no-conflict.js"></script>
     <script src="/Scripts/MvcGrid/mvc-grid.js"></script>
     <script src="/Scripts/JsTree/jstree.js"></script>
-    <script src="/Scripts/JQuery/Cultures/globalize.culture.en-GB.js"></script>
-    <script src="/Scripts/JQueryUI/Cultures/datepicker.culture.en-GB.js"></script>
+    <script src="/Scripts/JQuery/Cultures/globalize.culture.@(culture).js"></script>
+    <script src="/Scripts/MvcGrid/Cultures/mvc-grid.culture.@(culture).js"></script>
+    <script src="/Scripts/JQueryUI/Cultures/datepicker.culture.@(culture).js"></script>
     <script src="/Scripts/Shared/menu.js"></script>
     <script src="/Scripts/Shared/site.js"></script>
 </body>

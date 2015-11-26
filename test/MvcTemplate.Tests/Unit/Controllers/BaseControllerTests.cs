@@ -3,6 +3,7 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.ViewFeatures;
 using Microsoft.AspNet.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers;
 using NSubstitute;
@@ -26,6 +27,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
             controller.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            controller.HttpContext.ApplicationServices.GetService<IGlobalizationProvider>().Returns(Substitute.For<IGlobalizationProvider>());
 
             controllerName = controller.RouteData.Values["controller"] as String;
             areaName = controller.RouteData.Values["area"] as String;
@@ -201,6 +203,21 @@ namespace MvcTemplate.Tests.Unit.Controllers
         #endregion
 
         #region Method: OnActionExecuting(ActionExecutingContext context)
+
+        [Fact]
+        public void OnActionExecuting_SetsCurrentLanguage()
+        {
+            IGlobalizationProvider provider = controller.HttpContext.ApplicationServices.GetService<IGlobalizationProvider>();
+            controller.RouteData.Values["language"] = "lt";
+            provider["lt"].Returns(new Language());
+
+            controller.OnActionExecuting(null);
+
+            Language actual = provider.CurrentLanguage;
+            Language expected = provider["lt"];
+
+            Assert.Equal(expected, actual);
+        }
 
         [Fact]
         public void OnActionExecuting_SetsAuthorizationProvider()

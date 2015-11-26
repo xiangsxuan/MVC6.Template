@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using MvcTemplate.Components.Mvc;
 using MvcTemplate.Controllers;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
@@ -19,7 +22,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service = Substitute.For<IService>();
             validator = Substitute.For<IValidator>();
             controller = Substitute.ForPartsOf<ValidatedController<IValidator, IService>>(validator, service);
+            
+            controller.ActionContext.RouteData = new RouteData();
             controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
+            controller.HttpContext.ApplicationServices.GetService<IGlobalizationProvider>().Returns(Substitute.For<IGlobalizationProvider>());
         }
 
         #region Constructor: ValidatedController(TService service, TValidator validator)
