@@ -3,9 +3,11 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.ViewFeatures;
 using Microsoft.AspNet.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers;
+using Newtonsoft.Json;
 using NSubstitute;
 using System;
 using Xunit;
@@ -230,6 +232,43 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Object expected = provider;
 
             Assert.Same(expected, actual);
+        }
+
+        #endregion
+
+        #region Method: OnActionExecuted(ActionExecutedContext context)
+
+        [Fact]
+        public void OnActionExecuted_NullTempDataAlerts_SetsTempDataAlerts()
+        {
+            controller.TempData["Alerts"] = null;
+            controller.Alerts.AddError("Test");
+
+            controller.OnActionExecuted(null);
+
+            Object expected = JsonConvert.SerializeObject(controller.Alerts);
+            Object actual = controller.TempData["Alerts"];
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void OnActionExecuted_MergesTempDataAlerts()
+        {
+            AlertsContainer alerts = new AlertsContainer();
+            alerts.AddError("Test1");
+
+            controller.TempData["Alerts"] = JsonConvert.SerializeObject(alerts);
+
+            controller.Alerts.AddError("Test2");
+            alerts.AddError("Test2");
+
+            controller.OnActionExecuted(null);
+
+            Object expected = JsonConvert.SerializeObject(alerts);
+            Object actual = controller.TempData["Alerts"];
+
+            Assert.Equal(expected, actual);
         }
 
         #endregion

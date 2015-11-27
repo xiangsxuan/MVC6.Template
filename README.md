@@ -4,6 +4,5 @@ Currently various features are not working, because of beta limitations, that in
 - Script and styling minification and bundling.
 - Dynamic script and styling loading.
 - Project renaming.
-- Bootstrap alerts.
 - Audit logging.
 - Mvc.Datalist.

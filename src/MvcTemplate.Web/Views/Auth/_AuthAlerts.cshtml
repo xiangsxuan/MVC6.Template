@@ -1,6 +1,6 @@
 ﻿@{
     IEnumerable<String> errorMessages = ViewData.ModelState.SelectMany(state => state.Value.Errors).Select(error => error.ErrorMessage);
-    AlertsContainer alerts = TempData["Alerts"] as AlertsContainer;
+    AlertsContainer alerts = JsonConvert.DeserializeObject<AlertsContainer>((TempData["Alerts"] as String) ?? "");
 }
 
 <div class="alerts">
