@@ -8,6 +8,7 @@
     "MvcTemplate.Controllers": "",
 
     "NonFactors.Grid.Mvc6": "0.9.0-rc1-final",
+    "NonFactors.Lookup.Mvc6": "0.9.1-rc1-final",
     "Microsoft.AspNet.Session": "1.0.0-rc1-final",
     "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
     "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",

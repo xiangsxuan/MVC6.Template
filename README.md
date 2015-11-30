@@ -5,4 +5,3 @@ Currently various features are not working, because of beta limitations, that in
 - Dynamic script and styling loading.
 - Project renaming.
 - Audit logging.
-- Mvc.Datalist.

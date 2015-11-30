@@ -66,6 +66,47 @@
         return this.optional(element) || /^[+-]?\d+$/.test(value);
     });
     $.validator.unobtrusive.adapters.addBool("integer");
+
+
+    $(document).on('change', '.mvc-lookup-hidden-input', function () {
+        var validator = $(this).parents('form').validate();
+
+        if (validator) {
+            var lookupInput = $(this).prevAll('[data-mvc-lookup-for="' + this.id + '"]');
+            if (validator.element('#' + this.id)) {
+                lookupInput.removeClass('input-validation-error');
+            } else {
+                lookupInput.addClass('input-validation-error');
+            }
+        }
+    });
+    $('form').on('invalid-form', function (form, validator) {
+        var lookups = $(this).find('.mvc-lookup-input');
+        for (var i = 0; i < lookups.length; i++) {
+            var lookupInput = $(lookups[i]);
+            var hiddenInputId = lookupInput.attr('data-mvc-lookup-for');
+
+            if (validator.invalid[hiddenInputId]) {
+                lookupInput.addClass('input-validation-error');
+            } else {
+                lookupInput.removeClass('input-validation-error');
+            }
+        }
+    });
+    $(document).on('ready', function () {
+        var hiddenLookupInputs = $('.mvc-lookup-hidden-input.input-validation-error');
+        for (var i = 0; i < hiddenLookupInputs.length; i++) {
+            var hiddenInput = $(hiddenLookupInputs[i]);
+            hiddenInput.prevAll('[data-mvc-lookup-for="' + hiddenLookupInputs[i].id + '"]').addClass('input-validation-error');
+        }
+    });
+
+    var currentIgnore = $.validator.defaults.ignore;
+    $.validator.setDefaults({
+        ignore: function () {
+            return $(this).is(currentIgnore) && !$(this).hasClass('mvc-lookup-hidden-input');
+        }
+    });
 }());
 
 // Datepicker binding

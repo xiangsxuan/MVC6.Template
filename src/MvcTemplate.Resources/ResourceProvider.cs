@@ -33,6 +33,10 @@ namespace MvcTemplate.Resources
             }
         }
 
+        public static String GetLookupTitle(String lookup)
+        {
+            return GetResource("MvcTemplate.Resources.Lookup.Titles", lookup ?? "");
+        }
         public static String GetContentTitle(IDictionary<String, Object> values)
         {
             String area = values["area"] as String;

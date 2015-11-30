@@ -3,7 +3,10 @@
   "version": "0.1.0",
 
   "dependencies": {
-    "MvcTemplate.Components": ""
+    "MvcTemplate.Components": "",
+
+    "System.Linq.Dynamic": "1.0.4",
+    "NonFactors.Lookup.Core.Mvc6": "0.9.1-rc1-final"
   },
 
   "compilationOptions": {
