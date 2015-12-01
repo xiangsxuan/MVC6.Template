@@ -29,6 +29,7 @@
   color: #555555;
   padding: 9px 10px 8px;
   border-radius: 0;
+  min-height: 35px;
   min-width: 40px;
   font-size: 12px;
   display: block;
