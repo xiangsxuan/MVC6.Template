@@ -28,6 +28,13 @@
     });
 }());
 
+// JQuery dialog overlay binding
+(function () {
+    $(document).on('click', '.ui-widget-overlay', function () {
+        $('.ui-dialog:visible .ui-dialog-titlebar-close').trigger('click');
+    });
+}());
+
 // Globalized validation binding
 (function () {
     $.validator.methods.date = function (value, element) {
