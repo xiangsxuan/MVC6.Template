@@ -22,8 +22,8 @@ namespace MvcTemplate.Services
 
         public virtual void SeedPrivilegesTree(RoleView view)
         {
-            JsTreeNode rootNode = new JsTreeNode(Titles.All);
-            view.PrivilegesTree.Nodes.Add(rootNode);
+            JsTreeNode root = new JsTreeNode(Titles.All);
+            view.PrivilegesTree.Nodes.Add(root);
 
             IEnumerable<Privilege> privileges = GetAllPrivileges();
             foreach (IGrouping<String, Privilege> area in privileges.GroupBy(privilege => privilege.Area))
@@ -32,24 +32,24 @@ namespace MvcTemplate.Services
                 foreach (IGrouping<String, Privilege> controller in area.GroupBy(privilege => privilege.Controller).OrderBy(privilege => privilege.Key))
                 {
                     JsTreeNode controllerNode = new JsTreeNode(controller.Key);
-                    foreach (IGrouping<String, Privilege> action in controller.GroupBy(privilege => privilege.Action).OrderBy(privilege => privilege.Key))
-                        controllerNode.Nodes.Add(new JsTreeNode(action.First().Id, action.Key));
+                    foreach (Privilege privilege in controller)
+                        controllerNode.Nodes.Add(new JsTreeNode(privilege.Id, privilege.Action));
 
                     if (areaNode.Title == null)
-                        rootNode.Nodes.Add(controllerNode);
+                        root.Nodes.Add(controllerNode);
                     else
                         areaNode.Nodes.Add(controllerNode);
                 }
 
                 if (areaNode.Title != null)
-                    rootNode.Nodes.Add(areaNode);
+                    root.Nodes.Add(areaNode);
             }
         }
         private IEnumerable<Privilege> GetAllPrivileges()
         {
             return UnitOfWork
                 .Select<Privilege>()
-                .ToList()
+                .ToArray()
                 .Select(privilege => new Privilege
                 {
                     Id = privilege.Id,
@@ -57,7 +57,9 @@ namespace MvcTemplate.Services
                     Controller = ResourceProvider.GetPrivilegeControllerTitle(privilege.Area, privilege.Controller),
                     Action = ResourceProvider.GetPrivilegeActionTitle(privilege.Area, privilege.Controller, privilege.Action)
                 })
-                .OrderBy(privilege => privilege.Area ?? privilege.Controller);
+                .OrderBy(privilege => privilege.Area ?? privilege.Controller)
+                .ThenBy(privilege => privilege.Controller)
+                .ThenBy(privilege => privilege.Action);
         }
 
         public IQueryable<RoleView> GetViews()

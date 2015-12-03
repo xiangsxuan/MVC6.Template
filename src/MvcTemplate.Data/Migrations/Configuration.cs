@@ -32,16 +32,25 @@ namespace MvcTemplate.Data.Migrations
         {
             Privilege[] privileges =
             {
-                new Privilege { Id = "00000000-0000-0000-0000-000000000001", Area = "Administration", Controller = "Accounts", Action = "Index" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000002", Area = "Administration", Controller = "Accounts", Action = "Create" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000003", Area = "Administration", Controller = "Accounts", Action = "Details" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000004", Area = "Administration", Controller = "Accounts", Action = "Edit" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000001",
+                    Area = "Administration", Controller = "Accounts", Action = "Index" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000002",
+                    Area = "Administration", Controller = "Accounts", Action = "Create" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000003",
+                    Area = "Administration", Controller = "Accounts", Action = "Details" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000004",
+                    Area = "Administration", Controller = "Accounts", Action = "Edit" },
 
-                new Privilege { Id = "00000000-0000-0000-0000-000000000005", Area = "Administration", Controller = "Roles", Action = "Index" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000006", Area = "Administration", Controller = "Roles", Action = "Create" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000007", Area = "Administration", Controller = "Roles", Action = "Details" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000008", Area = "Administration", Controller = "Roles", Action = "Edit" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000009", Area = "Administration", Controller = "Roles", Action = "Delete" }
+                new Privilege { Id = "00000000-0000-0000-0000-000000000005",
+                    Area = "Administration", Controller = "Roles", Action = "Index" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000006",
+                    Area = "Administration", Controller = "Roles", Action = "Create" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000007",
+                    Area = "Administration", Controller = "Roles", Action = "Details" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000008",
+                    Area = "Administration", Controller = "Roles", Action = "Edit" },
+                new Privilege { Id = "00000000-0000-0000-0000-000000000009",
+                    Area = "Administration", Controller = "Roles", Action = "Delete" }
             };
 
             Privilege[] currentPrivileges = UnitOfWork.Select<Privilege>().ToArray();
@@ -49,8 +58,7 @@ namespace MvcTemplate.Data.Migrations
             {
                 if (!privileges.Any(priv => priv.Id == privilege.Id))
                 {
-                    foreach (RolePrivilege rolePrivilege in UnitOfWork.Select<RolePrivilege>().Where(role => role.PrivilegeId == privilege.Id))
-                        UnitOfWork.Delete(rolePrivilege);
+                    UnitOfWork.DeleteRange(UnitOfWork.Select<RolePrivilege>().Where(role => role.PrivilegeId == privilege.Id));
 
                     UnitOfWork.Delete(privilege);
                 }

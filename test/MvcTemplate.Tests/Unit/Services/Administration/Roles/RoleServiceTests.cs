@@ -346,7 +346,7 @@ namespace MvcTemplate.Tests.Unit.Services
             expectedTree.Nodes.Add(rootNode);
             expectedTree.SelectedIds = role.RolePrivileges.Select(rolePrivilege => rolePrivilege.PrivilegeId).ToList();
 
-            IEnumerable<Privilege> allPrivileges = role
+            IEnumerable<Privilege> privileges = role
                 .RolePrivileges
                 .Select(rolePriv => rolePriv.Privilege)
                 .Select(privilege => new Privilege
@@ -357,14 +357,14 @@ namespace MvcTemplate.Tests.Unit.Services
                     Action = ResourceProvider.GetPrivilegeActionTitle(privilege.Area, privilege.Controller, privilege.Action)
                 });
 
-            foreach (IGrouping<String, Privilege> areaPrivilege in allPrivileges.GroupBy(privilege => privilege.Area).OrderBy(privilege => privilege.Key ?? privilege.FirstOrDefault().Controller))
+            foreach (IGrouping<String, Privilege> area in privileges.GroupBy(privilege => privilege.Area).OrderBy(privilege => privilege.Key ?? privilege.FirstOrDefault().Controller))
             {
-                JsTreeNode areaNode = new JsTreeNode(areaPrivilege.Key);
-                foreach (IGrouping<String, Privilege> controllerPrivilege in areaPrivilege.GroupBy(privilege => privilege.Controller).OrderBy(privilege => privilege.Key))
+                JsTreeNode areaNode = new JsTreeNode(area.Key);
+                foreach (IGrouping<String, Privilege> controller in area.GroupBy(privilege => privilege.Controller).OrderBy(privilege => privilege.Key))
                 {
-                    JsTreeNode controllerNode = new JsTreeNode(controllerPrivilege.Key);
-                    foreach (IGrouping<String, Privilege> actionPrivilege in controllerPrivilege.GroupBy(privilege => privilege.Action).OrderBy(privilege => privilege.Key))
-                        controllerNode.Nodes.Add(new JsTreeNode(actionPrivilege.First().Id, actionPrivilege.Key));
+                    JsTreeNode controllerNode = new JsTreeNode(controller.Key);
+                    foreach (Privilege privilege in controller.OrderBy(privilege => privilege.Action))
+                        controllerNode.Nodes.Add(new JsTreeNode(privilege.Id, privilege.Action));
 
                     if (areaNode.Title == null)
                         rootNode.Nodes.Add(controllerNode);
