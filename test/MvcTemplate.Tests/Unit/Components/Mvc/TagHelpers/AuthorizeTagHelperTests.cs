@@ -22,6 +22,28 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #region Method: Process(TagHelperContext context, TagHelperOutput output)
 
+        [Fact]
+        public void Process_NullAuthorizationProvider_RemovedWrappingTag()
+        {
+            helper = new AuthorizeTagHelper(null);
+
+            output.PostContent.SetContent("PostContent");
+            output.PostElement.SetContent("PostElement");
+            output.PreContent.SetContent("PreContent");
+            output.PreElement.SetContent("PreElement");
+            output.Content.SetContent("Content");
+            output.TagName = "TagName";
+
+            helper.Process(null, output);
+
+            Assert.Equal("PostContent", output.PostContent.GetContent());
+            Assert.Equal("PostElement", output.PostElement.GetContent());
+            Assert.Equal("PreContent", output.PreContent.GetContent());
+            Assert.Equal("PreElement", output.PreElement.GetContent());
+            Assert.Equal("Content", output.Content.GetContent());
+            Assert.Null(output.TagName);
+        }
+
         [Theory]
         [InlineData("A", "B", "C", "D", "E", "F", "A", "B", "C")]
         [InlineData(null, null, null, "A", "B", "C", "A", "B", "C")]
