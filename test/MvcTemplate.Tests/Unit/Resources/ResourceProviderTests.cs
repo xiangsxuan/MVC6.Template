@@ -10,6 +10,31 @@ namespace MvcTemplate.Tests.Unit.Resources
 {
     public class ResourceProviderTests
     {
+        #region Static method: GetLookupTitle(String Lookup)
+
+        [Fact]
+        public void GetLookupTitle_IsCaseInsensitive()
+        {
+            String expected = MvcTemplate.Resources.Lookup.Titles.Role;
+            String actual = ResourceProvider.GetLookupTitle("role");
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GetLookupTitle_NotFound_ReturnsNull()
+        {
+            Assert.Null(ResourceProvider.GetLookupTitle("Test"));
+        }
+
+        [Fact]
+        public void GetLookupTitle_NullLookup_ReturnsNull()
+        {
+            Assert.Null(ResourceProvider.GetLookupTitle(null));
+        }
+
+        #endregion
+
         #region Static method: GetContentTitle(IDictionary<String, Object> values)
 
         [Fact]
