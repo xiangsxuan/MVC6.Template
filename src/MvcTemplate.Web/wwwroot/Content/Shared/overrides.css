@@ -118,6 +118,9 @@
   margin: 0 15px 10px;
 }
 /* Mvc.Lookup */
+.mvc-lookup-dialog .ui-dialog-title {
+    min-height: 21px;
+}
 .mvc-lookup-table-body tr:hover .mvc-lookup-select-container i::after {
   color: #9AEA9A;
 }
