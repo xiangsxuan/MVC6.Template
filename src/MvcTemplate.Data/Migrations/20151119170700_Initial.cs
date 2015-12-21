@@ -39,7 +39,7 @@ namespace MvcTemplate.Data.Migrations
                     table.PrimaryKey("PK_Log", x => x.Id);
                 });
             migrationBuilder.CreateTable(
-                name: "Privilege",
+                name: "Permission",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -50,7 +50,7 @@ namespace MvcTemplate.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Privilege", x => x.Id);
+                    table.PrimaryKey("PK_Permission", x => x.Id);
                 });
             migrationBuilder.CreateTable(
                 name: "Role",
@@ -89,24 +89,24 @@ namespace MvcTemplate.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
-                name: "RolePrivilege",
+                name: "RolePermission",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false),
-                    PrivilegeId = table.Column<string>(nullable: false),
+                    PermissionId = table.Column<string>(nullable: false),
                     RoleId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RolePrivilege", x => x.Id);
+                    table.PrimaryKey("PK_RolePermission", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RolePrivilege_Privilege_PrivilegeId",
-                        column: x => x.PrivilegeId,
-                        principalTable: "Privilege",
+                        name: "FK_RolePermission_Permission_PermissionId",
+                        column: x => x.PermissionId,
+                        principalTable: "Permission",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_RolePrivilege_Role_RoleId",
+                        name: "FK_RolePermission_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id");
@@ -132,12 +132,12 @@ namespace MvcTemplate.Data.Migrations
                 column: "Title",
                 unique: true);
             migrationBuilder.CreateIndex(
-                name: "IX_PrivilegeId",
-                table: "RolePrivilege",
-                column: "PrivilegeId");
+                name: "IX_PermissionId",
+                table: "RolePermission",
+                column: "PermissionId");
             migrationBuilder.CreateIndex(
                 name: "IX_RoleId",
-                table: "RolePrivilege",
+                table: "RolePermission",
                 column: "RoleId");
         }
 
@@ -146,8 +146,8 @@ namespace MvcTemplate.Data.Migrations
             migrationBuilder.DropTable("Account");
             migrationBuilder.DropTable("AuditLog");
             migrationBuilder.DropTable("Log");
-            migrationBuilder.DropTable("RolePrivilege");
-            migrationBuilder.DropTable("Privilege");
+            migrationBuilder.DropTable("RolePermission");
+            migrationBuilder.DropTable("Permission");
             migrationBuilder.DropTable("Role");
         }
     }

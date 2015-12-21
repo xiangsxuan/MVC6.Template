@@ -146,7 +146,7 @@ namespace MvcTemplate.Tests
 
                 Title = "Title" + id,
 
-                RolePrivileges = new List<RolePrivilege>()
+                RolePermissions = new List<RolePermission>()
             };
         }
         public static RoleView CreateRoleView(Int32 id = 1)
@@ -159,9 +159,9 @@ namespace MvcTemplate.Tests
             };
         }
 
-        public static Privilege CreatePrivilege(Int32 id = 1)
+        public static Permission CreatePermission(Int32 id = 1)
         {
-            return new Privilege
+            return new Permission
             {
                 Id = "Id" + id,
 
@@ -170,17 +170,17 @@ namespace MvcTemplate.Tests
                 Controller = "Controller" + id
             };
         }
-        public static RolePrivilege CreateRolePrivilege(Int32 id = 1)
+        public static RolePermission CreateRolePermission(Int32 id = 1)
         {
-            return new RolePrivilege
+            return new RolePermission
             {
                 Id = "Id" + id,
 
                 RoleId = "Id" + id,
                 Role = CreateRole(id),
 
-                PrivilegeId = "Id" + id,
-                Privilege = CreatePrivilege(id)
+                PermissionId = "Id" + id,
+                Permission = CreatePermission(id)
             };
         }
 

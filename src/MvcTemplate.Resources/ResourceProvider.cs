@@ -50,17 +50,17 @@ namespace MvcTemplate.Resources
             return GetResource("MvcTemplate.Resources.SiteMap.Titles", area + controller + action);
         }
 
-        public static String GetPrivilegeAreaTitle(String area)
+        public static String GetPermissionAreaTitle(String area)
         {
-            return GetResource("MvcTemplate.Resources.Privilege.Area.Titles", area ?? "");
+            return GetResource("MvcTemplate.Resources.Permission.Area.Titles", area ?? "");
         }
-        public static String GetPrivilegeControllerTitle(String area, String controller)
+        public static String GetPermissionControllerTitle(String area, String controller)
         {
-            return GetResource("MvcTemplate.Resources.Privilege.Controller.Titles", area + controller);
+            return GetResource("MvcTemplate.Resources.Permission.Controller.Titles", area + controller);
         }
-        public static String GetPrivilegeActionTitle(String area, String controller, String action)
+        public static String GetPermissionActionTitle(String area, String controller, String action)
         {
-            return GetResource("MvcTemplate.Resources.Privilege.Action.Titles", area + controller + action);
+            return GetResource("MvcTemplate.Resources.Permission.Action.Titles", area + controller + action);
         }
 
         public static String GetPropertyTitle<TModel, TProperty>(Expression<Func<TModel, TProperty>> property)

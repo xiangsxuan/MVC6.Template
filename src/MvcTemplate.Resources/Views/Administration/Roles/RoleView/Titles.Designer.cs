@@ -70,11 +70,11 @@ namespace MvcTemplate.Resources.Views.Administration.Roles.RoleView {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Privileges.
+        ///   Looks up a localized string similar to Permissions.
         /// </summary>
-        public static string PrivilegesTree {
+        public static string Permissions {
             get {
-                return ResourceManager.GetString("PrivilegesTree", resourceCulture);
+                return ResourceManager.GetString("Permissions", resourceCulture);
             }
         }
         

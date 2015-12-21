@@ -10,6 +10,6 @@ namespace MvcTemplate.Objects
         [StringLength(128)]
         public String Title { get; set; }
 
-        public virtual IList<RolePrivilege> RolePrivileges { get; set; }
+        public virtual IList<RolePermission> RolePermissions { get; set; }
     }
 }

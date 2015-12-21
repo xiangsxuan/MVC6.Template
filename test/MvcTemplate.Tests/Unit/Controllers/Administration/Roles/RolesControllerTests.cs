@@ -51,16 +51,16 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             RoleView actual = controller.Create().ViewData.Model as RoleView;
 
-            Assert.NotNull(actual.PrivilegesTree);
+            Assert.NotNull(actual.Permissions);
             Assert.Null(actual.Title);
         }
 
         [Fact]
-        public void Create_SeedsPrivilegesTree()
+        public void Create_SeedsPermissions()
         {
             RoleView view = controller.Create().ViewData.Model as RoleView;
 
-            service.Received().SeedPrivilegesTree(view);
+            service.Received().SeedPermissions(view);
         }
 
         #endregion
@@ -74,13 +74,13 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Create_CanNotCreate_SeedsPrivilegesTree()
+        public void Create_CanNotCreate_SeedsPermissions()
         {
             validator.CanCreate(role).Returns(false);
 
             controller.Create(role);
 
-            service.Received().SeedPrivilegesTree(role);
+            service.Received().SeedPermissions(role);
         }
 
         [Fact]
@@ -150,13 +150,13 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         #region Method: Edit(RoleView role)
 
         [Fact]
-        public void Edit_CanNotEdit_SeedsPrivilegesTree()
+        public void Edit_CanNotEdit_SeedsPermissions()
         {
             validator.CanEdit(role).Returns(false);
 
             controller.Edit(role);
 
-            service.Received().SeedPrivilegesTree(role);
+            service.Received().SeedPermissions(role);
         }
 
         [Fact]

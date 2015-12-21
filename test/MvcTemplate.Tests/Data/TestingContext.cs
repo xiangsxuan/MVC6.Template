@@ -21,8 +21,8 @@ namespace MvcTemplate.Tests.Data
 
         public void DropData()
         {
-            RemoveRange(Set<RolePrivilege>());
-            RemoveRange(Set<Privilege>());
+            RemoveRange(Set<RolePermission>());
+            RemoveRange(Set<Permission>());
             RemoveRange(Set<Account>());
             RemoveRange(Set<Role>());
 

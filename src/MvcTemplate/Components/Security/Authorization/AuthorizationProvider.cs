@@ -15,12 +15,12 @@ namespace MvcTemplate.Components.Security
         private IEnumerable<Type> Controllers { get; }
         private IServiceProvider ServiceProvider { get; }
         private Dictionary<String, String> Required { get; }
-        private Dictionary<String, HashSet<String>> Privileges { get; set; }
+        private Dictionary<String, HashSet<String>> Permissions { get; set; }
 
         public AuthorizationProvider(Assembly controllersAssembly, IServiceProvider provider)
         {
             Controllers = GetValidControllers(controllersAssembly);
-            Privileges = new Dictionary<String, HashSet<String>>();
+            Permissions = new Dictionary<String, HashSet<String>>();
             Required = new Dictionary<String, String>();
             ServiceProvider = provider;
 
@@ -28,11 +28,11 @@ namespace MvcTemplate.Components.Security
             {
                 foreach (MethodInfo method in GetValidMethods(type))
                 {
-                    String privilege = (GetArea(type) + "/" + GetController(type) + "/" + GetAction(method)).ToLower();
-                    String requiredPrivilege = GetRequiredPrivilege(type, method);
+                    String permission = (GetArea(type) + "/" + GetController(type) + "/" + GetAction(method)).ToLower();
+                    String requiredPermission = GetRequiredPermission(type, method);
 
-                    if (requiredPrivilege != null && !Required.ContainsKey(privilege))
-                        Required[privilege] = requiredPrivilege;
+                    if (requiredPermission != null && !Required.ContainsKey(permission))
+                        Required[permission] = requiredPermission;
                 }
             }
 
@@ -41,21 +41,21 @@ namespace MvcTemplate.Components.Security
 
         public Boolean IsAuthorizedFor(String accountId, String area, String controller, String action)
         {
-            String privilege = (area + "/" + controller + "/" + action).ToLower();
-            if (!Required.ContainsKey(privilege))
+            String permission = (area + "/" + controller + "/" + action).ToLower();
+            if (!Required.ContainsKey(permission))
                 return true;
 
-            if (!Privileges.ContainsKey(accountId ?? ""))
+            if (!Permissions.ContainsKey(accountId ?? ""))
                 return false;
 
-            return Privileges[accountId].Contains(Required[privilege]);
+            return Permissions[accountId].Contains(Required[permission]);
         }
 
         public void Refresh()
         {
             using (IUnitOfWork unitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>())
             {
-                Privileges = unitOfWork
+                Permissions = unitOfWork
                     .Select<Account>()
                     .Where(account =>
                         !account.IsLocked &&
@@ -63,15 +63,15 @@ namespace MvcTemplate.Components.Security
                     .Select(account => new
                     {
                         Id = account.Id,
-                        Privileges = account
+                        Permissions = account
                             .Role
-                            .RolePrivileges
-                            .Select(role => role.Privilege)
-                            .Select(privilege => ((privilege.Area ?? "") + "/" + privilege.Controller + "/" + privilege.Action).ToLower())
+                            .RolePermissions
+                            .Select(role => role.Permission)
+                            .Select(permission => ((permission.Area ?? "") + "/" + permission.Controller + "/" + permission.Action).ToLower())
                     })
                     .ToDictionary(
                         account => account.Id,
-                        account => new HashSet<String>(account.Privileges));
+                        account => new HashSet<String>(account.Permissions));
             }
         }
 
@@ -101,7 +101,7 @@ namespace MvcTemplate.Components.Security
                     type.IsPublic);
         }
 
-        private String GetRequiredPrivilege(Type type, MethodInfo method)
+        private String GetRequiredPermission(Type type, MethodInfo method)
         {
             AuthorizeAsAttribute authorizeAs = GetAuthorizeAs(method);
             String controller = GetController(type);
@@ -113,7 +113,7 @@ namespace MvcTemplate.Components.Security
                 type = GetControllerType(authorizeAs.Area ?? area, authorizeAs.Controller ?? controller);
                 method = GetMethod(type, authorizeAs.Action);
 
-                return GetRequiredPrivilege(type, method);
+                return GetRequiredPermission(type, method);
             }
 
             if (AllowsUnauthorized(type, method)) return null;

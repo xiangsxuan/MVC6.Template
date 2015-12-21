@@ -22,8 +22,8 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Title, actual.Title);
-            Assert.NotNull(actual.PrivilegesTree);
             Assert.Equal(expected.Id, actual.Id);
+            Assert.NotNull(actual.Permissions);
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(expected.Id, actual.Id);
-            Assert.Null(actual.RolePrivileges);
+            Assert.Null(actual.RolePermissions);
         }
 
         #endregion

@@ -12,11 +12,11 @@ namespace MvcTemplate.Objects
         [StringLength(128)]
         public String Title { get; set; }
 
-        public JsTree PrivilegesTree { get; set; }
+        public JsTree Permissions { get; set; }
 
         public RoleView()
         {
-            PrivilegesTree = new JsTree();
+            Permissions = new JsTree();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MvcTemplate.Objects
 {
-    public class Privilege : BaseModel
+    public class Permission : BaseModel
     {
         [StringLength(128)]
         public String Area { get; set; }

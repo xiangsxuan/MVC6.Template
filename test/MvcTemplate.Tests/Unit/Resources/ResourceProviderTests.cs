@@ -110,65 +110,65 @@ namespace MvcTemplate.Tests.Unit.Resources
 
         #endregion
 
-        #region Static method: GetPrivilegeAreaTitle(String area)
+        #region Static method: GetPermissionAreaTitle(String area)
 
         [Fact]
-        public void GetPrivilegeAreaTitle_IsCaseInsensitive()
+        public void GetPermissionAreaTitle_IsCaseInsensitive()
         {
-            String expected = MvcTemplate.Resources.Privilege.Area.Titles.Administration;
-            String actual = ResourceProvider.GetPrivilegeAreaTitle("administration");
+            String expected = MvcTemplate.Resources.Permission.Area.Titles.Administration;
+            String actual = ResourceProvider.GetPermissionAreaTitle("administration");
 
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void GetPrivilegeAreaTitle_NotFound_ReturnsNull()
+        public void GetPermissionAreaTitle_NotFound_ReturnsNull()
         {
-            Assert.Null(ResourceProvider.GetPrivilegeAreaTitle("Test"));
+            Assert.Null(ResourceProvider.GetPermissionAreaTitle("Test"));
         }
 
         [Fact]
-        public void GetPrivilegeAreaTitle_NullArea_ReturnsNull()
+        public void GetPermissionAreaTitle_NullArea_ReturnsNull()
         {
-            Assert.Null(ResourceProvider.GetPrivilegeAreaTitle(null));
+            Assert.Null(ResourceProvider.GetPermissionAreaTitle(null));
         }
 
         #endregion
 
-        #region Static method: GetPrivilegeControllerTitle(String area, String controller)
+        #region Static method: GetPermissionControllerTitle(String area, String controller)
 
         [Fact]
-        public void GetPrivilegeControllerTitle_ReturnsTitle()
+        public void GetPermissionControllerTitle_ReturnsTitle()
         {
-            String expected = MvcTemplate.Resources.Privilege.Controller.Titles.AdministrationRoles;
-            String actual = ResourceProvider.GetPrivilegeControllerTitle("Administration", "Roles");
+            String expected = MvcTemplate.Resources.Permission.Controller.Titles.AdministrationRoles;
+            String actual = ResourceProvider.GetPermissionControllerTitle("Administration", "Roles");
 
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void GetPrivilegeControllerTitle_NotFound_ReturnsNull()
+        public void GetPermissionControllerTitle_NotFound_ReturnsNull()
         {
-            Assert.Null(ResourceProvider.GetPrivilegeControllerTitle("", ""));
+            Assert.Null(ResourceProvider.GetPermissionControllerTitle("", ""));
         }
 
         #endregion
 
-        #region Static method: GetPrivilegeActionTitle(String area, String controller, String action)
+        #region Static method: GetPermissionActionTitle(String area, String controller, String action)
 
         [Fact]
-        public void GetPrivilegeActionTitle_ReturnsTitle()
+        public void GetPermissionActionTitle_ReturnsTitle()
         {
-            String actual = ResourceProvider.GetPrivilegeActionTitle("administration", "accounts", "index");
-            String expected = MvcTemplate.Resources.Privilege.Action.Titles.AdministrationAccountsIndex;
+            String actual = ResourceProvider.GetPermissionActionTitle("administration", "accounts", "index");
+            String expected = MvcTemplate.Resources.Permission.Action.Titles.AdministrationAccountsIndex;
 
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void GetPrivilegeActionTitle_NotFound_ReturnsNull()
+        public void GetPermissionActionTitle_NotFound_ReturnsNull()
         {
-            Assert.Null(ResourceProvider.GetPrivilegeActionTitle("", "", ""));
+            Assert.Null(ResourceProvider.GetPermissionActionTitle("", "", ""));
         }
 
         #endregion

@@ -6,7 +6,7 @@ namespace MvcTemplate.Services
 {
     public interface IRoleService : IService
     {
-        void SeedPrivilegesTree(RoleView view);
+        void SeedPermissions(RoleView view);
 
         IQueryable<RoleView> GetViews();
         RoleView GetView(String id);

@@ -3,7 +3,7 @@ using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
-using MvcTemplate.Resources.Privilege;
+using MvcTemplate.Resources.Permission;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,20 +20,20 @@ namespace MvcTemplate.Services
             AuthorizationProvider = provider;
         }
 
-        public virtual void SeedPrivilegesTree(RoleView view)
+        public virtual void SeedPermissions(RoleView view)
         {
             JsTreeNode root = new JsTreeNode(Titles.All);
-            view.PrivilegesTree.Nodes.Add(root);
+            view.Permissions.Nodes.Add(root);
 
-            IEnumerable<Privilege> privileges = GetAllPrivileges();
-            foreach (IGrouping<String, Privilege> area in privileges.GroupBy(privilege => privilege.Area))
+            IEnumerable<Permission> permissions = GetAllPermissions();
+            foreach (IGrouping<String, Permission> area in permissions.GroupBy(permission => permission.Area))
             {
                 JsTreeNode areaNode = new JsTreeNode(area.Key);
-                foreach (IGrouping<String, Privilege> controller in area.GroupBy(privilege => privilege.Controller).OrderBy(privilege => privilege.Key))
+                foreach (IGrouping<String, Permission> controller in area.GroupBy(permission => permission.Controller).OrderBy(permission => permission.Key))
                 {
                     JsTreeNode controllerNode = new JsTreeNode(controller.Key);
-                    foreach (Privilege privilege in controller)
-                        controllerNode.Nodes.Add(new JsTreeNode(privilege.Id, privilege.Action));
+                    foreach (Permission permission in controller)
+                        controllerNode.Nodes.Add(new JsTreeNode(permission.Id, permission.Action));
 
                     if (areaNode.Title == null)
                         root.Nodes.Add(controllerNode);
@@ -45,21 +45,21 @@ namespace MvcTemplate.Services
                     root.Nodes.Add(areaNode);
             }
         }
-        private IEnumerable<Privilege> GetAllPrivileges()
+        private IEnumerable<Permission> GetAllPermissions()
         {
             return UnitOfWork
-                .Select<Privilege>()
+                .Select<Permission>()
                 .ToArray()
-                .Select(privilege => new Privilege
+                .Select(permission => new Permission
                 {
-                    Id = privilege.Id,
-                    Area = ResourceProvider.GetPrivilegeAreaTitle(privilege.Area),
-                    Controller = ResourceProvider.GetPrivilegeControllerTitle(privilege.Area, privilege.Controller),
-                    Action = ResourceProvider.GetPrivilegeActionTitle(privilege.Area, privilege.Controller, privilege.Action)
+                    Id = permission.Id,
+                    Area = ResourceProvider.GetPermissionAreaTitle(permission.Area),
+                    Controller = ResourceProvider.GetPermissionControllerTitle(permission.Area, permission.Controller),
+                    Action = ResourceProvider.GetPermissionActionTitle(permission.Area, permission.Controller, permission.Action)
                 })
-                .OrderBy(privilege => privilege.Area ?? privilege.Controller)
-                .ThenBy(privilege => privilege.Controller)
-                .ThenBy(privilege => privilege.Action);
+                .OrderBy(permission => permission.Area ?? permission.Controller)
+                .ThenBy(permission => permission.Controller)
+                .ThenBy(permission => permission.Action);
         }
 
         public IQueryable<RoleView> GetViews()
@@ -74,13 +74,13 @@ namespace MvcTemplate.Services
             RoleView role = UnitOfWork.GetAs<Role, RoleView>(id);
             if (role != null)
             {
-                role.PrivilegesTree.SelectedIds = UnitOfWork
-                    .Select<RolePrivilege>()
-                    .Where(rolePrivilege => rolePrivilege.RoleId == role.Id)
-                    .Select(rolePrivilege => rolePrivilege.PrivilegeId)
+                role.Permissions.SelectedIds = UnitOfWork
+                    .Select<RolePermission>()
+                    .Where(rolePermission => rolePermission.RoleId == role.Id)
+                    .Select(rolePermission => rolePermission.PermissionId)
                     .ToList();
 
-                SeedPrivilegesTree(role);
+                SeedPermissions(role);
             }
 
             return role;
@@ -89,14 +89,14 @@ namespace MvcTemplate.Services
         public void Create(RoleView view)
         {
             CreateRole(view);
-            CreateRolePrivileges(view);
+            CreateRolePermissions(view);
 
             UnitOfWork.Commit();
         }
         public void Edit(RoleView view)
         {
             Role role = UnitOfWork.Get<Role>(view.Id);
-            EditRolePrivileges(role, view);
+            EditRolePermissions(role, view);
             EditRole(role, view);
 
             UnitOfWork.Commit();
@@ -106,7 +106,7 @@ namespace MvcTemplate.Services
         public void Delete(String id)
         {
             RemoveRoleFromAccounts(id);
-            DeleteRolePrivileges(id);
+            DeleteRolePermissions(id);
             DeleteRole(id);
 
             UnitOfWork.Commit();
@@ -120,10 +120,10 @@ namespace MvcTemplate.Services
 
             UnitOfWork.Insert(role);
         }
-        private void CreateRolePrivileges(RoleView view)
+        private void CreateRolePermissions(RoleView view)
         {
-            foreach (String privilegeId in view.PrivilegesTree.SelectedIds)
-                UnitOfWork.Insert(new RolePrivilege { RoleId = view.Id, PrivilegeId = privilegeId });
+            foreach (String permissionId in view.Permissions.SelectedIds)
+                UnitOfWork.Insert(new RolePermission { RoleId = view.Id, PermissionId = permissionId });
         }
 
         private void EditRole(Role role, RoleView view)
@@ -132,31 +132,31 @@ namespace MvcTemplate.Services
 
             UnitOfWork.Update(role);
         }
-        private void EditRolePrivileges(Role role, RoleView view)
+        private void EditRolePermissions(Role role, RoleView view)
         {
-            List<String> selectedPrivileges = view.PrivilegesTree.SelectedIds.ToList();
-            RolePrivilege[] rolePrivileges = UnitOfWork.Select<RolePrivilege>().Where(rolePrivilege => rolePrivilege.RoleId == role.Id).ToArray();
+            List<String> selectedPermissions = view.Permissions.SelectedIds.ToList();
+            RolePermission[] rolePermissions = UnitOfWork.Select<RolePermission>().Where(rolePermission => rolePermission.RoleId == role.Id).ToArray();
 
-            foreach (RolePrivilege rolePrivilege in rolePrivileges)
-                if (!selectedPrivileges.Remove(rolePrivilege.PrivilegeId))
-                    UnitOfWork.Delete(rolePrivilege);
+            foreach (RolePermission rolePermission in rolePermissions)
+                if (!selectedPermissions.Remove(rolePermission.PermissionId))
+                    UnitOfWork.Delete(rolePermission);
 
-            foreach (String privilegeId in selectedPrivileges)
-                UnitOfWork.Insert(new RolePrivilege { RoleId = role.Id, PrivilegeId = privilegeId });
+            foreach (String permissionId in selectedPermissions)
+                UnitOfWork.Insert(new RolePermission { RoleId = role.Id, PermissionId = permissionId });
         }
 
         private void DeleteRole(String id)
         {
             UnitOfWork.Delete<Role>(id);
         }
-        private void DeleteRolePrivileges(String roleId)
+        private void DeleteRolePermissions(String roleId)
         {
-            IQueryable<RolePrivilege> rolePrivileges = UnitOfWork
-                .Select<RolePrivilege>()
-                .Where(rolePrivilege => rolePrivilege.RoleId == roleId);
+            IQueryable<RolePermission> rolePermissions = UnitOfWork
+                .Select<RolePermission>()
+                .Where(rolePermission => rolePermission.RoleId == roleId);
 
-            foreach (RolePrivilege rolePrivilege in rolePrivileges)
-                UnitOfWork.Delete(rolePrivilege);
+            foreach (RolePermission rolePermission in rolePermissions)
+                UnitOfWork.Delete(rolePermission);
         }
         private void RemoveRoleFromAccounts(String roleId)
         {

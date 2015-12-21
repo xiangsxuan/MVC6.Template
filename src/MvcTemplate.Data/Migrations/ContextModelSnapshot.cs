@@ -92,7 +92,7 @@ namespace MvcTemplate.Data.Migrations
                     b.HasKey("Id");
                 });
 
-            modelBuilder.Entity("MvcTemplate.Objects.Privilege", b =>
+            modelBuilder.Entity("MvcTemplate.Objects.Permission", b =>
                 {
                     b.Property<string>("Id")
                         .HasAnnotation("MaxLength", 128);
@@ -127,14 +127,14 @@ namespace MvcTemplate.Data.Migrations
                     b.HasKey("Id");
                 });
 
-            modelBuilder.Entity("MvcTemplate.Objects.RolePrivilege", b =>
+            modelBuilder.Entity("MvcTemplate.Objects.RolePermission", b =>
                 {
                     b.Property<string>("Id")
                         .HasAnnotation("MaxLength", 128);
 
                     b.Property<DateTime>("CreationDate");
 
-                    b.Property<string>("PrivilegeId")
+                    b.Property<string>("PermissionId")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 128);
 
@@ -152,11 +152,11 @@ namespace MvcTemplate.Data.Migrations
                         .HasForeignKey("RoleId");
                 });
 
-            modelBuilder.Entity("MvcTemplate.Objects.RolePrivilege", b =>
+            modelBuilder.Entity("MvcTemplate.Objects.RolePermission", b =>
                 {
-                    b.HasOne("MvcTemplate.Objects.Privilege")
+                    b.HasOne("MvcTemplate.Objects.Permission")
                         .WithMany()
-                        .HasForeignKey("PrivilegeId");
+                        .HasForeignKey("PermissionId");
 
                     b.HasOne("MvcTemplate.Objects.Role")
                         .WithMany()

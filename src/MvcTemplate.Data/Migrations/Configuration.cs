@@ -20,7 +20,7 @@ namespace MvcTemplate.Data.Migrations
 
         public void Seed()
         {
-            SeedPrivileges();
+            SeedPermissions();
             SeedRoles();
 
             SeedAccounts();
@@ -28,56 +28,56 @@ namespace MvcTemplate.Data.Migrations
 
         #region Administration
 
-        private void SeedPrivileges()
+        private void SeedPermissions()
         {
-            Privilege[] privileges =
+            Permission[] permissions =
             {
-                new Privilege { Id = "00000000-0000-0000-0000-000000000001",
+                new Permission { Id = "00000000-0000-0000-0000-000000000001",
                     Area = "Administration", Controller = "Accounts", Action = "Index" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000002",
+                new Permission { Id = "00000000-0000-0000-0000-000000000002",
                     Area = "Administration", Controller = "Accounts", Action = "Create" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000003",
+                new Permission { Id = "00000000-0000-0000-0000-000000000003",
                     Area = "Administration", Controller = "Accounts", Action = "Details" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000004",
+                new Permission { Id = "00000000-0000-0000-0000-000000000004",
                     Area = "Administration", Controller = "Accounts", Action = "Edit" },
 
-                new Privilege { Id = "00000000-0000-0000-0000-000000000005",
+                new Permission { Id = "00000000-0000-0000-0000-000000000005",
                     Area = "Administration", Controller = "Roles", Action = "Index" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000006",
+                new Permission { Id = "00000000-0000-0000-0000-000000000006",
                     Area = "Administration", Controller = "Roles", Action = "Create" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000007",
+                new Permission { Id = "00000000-0000-0000-0000-000000000007",
                     Area = "Administration", Controller = "Roles", Action = "Details" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000008",
+                new Permission { Id = "00000000-0000-0000-0000-000000000008",
                     Area = "Administration", Controller = "Roles", Action = "Edit" },
-                new Privilege { Id = "00000000-0000-0000-0000-000000000009",
+                new Permission { Id = "00000000-0000-0000-0000-000000000009",
                     Area = "Administration", Controller = "Roles", Action = "Delete" }
             };
 
-            Privilege[] currentPrivileges = UnitOfWork.Select<Privilege>().ToArray();
-            foreach (Privilege privilege in currentPrivileges)
+            Permission[] currentPermissions = UnitOfWork.Select<Permission>().ToArray();
+            foreach (Permission permission in currentPermissions)
             {
-                if (!privileges.Any(priv => priv.Id == privilege.Id))
+                if (!permissions.Any(perm => perm.Id == permission.Id))
                 {
-                    UnitOfWork.DeleteRange(UnitOfWork.Select<RolePrivilege>().Where(role => role.PrivilegeId == privilege.Id));
+                    UnitOfWork.DeleteRange(UnitOfWork.Select<RolePermission>().Where(role => role.PermissionId == permission.Id));
 
-                    UnitOfWork.Delete(privilege);
+                    UnitOfWork.Delete(permission);
                 }
             }
 
-            foreach (Privilege privilege in privileges)
+            foreach (Permission permission in permissions)
             {
-                Privilege currentPrivilege = currentPrivileges.SingleOrDefault(priv => priv.Id == privilege.Id);
-                if (currentPrivilege == null)
+                Permission currentPermission = currentPermissions.SingleOrDefault(perm => perm.Id == permission.Id);
+                if (currentPermission == null)
                 {
-                    UnitOfWork.Insert(privilege);
+                    UnitOfWork.Insert(permission);
                 }
                 else
                 {
-                    currentPrivilege.Controller = privilege.Controller;
-                    currentPrivilege.Action = privilege.Action;
-                    currentPrivilege.Area = privilege.Area;
+                    currentPermission.Controller = permission.Controller;
+                    currentPermission.Action = permission.Action;
+                    currentPermission.Area = permission.Area;
 
-                    UnitOfWork.Update(currentPrivilege);
+                    UnitOfWork.Update(currentPermission);
                 }
             }
 
@@ -93,17 +93,17 @@ namespace MvcTemplate.Data.Migrations
             }
 
             String adminRoleId = UnitOfWork.Select<Role>().Single(role => role.Title == "Sys_Admin").Id;
-            RolePrivilege[] adminPrivileges = UnitOfWork
-                .Select<RolePrivilege>()
-                .Where(rolePrivilege => rolePrivilege.RoleId == adminRoleId)
+            RolePermission[] adminPermissions = UnitOfWork
+                .Select<RolePermission>()
+                .Where(rolePermission => rolePermission.RoleId == adminRoleId)
                 .ToArray();
 
-            foreach (Privilege privilege in UnitOfWork.Select<Privilege>())
-                if (!adminPrivileges.Any(rolePrivilege => rolePrivilege.PrivilegeId == privilege.Id))
-                    UnitOfWork.Insert(new RolePrivilege
+            foreach (Permission permission in UnitOfWork.Select<Permission>())
+                if (!adminPermissions.Any(rolePermission => rolePermission.PermissionId == permission.Id))
+                    UnitOfWork.Insert(new RolePermission
                     {
                         RoleId = adminRoleId,
-                        PrivilegeId = privilege.Id
+                        PermissionId = permission.Id
                     });
 
             UnitOfWork.Commit();

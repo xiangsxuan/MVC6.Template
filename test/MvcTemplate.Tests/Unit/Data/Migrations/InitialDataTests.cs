@@ -43,7 +43,7 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
 
         #endregion
 
-        #region Table: Privileges
+        #region Table: Permissions
 
         [Theory]
         [InlineData("Administration", "Accounts", "Index")]
@@ -56,18 +56,18 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
         [InlineData("Administration", "Roles", "Details")]
         [InlineData("Administration", "Roles", "Edit")]
         [InlineData("Administration", "Roles", "Delete")]
-        public void PrivilegesTable_HasPrivilege(String area, String controller, String action)
+        public void PermissionsTable_HasPermission(String area, String controller, String action)
         {
-            Assert.NotNull(context.Set<Privilege>().SingleOrDefault(privilege =>
-                privilege.Controller == controller &&
-                privilege.Action == action &&
-                privilege.Area == area));
+            Assert.NotNull(context.Set<Permission>().SingleOrDefault(permission =>
+                permission.Controller == controller &&
+                permission.Action == action &&
+                permission.Area == area));
         }
 
         [Fact]
-        public void PrivilegesTable_HasExactNumberOfPrivileges()
+        public void PermissionsTable_HasExactNumberOfPermissions()
         {
-            Int32 actual = context.Set<Privilege>().Count();
+            Int32 actual = context.Set<Permission>().Count();
             Int32 expected = 9;
 
             Assert.Equal(expected, actual);
@@ -75,21 +75,21 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
 
         #endregion
 
-        #region Table: RolePrivileges
+        #region Table: RolePermissions
 
         [Fact]
-        public void RolesPrivilegesTable_HasAllSysAdminPrivileges()
+        public void RolesPermissionsTable_HasAllSysAdminPermissions()
         {
             IEnumerable<String> expected = context
-                .Set<Privilege>()
-                .Select(privilege => privilege.Id)
-                .OrderBy(privilegeId => privilegeId);
+                .Set<Permission>()
+                .Select(permission => permission.Id)
+                .OrderBy(permissionId => permissionId);
 
             IEnumerable<String> actual = context
-                .Set<RolePrivilege>()
-                .Where(privilege => privilege.Role.Title == "Sys_Admin")
-                .Select(rolePrivilege => rolePrivilege.PrivilegeId)
-                .OrderBy(privilegeId => privilegeId);
+                .Set<RolePermission>()
+                .Where(permission => permission.Role.Title == "Sys_Admin")
+                .Select(rolePermission => rolePermission.PermissionId)
+                .OrderBy(permissionId => permissionId);
 
             Assert.Equal(expected, actual);
         }

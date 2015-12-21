@@ -6,7 +6,7 @@ using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
-using MvcTemplate.Resources.Privilege;
+using MvcTemplate.Resources.Permission;
 using MvcTemplate.Services;
 using MvcTemplate.Tests.Data;
 using NSubstitute;
@@ -39,16 +39,16 @@ namespace MvcTemplate.Tests.Unit.Services
             service.Dispose();
         }
 
-        #region Method: SeedPrivilegesTree(RoleView view)
+        #region Method: SeedPermissions(RoleView view)
 
         [Fact]
-        public void SeedPrivilegesTree_FirstDepth()
+        public void SeedPermissions_FirstDepth()
         {
             RoleView view = new RoleView();
-            service.SeedPrivilegesTree(view);
+            service.SeedPermissions(view);
 
-            IEnumerator<JsTreeNode> expected = CreatePrivilegesTree(role).Nodes.GetEnumerator();
-            IEnumerator<JsTreeNode> actual = view.PrivilegesTree.Nodes.GetEnumerator();
+            IEnumerator<JsTreeNode> expected = CreatePermissions(role).Nodes.GetEnumerator();
+            IEnumerator<JsTreeNode> actual = view.Permissions.Nodes.GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
             {
@@ -59,13 +59,13 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void SeedPrivilegesTree_SecondDepth()
+        public void SeedPermissions_SecondDepth()
         {
             RoleView view = new RoleView();
-            service.SeedPrivilegesTree(view);
+            service.SeedPermissions(view);
 
-            IEnumerator<JsTreeNode> expected = CreatePrivilegesTree(role).Nodes.SelectMany(node => node.Nodes).GetEnumerator();
-            IEnumerator<JsTreeNode> actual = view.PrivilegesTree.Nodes.SelectMany(node => node.Nodes).GetEnumerator();
+            IEnumerator<JsTreeNode> expected = CreatePermissions(role).Nodes.SelectMany(node => node.Nodes).GetEnumerator();
+            IEnumerator<JsTreeNode> actual = view.Permissions.Nodes.SelectMany(node => node.Nodes).GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
             {
@@ -76,13 +76,13 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void SeedPrivilegesTree_ThirdDepth()
+        public void SeedPermissions_ThirdDepth()
         {
             RoleView view = new RoleView();
-            service.SeedPrivilegesTree(view);
+            service.SeedPermissions(view);
 
-            IEnumerator<JsTreeNode> expected = CreatePrivilegesTree(role).Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
-            IEnumerator<JsTreeNode> actual = view.PrivilegesTree.Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
+            IEnumerator<JsTreeNode> expected = CreatePermissions(role).Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
+            IEnumerator<JsTreeNode> actual = view.Permissions.Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
             {
@@ -93,24 +93,24 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void SeedPrivilegesTree_BranchesWithoutId()
+        public void SeedPermissions_BranchesWithoutId()
         {
             RoleView view = new RoleView();
-            service.SeedPrivilegesTree(view);
+            service.SeedPermissions(view);
 
-            IEnumerable<JsTreeNode> nodes = view.PrivilegesTree.Nodes;
+            IEnumerable<JsTreeNode> nodes = view.Permissions.Nodes;
             IEnumerable<JsTreeNode> branches = GetAllBranchNodes(nodes);
 
             Assert.Empty(branches.Where(branch => branch.Id != null));
         }
 
         [Fact]
-        public void SeedPrivilegesTree_LeafsWithId()
+        public void SeedPermissions_LeafsWithId()
         {
             RoleView view = new RoleView();
-            service.SeedPrivilegesTree(view);
+            service.SeedPermissions(view);
 
-            IEnumerable<JsTreeNode> nodes = view.PrivilegesTree.Nodes;
+            IEnumerable<JsTreeNode> nodes = view.Permissions.Nodes;
             IEnumerable<JsTreeNode> leafs = GetAllLeafNodes(nodes);
 
             Assert.Empty(leafs.Where(leaf => leaf.Id == null));
@@ -132,7 +132,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
             while (expected.MoveNext() | actual.MoveNext())
             {
-                Assert.Equal(expected.Current.PrivilegesTree.SelectedIds, actual.Current.PrivilegesTree.SelectedIds);
+                Assert.Equal(expected.Current.Permissions.SelectedIds, actual.Current.Permissions.SelectedIds);
                 Assert.Equal(expected.Current.CreationDate, actual.Current.CreationDate);
                 Assert.Equal(expected.Current.Title, actual.Current.Title);
                 Assert.Equal(expected.Current.Id, actual.Current.Id);
@@ -152,13 +152,13 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void GetView_ReturnsViewById()
         {
-            service.When(sub => sub.SeedPrivilegesTree(Arg.Any<RoleView>())).DoNotCallBase();
+            service.When(sub => sub.SeedPermissions(Arg.Any<RoleView>())).DoNotCallBase();
 
             RoleView expected = Mapper.Map<RoleView>(role);
             RoleView actual = service.GetView(role.Id);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
-            Assert.NotEmpty(actual.PrivilegesTree.SelectedIds);
+            Assert.NotEmpty(actual.Permissions.SelectedIds);
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(expected.Id, actual.Id);
         }
@@ -166,22 +166,22 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void GetView_SetsSelectedIds()
         {
-            service.When(sub => sub.SeedPrivilegesTree(Arg.Any<RoleView>())).DoNotCallBase();
+            service.When(sub => sub.SeedPermissions(Arg.Any<RoleView>())).DoNotCallBase();
 
-            IEnumerable<String> expected = role.RolePrivileges.Select(rolePrivilege => rolePrivilege.PrivilegeId);
-            IEnumerable<String> actual = service.GetView(role.Id).PrivilegesTree.SelectedIds;
+            IEnumerable<String> expected = role.RolePermissions.Select(rolePermission => rolePermission.PermissionId);
+            IEnumerable<String> actual = service.GetView(role.Id).Permissions.SelectedIds;
 
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void GetView_SeedsPrivilegesTree()
+        public void GetView_SeedsPermissions()
         {
-            service.When(sub => sub.SeedPrivilegesTree(Arg.Any<RoleView>())).DoNotCallBase();
+            service.When(sub => sub.SeedPermissions(Arg.Any<RoleView>())).DoNotCallBase();
 
             RoleView view = service.GetView(role.Id);
 
-            service.Received().SeedPrivilegesTree(view);
+            service.Received().SeedPermissions(view);
         }
 
         #endregion
@@ -204,20 +204,20 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Create_RolePrivileges()
+        public void Create_RolePermissions()
         {
             RoleView view = ObjectFactory.CreateRoleView(2);
-            view.PrivilegesTree = CreatePrivilegesTree(role);
+            view.Permissions = CreatePermissions(role);
 
             service.Create(view);
 
-            IEnumerable<String> expected = view.PrivilegesTree.SelectedIds.OrderBy(privilegeId => privilegeId);
+            IEnumerable<String> expected = view.Permissions.SelectedIds.OrderBy(permissionId => permissionId);
             IEnumerable<String> actual = context
-                .Set<RolePrivilege>()
+                .Set<RolePermission>()
                 .AsNoTracking()
-                .Where(rolePrivilege => rolePrivilege.RoleId == view.Id)
-                .Select(rolePrivilege => rolePrivilege.PrivilegeId)
-                .OrderBy(privilegeId => privilegeId);
+                .Where(rolePermission => rolePermission.RoleId == view.Id)
+                .Select(rolePermission => rolePermission.PermissionId)
+                .OrderBy(permissionId => permissionId);
 
             Assert.Equal(expected, actual);
         }
@@ -244,21 +244,22 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Edit_RolePrivileges()
+        public void Edit_RolePermissions()
         {
-            Privilege privilege = ObjectFactory.CreatePrivilege(100);
-            context.Add(privilege);
+            Permission permission = ObjectFactory.CreatePermission(100);
+            context.Add(permission);
             context.SaveChanges();
 
             RoleView view = ObjectFactory.CreateRoleView();
-            view.PrivilegesTree = CreatePrivilegesTree(role);
-            view.PrivilegesTree.SelectedIds.Add(privilege.Id);
-            view.PrivilegesTree.SelectedIds.RemoveAt(0);
+            view.Permissions = CreatePermissions(role);
+
+            view.Permissions.SelectedIds.Add(permission.Id);
+            view.Permissions.SelectedIds.RemoveAt(0);
 
             service.Edit(view);
 
-            IEnumerable<String> actual = context.Set<RolePrivilege>().AsNoTracking().Select(rolePriv => rolePriv.PrivilegeId).OrderBy(privilegeId => privilegeId);
-            IEnumerable<String> expected = view.PrivilegesTree.SelectedIds.OrderBy(privilegeId => privilegeId);
+            IEnumerable<String> actual = context.Set<RolePermission>().AsNoTracking().Select(rolePermission => rolePermission.PermissionId).OrderBy(permissionId => permissionId);
+            IEnumerable<String> expected = view.Permissions.SelectedIds.OrderBy(permissionId => permissionId);
 
             Assert.Equal(expected, actual);
         }
@@ -299,11 +300,11 @@ namespace MvcTemplate.Tests.Unit.Services
         }
 
         [Fact]
-        public void Delete_RolePrivileges()
+        public void Delete_RolePermissions()
         {
             service.Delete(role.Id);
 
-            Assert.Empty(context.Set<RolePrivilege>());
+            Assert.Empty(context.Set<RolePermission>());
         }
 
         [Fact]
@@ -324,47 +325,47 @@ namespace MvcTemplate.Tests.Unit.Services
             foreach (String controller in new[] { "Roles", "Profile" })
                 foreach (String action in new[] { "Edit", "Delete" })
                 {
-                    RolePrivilege rolePrivilege = ObjectFactory.CreateRolePrivilege(role.RolePrivileges.Count + 1);
-                    rolePrivilege.Privilege.Area = controller == "Roles" ? "Administration" : null;
-                    rolePrivilege.Privilege.Controller = controller;
-                    rolePrivilege.Privilege.Action = action;
-                    rolePrivilege.RoleId = role.Id;
-                    rolePrivilege.Role = null;
+                    RolePermission rolePermission = ObjectFactory.CreateRolePermission(role.RolePermissions.Count + 1);
+                    rolePermission.Permission.Area = controller == "Roles" ? "Administration" : null;
+                    rolePermission.Permission.Controller = controller;
+                    rolePermission.Permission.Action = action;
+                    rolePermission.RoleId = role.Id;
+                    rolePermission.Role = null;
 
-                    role.RolePrivileges.Add(rolePrivilege);
-                    context.Add(rolePrivilege.Privilege);
+                    role.RolePermissions.Add(rolePermission);
+                    context.Add(rolePermission.Permission);
                 }
 
             context.SaveChanges();
         }
 
-        private JsTree CreatePrivilegesTree(Role role)
+        private JsTree CreatePermissions(Role role)
         {
             JsTreeNode rootNode = new JsTreeNode(Titles.All);
             JsTree expectedTree = new JsTree();
 
             expectedTree.Nodes.Add(rootNode);
-            expectedTree.SelectedIds = role.RolePrivileges.Select(rolePrivilege => rolePrivilege.PrivilegeId).ToList();
+            expectedTree.SelectedIds = role.RolePermissions.Select(rolePermission => rolePermission.PermissionId).ToList();
 
-            IEnumerable<Privilege> privileges = role
-                .RolePrivileges
-                .Select(rolePriv => rolePriv.Privilege)
-                .Select(privilege => new Privilege
+            IEnumerable<Permission> permissions = role
+                .RolePermissions
+                .Select(rolePermission => rolePermission.Permission)
+                .Select(permission => new Permission
                 {
-                    Id = privilege.Id,
-                    Area = ResourceProvider.GetPrivilegeAreaTitle(privilege.Area),
-                    Controller = ResourceProvider.GetPrivilegeControllerTitle(privilege.Area, privilege.Controller),
-                    Action = ResourceProvider.GetPrivilegeActionTitle(privilege.Area, privilege.Controller, privilege.Action)
+                    Id = permission.Id,
+                    Area = ResourceProvider.GetPermissionAreaTitle(permission.Area),
+                    Controller = ResourceProvider.GetPermissionControllerTitle(permission.Area, permission.Controller),
+                    Action = ResourceProvider.GetPermissionActionTitle(permission.Area, permission.Controller, permission.Action)
                 });
 
-            foreach (IGrouping<String, Privilege> area in privileges.GroupBy(privilege => privilege.Area).OrderBy(privilege => privilege.Key ?? privilege.FirstOrDefault().Controller))
+            foreach (IGrouping<String, Permission> area in permissions.GroupBy(permission => permission.Area).OrderBy(permission => permission.Key ?? permission.FirstOrDefault().Controller))
             {
                 JsTreeNode areaNode = new JsTreeNode(area.Key);
-                foreach (IGrouping<String, Privilege> controller in area.GroupBy(privilege => privilege.Controller).OrderBy(privilege => privilege.Key))
+                foreach (IGrouping<String, Permission> controller in area.GroupBy(permission => permission.Controller).OrderBy(permission => permission.Key))
                 {
                     JsTreeNode controllerNode = new JsTreeNode(controller.Key);
-                    foreach (Privilege privilege in controller.OrderBy(privilege => privilege.Action))
-                        controllerNode.Nodes.Add(new JsTreeNode(privilege.Id, privilege.Action));
+                    foreach (Permission permission in controller.OrderBy(permission => permission.Action))
+                        controllerNode.Nodes.Add(new JsTreeNode(permission.Id, permission.Action));
 
                     if (areaNode.Title == null)
                         rootNode.Nodes.Add(controllerNode);
