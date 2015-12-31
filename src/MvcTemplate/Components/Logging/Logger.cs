@@ -30,11 +30,6 @@ namespace MvcTemplate.Components.Logging
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        protected virtual void Dispose(Boolean disposing)
-        {
             if (Disposed) return;
 
             Context.Dispose();

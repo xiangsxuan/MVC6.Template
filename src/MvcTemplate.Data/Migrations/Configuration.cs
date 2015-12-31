@@ -146,11 +146,6 @@ namespace MvcTemplate.Data.Migrations
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        private void Dispose(Boolean disposing)
-        {
             if (Disposed) return;
 
             UnitOfWork.Dispose();

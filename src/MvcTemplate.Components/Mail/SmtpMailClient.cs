@@ -34,11 +34,6 @@ namespace MvcTemplate.Components.Mail
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        protected virtual void Dispose(Boolean disposing)
-        {
             if (Disposed) return;
 
             Client.Dispose();
