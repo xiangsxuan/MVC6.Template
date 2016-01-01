@@ -20,7 +20,7 @@ namespace MvcTemplate.Data.Logging
             Context.ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
-        public virtual void Log(IEnumerable<EntityEntry<BaseModel>> entries)
+        public void Log(IEnumerable<EntityEntry<BaseModel>> entries)
         {
             foreach (EntityEntry<BaseModel> entry in entries)
             {
@@ -36,7 +36,7 @@ namespace MvcTemplate.Data.Logging
                 }
             }
         }
-        public virtual void Log(LoggableEntity entity)
+        public void Log(LoggableEntity entity)
         {
             AuditLog log = new AuditLog();
             log.AccountId = !String.IsNullOrEmpty(AccountId) ? AccountId : null;
@@ -47,7 +47,7 @@ namespace MvcTemplate.Data.Logging
 
             Context.Add(log);
         }
-        public virtual void Save()
+        public void Save()
         {
             Context.SaveChanges();
         }

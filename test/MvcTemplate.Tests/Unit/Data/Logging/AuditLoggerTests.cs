@@ -15,24 +15,21 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
     public class AuditLoggerTests : IDisposable
     {
         private EntityEntry<BaseModel> entry;
-        private TestingContext dataContext;
         private TestingContext context;
         private AuditLogger logger;
 
         public AuditLoggerTests()
         {
             context = new TestingContext();
-            dataContext = new TestingContext();
             TestModel model = ObjectFactory.CreateTestModel();
-            logger = Substitute.ForPartsOf<AuditLogger>(context, null);
+            logger = Substitute.ForPartsOf<AuditLogger>(context, "Test");
 
-            entry = dataContext.Entry<BaseModel>(dataContext.Add(model).Entity);
-            dataContext.RemoveRange(dataContext.Set<TestModel>());
-            dataContext.SaveChanges();
+            entry = context.Entry<BaseModel>(context.Add(model).Entity);
+            context.RemoveRange(context.Set<TestModel>());
+            context.SaveChanges();
         }
         public void Dispose()
         {
-            dataContext.Dispose();
             context.Dispose();
             logger.Dispose();
         }
@@ -58,7 +55,16 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         {
             entry.State = EntityState.Added;
 
-            Logs(entry);
+            logger.Log(new[] { entry });
+
+            AuditLog actual = context.ChangeTracker.Entries<AuditLog>().First().Entity;
+            LoggableEntity expected = new LoggableEntity(entry);
+
+            Assert.Equal(expected.ToString(), actual.Changes);
+            Assert.Equal(expected.Name, actual.EntityName);
+            Assert.Equal(expected.Action, actual.Action);
+            Assert.Equal(expected.Id, actual.EntityId);
+            Assert.Equal("Test", actual.AccountId);
         }
 
         [Fact(Skip = "EF not supporting audit")]
@@ -67,7 +73,16 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             (entry.Entity as TestModel).Text += "Test";
             entry.State = EntityState.Modified;
 
-            Logs(entry);
+            logger.Log(new[] { entry });
+
+            AuditLog actual = context.ChangeTracker.Entries<AuditLog>().First().Entity;
+            LoggableEntity expected = new LoggableEntity(entry);
+
+            Assert.Equal(expected.ToString(), actual.Changes);
+            Assert.Equal(expected.Name, actual.EntityName);
+            Assert.Equal(expected.Action, actual.Action);
+            Assert.Equal(expected.Id, actual.EntityId);
+            Assert.Equal("Test", actual.AccountId);
         }
 
         [Fact]
@@ -77,7 +92,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
 
             logger.Log(new[] { entry });
 
-            logger.DidNotReceiveWithAnyArgs().Log((LoggableEntity)null);
+            Assert.Empty(context.ChangeTracker.Entries<AuditLog>());
         }
 
         [Fact(Skip = "EF not supporting audit")]
@@ -85,7 +100,16 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         {
             entry.State = EntityState.Deleted;
 
-            Logs(entry);
+            logger.Log(new[] { entry });
+
+            AuditLog actual = context.ChangeTracker.Entries<AuditLog>().First().Entity;
+            LoggableEntity expected = new LoggableEntity(entry);
+
+            Assert.Equal(expected.ToString(), actual.Changes);
+            Assert.Equal(expected.Name, actual.EntityName);
+            Assert.Equal(expected.Action, actual.Action);
+            Assert.Equal(expected.Id, actual.EntityId);
+            Assert.Equal("Test", actual.AccountId);
         }
 
         [Fact]
@@ -105,7 +129,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
                 logger.Log(new[] { entry });
             }
 
-            logger.DidNotReceiveWithAnyArgs().Log((LoggableEntity)null);
+            Assert.Empty(context.ChangeTracker.Entries<AuditLog>());
         }
 
         [Fact]
@@ -147,9 +171,8 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         public void Log_DoesNotSave()
         {
             entry.State = EntityState.Added;
-            LoggableEntity entity = new LoggableEntity(entry);
 
-            logger.Log(entity);
+            logger.Log(new LoggableEntity(entry));
 
             Assert.Empty(context.Set<AuditLog>());
         }
@@ -189,29 +212,6 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         {
             logger.Dispose();
             logger.Dispose();
-        }
-
-        #endregion
-
-        #region Test helpers
-
-        private void Logs(EntityEntry<BaseModel> entry)
-        {
-            LoggableEntity expected = new LoggableEntity(entry);
-            logger.When(sub => sub.Log(Arg.Any<LoggableEntity>())).DoNotCallBase();
-            logger.When(sub => sub.Log(Arg.Any<LoggableEntity>())).Do(info =>
-            {
-                LoggableEntity actual = info.Arg<LoggableEntity>();
-
-                Assert.Equal(expected.ToString(), actual.ToString());
-                Assert.Equal(expected.Action, actual.Action);
-                Assert.Equal(expected.Name, actual.Name);
-                Assert.Equal(expected.Id, actual.Id);
-            });
-
-            logger.Log(new[] { entry });
-
-            logger.ReceivedWithAnyArgs().Log(expected);
         }
 
         #endregion
