@@ -15,8 +15,10 @@ namespace MvcTemplate.Data.Mapping
 
         private static void MapRoles()
         {
-            Mapper.CreateMap<Role, RoleView>();
-            Mapper.CreateMap<RoleView, Role>();
+            Mapper.CreateMap<Role, RoleView>()
+                .ForMember(role => role.Permissions, member => member.Ignore());
+            Mapper.CreateMap<RoleView, Role>()
+                .ForMember(role => role.Permissions, member => member.Ignore());
         }
         private static void MapAccounts()
         {

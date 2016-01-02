@@ -65,7 +65,7 @@ namespace MvcTemplate.Components.Security
                         Id = account.Id,
                         Permissions = account
                             .Role
-                            .RolePermissions
+                            .Permissions
                             .Select(role => role.Permission)
                             .Select(permission => ((permission.Area ?? "") + "/" + permission.Controller + "/" + permission.Action).ToLower())
                     })

@@ -146,7 +146,7 @@ namespace MvcTemplate.Tests
 
                 Title = "Title" + id,
 
-                RolePermissions = new List<RolePermission>()
+                Permissions = new List<RolePermission>()
             };
         }
         public static RoleView CreateRoleView(Int32 id = 1)
