@@ -21,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             attribute = new DigitsAttribute();
 
-            String expected = String.Format(Validations.FieldMustBeOnlyInDigits, "Test");
+            String expected = String.Format(Validations.Digits, "Test");
             String actual = attribute.FormatErrorMessage("Test");
 
             Assert.Equal(expected, actual);

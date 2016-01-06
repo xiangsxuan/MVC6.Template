@@ -13,7 +13,7 @@ namespace MvcTemplate.Components.Mvc
         public String OtherPropertyDisplayName { get; set; }
 
         public EqualToAttribute(String otherPropertyName)
-            : base(() => Validations.FieldMustBeEqualTo)
+            : base(() => Validations.EqualTo)
         {
             OtherPropertyName = otherPropertyName;
         }

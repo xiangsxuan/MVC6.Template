@@ -47,7 +47,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             attribute = new MinValueAttribute(10);
 
-            String expected = String.Format(Validations.FieldMustBeGreaterOrEqualTo, "Sum", attribute.Minimum);
+            String expected = String.Format(Validations.MinValue, "Sum", attribute.Minimum);
             String actual = attribute.FormatErrorMessage("Sum");
 
             Assert.Equal(expected, actual);
@@ -58,7 +58,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             attribute = new MinValueAttribute(12.56);
 
-            String expected = String.Format(Validations.FieldMustBeGreaterOrEqualTo, "Sum", attribute.Minimum);
+            String expected = String.Format(Validations.MinValue, "Sum", attribute.Minimum);
             String actual = attribute.FormatErrorMessage("Sum");
 
             Assert.Equal(expected, actual);

@@ -117,46 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="FieldIsNotValidEmail" xml:space="preserve">
-    <value>Laukas '{0}' nėra validus elekroninio pašto adresas.</value>
-  </data>
-  <data name="FieldIsRequired" xml:space="preserve">
-    <value>Laukas '{0}' yra privalomas.</value>
-  </data>
-  <data name="FieldMustBeDate" xml:space="preserve">
+  <data name="Date" xml:space="preserve">
     <value>Laukas '{0}' turi būti data.</value>
   </data>
-  <data name="FieldMustBeEqualTo" xml:space="preserve">
-    <value>Laukas '{0}' turi būti lygus laukui '{1}'.</value>
-  </data>
-  <data name="FieldMustBeGreaterOrEqualTo" xml:space="preserve">
-    <value>Laukas '{0}' turi būti didesnis arba lygus {1}.</value>
-  </data>
-  <data name="FieldMustBeGreaterThan" xml:space="preserve">
-    <value>Laukas '{0}' turi būti didesnis už {1}.</value>
-  </data>
-  <data name="FieldMustBeInRange" xml:space="preserve">
-    <value>Laukas '{0}' turi būti tarp {1} ir {2}.</value>
-  </data>
-  <data name="FieldMustBeInRangeOfLength" xml:space="preserve">
-    <value>Laukas '{0}' turi būti sudarytas bent iš {2} , bet neviršyti {1} simbolių.</value>
-  </data>
-  <data name="FieldMustBeInteger" xml:space="preserve">
-    <value>Laukas '{0}' turi būti sveikas skaičius.</value>
-  </data>
-  <data name="FieldMustBeLessOrEqualTo" xml:space="preserve">
-    <value>Laukas '{0}' turi būti mažesnis arba lygus {1}.</value>
-  </data>
-  <data name="FieldMustBeNumeric" xml:space="preserve">
-    <value>Laukas '{0}' turi būti skaičius.</value>
-  </data>
-  <data name="FieldMustBeOnlyInDigits" xml:space="preserve">
+  <data name="Digits" xml:space="preserve">
     <value>Laukas '{0}' turi būti sudarytas iš skaičių.</value>
   </data>
-  <data name="FieldMustBeWithMinLengthOf" xml:space="preserve">
+  <data name="Email" xml:space="preserve">
+    <value>Laukas '{0}' nėra validus elekroninio pašto adresas.</value>
+  </data>
+  <data name="EqualTo" xml:space="preserve">
+    <value>Laukas '{0}' turi būti lygus laukui '{1}'.</value>
+  </data>
+  <data name="GreaterThan" xml:space="preserve">
+    <value>Laukas '{0}' turi būti didesnis už {1}.</value>
+  </data>
+  <data name="Integer" xml:space="preserve">
+    <value>Laukas '{0}' turi būti sveikas skaičius.</value>
+  </data>
+  <data name="MaxValue" xml:space="preserve">
+    <value>Laukas '{0}' turi būti mažesnis arba lygus {1}.</value>
+  </data>
+  <data name="MinLength" xml:space="preserve">
     <value>Laukas '{0}' turi būti sudarytas bent iš {1} simbolių.</value>
   </data>
-  <data name="FieldMustNotExceedLength" xml:space="preserve">
+  <data name="MinValue" xml:space="preserve">
+    <value>Laukas '{0}' turi būti didesnis arba lygus {1}.</value>
+  </data>
+  <data name="Numeric" xml:space="preserve">
+    <value>Laukas '{0}' turi būti skaičius.</value>
+  </data>
+  <data name="Range" xml:space="preserve">
+    <value>Laukas '{0}' turi būti tarp {1} ir {2}.</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Laukas '{0}' yra privalomas.</value>
+  </data>
+  <data name="StringLength" xml:space="preserve">
     <value>Laukas '{0}' negali viršyti maksimalaus {1} simbolių ilgio.</value>
+  </data>
+  <data name="StringLengthRange" xml:space="preserve">
+    <value>Laukas '{0}' turi būti sudarytas bent iš {2} , bet neviršyti {1} simbolių.</value>
   </data>
 </root>

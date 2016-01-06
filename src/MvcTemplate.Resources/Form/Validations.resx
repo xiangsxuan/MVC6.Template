@@ -117,46 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="FieldIsNotValidEmail" xml:space="preserve">
-    <value>'{0}' field is not a valid e-mail address.</value>
-  </data>
-  <data name="FieldIsRequired" xml:space="preserve">
-    <value>'{0}' field is required.</value>
-  </data>
-  <data name="FieldMustBeDate" xml:space="preserve">
+  <data name="Date" xml:space="preserve">
     <value>'{0}' field must be a date.</value>
   </data>
-  <data name="FieldMustBeEqualTo" xml:space="preserve">
-    <value>'{0}' field must be equal to '{1}'.</value>
-  </data>
-  <data name="FieldMustBeGreaterOrEqualTo" xml:space="preserve">
-    <value>'{0}' field must be greater or equal to {1}.</value>
-  </data>
-  <data name="FieldMustBeGreaterThan" xml:space="preserve">
-    <value>'{0}' field must be greater than {1}.</value>
-  </data>
-  <data name="FieldMustBeInRange" xml:space="preserve">
-    <value>'{0}' field must be between {1} and {2}.</value>
-  </data>
-  <data name="FieldMustBeInRangeOfLength" xml:space="preserve">
-    <value>'{0}' field must contain between {2} and {1} symbols.</value>
-  </data>
-  <data name="FieldMustBeInteger" xml:space="preserve">
-    <value>'{0}' field must be an integer.</value>
-  </data>
-  <data name="FieldMustBeLessOrEqualTo" xml:space="preserve">
-    <value>'{0}' field must be less or equal to {1}.</value>
-  </data>
-  <data name="FieldMustBeNumeric" xml:space="preserve">
-    <value>'{0}' field must be numeric.</value>
-  </data>
-  <data name="FieldMustBeOnlyInDigits" xml:space="preserve">
+  <data name="Digits" xml:space="preserve">
     <value>'{0}' field must only contain digits.</value>
   </data>
-  <data name="FieldMustBeWithMinLengthOf" xml:space="preserve">
+  <data name="Email" xml:space="preserve">
+    <value>'{0}' field is not a valid e-mail address.</value>
+  </data>
+  <data name="EqualTo" xml:space="preserve">
+    <value>'{0}' field must be equal to '{1}'.</value>
+  </data>
+  <data name="GreaterThan" xml:space="preserve">
+    <value>'{0}' field must be greater than {1}.</value>
+  </data>
+  <data name="Integer" xml:space="preserve">
+    <value>'{0}' field must be an integer.</value>
+  </data>
+  <data name="MaxValue" xml:space="preserve">
+    <value>'{0}' field must be less or equal to {1}.</value>
+  </data>
+  <data name="MinLength" xml:space="preserve">
     <value>'{0}' field must be at least {1} characters long.</value>
   </data>
-  <data name="FieldMustNotExceedLength" xml:space="preserve">
+  <data name="MinValue" xml:space="preserve">
+    <value>'{0}' field must be greater or equal to {1}.</value>
+  </data>
+  <data name="Numeric" xml:space="preserve">
+    <value>'{0}' field must be numeric.</value>
+  </data>
+  <data name="Range" xml:space="preserve">
+    <value>'{0}' field must be between {1} and {2}.</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>'{0}' field is required.</value>
+  </data>
+  <data name="StringLength" xml:space="preserve">
     <value>'{0}' field must not exceed maximum length of {1}.</value>
+  </data>
+  <data name="StringLengthRange" xml:space="preserve">
+    <value>'{0}' field must contain between {2} and {1} symbols.</value>
   </data>
 </root>

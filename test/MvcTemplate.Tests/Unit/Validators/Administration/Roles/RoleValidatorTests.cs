@@ -51,7 +51,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
             Assert.False(canCreate);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.TitleIsAlreadyUsed, validator.ModelState["Title"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validations.UniqueTitle, validator.ModelState["Title"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
             Assert.False(canEdit);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.TitleIsAlreadyUsed, validator.ModelState["Title"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validations.UniqueTitle, validator.ModelState["Title"].Errors.Single().ErrorMessage);
         }
 
         [Fact]

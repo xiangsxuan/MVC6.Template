@@ -85,7 +85,7 @@ namespace MvcTemplate.Validators
                     account.Username.ToLower() == username.ToLower());
 
             if (!isUnique)
-                ModelState.AddModelError<AccountView>(model => model.Username, Validations.UsernameIsAlreadyTaken);
+                ModelState.AddModelError<AccountView>(model => model.Username, Validations.UniqueUsername);
 
             return isUnique;
         }
@@ -98,7 +98,7 @@ namespace MvcTemplate.Validators
                     account.Email.ToLower() == email.ToLower());
 
             if (!isUnique)
-                ModelState.AddModelError<AccountView>(account => account.Email, Validations.EmailIsAlreadyUsed);
+                ModelState.AddModelError<AccountView>(account => account.Email, Validations.UniqueEmail);
 
             return isUnique;
         }
@@ -141,7 +141,7 @@ namespace MvcTemplate.Validators
                     account.RecoveryTokenExpirationDate > DateTime.Now);
 
             if (!isValid)
-                Alerts.AddError(Validations.RecoveryTokenExpired);
+                Alerts.AddError(Validations.ExpiredToken);
 
             return isValid;
         }
@@ -154,7 +154,7 @@ namespace MvcTemplate.Validators
                     account.Username.ToLower() == username.ToLower());
 
             if (!isActive)
-                Alerts.AddError(Validations.AccountIsLocked);
+                Alerts.AddError(Validations.LockedAccount);
 
             return isActive;
         }

@@ -47,7 +47,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             attribute = new MaxValueAttribute(10);
 
-            String expected = String.Format(Validations.FieldMustBeLessOrEqualTo, "Sum", attribute.Maximum);
+            String expected = String.Format(Validations.MaxValue, "Sum", attribute.Maximum);
             String actual = attribute.FormatErrorMessage("Sum");
 
             Assert.Equal(expected, actual);
@@ -58,7 +58,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             attribute = new MaxValueAttribute(13.44);
 
-            String expected = String.Format(Validations.FieldMustBeLessOrEqualTo, "Sum", attribute.Maximum);
+            String expected = String.Format(Validations.MaxValue, "Sum", attribute.Maximum);
             String actual = attribute.FormatErrorMessage("Sum");
 
             Assert.Equal(expected, actual);

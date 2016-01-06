@@ -57,7 +57,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
             Assert.False(canRegister);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UsernameIsAlreadyTaken, validator.ModelState["Username"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validations.UniqueUsername, validator.ModelState["Username"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
             Assert.False(canRegister);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.EmailIsAlreadyUsed, validator.ModelState["Email"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validations.UniqueEmail, validator.ModelState["Email"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace MvcTemplate.Tests.Unit.Validators
             Assert.Empty(validator.ModelState);
             Assert.Equal(0, alert.FadeoutAfter);
             Assert.Equal(AlertType.Danger, alert.Type);
-            Assert.Equal(Validations.RecoveryTokenExpired, alert.Message);
+            Assert.Equal(Validations.ExpiredToken, alert.Message);
         }
 
         [Fact]
@@ -190,7 +190,7 @@ namespace MvcTemplate.Tests.Unit.Validators
             Assert.Empty(validator.ModelState);
             Assert.Equal(0, alert.FadeoutAfter);
             Assert.Equal(AlertType.Danger, alert.Type);
-            Assert.Equal(Validations.AccountIsLocked, alert.Message);
+            Assert.Equal(Validations.LockedAccount, alert.Message);
         }
 
         [Fact]
@@ -230,7 +230,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
             Assert.False(canCreate);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UsernameIsAlreadyTaken, validator.ModelState["Username"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validations.UniqueUsername, validator.ModelState["Username"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -243,7 +243,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
             Assert.False(canCreate);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.EmailIsAlreadyUsed, validator.ModelState["Email"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validations.UniqueEmail, validator.ModelState["Email"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -310,7 +310,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
             Assert.False(canEdit);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UsernameIsAlreadyTaken, validator.ModelState["Username"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validations.UniqueUsername, validator.ModelState["Username"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -337,7 +337,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
             Assert.False(canEdit);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.EmailIsAlreadyUsed, validator.ModelState["Email"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validations.UniqueEmail, validator.ModelState["Email"].Errors.Single().ErrorMessage);
         }
 
         [Fact]

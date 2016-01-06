@@ -21,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             attribute = new IntegerAttribute();
 
-            String expected = String.Format(Validations.FieldMustBeInteger, "Test");
+            String expected = String.Format(Validations.Integer, "Test");
             String actual = attribute.FormatErrorMessage("Test");
 
             Assert.Equal(expected, actual);

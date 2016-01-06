@@ -38,7 +38,7 @@ namespace MvcTemplate.Validators
                     role.Title.ToLower() == view.Title.ToLower());
 
             if (!isUnique)
-                ModelState.AddModelError<RoleView>(role => role.Title, Validations.TitleIsAlreadyUsed);
+                ModelState.AddModelError<RoleView>(role => role.Title, Validations.UniqueTitle);
 
             return isUnique;
         }

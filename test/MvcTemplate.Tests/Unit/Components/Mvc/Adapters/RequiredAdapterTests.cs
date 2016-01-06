@@ -16,7 +16,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             RequiredAttribute attribute = new RequiredAttribute();
             new RequiredAdapter(attribute);
 
-            String expected = Validations.FieldIsRequired;
+            String expected = Validations.Required;
             String actual = attribute.ErrorMessage;
 
             Assert.Equal(expected, actual);

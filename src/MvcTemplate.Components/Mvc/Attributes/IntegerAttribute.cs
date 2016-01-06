@@ -8,7 +8,7 @@ namespace MvcTemplate.Components.Mvc
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class IntegerAttribute : ValidationAttribute
     {
-        public IntegerAttribute() : base(() => Validations.FieldMustBeInteger)
+        public IntegerAttribute() : base(() => Validations.Integer)
         {
         }
 

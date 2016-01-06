@@ -37,7 +37,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             attribute.OtherPropertyDisplayName = "Other";
 
-            String expected = String.Format(Validations.FieldMustBeEqualTo, "Sum", attribute.OtherPropertyDisplayName);
+            String expected = String.Format(Validations.EqualTo, "Sum", attribute.OtherPropertyDisplayName);
             String actual = attribute.FormatErrorMessage("Sum");
 
             Assert.Equal(expected, actual);

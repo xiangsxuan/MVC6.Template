@@ -27,8 +27,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void EmailAddressAdapter_SetsErrorMessage()
         {
-            String expected = Validations.FieldIsNotValidEmail;
             String actual = attribute.ErrorMessage;
+            String expected = Validations.Email;
 
             Assert.Equal(expected, actual);
         }

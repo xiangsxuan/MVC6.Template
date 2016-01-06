@@ -61,128 +61,128 @@ namespace MvcTemplate.Resources.Form {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; field is not a valid e-mail address..
-        /// </summary>
-        public static string FieldIsNotValidEmail {
-            get {
-                return ResourceManager.GetString("FieldIsNotValidEmail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; field is required..
-        /// </summary>
-        public static string FieldIsRequired {
-            get {
-                return ResourceManager.GetString("FieldIsRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; field must be a date..
         /// </summary>
-        public static string FieldMustBeDate {
+        public static string Date {
             get {
-                return ResourceManager.GetString("FieldMustBeDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; field must be equal to &apos;{1}&apos;..
-        /// </summary>
-        public static string FieldMustBeEqualTo {
-            get {
-                return ResourceManager.GetString("FieldMustBeEqualTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; field must be greater or equal to {1}..
-        /// </summary>
-        public static string FieldMustBeGreaterOrEqualTo {
-            get {
-                return ResourceManager.GetString("FieldMustBeGreaterOrEqualTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; field must be greater than {1}..
-        /// </summary>
-        public static string FieldMustBeGreaterThan {
-            get {
-                return ResourceManager.GetString("FieldMustBeGreaterThan", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; field must be between {1} and {2}..
-        /// </summary>
-        public static string FieldMustBeInRange {
-            get {
-                return ResourceManager.GetString("FieldMustBeInRange", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; field must contain between {2} and {1} symbols..
-        /// </summary>
-        public static string FieldMustBeInRangeOfLength {
-            get {
-                return ResourceManager.GetString("FieldMustBeInRangeOfLength", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; field must be an integer..
-        /// </summary>
-        public static string FieldMustBeInteger {
-            get {
-                return ResourceManager.GetString("FieldMustBeInteger", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; field must be less or equal to {1}..
-        /// </summary>
-        public static string FieldMustBeLessOrEqualTo {
-            get {
-                return ResourceManager.GetString("FieldMustBeLessOrEqualTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; field must be numeric..
-        /// </summary>
-        public static string FieldMustBeNumeric {
-            get {
-                return ResourceManager.GetString("FieldMustBeNumeric", resourceCulture);
+                return ResourceManager.GetString("Date", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; field must only contain digits..
         /// </summary>
-        public static string FieldMustBeOnlyInDigits {
+        public static string Digits {
             get {
-                return ResourceManager.GetString("FieldMustBeOnlyInDigits", resourceCulture);
+                return ResourceManager.GetString("Digits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; field is not a valid e-mail address..
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; field must be equal to &apos;{1}&apos;..
+        /// </summary>
+        public static string EqualTo {
+            get {
+                return ResourceManager.GetString("EqualTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; field must be greater than {1}..
+        /// </summary>
+        public static string GreaterThan {
+            get {
+                return ResourceManager.GetString("GreaterThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; field must be an integer..
+        /// </summary>
+        public static string Integer {
+            get {
+                return ResourceManager.GetString("Integer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; field must be less or equal to {1}..
+        /// </summary>
+        public static string MaxValue {
+            get {
+                return ResourceManager.GetString("MaxValue", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; field must be at least {1} characters long..
         /// </summary>
-        public static string FieldMustBeWithMinLengthOf {
+        public static string MinLength {
             get {
-                return ResourceManager.GetString("FieldMustBeWithMinLengthOf", resourceCulture);
+                return ResourceManager.GetString("MinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; field must be greater or equal to {1}..
+        /// </summary>
+        public static string MinValue {
+            get {
+                return ResourceManager.GetString("MinValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; field must be numeric..
+        /// </summary>
+        public static string Numeric {
+            get {
+                return ResourceManager.GetString("Numeric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; field must be between {1} and {2}..
+        /// </summary>
+        public static string Range {
+            get {
+                return ResourceManager.GetString("Range", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; field is required..
+        /// </summary>
+        public static string Required {
+            get {
+                return ResourceManager.GetString("Required", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; field must not exceed maximum length of {1}..
         /// </summary>
-        public static string FieldMustNotExceedLength {
+        public static string StringLength {
             get {
-                return ResourceManager.GetString("FieldMustNotExceedLength", resourceCulture);
+                return ResourceManager.GetString("StringLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; field must contain between {2} and {1} symbols..
+        /// </summary>
+        public static string StringLengthRange {
+            get {
+                return ResourceManager.GetString("StringLengthRange", resourceCulture);
             }
         }
     }

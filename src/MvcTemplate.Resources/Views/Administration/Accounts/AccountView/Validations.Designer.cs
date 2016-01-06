@@ -61,20 +61,11 @@ namespace MvcTemplate.Resources.Views.Administration.Accounts.AccountView {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your account is locked..
+        ///   Looks up a localized string similar to Recovery token is already expired..
         /// </summary>
-        public static string AccountIsLocked {
+        public static string ExpiredToken {
             get {
-                return ResourceManager.GetString("AccountIsLocked", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to E-mail address is already being used..
-        /// </summary>
-        public static string EmailIsAlreadyUsed {
-            get {
-                return ResourceManager.GetString("EmailIsAlreadyUsed", resourceCulture);
+                return ResourceManager.GetString("ExpiredToken", resourceCulture);
             }
         }
         
@@ -97,20 +88,29 @@ namespace MvcTemplate.Resources.Views.Administration.Accounts.AccountView {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recovery token is already expired..
+        ///   Looks up a localized string similar to Your account is locked..
         /// </summary>
-        public static string RecoveryTokenExpired {
+        public static string LockedAccount {
             get {
-                return ResourceManager.GetString("RecoveryTokenExpired", resourceCulture);
+                return ResourceManager.GetString("LockedAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E-mail address is already being used..
+        /// </summary>
+        public static string UniqueEmail {
+            get {
+                return ResourceManager.GetString("UniqueEmail", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Username is already taken..
         /// </summary>
-        public static string UsernameIsAlreadyTaken {
+        public static string UniqueUsername {
             get {
-                return ResourceManager.GetString("UsernameIsAlreadyTaken", resourceCulture);
+                return ResourceManager.GetString("UniqueUsername", resourceCulture);
             }
         }
     }

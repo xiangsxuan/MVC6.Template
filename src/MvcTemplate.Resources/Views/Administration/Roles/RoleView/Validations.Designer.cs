@@ -63,9 +63,9 @@ namespace MvcTemplate.Resources.Views.Administration.Roles.RoleView {
         /// <summary>
         ///   Looks up a localized string similar to Role title is already being used..
         /// </summary>
-        public static string TitleIsAlreadyUsed {
+        public static string UniqueTitle {
             get {
-                return ResourceManager.GetString("TitleIsAlreadyUsed", resourceCulture);
+                return ResourceManager.GetString("UniqueTitle", resourceCulture);
             }
         }
     }

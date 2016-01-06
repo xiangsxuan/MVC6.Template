@@ -10,9 +10,9 @@ namespace MvcTemplate.Components.Mvc
             : base(attribute, null)
         {
             if (Attribute.MinimumLength == 0)
-                Attribute.ErrorMessage = Validations.FieldMustNotExceedLength;
+                Attribute.ErrorMessage = Validations.StringLength;
             else
-                Attribute.ErrorMessage = Validations.FieldMustBeInRangeOfLength;
+                Attribute.ErrorMessage = Validations.StringLengthRange;
         }
     }
 }

@@ -16,8 +16,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             RangeAttribute attribute = new RangeAttribute(0, 128);
             new RangeAdapter(attribute);
 
-            String expected = Validations.FieldMustBeInRange;
             String actual = attribute.ErrorMessage;
+            String expected = Validations.Range;
 
             Assert.Equal(expected, actual);
         }

@@ -16,7 +16,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             StringLengthAttribute attribute = new StringLengthAttribute(128);
             new StringLengthAdapter(attribute);
 
-            String expected = Validations.FieldMustNotExceedLength;
+            String expected = Validations.StringLength;
             String actual = attribute.ErrorMessage;
 
             Assert.Equal(expected, actual);
@@ -28,7 +28,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             StringLengthAttribute attribute = new StringLengthAttribute(128) { MinimumLength = 4 };
             new StringLengthAdapter(attribute);
 
-            String expected = Validations.FieldMustBeInRangeOfLength;
+            String expected = Validations.StringLengthRange;
             String actual = attribute.ErrorMessage;
 
             Assert.Equal(expected, actual);

@@ -17,7 +17,7 @@ namespace MvcTemplate.Components.Mvc
         {
             Maximum = Convert.ToDecimal(maximum);
         }
-        private MaxValueAttribute() : base(() => Validations.FieldMustBeLessOrEqualTo)
+        private MaxValueAttribute() : base(() => Validations.MaxValue)
         {
         }
 

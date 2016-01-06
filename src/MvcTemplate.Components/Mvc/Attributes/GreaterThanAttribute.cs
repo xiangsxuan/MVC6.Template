@@ -20,7 +20,7 @@ namespace MvcTemplate.Components.Mvc
             Minimum = Convert.ToDecimal(minimum);
         }
         private GreaterThanAttribute()
-            : base(() => Validations.FieldMustBeGreaterThan)
+            : base(() => Validations.GreaterThan)
         {
         }
 
