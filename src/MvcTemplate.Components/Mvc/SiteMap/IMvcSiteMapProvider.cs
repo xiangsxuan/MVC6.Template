@@ -5,7 +5,7 @@ namespace MvcTemplate.Components.Mvc
 {
     public interface IMvcSiteMapProvider
     {
-        IEnumerable<MvcSiteMapNode> GetAuthorizedMenus(ViewContext context);
+        IEnumerable<MvcSiteMapNode> GetSiteMap(ViewContext context);
         IEnumerable<MvcSiteMapNode> GetBreadcrumb(ViewContext context);
     }
 }

@@ -1,6 +1,6 @@
 // Search
 (function () {
-    $(document).on('keyup', '#MenuSearchInput', function () {
+    $(document).on('keyup', '#SiteMapSearch', function () {
         var searchString = this.value.toLowerCase();
         if ($('.menu').width() < 100) {
             searchString = '';
@@ -76,7 +76,7 @@
     $(window).on('resize', function () {
         if ($('.menu').width() < 100) {
             $('.menu .open').removeClass('open').children('ul').hide();
-            $('#MenuSearchInput').keyup();
+            $('#SiteMapSearch').keyup();
         }
     });
 }());

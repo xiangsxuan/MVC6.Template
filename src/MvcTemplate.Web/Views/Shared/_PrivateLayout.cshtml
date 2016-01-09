@@ -30,10 +30,10 @@
     @Html.Partial("MvcLookup/_Dialog")
     <div class="menu">
         <div class="menu-search">
-            <input id="MenuSearchInput" placeholder="@(Actions.Search + "...")" />
+            <input id="SiteMapSearch" placeholder="@(Actions.Search + "...")" />
         </div>
         @{ IMvcSiteMapProvider provider = Context.ApplicationServices.GetRequiredService<IMvcSiteMapProvider>(); }
-        @Html.Partial("_SiteMap", provider.GetAuthorizedMenus(ViewContext))
+        @Html.Partial("_SiteMap", provider.GetSiteMap(ViewContext))
     </div>
     <div class="content-container">
         <div class="separator"></div>
