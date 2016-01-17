@@ -15,7 +15,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         #region Static method: MapRoles()
 
         [Fact]
-        public void MapRoles_MapsRoleToRoleView()
+        public void MapRoles_Role_RoleView()
         {
             Role expected = ObjectFactory.CreateRole();
             RoleView actual = Mapper.Map<RoleView>(expected);
@@ -27,7 +27,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         }
 
         [Fact]
-        public void MapRoles_MapsRoleViewToRole()
+        public void MapRoles_RoleView_Role()
         {
             RoleView expected = ObjectFactory.CreateRoleView();
             Role actual = Mapper.Map<Role>(expected);
@@ -43,7 +43,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         #region Static method: MapAccounts()
 
         [Fact]
-        public void MapAccounts_MapsAccountToAccountView()
+        public void MapAccounts_Account_AccountView()
         {
             Account expected = ObjectFactory.CreateAccount();
             AccountView actual = Mapper.Map<AccountView>(expected);
@@ -57,7 +57,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         }
 
         [Fact]
-        public void MapAccounts_MapsAccountToAccountEditView()
+        public void MapAccounts_Account_AccountEditView()
         {
             Account expected = ObjectFactory.CreateAccount();
             AccountEditView actual = Mapper.Map<AccountEditView>(expected);
@@ -71,7 +71,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         }
 
         [Fact]
-        public void MapAccounts_MapsAccountToProfileEditView()
+        public void MapAccounts_Account_ProfileEditView()
         {
             Account expected = ObjectFactory.CreateAccount();
             ProfileEditView actual = Mapper.Map<ProfileEditView>(expected);
@@ -85,7 +85,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         }
 
         [Fact]
-        public void MapAccounts_MapsAccountCreateViewToAccount()
+        public void MapAccounts_AccountCreateView_Account()
         {
             AccountCreateView expected = ObjectFactory.CreateAccountCreateView();
             Account actual = Mapper.Map<Account>(expected);
@@ -103,7 +103,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         }
 
         [Fact]
-        public void MapAccounts_MapsAccountRegisterViewToAccount()
+        public void MapAccounts_AccountRegisterView_Account()
         {
             AccountRegisterView expected = ObjectFactory.CreateAccountRegisterView();
             Account actual = Mapper.Map<Account>(expected);

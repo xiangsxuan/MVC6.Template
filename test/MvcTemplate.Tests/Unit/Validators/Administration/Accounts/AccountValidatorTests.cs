@@ -150,11 +150,13 @@ namespace MvcTemplate.Tests.Unit.Validators
             AccountLoginView view = new AccountLoginView();
 
             Boolean canLogin = validator.CanLogin(view);
+            Alert alert = validator.Alerts.Single();
 
             Assert.False(canLogin);
-            Assert.Empty(validator.Alerts);
-            Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.IncorrectAuthentication, validator.ModelState[""].Errors.Single().ErrorMessage);
+            Assert.Empty(validator.ModelState);
+            Assert.Equal(0, alert.FadeoutAfter);
+            Assert.Equal(AlertType.Danger, alert.Type);
+            Assert.Equal(Validations.IncorrectAuthentication, alert.Message);
         }
 
         [Fact]
@@ -168,11 +170,13 @@ namespace MvcTemplate.Tests.Unit.Validators
             hasher.VerifyPassword(view.Password, Arg.Any<String>()).Returns(false);
 
             Boolean canLogin = validator.CanLogin(view);
+            Alert alert = validator.Alerts.Single();
 
             Assert.False(canLogin);
-            Assert.Empty(validator.Alerts);
-            Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.IncorrectAuthentication, validator.ModelState[""].Errors.Single().ErrorMessage);
+            Assert.Empty(validator.ModelState);
+            Assert.Equal(0, alert.FadeoutAfter);
+            Assert.Equal(AlertType.Danger, alert.Type);
+            Assert.Equal(Validations.IncorrectAuthentication, alert.Message);
         }
 
         [Fact]
