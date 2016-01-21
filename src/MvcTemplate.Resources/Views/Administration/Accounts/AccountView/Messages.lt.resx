@@ -130,7 +130,7 @@
     <value>Paskyros atkūrimas</value>
   </data>
   <data name="RecoveryInformation" xml:space="preserve">
-    <value>Paskyros atkūrimo informacija išsiūsta į jūsų elektroninį paštą</value>
+    <value>Paskyros atkūrimo informacija išsiųsta į jūsų elektroninį paštą</value>
   </data>
   <data name="SuccessfulRegistration" xml:space="preserve">
     <value>Jūsų paskyra sukurta sėkmingai</value>
