@@ -1,4 +1,4 @@
-﻿@using Links = MvcTemplate.Resources.Views.Administration.Accounts.AccountView.Texts
+﻿@using Texts = MvcTemplate.Resources.Views.Administration.Accounts.AccountView.Texts
 @using MvcTemplate.Resources.Views.Auth.AccountRegisterView
 
 @model AccountRegisterView
@@ -29,6 +29,6 @@
 
 <div class="separator"></div>
 <div class="auth-actions">
-    <a asp-action="Login" class="text fa fa-sign-in" data-toggle="tooltip" data-original-title="@Links.Login" data-placement="bottom"></a>
-    <a asp-action="Recover" class="text fa fa-unlock-alt" data-toggle="tooltip" data-original-title="@Links.LostPassword" data-placement="bottom"></a>
+    <a asp-action="Login" class="text fa fa-sign-in" data-toggle="tooltip" data-original-title="@Texts.Login" data-placement="bottom"></a>
+    <a asp-action="Recover" class="text fa fa-unlock-alt" data-toggle="tooltip" data-original-title="@Texts.LostPassword" data-placement="bottom"></a>
 </div>
