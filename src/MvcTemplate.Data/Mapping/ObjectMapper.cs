@@ -9,6 +9,8 @@ namespace MvcTemplate.Data.Mapping
         {
             MapRoles();
             MapAccounts();
+
+            Mapper.Configuration.Seal();
         }
 
         #region Administration
