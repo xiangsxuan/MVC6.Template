@@ -13,11 +13,11 @@ namespace MvcTemplate.Data.Logging
         private DbContext Context { get; }
         private Boolean Disposed { get; set; }
 
-        public AuditLogger(DbContext context, String accountId = null)
+        public AuditLogger(DbContext context, String accountId)
         {
             Context = context;
-            AccountId = accountId;
             Context.ChangeTracker.AutoDetectChangesEnabled = false;
+            AccountId = !String.IsNullOrEmpty(accountId) ? accountId : null;
         }
 
         public void Log(IEnumerable<EntityEntry<BaseModel>> entries)
@@ -39,10 +39,10 @@ namespace MvcTemplate.Data.Logging
         public void Log(LoggableEntity entity)
         {
             AuditLog log = new AuditLog();
-            log.AccountId = !String.IsNullOrEmpty(AccountId) ? AccountId : null;
             log.Changes = entity.ToString();
             log.EntityName = entity.Name;
             log.Action = entity.Action;
+            log.AccountId = AccountId;
             log.EntityId = entity.Id;
 
             Context.Add(log);

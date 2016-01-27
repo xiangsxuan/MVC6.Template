@@ -34,7 +34,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             logger.Dispose();
         }
 
-        #region Constructor: AuditLogger(DbContext context, String accountId = null)
+        #region Constructor: AuditLogger(DbContext context, String accountId)
 
         [Fact]
         public void AuditLogger_DisablesChangesDetection()
@@ -200,7 +200,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         public void Dispose_Context()
         {
             TestingContext context = Substitute.ForPartsOf<TestingContext>();
-            AuditLogger logger = new AuditLogger(context);
+            AuditLogger logger = new AuditLogger(context, null);
 
             logger.Dispose();
 
