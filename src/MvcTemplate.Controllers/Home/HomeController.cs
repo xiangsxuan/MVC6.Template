@@ -24,14 +24,14 @@ namespace MvcTemplate.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Error()
+        public ViewResult Error()
         {
             return View();
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult NotFound()
+        public ViewResult NotFound()
         {
             return View();
         }

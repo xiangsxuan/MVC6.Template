@@ -83,7 +83,7 @@ namespace MvcTemplate.Controllers.Administration
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(String id)
+        public RedirectToActionResult DeleteConfirmed(String id)
         {
             Service.Delete(id);
 

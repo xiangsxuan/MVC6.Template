@@ -51,7 +51,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void Error_ReturnsEmptyView()
         {
-            ViewDataDictionary actual = (controller.Error() as ViewResult).ViewData;
+            ViewDataDictionary actual = controller.Error().ViewData;
 
             Assert.Null(actual.Model);
         }
@@ -63,7 +63,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void NotFound_ReturnsEmptyView()
         {
-            ViewDataDictionary actual = (controller.NotFound() as ViewResult).ViewData;
+            ViewDataDictionary actual = controller.NotFound().ViewData;
 
             Assert.Null(actual.Model);
         }
