@@ -52,6 +52,17 @@ form {
 .auth-content .input-group input:focus {
   box-shadow: none;
 }
+.auth-content .input-group .input-error {
+  color: #d11919;
+  display: none;
+  right: 13px;
+}
+.auth-content .input-group .input-validation-error {
+  padding-right: 25px;
+}
+.auth-content .input-group .input-validation-error + .input-error {
+  display: block;
+}
 .auth-content .input-group .dropdown-menu {
   border-top-right-radius: 0;
   border-top-left-radius: 0;

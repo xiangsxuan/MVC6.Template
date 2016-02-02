@@ -12,10 +12,12 @@
         <div class="input-group">
             <span class="fa fa-user"></span>
             <input asp-for="Username" placeholder="@Titles.Username" autocomplete="off" />
+            <span class="input-error fa fa-warning"></span>
         </div>
         <div class="input-group">
             <span class="fa fa-lock"></span>
             <input asp-for="Password" type="password" placeholder="@Titles.Password" autocomplete="off" />
+            <span class="input-error fa fa-warning"></span>
         </div>
         @{ IGlobalizationProvider globalizationProvider = Context.ApplicationServices.GetService<IGlobalizationProvider>(); }
         @if (globalizationProvider.Languages.Length > 1)

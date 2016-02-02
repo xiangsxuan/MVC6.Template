@@ -13,6 +13,7 @@
         <div class="input-group">
             <span class="fa fa-lock"></span>
             <input asp-for="NewPassword" type="password" placeholder="@Titles.NewPassword" autocomplete="off" />
+            <span class="input-error fa fa-warning"></span>
         </div>
     </div>
     <input class="btn btn-primary" type="submit" value="@Actions.Submit" />

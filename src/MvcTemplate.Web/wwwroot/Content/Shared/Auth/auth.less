@@ -66,6 +66,20 @@ form {
             }
         }
 
+        .input-error {
+            color: @validation-color;
+            display: none;
+            right: 13px;
+        }
+
+        .input-validation-error {
+            padding-right: 25px;
+
+            + .input-error {
+                display: block;
+            }
+        }
+
         .dropdown-menu {
             border-top-right-radius: 0;
             border-top-left-radius: 0;

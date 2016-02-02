@@ -14,14 +14,17 @@
         <div class="input-group">
             <span class="fa fa-user"></span>
             <input asp-for="Username" placeholder="@Titles.Username" autocomplete="off" />
+            <span class="input-error fa fa-warning"></span>
         </div>
         <div class="input-group">
             <span class="fa fa-lock"></span>
-            <input asp-for="Username" type="password" placeholder="@Titles.Username" autocomplete="off" />
+            <input asp-for="Password" type="password" placeholder="@Titles.Password" autocomplete="off" />
+            <span class="input-error fa fa-warning"></span>
         </div>
         <div class="input-group">
             <span class="fa fa-envelope"></span>
             <input asp-for="Email" placeholder="@Titles.Email" autocomplete="off" />
+            <span class="input-error fa fa-warning"></span>
         </div>
     </div>
     <input class="btn btn-primary" type="submit" value="@Actions.Register" />
