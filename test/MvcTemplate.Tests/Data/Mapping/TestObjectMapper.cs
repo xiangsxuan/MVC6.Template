@@ -9,6 +9,8 @@ namespace MvcTemplate.Tests.Data.Mapping
         {
             Mapper.CreateMap<TestModel, TestView>();
             Mapper.CreateMap<TestView, TestModel>();
+
+            Mapper.Configuration.Seal();
         }
     }
 }

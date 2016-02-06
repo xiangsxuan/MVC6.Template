@@ -8,9 +8,9 @@ namespace MvcTemplate.Data.Logging
 {
     public class LoggableEntity
     {
-        public String Id { get; private set; }
-        public String Name { get; private set; }
-        public String Action { get; private set; }
+        public String Id { get; }
+        public String Name { get; }
+        public String Action { get; }
 
         public IEnumerable<LoggableProperty> Properties { get; }
 
