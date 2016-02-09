@@ -7,7 +7,7 @@ namespace MvcTemplate.Objects
     {
         [Key]
         [Required]
-        [StringLength(128)]
+        [StringLength(36)]
         public String Id
         {
             get

@@ -6,12 +6,12 @@ namespace MvcTemplate.Objects
     public class RolePermission : BaseModel
     {
         [Required]
-        [StringLength(128)]
+        [StringLength(36)]
         public String RoleId { get; set; }
         public virtual Role Role { get; set; }
 
         [Required]
-        [StringLength(128)]
+        [StringLength(36)]
         public String PermissionId { get; set; }
         public virtual Permission Permission { get; set; }
     }

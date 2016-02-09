@@ -7,12 +7,12 @@ namespace MvcTemplate.Objects
     public class AccountRegisterView : BaseView
     {
         [Required]
-        [StringLength(128)]
+        [StringLength(32)]
         public String Username { get; set; }
 
         [Required]
         [NotTrimmed]
-        [StringLength(128)]
+        [StringLength(32)]
         public String Password { get; set; }
 
         [Required]

@@ -5,7 +5,7 @@ namespace MvcTemplate.Objects
 {
     public class Log : BaseModel
     {
-        [StringLength(128)]
+        [StringLength(64)]
         public String AccountId { get; set; }
 
         [Required]
