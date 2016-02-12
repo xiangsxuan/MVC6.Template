@@ -1,5 +1,4 @@
 ﻿using MvcTemplate.Objects;
-using NSubstitute;
 using System;
 using Xunit;
 
@@ -11,7 +10,7 @@ namespace MvcTemplate.Tests.Unit.Objects
 
         public BaseModelTests()
         {
-            model = Substitute.For<BaseModel>();
+            model = new Account();
         }
 
         #region Property: Id

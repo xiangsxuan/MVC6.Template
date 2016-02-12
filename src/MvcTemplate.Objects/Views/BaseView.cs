@@ -8,7 +8,7 @@ namespace MvcTemplate.Objects
         [Key]
         [Required]
         [StringLength(36)]
-        public String Id
+        public virtual String Id
         {
             get
             {
@@ -25,7 +25,7 @@ namespace MvcTemplate.Objects
             set;
         }
 
-        public DateTime CreationDate
+        public virtual DateTime CreationDate
         {
             get
             {
