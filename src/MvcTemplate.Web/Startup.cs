@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ModelBinding;
@@ -13,7 +12,6 @@ using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers;
 using MvcTemplate.Data.Core;
-using MvcTemplate.Data.Logging;
 using MvcTemplate.Data.Migrations;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
@@ -54,10 +52,6 @@ namespace MvcTemplate.Web
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddTransient<ILogger, Logger>();
-            services.AddTransient<IAuditLogger>(provider =>
-                new AuditLogger(provider.GetService<DbContext>(),
-                    provider.GetService<IHttpContextAccessor>().HttpContext.User.Identity.Name));
-
             services.AddTransient<IHasher, BCrypter>();
             services.AddTransient<IMailClient>(provider => new SmtpMailClient("smtp.gmail.com", 587, "MVC.Template@gmail.com", "ChangeIt"));
 

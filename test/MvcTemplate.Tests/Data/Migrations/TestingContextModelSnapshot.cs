@@ -46,34 +46,6 @@ namespace MvcTemplate.Tests.Data.Migrations
                     b.HasKey("Id");
                 });
 
-            modelBuilder.Entity("MvcTemplate.Objects.AuditLog", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasAnnotation("MaxLength", 36);
-
-                    b.Property<string>("AccountId")
-                        .HasAnnotation("MaxLength", 36);
-
-                    b.Property<string>("Action")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 16);
-
-                    b.Property<string>("Changes")
-                        .IsRequired();
-
-                    b.Property<DateTime>("CreationDate");
-
-                    b.Property<string>("EntityId")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 36);
-
-                    b.Property<string>("EntityName")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 64);
-
-                    b.HasKey("Id");
-                });
-
             modelBuilder.Entity("MvcTemplate.Objects.Log", b =>
                 {
                     b.Property<string>("Id")

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.Entity;
 using MvcTemplate.Data.Core;
-using MvcTemplate.Data.Logging;
 using MvcTemplate.Objects;
 using System;
 using System.Linq;
@@ -14,8 +13,7 @@ namespace MvcTemplate.Data.Migrations
 
         public Configuration(DbContext context)
         {
-            IAuditLogger logger = new AuditLogger(new Context(), "sys_seeder");
-            UnitOfWork = new UnitOfWork(context, logger);
+            UnitOfWork = new UnitOfWork(context);
         }
 
         public void Seed()

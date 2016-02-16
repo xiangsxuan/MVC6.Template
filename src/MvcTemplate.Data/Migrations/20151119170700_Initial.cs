@@ -10,22 +10,6 @@ namespace MvcTemplate.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AuditLog",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    AccountId = table.Column<string>(nullable: true),
-                    Action = table.Column<string>(nullable: false),
-                    Changes = table.Column<string>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    EntityId = table.Column<string>(nullable: false),
-                    EntityName = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AuditLog", x => x.Id);
-                });
-            migrationBuilder.CreateTable(
                 name: "Log",
                 columns: table => new
                 {
@@ -144,7 +128,6 @@ namespace MvcTemplate.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable("Account");
-            migrationBuilder.DropTable("AuditLog");
             migrationBuilder.DropTable("Log");
             migrationBuilder.DropTable("RolePermission");
             migrationBuilder.DropTable("Permission");
