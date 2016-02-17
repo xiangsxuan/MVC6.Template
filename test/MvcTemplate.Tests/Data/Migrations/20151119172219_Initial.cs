@@ -49,18 +49,6 @@ namespace MvcTemplate.Tests.Data.Migrations
                     table.PrimaryKey("PK_Role", x => x.Id);
                 });
             migrationBuilder.CreateTable(
-                name: "TestModel",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    Text = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TestModel", x => x.Id);
-                });
-            migrationBuilder.CreateTable(
                 name: "Account",
                 columns: table => new
                 {
@@ -142,7 +130,6 @@ namespace MvcTemplate.Tests.Data.Migrations
             migrationBuilder.DropTable("Account");
             migrationBuilder.DropTable("Log");
             migrationBuilder.DropTable("RolePermission");
-            migrationBuilder.DropTable("TestModel");
             migrationBuilder.DropTable("Permission");
             migrationBuilder.DropTable("Role");
         }

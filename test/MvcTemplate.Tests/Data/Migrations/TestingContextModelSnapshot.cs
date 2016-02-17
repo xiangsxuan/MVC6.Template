@@ -115,19 +115,6 @@ namespace MvcTemplate.Tests.Data.Migrations
                     b.HasKey("Id");
                 });
 
-            modelBuilder.Entity("MvcTemplate.Tests.Objects.TestModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasAnnotation("MaxLength", 36);
-
-                    b.Property<DateTime>("CreationDate");
-
-                    b.Property<string>("Text")
-                        .HasAnnotation("MaxLength", 512);
-
-                    b.HasKey("Id");
-                });
-
             modelBuilder.Entity("MvcTemplate.Objects.Account", b =>
                 {
                     b.HasOne("MvcTemplate.Objects.Role")

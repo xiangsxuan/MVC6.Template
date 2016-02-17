@@ -1,24 +1,11 @@
 ﻿using Microsoft.Data.Entity;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
-using MvcTemplate.Tests.Data.Mapping;
-using MvcTemplate.Tests.Objects;
 
 namespace MvcTemplate.Tests.Data
 {
     public class TestingContext : Context
     {
-        #region Test
-
-        protected DbSet<TestModel> TestModels { get; set; }
-
-        #endregion
-
-        static TestingContext()
-        {
-            TestObjectMapper.MapObjects();
-        }
-
         public void DropData()
         {
             RemoveRange(Set<RolePermission>());

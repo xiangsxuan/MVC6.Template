@@ -1,5 +1,4 @@
 ﻿using MvcTemplate.Objects;
-using MvcTemplate.Tests.Objects;
 using System;
 using System.Collections.Generic;
 
@@ -181,20 +180,6 @@ namespace MvcTemplate.Tests
 
                 PermissionId = "Id" + id,
                 Permission = CreatePermission(id)
-            };
-        }
-
-        #endregion
-
-        #region Tests
-
-        public static TestModel CreateTestModel(Int32 id = 1)
-        {
-            return new TestModel
-            {
-                Id = "Id" + id,
-
-                Text = "Text" + id
             };
         }
 
