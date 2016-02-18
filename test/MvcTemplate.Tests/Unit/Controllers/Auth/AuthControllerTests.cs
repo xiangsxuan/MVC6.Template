@@ -359,7 +359,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
             Object expected = RedirectToAction(controller, "Login");
             Object actual = controller.Reset(accountReset);
-            
+
             Assert.Same(expected, actual);
         }
 

@@ -180,7 +180,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         public void RedirectToAction_Action_Controller_NullRoute_RedirectsToAction()
         {
             controller.IsAuthorizedFor("Action", "Controller", areaName).Returns(true);
-            
+
             RedirectToActionResult actual = controller.RedirectToAction("Action", "Controller", null);
 
             Assert.Equal("Controller", actual.ControllerName);

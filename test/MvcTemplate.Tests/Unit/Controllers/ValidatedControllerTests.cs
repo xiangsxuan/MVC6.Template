@@ -22,7 +22,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service = Substitute.For<IService>();
             validator = Substitute.For<IValidator>();
             controller = Substitute.ForPartsOf<ValidatedController<IValidator, IService>>(validator, service);
-            
+
             controller.ActionContext.RouteData = new RouteData();
             controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
             controller.HttpContext.ApplicationServices.GetService<IGlobalizationProvider>().Returns(Substitute.For<IGlobalizationProvider>());

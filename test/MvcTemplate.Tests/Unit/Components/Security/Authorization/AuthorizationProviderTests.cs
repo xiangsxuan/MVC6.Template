@@ -392,7 +392,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             }
 
             provider.Refresh();
-            
+
             return ObjectFactory.CreateAccount();
         }
 

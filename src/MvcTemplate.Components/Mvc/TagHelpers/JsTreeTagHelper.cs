@@ -67,7 +67,7 @@ namespace MvcTemplate.Components.Mvc
         private void AddNodes(TagBuilder root, IList<JsTreeNode> nodes)
         {
             if (nodes.Count == 0) return;
-            
+
             TagBuilder branch = new TagBuilder("ul");
 
             foreach (JsTreeNode treeNode in nodes)
