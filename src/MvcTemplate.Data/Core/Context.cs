@@ -1,6 +1,8 @@
 ﻿using Microsoft.Data.Entity;
+using Microsoft.Data.Entity.Metadata;
 using MvcTemplate.Data.Mapping;
 using MvcTemplate.Objects;
+using System.Linq;
 
 namespace MvcTemplate.Data.Core
 {
@@ -24,6 +26,12 @@ namespace MvcTemplate.Data.Core
         static Context()
         {
             ObjectMapper.MapObjects();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            foreach (IMutableForeignKey key in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+                key.DeleteBehavior = DeleteBehavior.Restrict;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

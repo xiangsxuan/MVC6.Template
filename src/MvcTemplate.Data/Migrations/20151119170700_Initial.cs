@@ -88,12 +88,14 @@ namespace MvcTemplate.Data.Migrations
                         name: "FK_RolePermission_Permission_PermissionId",
                         column: x => x.PermissionId,
                         principalTable: "Permission",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_RolePermission_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
