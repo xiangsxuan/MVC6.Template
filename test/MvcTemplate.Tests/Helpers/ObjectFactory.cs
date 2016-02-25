@@ -8,7 +8,7 @@ namespace MvcTemplate.Tests
     {
         #region Administration
 
-        public static Account CreateAccount(Int32 id = 1)
+        public static Account CreateAccount(Int32 id = 0)
         {
             return new Account
             {
@@ -28,7 +28,7 @@ namespace MvcTemplate.Tests
                 Role = CreateRole(id)
             };
         }
-        public static AccountView CreateAccountView(Int32 id = 1)
+        public static AccountView CreateAccountView(Int32 id = 0)
         {
             return new AccountView
             {
@@ -42,7 +42,7 @@ namespace MvcTemplate.Tests
                 RoleTitle = "Title" + id
             };
         }
-        public static AccountEditView CreateAccountEditView(Int32 id = 1)
+        public static AccountEditView CreateAccountEditView(Int32 id = 0)
         {
             return new AccountEditView
             {
@@ -56,7 +56,7 @@ namespace MvcTemplate.Tests
                 RoleId = "Id" + id
             };
         }
-        public static AccountCreateView CreateAccountCreateView(Int32 id = 1)
+        public static AccountCreateView CreateAccountCreateView(Int32 id = 0)
         {
             return new AccountCreateView
             {
@@ -71,7 +71,7 @@ namespace MvcTemplate.Tests
             };
         }
 
-        public static AccountLoginView CreateAccountLoginView(Int32 id = 1)
+        public static AccountLoginView CreateAccountLoginView(Int32 id = 0)
         {
             return new AccountLoginView
             {
@@ -81,7 +81,7 @@ namespace MvcTemplate.Tests
                 Password = "Password" + id
             };
         }
-        public static AccountResetView CreateAccountResetView(Int32 id = 1)
+        public static AccountResetView CreateAccountResetView(Int32 id = 0)
         {
             return new AccountResetView
             {
@@ -91,7 +91,7 @@ namespace MvcTemplate.Tests
                 NewPassword = "NewPassword" + id
             };
         }
-        public static AccountRegisterView CreateAccountRegisterView(Int32 id = 1)
+        public static AccountRegisterView CreateAccountRegisterView(Int32 id = 0)
         {
             return new AccountRegisterView
             {
@@ -103,7 +103,7 @@ namespace MvcTemplate.Tests
                 Email = id + "@tests.com"
             };
         }
-        public static AccountRecoveryView CreateAccountRecoveryView(Int32 id = 1)
+        public static AccountRecoveryView CreateAccountRecoveryView(Int32 id = 0)
         {
             return new AccountRecoveryView
             {
@@ -113,7 +113,7 @@ namespace MvcTemplate.Tests
             };
         }
 
-        public static ProfileEditView CreateProfileEditView(Int32 id = 1)
+        public static ProfileEditView CreateProfileEditView(Int32 id = 0)
         {
             return new ProfileEditView
             {
@@ -127,7 +127,7 @@ namespace MvcTemplate.Tests
 
             };
         }
-        public static ProfileDeleteView CreateProfileDeleteView(Int32 id = 1)
+        public static ProfileDeleteView CreateProfileDeleteView(Int32 id = 0)
         {
             return new ProfileDeleteView
             {
@@ -137,7 +137,7 @@ namespace MvcTemplate.Tests
             };
         }
 
-        public static Role CreateRole(Int32 id = 1)
+        public static Role CreateRole(Int32 id = 0)
         {
             return new Role
             {
@@ -148,7 +148,7 @@ namespace MvcTemplate.Tests
                 Permissions = new List<RolePermission>()
             };
         }
-        public static RoleView CreateRoleView(Int32 id = 1)
+        public static RoleView CreateRoleView(Int32 id = 0)
         {
             return new RoleView
             {
@@ -158,7 +158,7 @@ namespace MvcTemplate.Tests
             };
         }
 
-        public static Permission CreatePermission(Int32 id = 1)
+        public static Permission CreatePermission(Int32 id = 0)
         {
             return new Permission
             {
@@ -169,7 +169,7 @@ namespace MvcTemplate.Tests
                 Controller = "Controller" + id
             };
         }
-        public static RolePermission CreateRolePermission(Int32 id = 1)
+        public static RolePermission CreateRolePermission(Int32 id = 0)
         {
             return new RolePermission
             {
