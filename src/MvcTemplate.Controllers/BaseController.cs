@@ -68,6 +68,7 @@ namespace MvcTemplate.Controllers
         {
             IGlobalizationProvider globalizationProvider = HttpContext.ApplicationServices.GetRequiredService<IGlobalizationProvider>();
             globalizationProvider.CurrentLanguage = globalizationProvider[RouteData.Values["language"] as String];
+
             AuthorizationProvider = HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
         }
         public override void OnActionExecuted(ActionExecutedContext context)

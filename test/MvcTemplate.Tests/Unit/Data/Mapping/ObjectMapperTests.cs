@@ -35,7 +35,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Title, actual.Title);
             Assert.Equal(expected.Id, actual.Id);
-            Assert.Null(actual.Permissions);
+            Assert.Empty(actual.Permissions);
         }
 
         #endregion

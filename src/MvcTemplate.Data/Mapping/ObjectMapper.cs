@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MvcTemplate.Objects;
+using System.Collections.Generic;
 
 namespace MvcTemplate.Data.Mapping
 {
@@ -20,7 +21,7 @@ namespace MvcTemplate.Data.Mapping
             Mapper.CreateMap<Role, RoleView>()
                 .ForMember(role => role.Permissions, member => member.Ignore());
             Mapper.CreateMap<RoleView, Role>()
-                .ForMember(role => role.Permissions, member => member.Ignore());
+                .ForMember(role => role.Permissions, member => member.UseValue(new List<RolePermission>()));
         }
         private static void MapAccounts()
         {
