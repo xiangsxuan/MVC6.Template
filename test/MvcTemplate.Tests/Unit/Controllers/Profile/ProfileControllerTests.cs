@@ -32,7 +32,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
             controller = Substitute.ForPartsOf<ProfileController>(validator, service);
             controller.ActionContext.RouteData = new RouteData();
-            ReturnCurrentAccountId(controller, "Test");
+            ReturnCurrentAccountId(controller, 1);
         }
 
         #region Method: Edit()

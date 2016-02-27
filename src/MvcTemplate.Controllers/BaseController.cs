@@ -16,7 +16,7 @@ namespace MvcTemplate.Controllers
     public abstract class BaseController : Controller
     {
         public IAuthorizationProvider AuthorizationProvider { get; protected set; }
-        public virtual String CurrentAccountId => User.Identity.Name;
+        public virtual Int32 CurrentAccountId { get; protected set; }
         public AlertsContainer Alerts { get; protected set; }
 
         protected BaseController()
@@ -70,6 +70,8 @@ namespace MvcTemplate.Controllers
             globalizationProvider.CurrentLanguage = globalizationProvider[RouteData.Values["language"] as String];
 
             AuthorizationProvider = HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
+
+            CurrentAccountId = User.Identity.Id() ?? 0;
         }
         public override void OnActionExecuted(ActionExecutedContext context)
         {

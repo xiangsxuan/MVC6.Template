@@ -13,39 +13,6 @@ namespace MvcTemplate.Tests.Unit.Objects
             model = new Account();
         }
 
-        #region Property: Id
-
-        [Fact]
-        public void Id_ReturnsNotNull()
-        {
-            model.Id = null;
-
-            Assert.NotNull(model.Id);
-        }
-
-        [Fact]
-        public void Id_ReturnsUniqueValue()
-        {
-            String id = model.Id;
-            model.Id = null;
-
-            String expected = id;
-            String actual = model.Id;
-
-            Assert.NotEqual(expected, actual);
-        }
-
-        [Fact]
-        public void Id_ReturnsSameValue()
-        {
-            String expected = model.Id;
-            String actual = model.Id;
-
-            Assert.Equal(expected, actual);
-        }
-
-        #endregion
-
         #region Property: CreationDate
 
         [Fact]

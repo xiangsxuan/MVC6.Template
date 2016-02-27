@@ -13,6 +13,6 @@ namespace MvcTemplate.Objects
 
         public Boolean IsLocked { get; set; }
 
-        public String RoleId { get; set; }
+        public Int32? RoleId { get; set; }
     }
 }

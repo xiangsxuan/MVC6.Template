@@ -107,7 +107,7 @@ namespace MvcTemplate.Components.Extensions
             if (provider == null)
                 return true;
 
-            String account = grid.ViewContext.HttpContext.User.Identity.Name;
+            Int32? account = grid.ViewContext.HttpContext.User.Identity.Id();
             String area = grid.ViewContext.RouteData.Values["area"] as String;
             String controller = grid.ViewContext.RouteData.Values["controller"] as String;
 

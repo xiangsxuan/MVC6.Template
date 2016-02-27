@@ -127,7 +127,7 @@ namespace MvcTemplate.Tests.Unit.Services
             IEnumerator<RoleView> expected = context
                 .Set<Role>()
                 .ProjectTo<RoleView>()
-                .OrderByDescending(view => view.CreationDate)
+                .OrderByDescending(view => view.Id)
                 .GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
@@ -141,12 +141,12 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: GetView(String id)
+        #region Method: GetView(Int32 id)
 
         [Fact]
         public void GetView_NoRole_ReturnsNull()
         {
-            Assert.Null(service.GetView(""));
+            Assert.Null(service.GetView(0));
         }
 
         [Fact]
@@ -168,8 +168,8 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             service.When(sub => sub.SeedPermissions(Arg.Any<RoleView>())).DoNotCallBase();
 
-            IEnumerable<String> expected = role.Permissions.Select(rolePermission => rolePermission.PermissionId);
-            IEnumerable<String> actual = service.GetView(role.Id).Permissions.SelectedIds;
+            IEnumerable<Int32> expected = role.Permissions.Select(rolePermission => rolePermission.PermissionId).OrderBy(id => id);
+            IEnumerable<Int32> actual = service.GetView(role.Id).Permissions.SelectedIds.OrderBy(id => id);
 
             Assert.Equal(expected, actual);
         }
@@ -192,15 +192,15 @@ namespace MvcTemplate.Tests.Unit.Services
         public void Create_Role()
         {
             RoleView view = ObjectFactory.CreateRoleView(2);
+            view.Id = 0;
 
             service.Create(view);
 
-            Role actual = context.Set<Role>().AsNoTracking().Single(role => role.Id == view.Id);
+            Role actual = context.Set<Role>().AsNoTracking().Single(model => model.Id != role.Id);
             RoleView expected = view;
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Title, actual.Title);
-            Assert.Equal(expected.Id, actual.Id);
         }
 
         [Fact]
@@ -208,14 +208,15 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             RoleView view = ObjectFactory.CreateRoleView(2);
             view.Permissions = CreatePermissions(role);
+            view.Id = 0;
 
             service.Create(view);
 
-            IEnumerable<String> expected = view.Permissions.SelectedIds.OrderBy(permissionId => permissionId);
-            IEnumerable<String> actual = context
+            IEnumerable<Int32> expected = view.Permissions.SelectedIds.OrderBy(permissionId => permissionId);
+            IEnumerable<Int32> actual = context
                 .Set<RolePermission>()
                 .AsNoTracking()
-                .Where(rolePermission => rolePermission.RoleId == view.Id)
+                .Where(rolePermission => rolePermission.RoleId != role.Id)
                 .Select(rolePermission => rolePermission.PermissionId)
                 .OrderBy(permissionId => permissionId);
 
@@ -250,16 +251,15 @@ namespace MvcTemplate.Tests.Unit.Services
             context.Add(permission);
             context.SaveChanges();
 
-            RoleView view = ObjectFactory.CreateRoleView();
+            RoleView view = ObjectFactory.CreateRoleView(role.Id);
             view.Permissions = CreatePermissions(role);
-
             view.Permissions.SelectedIds.Add(permission.Id);
             view.Permissions.SelectedIds.RemoveAt(0);
 
             service.Edit(view);
 
-            IEnumerable<String> actual = context.Set<RolePermission>().AsNoTracking().Select(rolePermission => rolePermission.PermissionId).OrderBy(permissionId => permissionId);
-            IEnumerable<String> expected = view.Permissions.SelectedIds.OrderBy(permissionId => permissionId);
+            IEnumerable<Int32> actual = context.Set<RolePermission>().AsNoTracking().Select(rolePermission => rolePermission.PermissionId).OrderBy(permissionId => permissionId);
+            IEnumerable<Int32> expected = view.Permissions.SelectedIds.OrderBy(permissionId => permissionId);
 
             Assert.Equal(expected, actual);
         }
@@ -267,14 +267,14 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_RefreshesAuthorization()
         {
-            service.Edit(ObjectFactory.CreateRoleView());
+            service.Edit(ObjectFactory.CreateRoleView(role.Id));
 
             authorizationProvider.Received().Refresh();
         }
 
         #endregion
 
-        #region Method: Delete(String id)
+        #region Method: Delete(Int32 id)
 
         [Fact]
         public void Delete_NullsAccountRoles()

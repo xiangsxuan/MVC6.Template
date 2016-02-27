@@ -4,6 +4,6 @@ namespace MvcTemplate.Services
 {
     public interface IService : IDisposable
     {
-        String CurrentAccountId { get; set; }
+        Int32 CurrentAccountId { get; set; }
     }
 }

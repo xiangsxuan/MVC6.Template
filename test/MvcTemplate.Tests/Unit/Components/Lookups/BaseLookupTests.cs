@@ -157,6 +157,14 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         #region Method: FilterById(IQueryable<TView> models)
 
         [Fact]
+        public void FilterById_NotInteger_ReturnsEmpty()
+        {
+            lookup.CurrentFilter.Id = "A";
+
+            Assert.Empty(lookup.BaseFilterById(null));
+        }
+
+        [Fact]
         public void FilterById_FromCurrentFilter()
         {
             TestingContext context = new TestingContext();
@@ -167,7 +175,7 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
             IUnitOfWork unitOfWork = new UnitOfWork(context);
             lookup = new BaseLookupProxy<Role, RoleView>(unitOfWork);
 
-            lookup.CurrentFilter.Id = role.Id;
+            lookup.CurrentFilter.Id = role.Id.ToString();
 
             RoleView expected = unitOfWork.Select<Role>().To<RoleView>().Single();
             RoleView actual = lookup.BaseFilterById(null).Single();

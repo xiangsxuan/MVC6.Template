@@ -76,7 +76,7 @@ namespace MvcTemplate.Validators
             return isValid;
         }
 
-        private Boolean IsUniqueUsername(String accountId, String username)
+        private Boolean IsUniqueUsername(Int32 accountId, String username)
         {
             Boolean isUnique = !UnitOfWork
                 .Select<Account>()
@@ -89,7 +89,7 @@ namespace MvcTemplate.Validators
 
             return isUnique;
         }
-        private Boolean IsUniqueEmail(String accountId, String email)
+        private Boolean IsUniqueEmail(Int32 accountId, String email)
         {
             Boolean isUnique = !UnitOfWork
                 .Select<Account>()
@@ -117,7 +117,7 @@ namespace MvcTemplate.Validators
 
             return isCorrect;
         }
-        private Boolean IsCorrectPassword(String accountId, String password)
+        private Boolean IsCorrectPassword(Int32 accountId, String password)
         {
             String passhash = UnitOfWork
                 .Select<Account>()

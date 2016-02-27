@@ -53,9 +53,9 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             String routeArea, String routeController, String routeAction,
             String authArea, String authController, String authAction)
         {
-            authorizationProvider.IsAuthorizedFor("Acc", Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
-            authorizationProvider.IsAuthorizedFor("Acc", authArea, authController, authAction).Returns(false);
-            helper.ViewContext.HttpContext.User.Identity.Name.Returns("Acc");
+            authorizationProvider.IsAuthorizedFor(1, Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
+            authorizationProvider.IsAuthorizedFor(1, authArea, authController, authAction).Returns(false);
+            helper.ViewContext.HttpContext.User.Identity.Name.Returns("1");
 
             helper.ViewContext.RouteData.Values["controller"] = routeController;
             helper.ViewContext.RouteData.Values["action"] = routeAction;
@@ -91,9 +91,9 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             String routeArea, String routeController, String routeAction,
             String authArea, String authController, String authAction)
         {
-            authorizationProvider.IsAuthorizedFor("Acc", Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(false);
-            authorizationProvider.IsAuthorizedFor("Acc", authArea, authController, authAction).Returns(true);
-            helper.ViewContext.HttpContext.User.Identity.Name.Returns("Acc");
+            authorizationProvider.IsAuthorizedFor(1, Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(false);
+            authorizationProvider.IsAuthorizedFor(1, authArea, authController, authAction).Returns(true);
+            helper.ViewContext.HttpContext.User.Identity.Name.Returns("1");
 
             helper.ViewContext.RouteData.Values["controller"] = routeController;
             helper.ViewContext.RouteData.Values["action"] = routeAction;

@@ -40,13 +40,13 @@ namespace MvcTemplate.Controllers.Administration
         }
 
         [HttpGet]
-        public ActionResult Details(String id)
+        public ActionResult Details(Int32 id)
         {
             return NotEmptyView(Service.Get<AccountView>(id));
         }
 
         [HttpGet]
-        public ActionResult Edit(String id)
+        public ActionResult Edit(Int32 id)
         {
             return NotEmptyView(Service.Get<AccountEditView>(id));
         }

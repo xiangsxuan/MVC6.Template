@@ -1,24 +1,25 @@
+using System;
 using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
+using Microsoft.Data.Entity.Metadata;
+using Microsoft.Data.Entity.Migrations;
 using MvcTemplate.Data.Core;
-using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace MvcTemplate.Data.Migrations
 {
-    [ExcludeFromCodeCoverage]
     [DbContext(typeof(Context))]
     partial class ContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");
+                .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("MvcTemplate.Objects.Account", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasAnnotation("MaxLength", 36);
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationDate");
 
@@ -37,8 +38,7 @@ namespace MvcTemplate.Data.Migrations
 
                     b.Property<DateTime?>("RecoveryTokenExpirationDate");
 
-                    b.Property<string>("RoleId")
-                        .HasAnnotation("MaxLength", 36);
+                    b.Property<int?>("RoleId");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -49,11 +49,10 @@ namespace MvcTemplate.Data.Migrations
 
             modelBuilder.Entity("MvcTemplate.Objects.Log", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasAnnotation("MaxLength", 36);
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AccountId")
-                        .HasAnnotation("MaxLength", 64);
+                    b.Property<int?>("AccountId");
 
                     b.Property<DateTime>("CreationDate");
 
@@ -65,8 +64,7 @@ namespace MvcTemplate.Data.Migrations
 
             modelBuilder.Entity("MvcTemplate.Objects.Permission", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasAnnotation("MaxLength", 36);
+                    b.Property<int>("Id");
 
                     b.Property<string>("Action")
                         .IsRequired()
@@ -86,8 +84,8 @@ namespace MvcTemplate.Data.Migrations
 
             modelBuilder.Entity("MvcTemplate.Objects.Role", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasAnnotation("MaxLength", 36);
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationDate");
 
@@ -100,18 +98,14 @@ namespace MvcTemplate.Data.Migrations
 
             modelBuilder.Entity("MvcTemplate.Objects.RolePermission", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasAnnotation("MaxLength", 36);
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationDate");
 
-                    b.Property<string>("PermissionId")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 36);
+                    b.Property<int>("PermissionId");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 36);
+                    b.Property<int>("RoleId");
 
                     b.HasKey("Id");
                 });

@@ -80,12 +80,12 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
         [Fact]
         public void RolesPermissionsTable_HasAllSysAdminPermissions()
         {
-            IEnumerable<String> expected = context
+            IEnumerable<Int32> expected = context
                 .Set<Permission>()
                 .Select(permission => permission.Id)
                 .OrderBy(permissionId => permissionId);
 
-            IEnumerable<String> actual = context
+            IEnumerable<Int32> actual = context
                 .Set<RolePermission>()
                 .Where(permission => permission.Role.Title == "Sys_Admin")
                 .Select(rolePermission => rolePermission.PermissionId)

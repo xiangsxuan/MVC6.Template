@@ -52,7 +52,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             IUrlHelper urlHelper = Substitute.For<IUrlHelper>();
             urlHelper.Action("Details", Arg.Any<Object>()).Returns("Test");
             IAuthorizationProvider authorizationProvider = columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
-            authorizationProvider.IsAuthorizedFor(Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
+            authorizationProvider.IsAuthorizedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
             columns.Grid.ViewContext = new ViewContext { RouteData = new RouteData(), HttpContext = Substitute.For<HttpContext>() };
             columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IUrlHelper>().Returns(urlHelper);
 

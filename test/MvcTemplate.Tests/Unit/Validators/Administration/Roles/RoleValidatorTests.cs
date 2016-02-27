@@ -57,7 +57,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanCreate_ValidRole()
         {
-            Assert.True(validator.CanCreate(ObjectFactory.CreateRoleView()));
+            Assert.True(validator.CanCreate(ObjectFactory.CreateRoleView(2)));
         }
 
         #endregion
@@ -88,7 +88,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanEdit_ValidRole()
         {
-            Assert.True(validator.CanEdit(ObjectFactory.CreateRoleView()));
+            Assert.True(validator.CanEdit(ObjectFactory.CreateRoleView(2)));
         }
 
         #endregion

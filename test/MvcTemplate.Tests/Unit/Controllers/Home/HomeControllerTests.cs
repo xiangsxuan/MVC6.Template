@@ -18,7 +18,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service = Substitute.For<IAccountService>();
             controller = Substitute.ForPartsOf<HomeController>(service);
 
-            ReturnCurrentAccountId(controller, "Test");
+            ReturnCurrentAccountId(controller, 1);
         }
 
         #region Method: Index()

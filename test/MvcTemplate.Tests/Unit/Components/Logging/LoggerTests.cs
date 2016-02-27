@@ -43,12 +43,12 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
 
         #endregion
 
-        #region Method: Log(String accountId, String message)
+        #region Method: Log(Int32? accountId, String message)
 
         [Fact]
         public void Log_EmptyAccountId()
         {
-            logger.Log("", "Test");
+            logger.Log(null, "Test");
 
             Log actual = context.Set<Log>().Single();
             Log expected = new Log { Message = "Test" };
@@ -60,9 +60,9 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
         [Fact]
         public void Log_AccountIdAndMessage()
         {
-            logger.Log("Test", new String('L', 10000));
+            logger.Log(1, new String('L', 10000));
 
-            Log expected = new Log { AccountId = "Test", Message = new String('L', 10000) };
+            Log expected = new Log { AccountId = 1, Message = new String('L', 10000) };
             Log actual = context.Set<Log>().Single();
 
             Assert.Equal(expected.AccountId, actual.AccountId);

@@ -22,8 +22,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context = new TestingContext();
             select = new Select<Role>(context.Set<Role>());
 
-            context.Set<Role>().Add(ObjectFactory.CreateRole());
             context.DropData();
+            SetUpData();
         }
         public void Dispose()
         {
@@ -103,8 +103,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void To_ProjectsSet()
         {
-            IEnumerable<String> expected = context.Set<Role>().ProjectTo<RoleView>().Select(view => view.Id).ToArray();
-            IEnumerable<String> actual = select.To<RoleView>().Select(view => view.Id).ToArray();
+            IEnumerable<Int32> expected = context.Set<Role>().ProjectTo<RoleView>().Select(view => view.Id).ToArray();
+            IEnumerable<Int32> actual = select.To<RoleView>().Select(view => view.Id).ToArray();
 
             Assert.Equal(expected, actual);
         }
@@ -129,6 +129,16 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             IEnumerable<Role> actual = select;
 
             Assert.Equal(expected, actual);
+        }
+
+        #endregion
+
+        #region Test helpers
+
+        private void SetUpData()
+        {
+            context.Add(ObjectFactory.CreateRole());
+            context.SaveChanges();
         }
 
         #endregion

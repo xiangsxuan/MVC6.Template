@@ -19,15 +19,15 @@ namespace MvcTemplate.Tests.Unit.Components.Html
 
         #endregion
 
-        #region Constructor: JsTreeNode(String id, String title)
+        #region Constructor: JsTreeNode(Int32? id, String title)
 
         [Fact]
         public void JsTreeNode_SetsIdAndTitle()
         {
-            JsTreeNode actual = new JsTreeNode("Id", "Title");
+            JsTreeNode actual = new JsTreeNode(1, "Title");
 
             Assert.Equal("Title", actual.Title);
-            Assert.Equal("Id", actual.Id);
+            Assert.Equal(1, actual.Id);
             Assert.Empty(actual.Nodes);
         }
 

@@ -31,7 +31,7 @@ namespace MvcTemplate.Components.Mvc
             output.TagName = null;
             if (AuthorizationProvider == null) return;
 
-            String accountId = ViewContext.HttpContext.User.Identity.Name;
+            Int32? accountId = ViewContext.HttpContext.User.Identity.Id();
             String area = Area ?? ViewContext.RouteData.Values["area"] as String;
             String action = Action ?? ViewContext.RouteData.Values["action"] as String;
             String controller = Controller ?? ViewContext.RouteData.Values["controller"] as String;

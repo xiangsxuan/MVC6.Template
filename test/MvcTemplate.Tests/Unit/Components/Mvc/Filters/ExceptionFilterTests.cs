@@ -5,6 +5,7 @@ using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Routing;
 using MvcTemplate.Components.Logging;
 using MvcTemplate.Components.Mvc;
+using MvcTemplate.Components.Security;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
                 Environment.NewLine,
                 exception.StackTrace);
 
-            logger.Received().Log(context.HttpContext.User.Identity.Name, expectedMessage);
+            logger.Received().Log(context.HttpContext.User.Identity.Id(), expectedMessage);
         }
 
         [Fact]
@@ -61,7 +62,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
                 Environment.NewLine,
                 context.Exception.InnerException.StackTrace);
 
-            logger.Received().Log(context.HttpContext.User.Identity.Name, expectedMessage);
+            logger.Received().Log(context.HttpContext.User.Identity.Id(), expectedMessage);
         }
 
         #endregion

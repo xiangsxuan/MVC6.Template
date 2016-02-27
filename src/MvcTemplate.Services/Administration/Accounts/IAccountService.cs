@@ -8,11 +8,11 @@ namespace MvcTemplate.Services
 {
     public interface IAccountService : IService
     {
-        TView Get<TView>(String id) where TView : BaseView;
+        TView Get<TView>(Int32 id) where TView : BaseView;
         IQueryable<AccountView> GetViews();
 
         Boolean IsLoggedIn(IPrincipal user);
-        Boolean IsActive(String id);
+        Boolean IsActive(Int32 id);
 
         String Recover(AccountRecoveryView view);
         void Register(AccountRegisterView view);
@@ -22,7 +22,7 @@ namespace MvcTemplate.Services
         void Edit(AccountEditView view);
 
         void Edit(ProfileEditView view);
-        void Delete(String id);
+        void Delete(Int32 id);
 
         void Login(AuthenticationManager authentication, String username);
         void Logout(AuthenticationManager authentication);

@@ -11,9 +11,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
 {
     public abstract class ControllerTests
     {
-        protected void ReturnCurrentAccountId(BaseController controller, String id)
+        protected void ReturnCurrentAccountId(BaseController controller, Int32 id)
         {
-            controller.When(sub => { String get = sub.CurrentAccountId; }).DoNotCallBase();
+            controller.When(sub => { Int32 get = sub.CurrentAccountId; }).DoNotCallBase();
             controller.CurrentAccountId.Returns(id);
         }
 

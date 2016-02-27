@@ -1,3 +1,4 @@
+using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -13,8 +14,9 @@ namespace MvcTemplate.Tests.Data.Migrations
                 name: "Log",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    AccountId = table.Column<string>(nullable: true),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AccountId = table.Column<int>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     Message = table.Column<string>(nullable: false)
                 },
@@ -26,7 +28,7 @@ namespace MvcTemplate.Tests.Data.Migrations
                 name: "Permission",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
                     Action = table.Column<string>(nullable: false),
                     Area = table.Column<string>(nullable: true),
                     Controller = table.Column<string>(nullable: false),
@@ -40,7 +42,8 @@ namespace MvcTemplate.Tests.Data.Migrations
                 name: "Role",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: false)
                 },
@@ -52,14 +55,15 @@ namespace MvcTemplate.Tests.Data.Migrations
                 name: "Account",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     Email = table.Column<string>(nullable: false),
                     IsLocked = table.Column<bool>(nullable: false),
                     Passhash = table.Column<string>(nullable: false),
                     RecoveryToken = table.Column<string>(nullable: true),
                     RecoveryTokenExpirationDate = table.Column<DateTime>(nullable: true),
-                    RoleId = table.Column<string>(nullable: true),
+                    RoleId = table.Column<int>(nullable: true),
                     Username = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -76,10 +80,11 @@ namespace MvcTemplate.Tests.Data.Migrations
                 name: "RolePermission",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreationDate = table.Column<DateTime>(nullable: false),
-                    PermissionId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<string>(nullable: false)
+                    PermissionId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

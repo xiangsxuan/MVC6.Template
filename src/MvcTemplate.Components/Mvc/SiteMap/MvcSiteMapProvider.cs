@@ -24,7 +24,7 @@ namespace MvcTemplate.Components.Mvc
 
         public IEnumerable<MvcSiteMapNode> GetSiteMap(ViewContext context)
         {
-            String account = context.HttpContext.User.Identity.Name;
+            Int32? account = context.HttpContext.User.Identity.Id();
             String area = context.RouteData.Values["area"] as String;
             String action = context.RouteData.Values["action"] as String;
             String controller = context.RouteData.Values["controller"] as String;
@@ -89,7 +89,7 @@ namespace MvcTemplate.Components.Mvc
 
             return copies;
         }
-        private IEnumerable<MvcSiteMapNode> GetSiteMap(String accountId, IEnumerable<MvcSiteMapNode> nodes)
+        private IEnumerable<MvcSiteMapNode> GetSiteMap(Int32? accountId, IEnumerable<MvcSiteMapNode> nodes)
         {
             List<MvcSiteMapNode> menuNodes = new List<MvcSiteMapNode>();
             foreach (MvcSiteMapNode node in nodes)
@@ -116,7 +116,7 @@ namespace MvcTemplate.Components.Mvc
 
             return list;
         }
-        private Boolean IsAuthorizedToView(String accountId, MvcSiteMapNode menu)
+        private Boolean IsAuthorizedToView(Int32? accountId, MvcSiteMapNode menu)
         {
             if (menu.Action == null) return true;
             if (AuthorizationProvider == null) return true;

@@ -40,14 +40,14 @@ namespace MvcTemplate.Components.Mvc
             TagBuilder ids = new TagBuilder("div");
             ids.AddCssClass("js-tree-view-ids");
 
-            foreach (String id in jsTree.SelectedIds)
+            foreach (Int32 id in jsTree.SelectedIds)
             {
                 TagBuilder input = new TagBuilder("input");
 
                 input.TagRenderMode = TagRenderMode.SelfClosing;
+                input.MergeAttribute("value", id.ToString());
                 input.MergeAttribute("type", "hidden");
                 input.MergeAttribute("name", name);
-                input.MergeAttribute("value", id);
 
                 ids.InnerHtml.Append(input);
             }
@@ -73,8 +73,9 @@ namespace MvcTemplate.Components.Mvc
             foreach (JsTreeNode treeNode in nodes)
             {
                 TagBuilder node = new TagBuilder("li");
-                node.MergeAttribute("id", treeNode.Id);
                 node.InnerHtml.Append(treeNode.Title);
+                String id = treeNode.Id.ToString();
+                node.MergeAttribute("id", id);
 
                 AddNodes(node, treeNode.Nodes);
                 branch.InnerHtml.Append(node);

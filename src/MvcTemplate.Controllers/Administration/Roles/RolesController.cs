@@ -47,13 +47,13 @@ namespace MvcTemplate.Controllers.Administration
         }
 
         [HttpGet]
-        public ActionResult Details(String id)
+        public ActionResult Details(Int32 id)
         {
             return NotEmptyView(Service.GetView(id));
         }
 
         [HttpGet]
-        public ActionResult Edit(String id)
+        public ActionResult Edit(Int32 id)
         {
             return NotEmptyView(Service.GetView(id));
         }
@@ -75,7 +75,7 @@ namespace MvcTemplate.Controllers.Administration
         }
 
         [HttpGet]
-        public ActionResult Delete(String id)
+        public ActionResult Delete(Int32 id)
         {
             return NotEmptyView(Service.GetView(id));
         }
@@ -83,7 +83,7 @@ namespace MvcTemplate.Controllers.Administration
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public RedirectToActionResult DeleteConfirmed(String id)
+        public RedirectToActionResult DeleteConfirmed(Int32 id)
         {
             Service.Delete(id);
 

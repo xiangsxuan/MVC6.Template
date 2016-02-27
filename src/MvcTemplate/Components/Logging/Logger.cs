@@ -18,11 +18,11 @@ namespace MvcTemplate.Components.Logging
         {
             Log(null, message);
         }
-        public void Log(String accountId, String message)
+        public void Log(Int32? accountId, String message)
         {
             Log log = new Log();
             log.Message = message;
-            log.AccountId = !String.IsNullOrEmpty(accountId) ? accountId : null;
+            log.AccountId = accountId;
 
             Context.Add(log);
             Context.SaveChanges();

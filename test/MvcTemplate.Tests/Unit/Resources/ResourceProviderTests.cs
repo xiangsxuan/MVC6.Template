@@ -192,7 +192,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         [Fact]
         public void GetPropertyTitle_FromExpressionRelation()
         {
-            String actual = ResourceProvider.GetPropertyTitle<AccountEditView, String>(account => account.RoleId);
+            String actual = ResourceProvider.GetPropertyTitle<AccountEditView, Int32?>(account => account.RoleId);
             String expected = MvcTemplate.Resources.Views.Administration.Roles.RoleView.Titles.Id;
 
             Assert.Equal(expected, actual);
@@ -201,13 +201,13 @@ namespace MvcTemplate.Tests.Unit.Resources
         [Fact]
         public void GetPropertyTitle_NotFoundExpression_ReturnsNull()
         {
-            Assert.Null(ResourceProvider.GetPropertyTitle<AccountView, String>(account => account.Id));
+            Assert.Null(ResourceProvider.GetPropertyTitle<AccountView, Int32>(account => account.Id));
         }
 
         [Fact]
         public void GetPropertyTitle_NotFoundType_ReturnsNull()
         {
-            Assert.Null(ResourceProvider.GetPropertyTitle<BaseView, String>(test => test.Id));
+            Assert.Null(ResourceProvider.GetPropertyTitle<BaseView, Int32>(view => view.Id));
         }
 
         #endregion

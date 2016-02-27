@@ -35,19 +35,6 @@ namespace MvcTemplate.Tests.Unit.Controllers
             areaName = controller.RouteData.Values["area"] as String;
         }
 
-        #region Property: CurrentAccountId
-
-        [Fact]
-        public void CurrentAccountId_ReturnsIdentityName()
-        {
-            String expected = controller.User.Identity.Name;
-            String actual = controller.CurrentAccountId;
-
-            Assert.Equal(expected, actual);
-        }
-
-        #endregion
-
         #region Constructor: BaseController()
 
         [Fact]
@@ -232,6 +219,23 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Object expected = provider;
 
             Assert.Same(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("", 0)]
+        [InlineData("1", 1)]
+        [InlineData(null, 0)]
+        public void OnActionExecuting_SetsCurrentAccountId(String identityName, Int32 accountId)
+        {
+            IAuthorizationProvider provider = controller.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
+            controller.HttpContext.User.Identity.Name.Returns(identityName);
+
+            controller.OnActionExecuting(null);
+
+            Int32? actual = controller.CurrentAccountId;
+            Int32? expected = accountId;
+
+            Assert.Equal(expected, actual);
         }
 
         #endregion

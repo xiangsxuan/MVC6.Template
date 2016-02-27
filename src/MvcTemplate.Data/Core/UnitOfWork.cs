@@ -19,11 +19,11 @@ namespace MvcTemplate.Data.Core
             Context = context;
         }
 
-        public TDestination GetAs<TModel, TDestination>(String id) where TModel : BaseModel
+        public TDestination GetAs<TModel, TDestination>(Int32 id) where TModel : BaseModel
         {
             return Context.Set<TModel>().Where(model => model.Id == id).ProjectTo<TDestination>().FirstOrDefault();
         }
-        public TModel Get<TModel>(String id) where TModel : BaseModel
+        public TModel Get<TModel>(Int32 id) where TModel : BaseModel
         {
             return Context.Set<TModel>().SingleOrDefault(model => model.Id == id);
         }
@@ -59,7 +59,7 @@ namespace MvcTemplate.Data.Core
         {
             Context.Remove(model);
         }
-        public void Delete<TModel>(String id) where TModel : BaseModel
+        public void Delete<TModel>(Int32 id) where TModel : BaseModel
         {
             Delete(Context.Set<TModel>().Single(model => model.Id == id));
         }

@@ -103,7 +103,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
 
         #endregion
 
-        #region Method: Details(String id)
+        #region Method: Details(Int32 id)
 
         [Fact]
         public void Details_ReturnsNotEmptyView()
@@ -118,7 +118,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
 
         #endregion
 
-        #region Method: Edit(String id)
+        #region Method: Edit(Int32 id)
 
         [Fact]
         public void Edit_ReturnsNotEmptyView()

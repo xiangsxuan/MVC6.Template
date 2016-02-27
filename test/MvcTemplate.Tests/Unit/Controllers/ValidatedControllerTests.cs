@@ -46,12 +46,12 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void OnActionExecuting_SetsServiceCurrentAccountId()
         {
-            ReturnCurrentAccountId(controller, "Test");
+            ReturnCurrentAccountId(controller, 1);
 
             controller.OnActionExecuting(null);
 
-            String expected = controller.CurrentAccountId;
-            String actual = service.CurrentAccountId;
+            Int32 expected = controller.CurrentAccountId;
+            Int32 actual = service.CurrentAccountId;
 
             Assert.Equal(expected, actual);
         }
@@ -59,12 +59,12 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void OnActionExecuting_SetsValidatorCurrentAccountId()
         {
-            ReturnCurrentAccountId(controller, "Test");
+            ReturnCurrentAccountId(controller, 1);
 
             controller.OnActionExecuting(null);
 
-            String expected = controller.CurrentAccountId;
-            String actual = validator.CurrentAccountId;
+            Int32 expected = controller.CurrentAccountId;
+            Int32 actual = validator.CurrentAccountId;
 
             Assert.Equal(expected, actual);
         }
@@ -72,8 +72,6 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void OnActionExecuting_SetsValidatorAlerts()
         {
-            ReturnCurrentAccountId(controller, "Test");
-
             controller.OnActionExecuting(null);
 
             Object expected = controller.Alerts;
@@ -85,8 +83,6 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void OnActionExecuting_SetsModelState()
         {
-            ReturnCurrentAccountId(controller, "Test");
-
             controller.OnActionExecuting(null);
 
             Object expected = controller.ModelState;

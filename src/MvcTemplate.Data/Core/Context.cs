@@ -30,6 +30,7 @@ namespace MvcTemplate.Data.Core
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Permission>().Property(model => model.Id).ValueGeneratedNever();
             foreach (IMutableForeignKey key in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 key.DeleteBehavior = DeleteBehavior.Restrict;
         }

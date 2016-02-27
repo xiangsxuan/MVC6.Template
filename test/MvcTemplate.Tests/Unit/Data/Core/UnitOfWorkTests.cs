@@ -32,7 +32,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Dispose();
         }
 
-        #region Method: GetAs<TModel, TDestination>(String id)
+        #region Method: GetAs<TModel, TDestination>(Int32 id)
 
         [Fact]
         public void GetAs_ReturnsModelAsDestinationModelById()
@@ -50,7 +50,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
-        #region Method: Get<TModel>(String id)
+        #region Method: Get<TModel>(Int32 id)
 
         [Fact]
         public void Get_ModelById()
@@ -69,7 +69,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Get_NotFound_ReturnsNull()
         {
-            Assert.Null(unitOfWork.Get<Role>(""));
+            Assert.Null(unitOfWork.Get<Role>(0));
         }
 
         #endregion
@@ -146,6 +146,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Update_UpdatesNotAttachedModel()
         {
+            model.Id = 1;
             model.Title += "Test";
 
             unitOfWork.Update(model);
@@ -204,7 +205,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
-        #region Method: Delete<TModel>(String id)
+        #region Method: Delete<TModel>(Int32 id)
 
         [Fact]
         public void Delete_ModelById()

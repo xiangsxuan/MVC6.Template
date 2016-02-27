@@ -15,12 +15,12 @@ namespace MvcTemplate.Components.Security
         private IEnumerable<Type> Controllers { get; }
         private IServiceProvider ServiceProvider { get; }
         private Dictionary<String, String> Required { get; }
-        private Dictionary<String, HashSet<String>> Permissions { get; set; }
+        private Dictionary<Int32, HashSet<String>> Permissions { get; set; }
 
         public AuthorizationProvider(Assembly controllersAssembly, IServiceProvider provider)
         {
             Controllers = GetValidControllers(controllersAssembly);
-            Permissions = new Dictionary<String, HashSet<String>>();
+            Permissions = new Dictionary<Int32, HashSet<String>>();
             Required = new Dictionary<String, String>();
             ServiceProvider = provider;
 
@@ -39,16 +39,16 @@ namespace MvcTemplate.Components.Security
             Refresh();
         }
 
-        public Boolean IsAuthorizedFor(String accountId, String area, String controller, String action)
+        public Boolean IsAuthorizedFor(Int32? accountId, String area, String controller, String action)
         {
             String permission = (area + "/" + controller + "/" + action).ToLower();
             if (!Required.ContainsKey(permission))
                 return true;
 
-            if (!Permissions.ContainsKey(accountId ?? ""))
+            if (!Permissions.ContainsKey(accountId ?? 0))
                 return false;
 
-            return Permissions[accountId].Contains(Required[permission]);
+            return Permissions[accountId.Value].Contains(Required[permission]);
         }
 
         public void Refresh()
