@@ -1,5 +1,5 @@
 ﻿@{
-    AlertsContainer alerts = JsonConvert.DeserializeObject<AlertsContainer>((TempData["Alerts"] as String) ?? "");
+    AlertsContainer alerts = JsonConvert.DeserializeObject<AlertsContainer>(TempData["Alerts"] as String ?? "");
 }
 
 <div class="col-xs-12">

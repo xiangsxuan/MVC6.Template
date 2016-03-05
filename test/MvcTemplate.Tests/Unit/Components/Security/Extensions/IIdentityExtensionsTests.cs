@@ -3,7 +3,6 @@ using NSubstitute;
 using System;
 using System.Security.Principal;
 using Xunit;
-using Xunit.Extensions;
 
 namespace MvcTemplate.Tests.Unit.Components.Security
 {

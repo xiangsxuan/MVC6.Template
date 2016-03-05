@@ -84,7 +84,6 @@ namespace MvcTemplate.Components.Security
                         BindingFlags.Instance |
                         BindingFlags.Public)
                     .Where(method =>
-                        !method.GetBaseDefinition().DeclaringType.IsAssignableFrom(typeof(Controller)) &&
                         !method.IsDefined(typeof(NonActionAttribute)) &&
                         !method.IsSpecialName)
                     .OrderByDescending(method =>

@@ -47,7 +47,7 @@ namespace MvcTemplate.Tests.Unit.Services
             RoleView view = new RoleView();
             service.SeedPermissions(view);
 
-            IEnumerator<JsTreeNode> expected = CreatePermissions(role).Nodes.GetEnumerator();
+            IEnumerator<JsTreeNode> expected = CreatePermissions().Nodes.GetEnumerator();
             IEnumerator<JsTreeNode> actual = view.Permissions.Nodes.GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
@@ -64,7 +64,7 @@ namespace MvcTemplate.Tests.Unit.Services
             RoleView view = new RoleView();
             service.SeedPermissions(view);
 
-            IEnumerator<JsTreeNode> expected = CreatePermissions(role).Nodes.SelectMany(node => node.Nodes).GetEnumerator();
+            IEnumerator<JsTreeNode> expected = CreatePermissions().Nodes.SelectMany(node => node.Nodes).GetEnumerator();
             IEnumerator<JsTreeNode> actual = view.Permissions.Nodes.SelectMany(node => node.Nodes).GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
@@ -81,7 +81,7 @@ namespace MvcTemplate.Tests.Unit.Services
             RoleView view = new RoleView();
             service.SeedPermissions(view);
 
-            IEnumerator<JsTreeNode> expected = CreatePermissions(role).Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
+            IEnumerator<JsTreeNode> expected = CreatePermissions().Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
             IEnumerator<JsTreeNode> actual = view.Permissions.Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
@@ -207,7 +207,7 @@ namespace MvcTemplate.Tests.Unit.Services
         public void Create_RolePermissions()
         {
             RoleView view = ObjectFactory.CreateRoleView(2);
-            view.Permissions = CreatePermissions(role);
+            view.Permissions = CreatePermissions();
             view.Id = 0;
 
             service.Create(view);
@@ -252,7 +252,7 @@ namespace MvcTemplate.Tests.Unit.Services
             context.SaveChanges();
 
             RoleView view = ObjectFactory.CreateRoleView(role.Id);
-            view.Permissions = CreatePermissions(role);
+            view.Permissions = CreatePermissions();
             view.Permissions.SelectedIds.Add(permission.Id);
             view.Permissions.SelectedIds.RemoveAt(0);
 
@@ -339,7 +339,7 @@ namespace MvcTemplate.Tests.Unit.Services
             context.SaveChanges();
         }
 
-        private JsTree CreatePermissions(Role role)
+        private JsTree CreatePermissions()
         {
             JsTreeNode rootNode = new JsTreeNode(Titles.All);
             JsTree expectedTree = new JsTree();

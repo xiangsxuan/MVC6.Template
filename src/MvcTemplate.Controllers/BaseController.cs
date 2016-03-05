@@ -75,7 +75,7 @@ namespace MvcTemplate.Controllers
         }
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            AlertsContainer current = JsonConvert.DeserializeObject<AlertsContainer>((TempData["Alerts"] as String) ?? "");
+            AlertsContainer current = JsonConvert.DeserializeObject<AlertsContainer>(TempData["Alerts"] as String ?? "");
             if (current == null)
                 current = Alerts;
             else

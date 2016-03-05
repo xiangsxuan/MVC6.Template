@@ -227,7 +227,6 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [InlineData(null, 0)]
         public void OnActionExecuting_SetsCurrentAccountId(String identityName, Int32 accountId)
         {
-            IAuthorizationProvider provider = controller.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
             controller.HttpContext.User.Identity.Name.Returns(identityName);
 
             controller.OnActionExecuting(null);

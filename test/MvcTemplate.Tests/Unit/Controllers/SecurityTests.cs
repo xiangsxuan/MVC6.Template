@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Mvc;
 using MvcTemplate.Controllers;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -24,9 +23,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
             foreach (MethodInfo method in postMethods)
                 Assert.True(method.IsDefined(typeof(ValidateAntiForgeryTokenAttribute), false),
-                    String.Format("{0}.{1} method does not have ValidateAntiForgeryToken attribute specified.",
-                        method.ReflectedType.Name,
-                        method.Name));
+                    $"{method.ReflectedType.Name}.{method.Name} method does not have ValidateAntiForgeryToken attribute specified.");
         }
 
         #endregion

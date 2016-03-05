@@ -12,11 +12,10 @@ namespace MvcTemplate.Tests.Unit.Components.Security
     public class AuthorizationProviderTests
     {
         private AuthorizationProvider provider;
-        private IServiceProvider serviceProvider;
 
         public AuthorizationProviderTests()
         {
-            serviceProvider = Substitute.For<IServiceProvider>();
+            IServiceProvider serviceProvider = Substitute.For<IServiceProvider>();
             serviceProvider.GetService(typeof(IUnitOfWork)).Returns(info => new UnitOfWork(new TestingContext()));
 
             using (TestingContext context = new TestingContext()) context.DropData();

@@ -12,13 +12,7 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         where TModel : BaseModel
         where TView : BaseView
     {
-        public IUnitOfWork BaseUnitOfWork
-        {
-            get
-            {
-                return UnitOfWork;
-            }
-        }
+        public IUnitOfWork BaseUnitOfWork => UnitOfWork;
 
         public BaseLookupProxy(IUrlHelper url) : base(url)
         {

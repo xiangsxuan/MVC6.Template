@@ -12,7 +12,7 @@ namespace MvcTemplate.Controllers
     [AllowUnauthorized]
     public class LookupController : BaseController
     {
-        private IUnitOfWork UnitOfWork { get; set; }
+        private IUnitOfWork UnitOfWork { get; }
         private Boolean Disposed { get; set; }
 
         public LookupController(IUnitOfWork unitOfWork)

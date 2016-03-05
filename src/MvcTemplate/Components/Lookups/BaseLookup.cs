@@ -30,7 +30,7 @@ namespace MvcTemplate.Components.Lookups
         protected override String GetColumnHeader(PropertyInfo property)
         {
             LookupColumnAttribute column = property.GetCustomAttribute<LookupColumnAttribute>(false);
-            if (column != null && column.Relation != null)
+            if (column?.Relation != null)
                 return GetColumnHeader(property.PropertyType.GetProperty(column.Relation));
 
             return ResourceProvider.GetPropertyTitle(typeof(TView), property.Name) ?? "";
@@ -68,7 +68,7 @@ namespace MvcTemplate.Components.Lookups
 
         protected override IQueryable<TView> FilterById(IQueryable<TView> models)
         {
-            Int32 id = 0;
+            Int32 id;
             if (!Int32.TryParse(CurrentFilter.Id, out id))
                 return Enumerable.Empty<TView>().AsQueryable();
 
