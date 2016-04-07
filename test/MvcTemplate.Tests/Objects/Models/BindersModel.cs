@@ -9,5 +9,7 @@ namespace MvcTemplate.Tests.Objects
         public String NotTrimmed { get; set; }
 
         public String Trimmed { get ;set; }
+
+        public BindersModel Model { get; set; }
     }
 }

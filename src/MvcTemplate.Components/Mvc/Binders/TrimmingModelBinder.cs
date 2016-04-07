@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Mvc.ModelBinding;
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace MvcTemplate.Components.Mvc
                 return ModelBindingResult.NoResultAsync;
 
             Type containerType = bindingContext.ModelMetadata.ContainerType;
-            PropertyInfo property = containerType?.GetProperty(bindingContext.ModelName);
+            PropertyInfo property = containerType?.GetProperty(bindingContext.ModelMetadata.PropertyName);
 
             if (property?.IsDefined(typeof(NotTrimmedAttribute), false) == true)
                 return ModelBindingResult.NoResultAsync;
