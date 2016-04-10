@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Mvc.Filters;
 using MvcTemplate.Components.Logging;
-using MvcTemplate.Components.Security;
 using System;
 
 namespace MvcTemplate.Components.Mvc
@@ -20,9 +19,7 @@ namespace MvcTemplate.Components.Mvc
             while (exception.InnerException != null)
                 exception = exception.InnerException;
 
-            String message = $"{exception.GetType()}: {exception.Message}{Environment.NewLine}{exception.StackTrace}";
-
-            Logger.Log(filterContext.HttpContext.User.Id(), message);
+            Logger.Log($"{exception.GetType()}: {exception.Message}{Environment.NewLine}{exception.StackTrace}");
         }
     }
 }

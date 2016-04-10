@@ -7,19 +7,20 @@ namespace MvcTemplate.Components.Logging
 {
     public class Logger : ILogger
     {
-        private static Object LogWriting = new Object();
+        private Int32? AccountId { get; }
         private IConfiguration Config { get; }
+        private static Object LogWriting = new Object();
 
         public Logger(IConfiguration config)
         {
             Config = config;
         }
+        public Logger(IConfiguration config, Int32? accountId) : this(config)
+        {
+            AccountId = accountId;
+        }
 
         public void Log(String message)
-        {
-            Log(null, message);
-        }
-        public void Log(Int32? accountId, String message)
         {
             String logDirectory = Path.Combine(Config["Application:Path"], Config["Logger:Path"]);
             Int64 backupSize = Int64.Parse(Config["Logger:BackupSize"]);
@@ -27,7 +28,7 @@ namespace MvcTemplate.Components.Logging
 
             StringBuilder log = new StringBuilder();
             log.AppendLine("Time   : " + DateTime.Now);
-            log.AppendLine("Account: " + accountId);
+            log.AppendLine("Account: " + AccountId);
             log.AppendLine("Message: " + message);
             log.AppendLine();
 

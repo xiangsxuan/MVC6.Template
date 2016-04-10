@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Builder;
+using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ModelBinding;
@@ -57,9 +58,11 @@ namespace MvcTemplate.Web
             services.AddTransient<DbContext, Context>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            services.AddTransient<ILogger, Logger>();
             services.AddTransient<IHasher, BCrypter>();
             services.AddTransient<IMailClient, SmtpMailClient>();
+            services.AddTransient<ILogger>(provider => new Logger(
+                    provider.GetService<IConfiguration>(),
+                    provider.GetService<IHttpContextAccessor>().HttpContext?.User.Id()));
 
             services.AddTransient<IExceptionFilter, ExceptionFilter>();
             services.AddTransient<IModelMetadataProvider, DisplayNameMetadataProvider>();
