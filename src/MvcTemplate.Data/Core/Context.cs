@@ -18,12 +18,6 @@ namespace MvcTemplate.Data.Core
 
         #endregion
 
-        #region System
-
-        protected DbSet<Log> Logs { get; set; }
-
-        #endregion
-
         protected IConfiguration Config { get; }
 
         static Context()

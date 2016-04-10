@@ -7,6 +7,11 @@
     "Path": "Globalization.xml"
   },
 
+  "Logger": {
+    "Path": "Logs",
+    "BackupSize": 5242880
+  },
+
   "Mail": {
     "Port": 587,
     "EnableSsl": true,

@@ -47,21 +47,6 @@ namespace MvcTemplate.Data.Migrations
                     b.HasKey("Id");
                 });
 
-            modelBuilder.Entity("MvcTemplate.Objects.Log", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("AccountId");
-
-                    b.Property<DateTime>("CreationDate");
-
-                    b.Property<string>("Message")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-                });
-
             modelBuilder.Entity("MvcTemplate.Objects.Permission", b =>
                 {
                     b.Property<int>("Id");

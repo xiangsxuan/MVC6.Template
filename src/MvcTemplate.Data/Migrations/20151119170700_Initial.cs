@@ -11,20 +11,6 @@ namespace MvcTemplate.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Log",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AccountId = table.Column<int>(nullable: true),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    Message = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Log", x => x.Id);
-                });
-            migrationBuilder.CreateTable(
                 name: "Permission",
                 columns: table => new
                 {
@@ -135,7 +121,6 @@ namespace MvcTemplate.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable("Account");
-            migrationBuilder.DropTable("Log");
             migrationBuilder.DropTable("RolePermission");
             migrationBuilder.DropTable("Permission");
             migrationBuilder.DropTable("Role");

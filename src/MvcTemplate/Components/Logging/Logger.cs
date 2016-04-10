@@ -1,17 +1,18 @@
-﻿using Microsoft.Data.Entity;
-using MvcTemplate.Objects;
+﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.IO;
+using System.Text;
 
 namespace MvcTemplate.Components.Logging
 {
     public class Logger : ILogger
     {
-        private DbContext Context { get; }
-        private Boolean Disposed { get; set; }
+        private static Object LogWriting = new Object();
+        private IConfiguration Config { get; }
 
-        public Logger(DbContext context)
+        public Logger(IConfiguration config)
         {
-            Context = context;
+            Config = config;
         }
 
         public void Log(String message)
@@ -20,21 +21,27 @@ namespace MvcTemplate.Components.Logging
         }
         public void Log(Int32? accountId, String message)
         {
-            Log log = new Log();
-            log.Message = message;
-            log.AccountId = accountId;
+            String logDirectory = Path.Combine(Config["Application:Path"], Config["Logger:Path"]);
+            Int64 backupSize = Int64.Parse(Config["Logger:BackupSize"]);
+            String logPath = Path.Combine(logDirectory, "Log.txt");
 
-            Context.Add(log);
-            Context.SaveChanges();
-        }
+            lock (LogWriting)
+            {
+                StringBuilder log = new StringBuilder();
+                log.AppendLine("Time   : " + DateTime.Now);
+                log.AppendLine("Account: " + accountId);
+                log.AppendLine("Message: " + message);
+                log.AppendLine();
 
-        public void Dispose()
-        {
-            if (Disposed) return;
+                Directory.CreateDirectory(logDirectory);
+                File.AppendAllText(logPath, log.ToString());
 
-            Context.Dispose();
-
-            Disposed = true;
+                if (new FileInfo(logPath).Length >= backupSize)
+                {
+                    String backupLog = Path.Combine(logDirectory, String.Format("Log {0}.txt", DateTime.Now.ToString("yyyy-MM-dd HHmmss")));
+                    File.Move(logPath, backupLog);
+                }
+            }
         }
     }
 }
