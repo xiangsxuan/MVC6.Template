@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Metadata;
+using Microsoft.Extensions.Configuration;
 using MvcTemplate.Data.Mapping;
 using MvcTemplate.Objects;
 using System.Linq;
@@ -23,9 +24,15 @@ namespace MvcTemplate.Data.Core
 
         #endregion
 
+        protected IConfiguration Config { get; }
+
         static Context()
         {
             ObjectMapper.MapObjects();
+        }
+        public Context(IConfiguration config)
+        {
+            Config = config;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,7 +44,7 @@ namespace MvcTemplate.Data.Core
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Mvc6Template;Trusted_Connection=True;MultipleActiveResultSets=True");
+            optionsBuilder.UseSqlServer(Config["Data:Connection"]);
         }
     }
 }

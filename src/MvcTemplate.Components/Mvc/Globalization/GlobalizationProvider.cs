@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
@@ -34,10 +36,11 @@ namespace MvcTemplate.Components.Mvc
             get;
         }
 
-        public GlobalizationProvider(String path)
+        public GlobalizationProvider(IConfiguration config)
         {
-            XElement languagesXml = XElement.Load(path);
+            String path = Path.Combine(config["Application:Path"], config["Globalization:Path"]);
             LanguageDictionary = new Dictionary<String, Language>();
+            XElement languagesXml = XElement.Load(path);
 
             foreach (XElement languageNode in languagesXml.Elements("language"))
             {

@@ -1,4 +1,5 @@
-﻿using MvcTemplate.Components.Mvc;
+﻿using Microsoft.Extensions.Configuration;
+using MvcTemplate.Components.Mvc;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
     public class GlobalizationProviderTests
     {
         private GlobalizationProvider provider;
+        private static IConfiguration config;
 
         static GlobalizationProviderTests()
         {
@@ -29,12 +31,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             globalization.Add(lithuanian);
             globalization.Add(english);
 
-            Directory.CreateDirectory("bin");
-            globalization.Save("bin\\Globalization.xml");
+            config = ConfigurationFactory.Create();
+            Directory.CreateDirectory(config["Application:Path"]);
+            globalization.Save(Path.Combine(config["Application:Path"], config["Globalization:Path"]));
         }
         public GlobalizationProviderTests()
         {
-            provider = new GlobalizationProvider("bin\\Globalization.xml");
+            provider = new GlobalizationProvider(config);
         }
 
         #region Property: CurrentLanguage

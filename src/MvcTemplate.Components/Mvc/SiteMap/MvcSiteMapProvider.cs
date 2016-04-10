@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using MvcTemplate.Components.Security;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -13,8 +15,9 @@ namespace MvcTemplate.Components.Mvc
         private IEnumerable<MvcSiteMapNode> NodeTree { get; }
         private IEnumerable<MvcSiteMapNode> NodeList { get; }
 
-        public MvcSiteMapProvider(String path, IMvcSiteMapParser parser, IAuthorizationProvider provider)
+        public MvcSiteMapProvider(IConfiguration config, IMvcSiteMapParser parser, IAuthorizationProvider provider)
         {
+            String path = Path.Combine(config["Application:Path"], config["SiteMap:Path"]);
             XElement siteMap = XElement.Load(path);
             AuthorizationProvider = provider;
 

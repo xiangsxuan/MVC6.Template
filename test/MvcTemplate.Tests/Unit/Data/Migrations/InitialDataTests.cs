@@ -13,7 +13,7 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
 
         public InitialDataTests()
         {
-            context = new Context();
+            context = new Context(ConfigurationFactory.Create());
         }
         public void Dispose()
         {

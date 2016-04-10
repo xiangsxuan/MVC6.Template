@@ -4,6 +4,7 @@ using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.AspNet.Routing;
 using Microsoft.Data.Entity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using MvcTemplate.Components.Logging;
@@ -17,17 +18,20 @@ using MvcTemplate.Services;
 using MvcTemplate.Validators;
 using NonFactors.Mvc.Grid;
 using System;
-using System.IO;
+using System.Collections.Generic;
 
 namespace MvcTemplate.Web
 {
     public class Startup
     {
-        private String ApplicationBasePath { get; }
+        private IConfiguration Config { get; }
 
         public Startup(IApplicationEnvironment env)
         {
-            ApplicationBasePath = env.ApplicationBasePath;
+            Config = new ConfigurationBuilder()
+                .AddInMemoryCollection(new[] { new KeyValuePair<String, String>("Application:Path", env.ApplicationBasePath) })
+                .AddJsonFile("configuration.json")
+                .Build();
         }
         public void Configure(IApplicationBuilder app)
         {
@@ -48,23 +52,24 @@ namespace MvcTemplate.Web
 
         public virtual void RegisterCurrentDependencyResolver(IServiceCollection services)
         {
+            services.AddInstance(Config);
+
             services.AddTransient<DbContext, Context>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddTransient<ILogger, Logger>();
             services.AddTransient<IHasher, BCrypter>();
-            services.AddTransient<IMailClient>(provider => new SmtpMailClient("smtp.gmail.com", 587, "MVC.Template@gmail.com", "ChangeIt"));
+            services.AddTransient<IMailClient, SmtpMailClient>();
 
             services.AddTransient<IExceptionFilter, ExceptionFilter>();
             services.AddTransient<IModelMetadataProvider, DisplayNameMetadataProvider>();
 
-            services.AddSingleton<IGlobalizationProvider>(provider =>
-                new GlobalizationProvider(Path.Combine(ApplicationBasePath, "Globalization.xml")));
-            services.AddSingleton<IAuthorizationProvider>(provider => new AuthorizationProvider(typeof(BaseController).Assembly, provider));
+            services.AddSingleton<IGlobalizationProvider, GlobalizationProvider>();
+            services.AddSingleton<IAuthorizationProvider>(provider =>
+                new AuthorizationProvider(typeof(BaseController).Assembly, provider));
 
             services.AddTransient<IMvcSiteMapParser, MvcSiteMapParser>();
-            services.AddSingleton<IMvcSiteMapProvider>(provider => new MvcSiteMapProvider(
-                Path.Combine(ApplicationBasePath, "Mvc.sitemap"), provider.GetService<IMvcSiteMapParser>(), provider.GetService<IAuthorizationProvider>()));
+            services.AddSingleton<IMvcSiteMapProvider, MvcSiteMapProvider>();
 
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IAccountService, AccountService>();

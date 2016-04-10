@@ -16,9 +16,13 @@ namespace MvcTemplate.Tests.Data
             SaveChanges();
         }
 
+        public TestingContext() : base(ConfigurationFactory.Create())
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Mvc6TemplateTest;Trusted_Connection=True;MultipleActiveResultSets=True");
+            optionsBuilder.UseSqlServer(Config["Data:TestConnection"]);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mail
         [Fact]
         public void Dispose_MultipleTimes()
         {
-            SmtpMailClient client = new SmtpMailClient("", 587, "", "");
+            SmtpMailClient client = new SmtpMailClient(ConfigurationFactory.Create());
 
             client.Dispose();
             client.Dispose();

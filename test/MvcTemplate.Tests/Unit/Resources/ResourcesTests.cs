@@ -17,7 +17,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         public void Resources_HasAllPermissionAreaTitles()
         {
             ResourceManager manager = MvcTemplate.Resources.Permission.Area.Titles.ResourceManager;
-            using (Context context = new Context())
+            using (Context context = new Context(ConfigurationFactory.Create()))
             {
                 String[] areas = context
                     .Set<Permission>()
@@ -35,7 +35,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         public void Resources_HasAllPermissionControllerTitles()
         {
             ResourceManager manager = MvcTemplate.Resources.Permission.Controller.Titles.ResourceManager;
-            using (Context context = new Context())
+            using (Context context = new Context(ConfigurationFactory.Create()))
             {
                 String[] controllers = context
                     .Set<Permission>()
@@ -53,7 +53,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         public void Resources_HasAllPermissionActionTitles()
         {
             ResourceManager manager = MvcTemplate.Resources.Permission.Action.Titles.ResourceManager;
-            using (Context context = new Context())
+            using (Context context = new Context(ConfigurationFactory.Create()))
             {
                 String[] actions = context
                     .Set<Permission>()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using NSubstitute;
@@ -13,27 +14,27 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class MvcSiteMapProviderTests
     {
-        private static MvcSiteMapParser parser;
-        private static String siteMapPath;
+        private static IConfiguration config;
 
         private IAuthorizationProvider authorizationProvider;
         private IDictionary<String, Object> routeValues;
         private MvcSiteMapProvider provider;
+        private MvcSiteMapParser parser;
         private ViewContext viewContext;
 
         static MvcSiteMapProviderTests()
         {
-            siteMapPath = "bin\\MvcSiteMapProviderTests.sitemap";
-            Directory.CreateDirectory("bin");
-            parser = new MvcSiteMapParser();
-            CreateSiteMap(siteMapPath);
+            config = ConfigurationFactory.Create();
+            Directory.CreateDirectory(config["Application:Path"]);
+            CreateSiteMap(Path.Combine(config["Application:Path"], config["SiteMap:Path"]));
         }
         public MvcSiteMapProviderTests()
         {
             authorizationProvider = Substitute.For<IAuthorizationProvider>();
             viewContext = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
+            parser = new MvcSiteMapParser();
 
-            provider = new MvcSiteMapProvider(siteMapPath, parser, authorizationProvider);
+            provider = new MvcSiteMapProvider(config, parser, authorizationProvider);
             routeValues = viewContext.RouteData.Values;
         }
 
@@ -42,7 +43,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetSiteMap_NullAuthorization_ReturnsAllMenus()
         {
-            provider = new MvcSiteMapProvider(siteMapPath, parser, null);
+            provider = new MvcSiteMapProvider(config, parser, null);
 
             MvcSiteMapNode[] actual = provider.GetSiteMap(viewContext).ToArray();
 
@@ -113,7 +114,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             routeValues["controller"] = "Roles";
             routeValues["area"] = "Administration";
 
-            provider = new MvcSiteMapProvider(siteMapPath, parser, null);
+            provider = new MvcSiteMapProvider(config, parser, null);
 
             MvcSiteMapNode[] actual = provider.GetSiteMap(viewContext).ToArray();
 
@@ -141,7 +142,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             routeValues["controller"] = "Accounts";
             routeValues["area"] = "Administration";
 
-            provider = new MvcSiteMapProvider(siteMapPath, parser, null);
+            provider = new MvcSiteMapProvider(config, parser, null);
 
             MvcSiteMapNode[] actual = provider.GetSiteMap(viewContext).ToArray();
 
@@ -169,7 +170,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             routeValues["controller"] = "Roles";
             routeValues["area"] = "Administration";
 
-            provider = new MvcSiteMapProvider(siteMapPath, parser, null);
+            provider = new MvcSiteMapProvider(config, parser, null);
 
             MvcSiteMapNode[] actual = provider.GetSiteMap(viewContext).ToArray();
 
