@@ -11,7 +11,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class MaxValueAdapterTests
     {
-        #region Method: GetClientValidationRules(ClientModelValidationContext context)
+        #region GetClientValidationRules(ClientModelValidationContext context)
 
         [Fact]
         public void GetClientValidationRules_ReturnsMaxRangeValidationRule()

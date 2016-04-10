@@ -26,7 +26,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             filter = new LookupFilter();
         }
 
-        #region Method: GetData(AbstractLookup lookup, LookupFilter filter)
+        #region GetData(AbstractLookup lookup, LookupFilter filter)
 
         [Fact]
         public void GetData_SetsCurrentFilter()
@@ -52,7 +52,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Role(LookupFilter filter)
+        #region Role(LookupFilter filter)
 
         [Fact]
         public void Role_ReturnsRolesData()
@@ -65,7 +65,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Dispose()
+        #region Dispose()
 
         [Fact]
         public void Dispose_UnitOfWork()

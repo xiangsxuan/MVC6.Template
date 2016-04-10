@@ -35,7 +35,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             ReturnCurrentAccountId(controller, 1);
         }
 
-        #region Method: Edit()
+        #region Edit()
 
         [Fact]
         public void Edit_NotActive_RedirectsToLogout()
@@ -62,7 +62,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Edit(ProfileEditView profile)
+        #region Edit(ProfileEditView profile)
 
         [Fact]
         public void Edit_ProtectsFromOverpostingId()
@@ -133,7 +133,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Delete()
+        #region Delete()
 
         [Fact]
         public void Delete_NotActive_RedirectsToLogout()
@@ -172,7 +172,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: DeleteConfirmed(ProfileDeleteView profile)
+        #region DeleteConfirmed(ProfileDeleteView profile)
 
         [Fact]
         public void DeleteConfirmed_ProtectsFromOverpostingId()

@@ -39,7 +39,7 @@ namespace MvcTemplate.Tests.Unit.Services
             service.Dispose();
         }
 
-        #region Method: SeedPermissions(RoleView view)
+        #region SeedPermissions(RoleView view)
 
         [Fact]
         public void SeedPermissions_FirstDepth()
@@ -118,7 +118,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: GetViews()
+        #region GetViews()
 
         [Fact]
         public void GetViews_ReturnsRoleViews()
@@ -141,7 +141,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: GetView(Int32 id)
+        #region GetView(Int32 id)
 
         [Fact]
         public void GetView_NoRole_ReturnsNull()
@@ -186,7 +186,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Create(RoleView view)
+        #region Create(RoleView view)
 
         [Fact]
         public void Create_Role()
@@ -225,7 +225,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Edit(RoleView view)
+        #region Edit(RoleView view)
 
         [Fact]
         public void Edit_Role()
@@ -274,7 +274,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Delete(Int32 id)
+        #region Delete(Int32 id)
 
         [Fact]
         public void Delete_NullsAccountRoles()

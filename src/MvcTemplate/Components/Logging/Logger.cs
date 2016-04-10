@@ -25,21 +25,22 @@ namespace MvcTemplate.Components.Logging
             Int64 backupSize = Int64.Parse(Config["Logger:BackupSize"]);
             String logPath = Path.Combine(logDirectory, "Log.txt");
 
+            StringBuilder log = new StringBuilder();
+            log.AppendLine("Time   : " + DateTime.Now);
+            log.AppendLine("Account: " + accountId);
+            log.AppendLine("Message: " + message);
+            log.AppendLine();
+
             lock (LogWriting)
             {
-                StringBuilder log = new StringBuilder();
-                log.AppendLine("Time   : " + DateTime.Now);
-                log.AppendLine("Account: " + accountId);
-                log.AppendLine("Message: " + message);
-                log.AppendLine();
-
                 Directory.CreateDirectory(logDirectory);
                 File.AppendAllText(logPath, log.ToString());
 
                 if (new FileInfo(logPath).Length >= backupSize)
                 {
-                    String backupLog = Path.Combine(logDirectory, String.Format("Log {0}.txt", DateTime.Now.ToString("yyyy-MM-dd HHmmss")));
-                    File.Move(logPath, backupLog);
+                    String logBackupFile = String.Format("Log {0}.txt", DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    String backupPath = Path.Combine(logDirectory, logBackupFile);
+                    File.Move(logPath, backupPath);
                 }
             }
         }

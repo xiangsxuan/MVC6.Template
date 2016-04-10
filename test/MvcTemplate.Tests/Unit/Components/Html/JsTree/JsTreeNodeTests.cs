@@ -5,7 +5,7 @@ namespace MvcTemplate.Tests.Unit.Components.Html
 {
     public class JsTreeNodeTests
     {
-        #region Constructor: JsTreeNode(String title)
+        #region JsTreeNode(String title)
 
         [Fact]
         public void JsTreeNode_SetsTitle()
@@ -19,7 +19,7 @@ namespace MvcTemplate.Tests.Unit.Components.Html
 
         #endregion
 
-        #region Constructor: JsTreeNode(Int32? id, String title)
+        #region JsTreeNode(Int32? id, String title)
 
         [Fact]
         public void JsTreeNode_SetsIdAndTitle()

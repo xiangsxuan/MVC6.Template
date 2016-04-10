@@ -6,9 +6,9 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Security
 {
-    public class IIdentityExtensionsTests
+    public class IPrincipalExtensionsTests
     {
-        #region Extension method: Id(this IIdentity identity)
+        #region Id(this IPrincipal principal)
 
         [Theory]
         [InlineData("1", 1)]
@@ -16,10 +16,10 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         [InlineData(null, null)]
         public void Id_ReturnsEntityNameAsInteger(String identityName, Int32? id)
         {
-            IIdentity identity = Substitute.For<IIdentity>();
-            identity.Name.Returns(identityName);
+            IPrincipal principal = Substitute.For<IPrincipal>();
+            principal.Identity.Name.Returns(identityName);
 
-            Int32? actual = identity.Id();
+            Int32? actual = principal.Id();
             Int32? expected = id;
 
             Assert.Equal(expected, actual);

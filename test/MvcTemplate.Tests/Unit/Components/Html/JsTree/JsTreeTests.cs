@@ -5,7 +5,7 @@ namespace MvcTemplate.Tests.Unit.Components.Html
 {
     public class JsTreeTests
     {
-        #region Constructor: JsTree()
+        #region JsTree()
 
         [Fact]
         public void JsTree_CreatesEmpty()

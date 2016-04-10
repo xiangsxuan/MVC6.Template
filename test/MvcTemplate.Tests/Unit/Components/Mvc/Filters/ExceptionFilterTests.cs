@@ -31,7 +31,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             actionContext.HttpContext = Substitute.For<HttpContext>();
         }
 
-        #region Method: OnException(ExceptionContext filterContext)
+        #region OnException(ExceptionContext filterContext)
 
         [Fact]
         public void OnException_LogsException()
@@ -46,7 +46,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
                 Environment.NewLine,
                 exception.StackTrace);
 
-            logger.Received().Log(context.HttpContext.User.Identity.Id(), expectedMessage);
+            logger.Received().Log(context.HttpContext.User.Id(), expectedMessage);
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
                 Environment.NewLine,
                 context.Exception.InnerException.StackTrace);
 
-            logger.Received().Log(context.HttpContext.User.Identity.Id(), expectedMessage);
+            logger.Received().Log(context.HttpContext.User.Id(), expectedMessage);
         }
 
         #endregion

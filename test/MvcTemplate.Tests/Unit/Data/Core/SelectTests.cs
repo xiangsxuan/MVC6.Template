@@ -30,7 +30,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Dispose();
         }
 
-        #region Property: ElementType
+        #region ElementType
 
         [Fact]
         public void ElementType_IsModelType()
@@ -43,7 +43,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
-        #region Property: Expression
+        #region Expression
 
         [Fact]
         public void Expression_IsSetsExpression()
@@ -63,7 +63,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
-        #region Property: Provider
+        #region Provider
 
         [Fact]
         public void Provider_IsSetsProvider()
@@ -76,7 +76,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
-        #region Method: Where(Expression<Func<TModel, Boolean>> predicate)
+        #region Where(Expression<Func<TModel, Boolean>> predicate)
 
         [Fact]
         public void Where_Filters()
@@ -98,7 +98,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
-        #region Method: To<TView>()
+        #region To<TView>()
 
         [Fact]
         public void To_ProjectsSet()
@@ -111,7 +111,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
-        #region Method: GetEnumerator()
+        #region GetEnumerator()
 
         [Fact]
         public void GetEnumerator_ReturnsSetEnumerator()

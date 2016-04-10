@@ -71,7 +71,7 @@ namespace MvcTemplate.Controllers
 
             AuthorizationProvider = HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
 
-            CurrentAccountId = User.Identity.Id() ?? 0;
+            CurrentAccountId = User.Id() ?? 0;
         }
         public override void OnActionExecuted(ActionExecutedContext context)
         {

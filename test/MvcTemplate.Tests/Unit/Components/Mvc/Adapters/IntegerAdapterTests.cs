@@ -11,7 +11,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class IntegerAdapterTests
     {
-        #region Method: GetClientValidationRules(ClientModelValidationContext context)
+        #region GetClientValidationRules(ClientModelValidationContext context)
 
         [Fact]
         public void GetClientValidationRules_ReturnsIntegerValidationRule()

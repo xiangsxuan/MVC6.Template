@@ -40,15 +40,15 @@ namespace MvcTemplate.Components.Mvc
         {
             String path = Path.Combine(config["Application:Path"], config["Globalization:Path"]);
             LanguageDictionary = new Dictionary<String, Language>();
-            XElement languagesXml = XElement.Load(path);
+            XElement languages = XElement.Load(path);
 
-            foreach (XElement languageNode in languagesXml.Elements("language"))
+            foreach (XElement lang in languages.Elements("language"))
             {
                 Language language = new Language();
-                language.Culture = new CultureInfo((String)languageNode.Attribute("culture"));
-                language.IsDefault = (Boolean?)languageNode.Attribute("default") == true;
-                language.Abbreviation = (String)languageNode.Attribute("abbreviation");
-                language.Name = (String)languageNode.Attribute("name");
+                language.Culture = new CultureInfo((String)lang.Attribute("culture"));
+                language.IsDefault = (Boolean?)lang.Attribute("default") == true;
+                language.Abbreviation = (String)lang.Attribute("abbreviation");
+                language.Name = (String)lang.Attribute("name");
 
                 LanguageDictionary.Add(language.Abbreviation, language);
             }

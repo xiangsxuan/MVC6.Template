@@ -8,7 +8,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class RangeAdapterTests
     {
-        #region Constructor: RangeAdapter(RangeAttribute attribute)
+        #region RangeAdapter(RangeAttribute attribute)
 
         [Fact]
         public void RangeAdapter_SetsErrorMessage()

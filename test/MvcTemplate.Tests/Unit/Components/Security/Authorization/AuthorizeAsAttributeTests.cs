@@ -6,7 +6,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
 {
     public class AuthorizeAsAttributeTests
     {
-        #region Constructor: AuthorizeAsAttribute(String action)
+        #region AuthorizeAsAttribute(String action)
 
         [Fact]
         public void AuthorizeAsAttribute_NullAction_Throws()

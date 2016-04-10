@@ -17,10 +17,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         private static IConfiguration config;
 
         private IAuthorizationProvider authorizationProvider;
-        private IDictionary<String, Object> routeValues;
+        private IDictionary<String, Object> route;
         private MvcSiteMapProvider provider;
         private MvcSiteMapParser parser;
-        private ViewContext viewContext;
+        private ViewContext context;
 
         static MvcSiteMapProviderTests()
         {
@@ -31,21 +31,21 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public MvcSiteMapProviderTests()
         {
             authorizationProvider = Substitute.For<IAuthorizationProvider>();
-            viewContext = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
+            context = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
             parser = new MvcSiteMapParser();
 
             provider = new MvcSiteMapProvider(config, parser, authorizationProvider);
-            routeValues = viewContext.RouteData.Values;
+            route = context.RouteData.Values;
         }
 
-        #region Method: GetSiteMap(ViewContext context)
+        #region GetSiteMap(ViewContext context)
 
         [Fact]
         public void GetSiteMap_NullAuthorization_ReturnsAllMenus()
         {
             provider = new MvcSiteMapProvider(config, parser, null);
 
-            MvcSiteMapNode[] actual = provider.GetSiteMap(viewContext).ToArray();
+            MvcSiteMapNode[] actual = provider.GetSiteMap(context).ToArray();
 
             Assert.Equal(1, actual.Length);
 
@@ -84,9 +84,9 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetSiteMap_ReturnsAuthorizedMenus()
         {
-            authorizationProvider.IsAuthorizedFor(viewContext.HttpContext.User.Identity.Id(), "Administration", "Accounts", "Index").Returns(true);
+            authorizationProvider.IsAuthorizedFor(context.HttpContext.User.Id(), "Administration", "Accounts", "Index").Returns(true);
 
-            MvcSiteMapNode[] actual = provider.GetSiteMap(viewContext).ToArray();
+            MvcSiteMapNode[] actual = provider.GetSiteMap(context).ToArray();
 
             Assert.Equal(1, actual.Length);
 
@@ -110,13 +110,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetSiteMap_SetsActiveMenu()
         {
-            routeValues["action"] = "Create";
-            routeValues["controller"] = "Roles";
-            routeValues["area"] = "Administration";
+            route["action"] = "Create";
+            route["controller"] = "Roles";
+            route["area"] = "Administration";
 
             provider = new MvcSiteMapProvider(config, parser, null);
 
-            MvcSiteMapNode[] actual = provider.GetSiteMap(viewContext).ToArray();
+            MvcSiteMapNode[] actual = provider.GetSiteMap(context).ToArray();
 
             Assert.Equal(1, actual.Length);
             Assert.False(actual[0].IsActive);
@@ -138,13 +138,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetSiteMap_NonMenuChildrenNodeIsActive_SetsActiveMenu()
         {
-            routeValues["action"] = "Edit";
-            routeValues["controller"] = "Accounts";
-            routeValues["area"] = "Administration";
+            route["action"] = "Edit";
+            route["controller"] = "Accounts";
+            route["area"] = "Administration";
 
             provider = new MvcSiteMapProvider(config, parser, null);
 
-            MvcSiteMapNode[] actual = provider.GetSiteMap(viewContext).ToArray();
+            MvcSiteMapNode[] actual = provider.GetSiteMap(context).ToArray();
 
             Assert.Equal(1, actual.Length);
             Assert.False(actual[0].IsActive);
@@ -166,13 +166,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetSiteMap_ActiveMenuParents_SetsHasActiveChildren()
         {
-            routeValues["action"] = "Create";
-            routeValues["controller"] = "Roles";
-            routeValues["area"] = "Administration";
+            route["action"] = "Create";
+            route["controller"] = "Roles";
+            route["area"] = "Administration";
 
             provider = new MvcSiteMapProvider(config, parser, null);
 
-            MvcSiteMapNode[] actual = provider.GetSiteMap(viewContext).ToArray();
+            MvcSiteMapNode[] actual = provider.GetSiteMap(context).ToArray();
 
             Assert.Equal(1, actual.Length);
             Assert.True(actual[0].HasActiveChildren);
@@ -195,9 +195,9 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void GetSiteMap_RemovesEmptyMenus()
         {
             authorizationProvider.IsAuthorizedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
-            authorizationProvider.IsAuthorizedFor(viewContext.HttpContext.User.Identity.Id(), "Administration", "Roles", "Create").Returns(false);
+            authorizationProvider.IsAuthorizedFor(context.HttpContext.User.Id(), "Administration", "Roles", "Create").Returns(false);
 
-            MvcSiteMapNode[] actual = provider.GetSiteMap(viewContext).ToArray();
+            MvcSiteMapNode[] actual = provider.GetSiteMap(context).ToArray();
 
             Assert.Equal(1, actual.Length);
 
@@ -220,16 +220,16 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region Method: GetBreadcrumb(ViewContext context)
+        #region GetBreadcrumb(ViewContext context)
 
         [Fact]
         public void GetBreadcrumb_IsCaseInsensitive()
         {
-            routeValues["controller"] = "profile";
-            routeValues["action"] = "edit";
-            routeValues["area"] = null;
+            route["controller"] = "profile";
+            route["action"] = "edit";
+            route["area"] = null;
 
-            MvcSiteMapNode[] actual = provider.GetBreadcrumb(viewContext).ToArray();
+            MvcSiteMapNode[] actual = provider.GetBreadcrumb(context).ToArray();
 
             Assert.Equal(3, actual.Length);
 
@@ -252,11 +252,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetBreadcrumb_NoAction_ReturnsEmpty()
         {
-            routeValues["controller"] = "profile";
-            routeValues["action"] = "edit";
-            routeValues["area"] = "area";
+            route["controller"] = "profile";
+            route["action"] = "edit";
+            route["area"] = "area";
 
-            Assert.Empty(provider.GetBreadcrumb(viewContext));
+            Assert.Empty(provider.GetBreadcrumb(context));
         }
 
         #endregion

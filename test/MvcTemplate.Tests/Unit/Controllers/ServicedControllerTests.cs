@@ -25,7 +25,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller.HttpContext.ApplicationServices.GetService<IGlobalizationProvider>().Returns(Substitute.For<IGlobalizationProvider>());
         }
 
-        #region Constructor: ServicedController(TService service)
+        #region ServicedController(TService service)
 
         [Fact]
         public void ServicedController_SetsService()
@@ -38,7 +38,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: OnActionExecuting(ActionExecutingContext context)
+        #region OnActionExecuting(ActionExecutingContext context)
 
         [Fact]
         public void OnActionExecuting_SetsServiceCurrentAccountId()
@@ -55,7 +55,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Dispose()
+        #region Dispose()
 
         [Fact]
         public void Dispose_Service()

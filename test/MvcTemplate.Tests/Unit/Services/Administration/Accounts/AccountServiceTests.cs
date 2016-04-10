@@ -44,7 +44,7 @@ namespace MvcTemplate.Tests.Unit.Services
             context.Dispose();
         }
 
-        #region Method: Get<TView>(Int32 id)
+        #region Get<TView>(Int32 id)
 
         [Fact]
         public void Get_ReturnsViewById()
@@ -62,7 +62,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: GetViews()
+        #region GetViews()
 
         [Fact]
         public void GetViews_ReturnsAccountViews()
@@ -87,7 +87,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: IsLoggedIn(IPrincipal user)
+        #region IsLoggedIn(IPrincipal user)
 
         [Theory]
         [InlineData(true)]
@@ -104,7 +104,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: IsActive(Int32 id)
+        #region IsActive(Int32 id)
 
         [Theory]
         [InlineData(true)]
@@ -128,7 +128,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Recover(AccountRecoveryView view)
+        #region Recover(AccountRecoveryView view)
 
         [Fact]
         public void Recover_NoEmail_ReturnsNull()
@@ -170,7 +170,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Register(AccountRegisterView view)
+        #region Register(AccountRegisterView view)
 
         [Fact]
         public void Register_Account()
@@ -196,7 +196,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Reset(AccountResetView view)
+        #region Reset(AccountResetView view)
 
         [Fact]
         public void Reset_Account()
@@ -225,7 +225,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Create(AccountCreateView view)
+        #region Create(AccountCreateView view)
 
         [Fact]
         public void Create_Account()
@@ -262,7 +262,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Edit(AccountEditView view)
+        #region Edit(AccountEditView view)
 
         [Fact]
         public void Edit_Account()
@@ -303,7 +303,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Edit(ProfileEditView view)
+        #region Edit(ProfileEditView view)
 
         [Fact]
         public void Edit_Profile()
@@ -350,7 +350,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Delete(Int32 id)
+        #region Delete(Int32 id)
 
         [Fact]
         public void Delete_Account()
@@ -370,7 +370,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Login(AuthenticationManager authentication, String username)
+        #region Login(AuthenticationManager authentication, String username)
 
         [Fact]
         public void Login_Account()
@@ -390,7 +390,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Logout(AuthenticationManager authentication)
+        #region Logout(AuthenticationManager authentication)
 
         [Fact]
         public void Logout_Account()

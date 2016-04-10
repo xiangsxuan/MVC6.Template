@@ -13,7 +13,7 @@ namespace MvcTemplate.Tests.Unit.Objects
             view = new AccountView();
         }
 
-        #region Property: CreationDate
+        #region CreationDate
 
         [Fact]
         public void CreationDate_ReturnsSameValue()

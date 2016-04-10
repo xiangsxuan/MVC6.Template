@@ -16,7 +16,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             siteMap = CreateSiteMap();
         }
 
-        #region Method: GetNodeTree(XElement siteMap)
+        #region GetNodeTree(XElement siteMap)
 
         [Fact]
         public void GetNodes_ReturnsAllSiteMapNodes()

@@ -12,7 +12,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
             ObjectMapper.MapObjects();
         }
 
-        #region Static method: MapRoles()
+        #region MapRoles()
 
         [Fact]
         public void MapRoles_Role_RoleView()
@@ -40,7 +40,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
 
         #endregion
 
-        #region Static method: MapAccounts()
+        #region MapAccounts()
 
         [Fact]
         public void MapAccounts_Account_AccountView()

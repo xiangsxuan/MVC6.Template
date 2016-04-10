@@ -21,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             context.ValueProvider = Substitute.For<IValueProvider>();
         }
 
-        #region Method: BindModelAsync(ModelBindingContext context)
+        #region BindModelAsync(ModelBindingContext context)
 
         [Fact]
         public void BindModelAsync_NotString_ReturnsNoResult()

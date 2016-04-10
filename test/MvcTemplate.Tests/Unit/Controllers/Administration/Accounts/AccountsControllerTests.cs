@@ -34,7 +34,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
             controller.ActionContext.RouteData = new RouteData();
         }
 
-        #region Method: Index()
+        #region Index()
 
         [Fact]
         public void Index_ReturnsAccountViews()
@@ -49,7 +49,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
 
         #endregion
 
-        #region Method: Create()
+        #region Create()
 
         [Fact]
         public void Create_ReturnsEmptyView()
@@ -61,7 +61,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
 
         #endregion
 
-        #region Method: Create(AccountCreateView account)
+        #region Create(AccountCreateView account)
 
         [Fact]
         public void Create_ProtectsFromOverpostingId()
@@ -103,7 +103,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
 
         #endregion
 
-        #region Method: Details(Int32 id)
+        #region Details(Int32 id)
 
         [Fact]
         public void Details_ReturnsNotEmptyView()
@@ -118,7 +118,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
 
         #endregion
 
-        #region Method: Edit(Int32 id)
+        #region Edit(Int32 id)
 
         [Fact]
         public void Edit_ReturnsNotEmptyView()
@@ -133,7 +133,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
 
         #endregion
 
-        #region Method: Edit(AccountEditView account)
+        #region Edit(AccountEditView account)
 
         [Fact]
         public void Edit_CanNotEdit_ReturnsSameView()

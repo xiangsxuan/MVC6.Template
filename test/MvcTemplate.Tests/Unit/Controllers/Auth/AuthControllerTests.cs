@@ -44,7 +44,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             accountLogin = ObjectFactory.CreateAccountLoginView();
         }
 
-        #region Method: Register()
+        #region Register()
 
         [Fact]
         public void Register_IsLoggedIn_RedirectsToDefault()
@@ -69,7 +69,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Register(AccountRegisterView account)
+        #region Register(AccountRegisterView account)
 
         [Fact]
         public void Register_ProtectsFromOverpostingId()
@@ -140,7 +140,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Recover()
+        #region Recover()
 
         [Fact]
         public void Recover_IsLoggedIn_RedirectsToDefault()
@@ -165,7 +165,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Recover(AccountRecoveryView account)
+        #region Recover(AccountRecoveryView account)
 
         [Fact]
         public void Recover_Post_IsLoggedIn_RedirectsToDefault()
@@ -262,7 +262,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Reset(String token)
+        #region Reset(String token)
 
         [Fact]
         public void Reset_IsLoggedIn_RedirectsToDefault()
@@ -300,7 +300,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Reset(AccountResetView account)
+        #region Reset(AccountResetView account)
 
         [Fact]
         public void Reset_Post_IsLoggedIn_RedirectsToDefault()
@@ -365,7 +365,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Login(String returnUrl)
+        #region Login(String returnUrl)
 
         [Fact]
         public void Login_IsLoggedIn_RedirectsToUrl()
@@ -392,7 +392,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Login(AccountLoginView account, String returnUrl)
+        #region Login(AccountLoginView account, String returnUrl)
 
         [Fact]
         public void Login_Post_IsLoggedIn_RedirectsToUrl()
@@ -445,7 +445,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Logout()
+        #region Logout()
 
         [Fact]
         public void Logout_Account()

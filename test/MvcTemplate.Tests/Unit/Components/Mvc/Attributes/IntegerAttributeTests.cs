@@ -14,7 +14,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attribute = new IntegerAttribute();
         }
 
-        #region Constructor: IntegerAttribute()
+        #region IntegerAttribute()
 
         [Fact]
         public void IntegerAttribute_SetsErrorMessage()
@@ -29,7 +29,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region Method: IsValid(Object value)
+        #region IsValid(Object value)
 
         [Fact]
         public void IsValid_Null()

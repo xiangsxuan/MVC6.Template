@@ -40,7 +40,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             provider = new GlobalizationProvider(config);
         }
 
-        #region Property: CurrentLanguage
+        #region CurrentLanguage
 
         [Fact]
         public void CurrentLanguage_ReturnsCurrentLanguage()
@@ -68,7 +68,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region Constructor: GlobalizationProvider(String path)
+        #region GlobalizationProvider(String path)
 
         [Fact]
         public void GlobalizationProvider_LoadsAllLanguages()
@@ -100,7 +100,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region Indexer: this[String abbreviation]
+        #region this[String abbreviation]
 
         [Fact]
         public void Indexer_ReturnsLanguage()

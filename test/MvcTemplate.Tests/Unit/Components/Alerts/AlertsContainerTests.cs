@@ -14,7 +14,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
             container = new AlertsContainer();
         }
 
-        #region Constant: DefaultFadeout
+        #region DefaultFadeout
 
         [Fact]
         public void DefaultFadeout_IsConstant()
@@ -25,7 +25,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
 
         #endregion
 
-        #region Method: Add(AlertType type, String message)
+        #region Add(AlertType type, String message)
 
         [Fact]
         public void Add_TypedMessage()
@@ -41,7 +41,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
 
         #endregion
 
-        #region Method: Add(AlertType type, String message, Decimal fadeoutAfter)
+        #region Add(AlertType type, String message, Decimal fadeoutAfter)
 
         [Fact]
         public void Add_FadingTypedMessage()
@@ -57,7 +57,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
 
         #endregion
 
-        #region Method: AddError(String message)
+        #region AddError(String message)
 
         [Fact]
         public void AddError_Message()
@@ -73,7 +73,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
 
         #endregion
 
-        #region Method: AddError(String message, Decimal fadeoutAfter)
+        #region AddError(String message, Decimal fadeoutAfter)
 
         [Fact]
         public void AddError_FadingMessage()
@@ -89,7 +89,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
 
         #endregion
 
-        #region Method: Merge(AlertsContainer alerts)
+        #region Merge(AlertsContainer alerts)
 
         [Fact]
         public void Merge_DoesNotMergeItself()

@@ -24,7 +24,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             helper = new FormLabelTagHelper();
         }
 
-        #region Method: Process(TagHelperContext context, TagHelperOutput output)
+        #region Process(TagHelperContext context, TagHelperOutput output)
 
         [Fact]
         public void Process_Required()

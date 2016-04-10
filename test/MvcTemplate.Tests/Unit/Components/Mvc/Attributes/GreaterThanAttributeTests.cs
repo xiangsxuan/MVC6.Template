@@ -14,7 +14,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attribute = new GreaterThanAttribute(12.56);
         }
 
-        #region Constructor: GreaterThanAttribute(Int32 minimum)
+        #region GreaterThanAttribute(Int32 minimum)
 
         [Fact]
         public void GreaterThanAttribute_SetsMinimumFromInteger()
@@ -27,7 +27,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region Constructor: GreaterThanAttribute(Double minimum)
+        #region GreaterThanAttribute(Double minimum)
 
         [Fact]
         public void GreaterThanAttribute_SetsMinimumFromDouble()
@@ -40,7 +40,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region Method: FormatErrorMessage(String name)
+        #region FormatErrorMessage(String name)
 
         [Fact]
         public void FormatErrorMessage_ForInteger()
@@ -66,7 +66,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region Method: IsValid(Object value)
+        #region IsValid(Object value)
 
         [Fact]
         public void IsValid_Null()

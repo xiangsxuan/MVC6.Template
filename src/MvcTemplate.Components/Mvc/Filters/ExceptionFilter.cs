@@ -22,7 +22,7 @@ namespace MvcTemplate.Components.Mvc
 
             String message = $"{exception.GetType()}: {exception.Message}{Environment.NewLine}{exception.StackTrace}";
 
-            Logger.Log(filterContext.HttpContext.User.Identity.Id(), message);
+            Logger.Log(filterContext.HttpContext.User.Id(), message);
         }
     }
 }

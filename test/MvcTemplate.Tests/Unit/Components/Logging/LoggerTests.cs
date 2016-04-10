@@ -29,7 +29,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
                 Directory.Delete(logDirectory, true);
         }
 
-        #region Method: Log(String message)
+        #region Log(String message)
 
         [Fact]
         public void Log_LogsMessage()
@@ -57,7 +57,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
 
         #endregion
 
-        #region Method: Log(String accountId, String message)
+        #region Log(String accountId, String message)
 
         [Fact]
         public void Log_LogsAccountIdAndMessage()

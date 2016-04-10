@@ -8,7 +8,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class RequiredAdapterTests
     {
-        #region Constructor: RequiredAdapter(RequiredAttribute attribute)
+        #region RequiredAdapter(RequiredAttribute attribute)
 
         [Fact]
         public void RequiredAdapter_SetsErrorMessage()

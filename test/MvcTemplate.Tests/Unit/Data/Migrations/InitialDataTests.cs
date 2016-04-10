@@ -20,7 +20,7 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
             context.Dispose();
         }
 
-        #region Table: Roles
+        #region Roles
 
         [Fact]
         public void RolesTable_HasSysAdmin()
@@ -30,7 +30,7 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
 
         #endregion
 
-        #region Table: Accounts
+        #region Accounts
 
         [Fact]
         public void AccountsTable_HasSysAdmin()
@@ -43,7 +43,7 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
 
         #endregion
 
-        #region Table: Permissions
+        #region Permissions
 
         [Theory]
         [InlineData("Administration", "Accounts", "Index")]
@@ -75,7 +75,7 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
 
         #endregion
 
-        #region Table: RolePermissions
+        #region RolePermissions
 
         [Fact]
         public void RolesPermissionsTable_HasAllSysAdminPermissions()

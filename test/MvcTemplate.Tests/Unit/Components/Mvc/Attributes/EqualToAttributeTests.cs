@@ -17,7 +17,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attribute = new EqualToAttribute("Total");
         }
 
-        #region Constructor: EqualToAttribute(String otherPropertyName)
+        #region EqualToAttribute(String otherPropertyName)
 
         [Fact]
         public void EqualToAttribute_SetsOtherPropertyName()
@@ -30,7 +30,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region Method: FormatErrorMessage(String name)
+        #region FormatErrorMessage(String name)
 
         [Fact]
         public void FormatErrorMessage_ForProperty()
@@ -45,7 +45,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region Method: IsValid(Object value, ValidationContext validationContext)
+        #region IsValid(Object value, ValidationContext validationContext)
 
         [Fact]
         public void IsValid_EqualValue()

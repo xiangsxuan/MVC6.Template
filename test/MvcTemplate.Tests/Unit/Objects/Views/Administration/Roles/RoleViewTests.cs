@@ -6,7 +6,7 @@ namespace MvcTemplate.Tests.Unit.Objects
 {
     public class RoleViewTests
     {
-        #region Constructor: RoleView()
+        #region RoleView()
 
         [Fact]
         public void RoleView_CreatesEmpty()

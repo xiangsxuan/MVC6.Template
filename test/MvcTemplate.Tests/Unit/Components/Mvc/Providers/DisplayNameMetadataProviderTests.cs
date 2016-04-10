@@ -10,7 +10,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class DisplayNameMetadataProviderTests
     {
-        #region Method: CreateModelMetadata(DefaultMetadataDetails entry)
+        #region CreateModelMetadata(DefaultMetadataDetails entry)
 
         [Fact]
         public void CreateModelMetadata_SetsDisplayName()

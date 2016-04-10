@@ -11,9 +11,9 @@ namespace MvcTemplate.Components.Mvc
 {
     public class MvcSiteMapProvider : IMvcSiteMapProvider
     {
-        private IAuthorizationProvider AuthorizationProvider { get; }
-        private IEnumerable<MvcSiteMapNode> NodeTree { get; }
         private IEnumerable<MvcSiteMapNode> NodeList { get; }
+        private IEnumerable<MvcSiteMapNode> NodeTree { get; }
+        private IAuthorizationProvider AuthorizationProvider { get; }
 
         public MvcSiteMapProvider(IConfiguration config, IMvcSiteMapParser parser, IAuthorizationProvider provider)
         {
@@ -27,7 +27,7 @@ namespace MvcTemplate.Components.Mvc
 
         public IEnumerable<MvcSiteMapNode> GetSiteMap(ViewContext context)
         {
-            Int32? account = context.HttpContext.User.Identity.Id();
+            Int32? account = context.HttpContext.User.Id();
             String area = context.RouteData.Values["area"] as String;
             String action = context.RouteData.Values["action"] as String;
             String controller = context.RouteData.Values["controller"] as String;

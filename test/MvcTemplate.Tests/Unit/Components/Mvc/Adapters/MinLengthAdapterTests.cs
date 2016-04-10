@@ -8,7 +8,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class MinLengthAdapterTests
     {
-        #region Constructor: MinLengthAdapter(MinLengthAttribute attribute)
+        #region MinLengthAdapter(MinLengthAttribute attribute)
 
         [Fact]
         public void MinLengthAdapter_SetsErrorMessage()

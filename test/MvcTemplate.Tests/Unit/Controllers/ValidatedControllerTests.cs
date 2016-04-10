@@ -28,7 +28,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller.HttpContext.ApplicationServices.GetService<IGlobalizationProvider>().Returns(Substitute.For<IGlobalizationProvider>());
         }
 
-        #region Constructor: ValidatedController(TService service, TValidator validator)
+        #region ValidatedController(TService service, TValidator validator)
 
         [Fact]
         public void ValidatedController_SetsValidator()
@@ -41,7 +41,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: OnActionExecuting(ActionExecutingContext filterContext)
+        #region OnActionExecuting(ActionExecutingContext filterContext)
 
         [Fact]
         public void OnActionExecuting_SetsServiceCurrentAccountId()
@@ -93,7 +93,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: Dispose()
+        #region Dispose()
 
         [Fact]
         public void Dispose_Service()

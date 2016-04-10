@@ -20,7 +20,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             helper.ViewContext = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
         }
 
-        #region Method: Process(TagHelperContext context, TagHelperOutput output)
+        #region Process(TagHelperContext context, TagHelperOutput output)
 
         [Fact]
         public void Process_NullAuthorizationProvider_RemovedWrappingTag()

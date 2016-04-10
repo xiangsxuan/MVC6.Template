@@ -37,7 +37,7 @@ namespace MvcTemplate.Tests.Unit.Validators
             context.Dispose();
         }
 
-        #region Method: CanRegister(AccountRegisterView view)
+        #region CanRegister(AccountRegisterView view)
 
         [Fact]
         public void CanRegister_InvalidState_ReturnsFalse()
@@ -81,7 +81,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
         #endregion
 
-        #region Method: CanRecover(AccountRecoveryView view)
+        #region CanRecover(AccountRecoveryView view)
 
         [Fact]
         public void CanRecover_InvalidState_ReturnsFalse()
@@ -99,7 +99,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
         #endregion
 
-        #region Method: CanReset(AccountResetView view)
+        #region CanReset(AccountResetView view)
 
         [Fact]
         public void CanReset_InvalidState_ReturnsFalse()
@@ -133,7 +133,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
         #endregion
 
-        #region Method: CanLogin(AccountLoginView view)
+        #region CanLogin(AccountLoginView view)
 
         [Fact]
         public void CanLogin_InvalidState_ReturnsFalse()
@@ -214,7 +214,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
         #endregion
 
-        #region Method: CanCreate(AccountCreateView view)
+        #region CanCreate(AccountCreateView view)
 
         [Fact]
         public void CanCreate_InvalidState_ReturnsFalse()
@@ -258,7 +258,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
         #endregion
 
-        #region Method: CanEdit(AccountEditView view)
+        #region CanEdit(AccountEditView view)
 
         [Fact]
         public void CanEdit_InvalidAccountState_ReturnsFalse()
@@ -276,7 +276,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
         #endregion
 
-        #region Method: CanEdit(ProfileEditView view)
+        #region CanEdit(ProfileEditView view)
 
         [Fact]
         public void CanEdit_InvalidProfileState_ReturnsFalse()
@@ -361,7 +361,7 @@ namespace MvcTemplate.Tests.Unit.Validators
 
         #endregion
 
-        #region Method: CanDelete(ProfileDeleteView view)
+        #region CanDelete(ProfileDeleteView view)
 
         [Fact]
         public void CanDelete_InvalidState_ReturnsFalse()

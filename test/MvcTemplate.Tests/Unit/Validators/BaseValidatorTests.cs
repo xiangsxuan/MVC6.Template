@@ -21,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Services
             validator.Dispose();
         }
 
-        #region Constructor: BaseValidator(IUnitOfWork unitOfWork)
+        #region BaseValidator(IUnitOfWork unitOfWork)
 
         [Fact]
         public void BaseValidator_CreatesEmptyModelState()
@@ -37,7 +37,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Method: Dispose()
+        #region Dispose()
 
         [Fact]
         public void Dispose_UnitOfWork()

@@ -10,7 +10,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class AjaxOnlyAttributeTests
     {
-        #region Method: IsValidForRequest(RouteContext routeContext, ActionDescriptor action)
+        #region IsValidForRequest(RouteContext routeContext, ActionDescriptor action)
 
         [Fact]
         public void IsValidForRequest_NullHeader_ReturnsFalse()

@@ -9,7 +9,7 @@ namespace MvcTemplate.Tests.Unit.Resources
 {
     public class ResourceProviderTests
     {
-        #region Static method: GetLookupTitle(String Lookup)
+        #region GetLookupTitle(String Lookup)
 
         [Fact]
         public void GetLookupTitle_IsCaseInsensitive()
@@ -34,7 +34,7 @@ namespace MvcTemplate.Tests.Unit.Resources
 
         #endregion
 
-        #region Static method: GetContentTitle(IDictionary<String, Object> values)
+        #region GetContentTitle(IDictionary<String, Object> values)
 
         [Fact]
         public void GetContentTitle_IsCaseInsensitive()
@@ -81,7 +81,7 @@ namespace MvcTemplate.Tests.Unit.Resources
 
         #endregion
 
-        #region Static method: GetSiteMapTitle(String area, String controller, String action)
+        #region GetSiteMapTitle(String area, String controller, String action)
 
         [Fact]
         public void GetSiteMapTitle_IsCaseInsensitive()
@@ -109,7 +109,7 @@ namespace MvcTemplate.Tests.Unit.Resources
 
         #endregion
 
-        #region Static method: GetPermissionAreaTitle(String area)
+        #region GetPermissionAreaTitle(String area)
 
         [Fact]
         public void GetPermissionAreaTitle_IsCaseInsensitive()
@@ -134,7 +134,7 @@ namespace MvcTemplate.Tests.Unit.Resources
 
         #endregion
 
-        #region Static method: GetPermissionControllerTitle(String area, String controller)
+        #region GetPermissionControllerTitle(String area, String controller)
 
         [Fact]
         public void GetPermissionControllerTitle_ReturnsTitle()
@@ -153,7 +153,7 @@ namespace MvcTemplate.Tests.Unit.Resources
 
         #endregion
 
-        #region Static method: GetPermissionActionTitle(String area, String controller, String action)
+        #region GetPermissionActionTitle(String area, String controller, String action)
 
         [Fact]
         public void GetPermissionActionTitle_ReturnsTitle()
@@ -172,7 +172,7 @@ namespace MvcTemplate.Tests.Unit.Resources
 
         #endregion
 
-        #region Static method: GetPropertyTitle<TModel, TProperty>(Expression<Func<TModel, TProperty>> property)
+        #region GetPropertyTitle<TModel, TProperty>(Expression<Func<TModel, TProperty>> property)
 
         [Fact]
         public void GetPropertyTitle_NotMemberExpression_ReturnNull()
@@ -212,7 +212,7 @@ namespace MvcTemplate.Tests.Unit.Resources
 
         #endregion
 
-        #region Static method: GetPropertyTitle(Type view, String property)
+        #region GetPropertyTitle(Type view, String property)
 
         [Fact]
         public void GetPropertyTitle_IsCaseInsensitive()

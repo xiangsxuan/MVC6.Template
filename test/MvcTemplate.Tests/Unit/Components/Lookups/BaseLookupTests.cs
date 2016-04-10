@@ -25,7 +25,7 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
             using (TestingContext context = new TestingContext()) context.DropData();
         }
 
-        #region Constructor: BaseLookup(IUrlHelper url)
+        #region BaseLookup(IUrlHelper url)
 
         [Fact]
         public void BaseLookup_SetsDialogTitle()
@@ -52,7 +52,7 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
 
         #endregion
 
-        #region Constructor: BaseLookup(IUnitOfWork unitOfWork)
+        #region BaseLookup(IUnitOfWork unitOfWork)
 
         [Fact]
         public void BaseLookup_SetsUnitOfWork()
@@ -68,7 +68,7 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
 
         #endregion
 
-        #region Method: GetColumnHeader(PropertyInfo property)
+        #region GetColumnHeader(PropertyInfo property)
 
         [Fact]
         public void GetColumnHeader_ReturnsPropertyTitle()
@@ -92,7 +92,7 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
 
         #endregion
 
-        #region Method: GetColumnCssClass(PropertyInfo property)
+        #region GetColumnCssClass(PropertyInfo property)
 
         [Theory]
         [InlineData("EnumField", "text-left")]
@@ -137,7 +137,7 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
 
         #endregion
 
-        #region Method: GetModels()
+        #region GetModels()
 
         [Fact]
         public void GetModels_FromUnitOfWork()
@@ -154,7 +154,7 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
 
         #endregion
 
-        #region Method: FilterById(IQueryable<TView> models)
+        #region FilterById(IQueryable<TView> models)
 
         [Fact]
         public void FilterById_NotInteger_ReturnsEmpty()

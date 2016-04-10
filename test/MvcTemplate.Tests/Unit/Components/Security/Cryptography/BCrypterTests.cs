@@ -13,7 +13,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             crypter = new BCrypter();
         }
 
-        #region Method: Hash(String value)
+        #region Hash(String value)
 
         [Fact]
         public void Hash_Value()
@@ -26,7 +26,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
 
         #endregion
 
-        #region Method: HashPassword(String value)
+        #region HashPassword(String value)
 
         [Fact]
         public void HashPassword_Value()
@@ -39,7 +39,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
 
         #endregion
 
-        #region Method: Verify(String value, String hash)
+        #region Verify(String value, String hash)
 
         [Fact]
         public void Verify_NullValue_ReturnsFalse()
@@ -61,7 +61,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
 
         #endregion
 
-        #region Method: VerifyPassword(String value, String passhash)
+        #region VerifyPassword(String value, String passhash)
 
         [Fact]
         public void VerifyPassword_NullValue_ReturnsFalse()

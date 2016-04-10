@@ -35,7 +35,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             areaName = controller.RouteData.Values["area"] as String;
         }
 
-        #region Constructor: BaseController()
+        #region BaseController()
 
         [Fact]
         public void BaseController_CreatesEmptyAlerts()
@@ -45,7 +45,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: NotEmptyView(Object model)
+        #region NotEmptyView(Object model)
 
         [Fact]
         public void NotEmptyView_NullModel_RedirectsToNotFound()
@@ -67,7 +67,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: RedirectToLocal(String url)
+        #region RedirectToLocal(String url)
 
         [Fact]
         public void RedirectToLocal_NotLocalUrl_RedirectsToDefault()
@@ -93,7 +93,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: RedirectToDefault()
+        #region RedirectToDefault()
 
         [Fact]
         public void RedirectToDefault_Route()
@@ -108,7 +108,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: RedirectToNotFound()
+        #region RedirectToNotFound()
 
         [Fact]
         public void RedirectToNotFound_Route()
@@ -123,7 +123,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: RedirectToUnauthorized()
+        #region RedirectToUnauthorized()
 
         [Fact]
         public void RedirectToUnauthorized_Route()
@@ -138,7 +138,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: RedirectToAction(String actionName, String controllerName, Object routeValues)
+        #region RedirectToAction(String actionName, String controllerName, Object routeValues)
 
         [Fact]
         public void RedirectToAction_Action_Controller_Route_NotAuthorized_RedirectsToDefault()
@@ -191,7 +191,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: OnActionExecuting(ActionExecutingContext context)
+        #region OnActionExecuting(ActionExecutingContext context)
 
         [Fact]
         public void OnActionExecuting_SetsCurrentLanguage()
@@ -239,7 +239,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: OnActionExecuted(ActionExecutedContext context)
+        #region OnActionExecuted(ActionExecutedContext context)
 
         [Fact]
         public void OnActionExecuted_NullTempDataAlerts_SetsTempDataAlerts()
@@ -276,7 +276,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region Method: IsAuthorizedFor(String action, String controller, String area)
+        #region IsAuthorizedFor(String action, String controller, String area)
 
         [Fact]
         public void IsAuthorizedFor_NullAuthorizationProvider_ReturnsTrue()

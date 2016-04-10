@@ -22,7 +22,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             adapter = new EmailAddressAdapter(attribute);
         }
 
-        #region Constructor: EmailAddressAdapter(EmailAddressAttribute attribute)
+        #region EmailAddressAdapter(EmailAddressAttribute attribute)
 
         [Fact]
         public void EmailAddressAdapter_SetsErrorMessage()
@@ -35,7 +35,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region Method: GetClientValidationRules(ClientModelValidationContext context)
+        #region GetClientValidationRules(ClientModelValidationContext context)
 
         [Fact]
         public void GetClientValidationRules_ReturnsEmailValidationRule()

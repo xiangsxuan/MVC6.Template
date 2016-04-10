@@ -13,7 +13,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class ViewLocationExpanderTests
     {
-        #region Method: ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<String> viewLocations)
+        #region ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<String> viewLocations)
 
         [Fact]
         public void ExpandViewLocations_Area_ReturnsAreaLocations()
@@ -46,7 +46,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region Method: PopulateValues(ViewLocationExpanderContext context)
+        #region PopulateValues(ViewLocationExpanderContext context)
 
         [Fact]
         public void PopulateValues_DoesNothing()
