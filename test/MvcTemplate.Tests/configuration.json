@@ -14,7 +14,7 @@
 
   "Logger": {
     "Path": "Logs",
-    "BackupSize": 100
+    "BackupSize": 128
   },
 
   "Mail": {

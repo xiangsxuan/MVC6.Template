@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Mvc.Filters;
 using MvcTemplate.Components.Logging;
-using System;
 
 namespace MvcTemplate.Components.Mvc
 {
@@ -15,11 +14,7 @@ namespace MvcTemplate.Components.Mvc
 
         public void OnException(ExceptionContext filterContext)
         {
-            Exception exception = filterContext.Exception;
-            while (exception.InnerException != null)
-                exception = exception.InnerException;
-
-            Logger.Log($"{exception.GetType()}: {exception.Message}{Environment.NewLine}{exception.StackTrace}");
+            Logger.Log(filterContext.Exception);
         }
     }
 }

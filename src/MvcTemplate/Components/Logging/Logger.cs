@@ -45,5 +45,12 @@ namespace MvcTemplate.Components.Logging
                 }
             }
         }
+        public void Log(Exception exception)
+        {
+            while (exception.InnerException != null)
+                exception = exception.InnerException;
+
+            Log($"{exception.GetType()}: {exception.Message}{Environment.NewLine}{exception.StackTrace}");
+        }
     }
 }
