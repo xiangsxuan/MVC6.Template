@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.AspNet.Routing;
 using Microsoft.Data.Entity;
@@ -37,6 +35,7 @@ namespace MvcTemplate.Web
         public void Configure(IApplicationBuilder app)
         {
             RegisterAppServices(app);
+            RegisterMiddleware(app);
             RegisterRoute(app);
 
             SeedData(app);
@@ -45,7 +44,6 @@ namespace MvcTemplate.Web
         {
             RegisterCurrentDependencyResolver(services);
             RegisterLowercaseUrls(services);
-            RegisterFilters(services);
             RegisterMvcGrid(services);
             RegisterSession(services);
             RegisterMvc(services);
@@ -64,7 +62,6 @@ namespace MvcTemplate.Web
                     provider.GetService<IConfiguration>(),
                     provider.GetService<IHttpContextAccessor>().HttpContext?.User.Id()));
 
-            services.AddTransient<IExceptionFilter, ExceptionFilter>();
             services.AddTransient<IModelMetadataProvider, DisplayNameMetadataProvider>();
 
             services.AddSingleton<IGlobalizationProvider, GlobalizationProvider>();
@@ -83,10 +80,6 @@ namespace MvcTemplate.Web
         public virtual void RegisterLowercaseUrls(IServiceCollection services)
         {
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-        }
-        public virtual void RegisterFilters(IServiceCollection services)
-        {
-            services.Configure<MvcOptions>(options => options.Filters.Add(typeof(ExceptionFilter)));
         }
         public virtual void RegisterMvcGrid(IServiceCollection services)
         {
@@ -117,6 +110,10 @@ namespace MvcTemplate.Web
             app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
             app.UseSession();
+        }
+        public virtual void RegisterMiddleware(IApplicationBuilder app)
+        {
+            app.UseMiddleware<ExceptionFilterMiddleware>();
         }
         public virtual void RegisterRoute(IApplicationBuilder app)
         {
