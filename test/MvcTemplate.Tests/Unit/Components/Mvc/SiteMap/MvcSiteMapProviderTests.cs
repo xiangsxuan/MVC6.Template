@@ -14,27 +14,27 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class MvcSiteMapProviderTests
     {
-        private static IConfiguration config;
-
         private IAuthorizationProvider authorizationProvider;
         private IDictionary<String, Object> route;
         private MvcSiteMapProvider provider;
         private MvcSiteMapParser parser;
+        private IConfiguration config;
         private ViewContext context;
 
         static MvcSiteMapProviderTests()
         {
-            config = ConfigurationFactory.Create();
+            IConfiguration config = ConfigurationFactory.Create();
             Directory.CreateDirectory(config["Application:Path"]);
             CreateSiteMap(Path.Combine(config["Application:Path"], config["SiteMap:Path"]));
         }
         public MvcSiteMapProviderTests()
         {
-            authorizationProvider = Substitute.For<IAuthorizationProvider>();
-            context = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
             parser = new MvcSiteMapParser();
-
+            config = ConfigurationFactory.Create();
+            context = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
+            authorizationProvider = Substitute.For<IAuthorizationProvider>();
             provider = new MvcSiteMapProvider(config, parser, authorizationProvider);
+
             route = context.RouteData.Values;
         }
 

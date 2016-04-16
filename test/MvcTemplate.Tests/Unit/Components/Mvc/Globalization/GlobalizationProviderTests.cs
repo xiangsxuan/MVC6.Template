@@ -12,7 +12,6 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
     public class GlobalizationProviderTests
     {
         private GlobalizationProvider provider;
-        private static IConfiguration config;
 
         static GlobalizationProviderTests()
         {
@@ -31,13 +30,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             globalization.Add(lithuanian);
             globalization.Add(english);
 
-            config = ConfigurationFactory.Create();
+            IConfiguration config = ConfigurationFactory.Create();
             Directory.CreateDirectory(config["Application:Path"]);
             globalization.Save(Path.Combine(config["Application:Path"], config["Globalization:Path"]));
         }
         public GlobalizationProviderTests()
         {
-            provider = new GlobalizationProvider(config);
+            provider = new GlobalizationProvider(ConfigurationFactory.Create());
         }
 
         #region CurrentLanguage

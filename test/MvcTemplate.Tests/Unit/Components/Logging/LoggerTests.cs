@@ -9,20 +9,17 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
 {
     public class LoggerTests
     {
-        private static IConfiguration config;
+        private IConfiguration config;
         private String logDirectory;
         private Int32 backupSize;
         private String logPath;
 
-        static LoggerTests()
-        {
-            config = ConfigurationFactory.Create();
-        }
         public LoggerTests()
         {
-            logPath = Path.Combine(config["Application:Path"], config["Logger:Path"], "Log.txt");
-            logDirectory = Path.Combine(config["Application:Path"], config["Logger:Path"]);
+            config = ConfigurationFactory.Create();
             backupSize = Int32.Parse(config["Logger:BackupSize"]);
+            logDirectory = Path.Combine(config["Application:Path"], config["Logger:Path"]);
+            logPath = Path.Combine(config["Application:Path"], config["Logger:Path"], "Log.txt");
 
             if (Directory.Exists(logDirectory))
                 Directory.Delete(logDirectory, true);
