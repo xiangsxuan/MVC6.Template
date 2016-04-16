@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Mvc;
 using MvcTemplate.Components.Alerts;
-using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
@@ -28,7 +27,7 @@ namespace MvcTemplate.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([BindExcludeId] ProfileEditView profile)
+        public ActionResult Edit(ProfileEditView profile)
         {
             if (!Service.IsActive(CurrentAccountId))
                 return RedirectToAction("Logout", "Auth");
@@ -57,7 +56,7 @@ namespace MvcTemplate.Controllers
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed([BindExcludeId] ProfileDeleteView profile)
+        public ActionResult DeleteConfirmed(ProfileDeleteView profile)
         {
             if (!Service.IsActive(CurrentAccountId))
                 return RedirectToAction("Logout", "Auth");

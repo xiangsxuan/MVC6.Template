@@ -1,5 +1,4 @@
 using Microsoft.AspNet.Mvc;
-using MvcTemplate.Components.Mvc;
 using MvcTemplate.Objects;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
@@ -29,7 +28,7 @@ namespace MvcTemplate.Controllers.Administration
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([BindExcludeId] AccountCreateView account)
+        public ActionResult Create(AccountCreateView account)
         {
             if (!Validator.CanCreate(account))
                 return View(account);

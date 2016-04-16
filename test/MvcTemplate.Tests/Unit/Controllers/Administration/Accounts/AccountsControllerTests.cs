@@ -64,12 +64,6 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         #region Create(AccountCreateView account)
 
         [Fact]
-        public void Create_ProtectsFromOverpostingId()
-        {
-            ProtectsFromOverpostingId(controller, "Create");
-        }
-
-        [Fact]
         public void Create_CanNotCreate_ReturnsSameView()
         {
             validator.CanCreate(accountCreate).Returns(false);

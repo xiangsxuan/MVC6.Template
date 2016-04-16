@@ -2,7 +2,6 @@
 using Microsoft.AspNet.Mvc;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Mail;
-using MvcTemplate.Components.Mvc;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
 using MvcTemplate.Services;
@@ -34,7 +33,7 @@ namespace MvcTemplate.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register([BindExcludeId] AccountRegisterView account)
+        public ActionResult Register(AccountRegisterView account)
         {
             if (Service.IsLoggedIn(User))
                 return RedirectToDefault();
