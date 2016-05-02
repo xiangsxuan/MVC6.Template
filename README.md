@@ -2,13 +2,13 @@
 
 # Installation
 1. Set Web as default start up project.
-2. Open "Package Manager Console" and run "dnx -p src/MvcTemplate.Data ef database update" command.
-3. Open "Package Manager Console" and run "dnx -p test/MvcTemplate.Tests ef database update" command.
+2. Rename your project using "MvcTemplate.Rename.cmd".
+2. Open "Package Manager Console" and run "dnx -p src/{YourSolutionName}.Data ef database update" command.
+3. Open "Package Manager Console" and run "dnx -p test/{YourSolutionName}.Tests ef database update" command.
 
 # Features in progress
 - Script and styling minification and bundling.
 - Dynamic script and styling loading.
-- Project renaming.
 
 # Features
 - Model-View-ViewModel architectural design.
@@ -16,6 +16,7 @@
 - Lowercase or normal ASP.NET urls.
 - Protection from CSRF, XSS, etc.
 - Custom membership providers.
+- Easy project renaming.
 - Globalization.
 - Site map.
 - Tests.

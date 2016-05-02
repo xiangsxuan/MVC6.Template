@@ -1,0 +1,18 @@
+﻿{
+  "description": "MvcTemplate renaming tool",
+  "authors": [ "NonFactors" ],
+  "version": "0.1.0",
+
+  "compilationOptions": {
+    "warningsAsErrors": true,
+    "emitEntryPoint": true
+  },
+
+  "commands": {
+    "run": "MvcTemplate.Rename"
+  },
+
+  "frameworks": {
+    "dnx451": { }
+  }
+}

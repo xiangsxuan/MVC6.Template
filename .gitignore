@@ -1,7 +1,7 @@
 /src/MvcTemplate.Web/Logs/
 wwwroot/lib/
 /artifacts/
-/.vs/
+.vs/
 bin/
 obj/
 
