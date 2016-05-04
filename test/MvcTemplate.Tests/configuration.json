@@ -9,7 +9,7 @@
   },
 
   "Globalization": {
-    "Path": "Globalization.xml"
+    "Path": "globalization.config"
   },
 
   "Logger": {
