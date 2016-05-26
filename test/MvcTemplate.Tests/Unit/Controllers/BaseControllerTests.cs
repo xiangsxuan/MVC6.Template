@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.ViewFeatures;
-using Microsoft.AspNet.Routing;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Mvc;
@@ -25,11 +25,11 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller = Substitute.ForPartsOf<BaseController>();
 
             controller.Url = Substitute.For<IUrlHelper>();
-            controller.ActionContext.RouteData = new RouteData();
+            controller.ControllerContext.RouteData = new RouteData();
             controller.TempData = Substitute.For<ITempDataDictionary>();
-            controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
-            controller.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
-            controller.HttpContext.ApplicationServices.GetService<IGlobalizationProvider>().Returns(Substitute.For<IGlobalizationProvider>());
+            controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
+            controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            controller.HttpContext.RequestServices.GetService<IGlobalizationProvider>().Returns(Substitute.For<IGlobalizationProvider>());
 
             controllerName = controller.RouteData.Values["controller"] as String;
             areaName = controller.RouteData.Values["area"] as String;
@@ -160,7 +160,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
             Assert.Equal(controllerName, actual.ControllerName);
             Assert.Equal("Action", actual.ActionName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Null(actual.RouteValues);
         }
 
         [Fact]
@@ -172,7 +172,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
             Assert.Equal("Controller", actual.ControllerName);
             Assert.Equal("Action", actual.ActionName);
-            Assert.Empty(actual.RouteValues);
+            Assert.Null(actual.RouteValues);
         }
 
         [Fact]
@@ -196,7 +196,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void OnActionExecuting_SetsCurrentLanguage()
         {
-            IGlobalizationProvider provider = controller.HttpContext.ApplicationServices.GetService<IGlobalizationProvider>();
+            IGlobalizationProvider provider = controller.HttpContext.RequestServices.GetService<IGlobalizationProvider>();
             controller.RouteData.Values["language"] = "lt";
             provider["lt"].Returns(new Language());
 
@@ -211,7 +211,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void OnActionExecuting_SetsAuthorizationProvider()
         {
-            IAuthorizationProvider provider = controller.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
+            IAuthorizationProvider provider = controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
 
             controller.OnActionExecuting(null);
 
@@ -290,7 +290,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void IsAuthorizedFor_ReturnsAuthorizationResult()
         {
-            IAuthorizationProvider provider = controller.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
+            IAuthorizationProvider provider = controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
             provider.IsAuthorizedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
             controller.OnActionExecuting(null);
 

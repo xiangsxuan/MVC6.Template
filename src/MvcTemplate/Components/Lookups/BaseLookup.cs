@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace MvcTemplate.Components.Lookups
 {
-    public class BaseLookup<TModel, TView> : GenericLookup<TView>
+    public class BaseLookup<TModel, TView> : MvcLookup<TView>
         where TModel : BaseModel
         where TView : BaseView
     {
@@ -20,7 +20,7 @@ namespace MvcTemplate.Components.Lookups
             String view = typeof(TView).Name.Replace("View", "");
 
             DialogTitle = ResourceProvider.GetLookupTitle(view);
-            LookupUrl = url.Action(view, Prefix, new { area = "" });
+            Url = url.Action(view, Prefix, new { area = "" });
         }
         public BaseLookup(IUnitOfWork unitOfWork)
         {

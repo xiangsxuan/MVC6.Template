@@ -3,7 +3,7 @@
 @model IGrid
 
 <div class="mvc-grid" data-name="@Model.Name">
-    <table class="table mvc-grid-table @Model.CssClasses">
+    <table class="table @Model.CssClasses">
         <thead>
             <tr>
                 @foreach (IGridColumn column in Model.Columns)
@@ -11,27 +11,26 @@
                     String filterableClass = column.IsFilterable == true ? "filterable" : null;
                     String sortableClass = column.IsSortable == true ? "sortable" : null;
 
-                    <th class="mvc-grid-header @filterableClass @sortableClass @column.CssClasses"
+                    <th class="@filterableClass @sortableClass @column.CssClasses"
                         data-name="@column.Name"
-                        data-filterable="@column.IsFilterable"
+                        data-filter="@column.IsFilterable"
                         data-filter-name="@column.FilterName"
                         data-filter-multi="@column.IsMultiFilterable"
-                        data-filter-first-type="@(column.Filter != null && column.Filter.First != null
-                            ? column.Filter.First.Type : "")"
-                        data-filter-first-val="@(column.Filter != null && column.Filter.First != null
-                            ? column.Filter.First.Value : "")"
-                        data-filter-operator="@(column.Filter != null ? column.Filter.Operator : "")"
-                        data-filter-second-type="@(column.Filter != null && column.Filter.Second != null
-                            ? column.Filter.Second.Type : "")"
-                        data-filter-second-val="@(column.Filter != null && column.Filter.Second != null
-                            ? column.Filter.Second.Value : "")"
-                        data-sortable="@column.IsSortable"
+                        data-filter-first-type="@column.Filter?.First?.Type"
+                        data-filter-first-val="@column.Filter?.First?.Value"
+                        data-filter-operator="@column.Filter?.Operator"
+                        data-filter-second-type="@column.Filter?.Second?.Type"
+                        data-filter-second-val="@column.Filter?.Second?.Value"
+                        data-sort="@column.IsSortable"
                         data-sort-order="@column.SortOrder"
                         data-sort-first="@column.FirstSortOrder">
-                        <span class="mvc-grid-header-title">@column.Title</span>
                         @if (column.IsSortable == true)
                         {
-                            <span class="mvc-grid-sort @column.SortOrder.ToString().ToLower()"></span>
+                            <span class="mvc-grid-header-title @column.SortOrder.ToString().ToLower()">@column.Title</span>
+                        }
+                        else
+                        {
+                            <span class="mvc-grid-header-title">@column.Title</span>
                         }
                         @if (column.IsFilterable == true)
                         {
@@ -47,7 +46,7 @@
             {
                 foreach (IGridRow<object> row in Model.Rows)
                 {
-                    <tr class="mvc-grid-row @row.CssClasses">
+                    <tr class="@row.CssClasses">
                         @foreach (IGridColumn column in Model.Columns)
                         {
                             <td class="@column.CssClasses">@column.ValueFor(row)</td>
@@ -58,7 +57,7 @@
             else
             {
                 <tr>
-                    <td class="mvc-grid-table-empty" colspan="@Model.Columns.Count()">
+                    <td class="mvc-grid-empty" colspan="@Model.Columns.Count()">
                         @Model.EmptyText
                     </td>
                 </tr>

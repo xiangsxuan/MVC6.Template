@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Routing;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Controllers;
@@ -20,9 +20,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service = Substitute.For<IService>();
             controller = Substitute.ForPartsOf<ServicedController<IService>>(service);
 
-            controller.ActionContext.RouteData = new RouteData();
-            controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
-            controller.HttpContext.ApplicationServices.GetService<IGlobalizationProvider>().Returns(Substitute.For<IGlobalizationProvider>());
+            controller.ControllerContext.RouteData = new RouteData();
+            controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
+            controller.HttpContext.RequestServices.GetService<IGlobalizationProvider>().Returns(Substitute.For<IGlobalizationProvider>());
         }
 
         #region ServicedController(TService service)

@@ -1,5 +1,5 @@
 ﻿using AutoMapper.QueryableExtensions;
-using Microsoft.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Tests.Data;

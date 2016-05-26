@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNet.Html.Abstractions;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Resources;
@@ -89,7 +90,7 @@ namespace MvcTemplate.Components.Extensions
 
         private static IHtmlContent GetLink<T>(IGrid grid, T model, String action, String iconClass)
         {
-            IUrlHelper url = grid.ViewContext.HttpContext.ApplicationServices.GetRequiredService<IUrlHelper>();
+            IUrlHelper url = grid.ViewContext.HttpContext.RequestServices.GetRequiredService<IUrlHelperFactory>().GetUrlHelper(grid.ViewContext);
             TagBuilder actionTag = new TagBuilder("a");
             TagBuilder icon = new TagBuilder("i");
 
@@ -97,13 +98,13 @@ namespace MvcTemplate.Components.Extensions
             actionTag.AddCssClass(action.ToLower() + "-action");
             icon.AddCssClass(iconClass);
 
-            actionTag.InnerHtml.Append(icon);
+            actionTag.InnerHtml.AppendHtml(icon);
 
             return actionTag;
         }
         private static Boolean IsAuthorizedToView(IGrid grid, String action)
         {
-            IAuthorizationProvider provider = grid.ViewContext.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
+            IAuthorizationProvider provider = grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
             if (provider == null)
                 return true;
 

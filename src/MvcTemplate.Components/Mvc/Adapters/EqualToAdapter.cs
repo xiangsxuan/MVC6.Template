@@ -1,23 +1,23 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using MvcTemplate.Resources;
-using System.Collections.Generic;
 
 namespace MvcTemplate.Components.Mvc
 {
-    public class EqualToAdapter : DataAnnotationsClientModelValidator<EqualToAttribute>
+    public class EqualToAdapter : ValidationAttributeAdapter<EqualToAttribute>
     {
         public EqualToAdapter(EqualToAttribute attribute)
             : base(attribute, null)
         {
         }
 
-        public override IEnumerable<ModelClientValidationRule> GetClientValidationRules(ClientModelValidationContext context)
+        public override void AddValidation(ClientModelValidationContext context)
         {
-            Attribute.OtherPropertyDisplayName = ResourceProvider.GetPropertyTitle(context.ModelMetadata.ContainerType, Attribute.OtherPropertyName);
-            ModelClientValidationRule validationRule = new ModelClientValidationRule("equalto", GetErrorMessage(context.ModelMetadata));
-            validationRule.ValidationParameters.Add("other", "*." + Attribute.OtherPropertyName);
+            context.Attributes["data-val"] = "true";
+            context.Attributes["data-equalto"] = GetErrorMessage(context.ModelMetadata);
+            context.Attributes["data-equalto-other"] = "*." + Attribute.OtherPropertyName;
 
-            return new[] { validationRule };
+            Attribute.OtherPropertyDisplayName = ResourceProvider.GetPropertyTitle(context.ModelMetadata.ContainerType, Attribute.OtherPropertyName);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MvcTemplate.Components.Alerts;
 using System;
 

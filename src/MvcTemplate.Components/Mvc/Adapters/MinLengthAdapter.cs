@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
 using MvcTemplate.Resources.Form;
 using System.ComponentModel.DataAnnotations;
 

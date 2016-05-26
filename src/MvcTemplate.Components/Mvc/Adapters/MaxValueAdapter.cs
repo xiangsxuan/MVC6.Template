@@ -1,21 +1,21 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding.Validation;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.Globalization;
 
 namespace MvcTemplate.Components.Mvc
 {
-    public class MaxValueAdapter : DataAnnotationsClientModelValidator<MaxValueAttribute>
+    public class MaxValueAdapter : ValidationAttributeAdapter<MaxValueAttribute>
     {
         public MaxValueAdapter(MaxValueAttribute attribute)
             : base(attribute, null)
         {
         }
 
-        public override IEnumerable<ModelClientValidationRule> GetClientValidationRules(ClientModelValidationContext context)
+        public override void AddValidation(ClientModelValidationContext context)
         {
-            ModelClientValidationRule validationRule = new ModelClientValidationRule("range", GetErrorMessage(context.ModelMetadata));
-            validationRule.ValidationParameters.Add("max", Attribute.Maximum);
-
-            return new[] { validationRule };
+            context.Attributes["data-val"] = "true";
+            context.Attributes["data-range"] = GetErrorMessage(context.ModelMetadata);
+            context.Attributes["data-range-max"] = Attribute.Maximum.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

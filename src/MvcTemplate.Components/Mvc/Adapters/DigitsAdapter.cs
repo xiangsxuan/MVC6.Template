@@ -1,18 +1,19 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding.Validation;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace MvcTemplate.Components.Mvc
 {
-    public class DigitsAdapter : DataAnnotationsClientModelValidator<DigitsAttribute>
+    public class DigitsAdapter : ValidationAttributeAdapter<DigitsAttribute>
     {
         public DigitsAdapter(DigitsAttribute attribute)
             : base(attribute, null)
         {
         }
 
-        public override IEnumerable<ModelClientValidationRule> GetClientValidationRules(ClientModelValidationContext context)
+        public override void AddValidation(ClientModelValidationContext context)
         {
-            return new[] { new ModelClientValidationRule("digits", GetErrorMessage(context.ModelMetadata)) };
+            MergeAttribute(context.Attributes, "data-val", "true");
+            MergeAttribute(context.Attributes, "data-digits", GetErrorMessage(context.ModelMetadata));
         }
     }
 }

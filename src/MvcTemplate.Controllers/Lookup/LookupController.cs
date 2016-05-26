@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Components.Lookups;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
@@ -21,7 +21,7 @@ namespace MvcTemplate.Controllers
         }
 
         [NonAction]
-        public virtual JsonResult GetData(AbstractLookup lookup, LookupFilter filter)
+        public virtual JsonResult GetData(MvcLookup lookup, LookupFilter filter)
         {
             lookup.CurrentFilter = filter;
 

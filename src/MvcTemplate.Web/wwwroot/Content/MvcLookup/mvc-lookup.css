@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Lookup 0.9.1
+ * Mvc.Lookup 0.9.6
  * https://github.com/NonFactors/MVC6.Lookup
  *
  * Copyright © NonFactors
@@ -15,6 +15,10 @@
     -moz-box-sizing: content-box;
     box-sizing: content-box;
     width: 100%;
+}
+
+.mvc-lookup-dialog .ui-dialog-title {
+    min-height: 21px;
 }
 
 .mvc-lookup {

@@ -1,4 +1,4 @@
-using Microsoft.AspNet.Http.Authentication;
+using Microsoft.AspNetCore.Http.Authentication;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;

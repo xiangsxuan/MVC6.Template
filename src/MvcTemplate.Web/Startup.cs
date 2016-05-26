@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Mvc.ModelBinding;
-using Microsoft.AspNet.Routing;
-using Microsoft.Data.Entity;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.PlatformAbstractions;
 using MvcTemplate.Components.Logging;
 using MvcTemplate.Components.Mail;
 using MvcTemplate.Components.Mvc;
@@ -25,33 +25,41 @@ namespace MvcTemplate.Web
     {
         private IConfiguration Config { get; }
 
-        public Startup(IApplicationEnvironment env)
+        public Startup(IHostingEnvironment env)
         {
             Config = new ConfigurationBuilder()
-                .AddInMemoryCollection(new[] { new KeyValuePair<String, String>("Application:Path", env.ApplicationBasePath) })
+                .AddInMemoryCollection(new[] { new KeyValuePair<String, String>("Application:Path", env.ContentRootPath) })
                 .AddJsonFile("configuration.json")
+                .SetBasePath(env.ContentRootPath)
                 .Build();
         }
         public void Configure(IApplicationBuilder app)
         {
-            RegisterAppServices(app);
             RegisterMiddleware(app);
+            RegisterServices(app);
             RegisterRoute(app);
 
             SeedData(app);
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            RegisterCurrentDependencyResolver(services);
-            RegisterLowercaseUrls(services);
-            RegisterMvcGrid(services);
-            RegisterSession(services);
             RegisterMvc(services);
+            RegisterServices(services);
+            RegisterLowercaseUrls(services);
         }
 
-        public virtual void RegisterCurrentDependencyResolver(IServiceCollection services)
+        public virtual void RegisterMvc(IServiceCollection services)
         {
-            services.AddInstance(Config);
+            services
+                .AddMvc()
+                .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
+                .AddMvcOptions(options => options.ModelBinderProviders.Insert(0, new TrimmingModelBinderProvider()));
+        }
+        public virtual void RegisterServices(IServiceCollection services)
+        {
+            services.AddMvcGrid();
+            services.AddSession();
+            services.AddSingleton(Config);
 
             services.AddTransient<DbContext, Context>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -62,6 +70,7 @@ namespace MvcTemplate.Web
                     provider.GetService<IConfiguration>(),
                     provider.GetService<IHttpContextAccessor>().HttpContext?.User.Id()));
 
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IModelMetadataProvider, DisplayNameMetadataProvider>();
 
             services.AddSingleton<IGlobalizationProvider, GlobalizationProvider>();
@@ -81,39 +90,23 @@ namespace MvcTemplate.Web
         {
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         }
-        public virtual void RegisterMvcGrid(IServiceCollection services)
-        {
-            services.AddMvcGrid();
-        }
-        public virtual void RegisterSession(IServiceCollection services)
-        {
-            services.AddCaching();
-            services.AddSession();
-        }
-        public virtual void RegisterMvc(IServiceCollection services)
-        {
-            services
-                .AddMvc()
-                .AddMvcOptions(options => options.ModelBinders.Insert(0, new TrimmingModelBinder()))
-                .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()));
-        }
 
-        public virtual void RegisterAppServices(IApplicationBuilder app)
+        public virtual void RegisterMiddleware(IApplicationBuilder app)
         {
-            app.UseCookieAuthentication(options =>
+            app.UseMiddleware<ExceptionFilterMiddleware>();
+        }
+        public virtual void RegisterServices(IApplicationBuilder app)
+        {
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                options.LoginPath = "/auth/login";
-                options.AutomaticChallenge = true;
-                options.AutomaticAuthenticate = true;
-                options.AuthenticationScheme = "Cookies";
+                AuthenticationScheme = "Cookies",
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                LoginPath = "/auth/login"
             });
             app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
             app.UseSession();
-        }
-        public virtual void RegisterMiddleware(IApplicationBuilder app)
-        {
-            app.UseMiddleware<ExceptionFilterMiddleware>();
         }
         public virtual void RegisterRoute(IApplicationBuilder app)
         {

@@ -1,33 +1,33 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding;
-using Microsoft.AspNet.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using MvcTemplate.Components.Mvc;
+using MvcTemplate.Resources.Form;
 using MvcTemplate.Tests.Objects;
-using NSubstitute;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class IntegerAdapterTests
     {
-        #region GetClientValidationRules(ClientModelValidationContext context)
+        #region AddValidation(ClientModelValidationContext context)
 
         [Fact]
-        public void GetClientValidationRules_ReturnsIntegerValidationRule()
+        public void AddValidation_Integer()
         {
-            IServiceProvider services = Substitute.For<IServiceProvider>();
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
             IntegerAdapter adapter = new IntegerAdapter(new IntegerAttribute());
+            Dictionary<String, String> attributes = new Dictionary<String, String>();
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "Integer");
+            ClientModelValidationContext context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
 
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, services);
-            ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
-            String expectedMessage = new IntegerAttribute().FormatErrorMessage("Integer");
+            adapter.AddValidation(context);
 
-            Assert.Equal(expectedMessage, actual.ErrorMessage);
-            Assert.Equal("integer", actual.ValidationType);
-            Assert.Empty(actual.ValidationParameters);
+            Assert.Equal(String.Format(Validations.Integer, "Integer"), attributes["data-integer"]);
+            Assert.Equal("true", attributes["data-val"]);
+            Assert.Equal(2, attributes.Count);
         }
 
         #endregion

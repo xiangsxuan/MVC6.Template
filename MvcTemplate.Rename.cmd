@@ -1,2 +1,2 @@
 @echo off
-dnx -p tools/MvcTemplate.Rename run
+dotnet run -p tools/MvcTemplate.Rename

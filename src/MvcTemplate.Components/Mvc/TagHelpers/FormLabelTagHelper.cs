@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.AspNet.Razor.TagHelpers;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace MvcTemplate.Components.Mvc
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.Attributes["for"] = TagBuilder.CreateSanitizedId(For.Name, "_");
+            output.Attributes.SetAttribute("for", TagBuilder.CreateSanitizedId(For.Name, "_"));
             TagBuilder requiredSpan = new TagBuilder("span");
             requiredSpan.AddCssClass("require");
 
@@ -26,7 +26,7 @@ namespace MvcTemplate.Components.Mvc
                 requiredSpan.InnerHtml.Append("*");
 
             output.Content.Append(For.ModelExplorer.Metadata.DisplayName);
-            output.Content.Append(requiredSpan);
+            output.Content.AppendHtml(requiredSpan);
         }
 
         private Boolean IsRequiredExpression()

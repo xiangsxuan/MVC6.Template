@@ -1,4 +1,4 @@
-using Microsoft.AspNet.Http.Authentication;
+using Microsoft.AspNetCore.Http.Authentication;
 using MvcTemplate.Objects;
 using System;
 using System.Linq;

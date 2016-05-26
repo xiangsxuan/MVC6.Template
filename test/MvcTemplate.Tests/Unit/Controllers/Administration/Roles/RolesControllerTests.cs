@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Routing;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using MvcTemplate.Controllers.Administration;
 using MvcTemplate.Objects;
 using MvcTemplate.Services;
@@ -26,7 +26,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
             role = ObjectFactory.CreateRoleView();
 
             controller = Substitute.ForPartsOf<RolesController>(validator, service);
-            controller.ActionContext.RouteData = new RouteData();
+            controller.ControllerContext.RouteData = new RouteData();
         }
 
         #region Index()

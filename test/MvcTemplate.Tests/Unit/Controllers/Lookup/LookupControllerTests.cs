@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Components.Lookups;
 using MvcTemplate.Controllers;
 using MvcTemplate.Data.Core;
@@ -14,19 +14,19 @@ namespace MvcTemplate.Tests.Unit.Controllers
     {
         private LookupController controller;
         private IUnitOfWork unitOfWork;
-        private AbstractLookup lookup;
         private LookupFilter filter;
+        private MvcLookup lookup;
 
         public LookupControllerTests()
         {
             unitOfWork = Substitute.For<IUnitOfWork>();
             controller = Substitute.ForPartsOf<LookupController>(unitOfWork);
 
-            lookup = Substitute.For<AbstractLookup>();
+            lookup = Substitute.For<MvcLookup>();
             filter = new LookupFilter();
         }
 
-        #region GetData(AbstractLookup lookup, LookupFilter filter)
+        #region GetData(MvcLookup lookup, LookupFilter filter)
 
         [Fact]
         public void GetData_SetsCurrentFilter()
@@ -86,7 +86,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #region Test helpers
 
-        private JsonResult GetData<TLookup>(LookupController controller) where TLookup : AbstractLookup
+        private JsonResult GetData<TLookup>(LookupController controller) where TLookup : MvcLookup
         {
             controller.When(sub => sub.GetData(Arg.Any<TLookup>(), filter)).DoNotCallBase();
             controller.GetData(Arg.Any<TLookup>(), filter).Returns(new JsonResult("Test"));

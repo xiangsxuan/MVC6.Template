@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding;
-using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
 using NSubstitute;
@@ -30,7 +30,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void CreateModelMetadata_NullContainerType_DoesNotSetDisplayName()
         {
             DefaultMetadataDetails metaDetails = new DefaultMetadataDetails(
-                new ModelMetadataIdentity(), ModelAttributes.GetAttributesForType(typeof(RoleView)));
+                ModelMetadataIdentity.ForType(typeof(RoleView)), ModelAttributes.GetAttributesForType(typeof(RoleView)));
             ICompositeMetadataDetailsProvider details = Substitute.For<ICompositeMetadataDetailsProvider>();
             DisplayNameMetadataProviderProxy provider = new DisplayNameMetadataProviderProxy(details);
 

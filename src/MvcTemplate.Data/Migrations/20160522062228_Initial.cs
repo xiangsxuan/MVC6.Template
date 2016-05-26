@@ -1,11 +1,10 @@
-using Microsoft.Data.Entity.Metadata;
-using Microsoft.Data.Entity.Migrations;
-using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MvcTemplate.Data.Migrations
 {
-    [ExcludeFromCodeCoverage]
     public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,6 +23,7 @@ namespace MvcTemplate.Data.Migrations
                 {
                     table.PrimaryKey("PK_Permission", x => x.Id);
                 });
+
             migrationBuilder.CreateTable(
                 name: "Role",
                 columns: table => new
@@ -37,6 +37,7 @@ namespace MvcTemplate.Data.Migrations
                 {
                     table.PrimaryKey("PK_Role", x => x.Id);
                 });
+
             migrationBuilder.CreateTable(
                 name: "Account",
                 columns: table => new
@@ -62,6 +63,7 @@ namespace MvcTemplate.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
             migrationBuilder.CreateTable(
                 name: "RolePermission",
                 columns: table => new
@@ -90,40 +92,52 @@ namespace MvcTemplate.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Email",
-                table: "Account",
-                column: "Email",
-                unique: true);
-            migrationBuilder.CreateIndex(
-                name: "IX_RoleId",
-                table: "Account",
-                column: "RoleId");
-            migrationBuilder.CreateIndex(
-                name: "IX_Username",
+                name: "IX_Account_Username",
                 table: "Account",
                 column: "Username",
                 unique: true);
+
             migrationBuilder.CreateIndex(
-                name: "IX_Title",
+                name: "IX_Account_Email",
+                table: "Account",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Account_RoleId",
+                table: "Account",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Role_Title",
                 table: "Role",
                 column: "Title",
                 unique: true);
+
             migrationBuilder.CreateIndex(
-                name: "IX_PermissionId",
-                table: "RolePermission",
-                column: "PermissionId");
-            migrationBuilder.CreateIndex(
-                name: "IX_RoleId",
+                name: "IX_RolePermission_RoleId",
                 table: "RolePermission",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RolePermission_PermissionId",
+                table: "RolePermission",
+                column: "PermissionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable("Account");
-            migrationBuilder.DropTable("RolePermission");
-            migrationBuilder.DropTable("Permission");
-            migrationBuilder.DropTable("Role");
+            migrationBuilder.DropTable(
+                name: "Account");
+
+            migrationBuilder.DropTable(
+                name: "RolePermission");
+
+            migrationBuilder.DropTable(
+                name: "Permission");
+
+            migrationBuilder.DropTable(
+                name: "Role");
         }
     }
 }

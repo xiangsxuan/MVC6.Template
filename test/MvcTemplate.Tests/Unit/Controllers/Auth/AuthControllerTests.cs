@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.ViewFeatures;
-using Microsoft.AspNet.Routing;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Mail;
 using MvcTemplate.Controllers;
@@ -33,9 +33,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service = Substitute.For<IAccountService>();
             validator = Substitute.For<IAccountValidator>();
             controller = Substitute.ForPartsOf<AuthController>(validator, service, mailClient);
-            controller.ActionContext.HttpContext = Substitute.For<HttpContext>();
+            controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
             controller.TempData = Substitute.For<ITempDataDictionary>();
-            controller.ActionContext.RouteData = new RouteData();
+            controller.ControllerContext.RouteData = new RouteData();
             controller.Url = Substitute.For<IUrlHelper>();
 
             accountRegister = ObjectFactory.CreateAccountRegisterView();

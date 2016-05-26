@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.AspNet.Routing;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.WebEncoders;
 using MvcTemplate.Components.Extensions;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Resources;
@@ -14,6 +14,7 @@ using NSubstitute;
 using System;
 using System.IO;
 using System.Linq.Expressions;
+using System.Text.Encodings.Web;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Extensions
@@ -36,7 +37,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         [Fact]
         public void AddActionLink_Unauthorized_Empty()
         {
-            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IUrlHelper>().Returns(Substitute.For<IUrlHelper>());
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IUrlHelperFactory>().Returns(new UrlHelperFactory());
 
             IGridColumn<AllTypesView> actual = columns.AddActionLink("Edit", "fa fa-pencil");
 
@@ -51,10 +52,12 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             StringWriter writer = new StringWriter();
             IUrlHelper urlHelper = Substitute.For<IUrlHelper>();
             urlHelper.Action("Details", Arg.Any<Object>()).Returns("Test");
-            IAuthorizationProvider authorizationProvider = columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
+            IUrlHelperFactory urlHelperFactory = Substitute.For<IUrlHelperFactory>();
+            IAuthorizationProvider authorizationProvider = columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
             authorizationProvider.IsAuthorizedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
             columns.Grid.ViewContext = new ViewContext { RouteData = new RouteData(), HttpContext = Substitute.For<HttpContext>() };
-            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IUrlHelper>().Returns(urlHelper);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IUrlHelperFactory>().Returns(urlHelperFactory);
+            urlHelperFactory.GetUrlHelper(columns.Grid.ViewContext).Returns(urlHelper);
 
             IGridColumn<AllTypesView> column = columns.AddActionLink("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
@@ -75,9 +78,11 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             StringWriter writer = new StringWriter();
             IUrlHelper urlHelper = Substitute.For<IUrlHelper>();
             urlHelper.Action("Details", Arg.Any<Object>()).Returns("Test");
-            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>().Returns(null as IAuthorizationProvider);
+            IUrlHelperFactory urlHelperFactory = Substitute.For<IUrlHelperFactory>();
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(null as IAuthorizationProvider);
             columns.Grid.ViewContext = new ViewContext { RouteData = new RouteData(), HttpContext = Substitute.For<HttpContext>() };
-            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IUrlHelper>().Returns(urlHelper);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IUrlHelperFactory>().Returns(urlHelperFactory);
+            urlHelperFactory.GetUrlHelper(columns.Grid.ViewContext).Returns(urlHelper);
 
             IGridColumn<AllTypesView> column = columns.AddActionLink("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
@@ -97,7 +102,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             IGrid<Object> grid = new Grid<Object>(new Object[0]);
             IGridColumnsOf<Object> columns = new GridColumns<Object>(grid);
             columns.Grid.ViewContext = new ViewContext { HttpContext = Substitute.For<HttpContext>() };
-            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IUrlHelper>().Returns(Substitute.For<IUrlHelper>());
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IUrlHelperFactory>().Returns(new UrlHelperFactory());
 
             IGridColumn<Object> column = columns.AddActionLink("Delete", "fa fa-times");
 
@@ -110,7 +115,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         [Fact]
         public void AddActionLink_Column()
         {
-            columns.Grid.ViewContext.HttpContext.ApplicationServices.GetService<IAuthorizationProvider>().Returns(null as IAuthorizationProvider);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(null as IAuthorizationProvider);
 
             IGridColumn<AllTypesView> actual = columns.AddActionLink("Edit", "fa fa-pencil");
 
@@ -133,8 +138,8 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
+            Assert.Empty(actual.Title.ToString());
             Assert.Equal("{0:d}", actual.Format);
-            Assert.Equal(title, actual.Title);
             Assert.Single(columns);
         }
 
@@ -152,8 +157,8 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
+            Assert.Empty(actual.Title.ToString());
             Assert.Equal("{0:d}", actual.Format);
-            Assert.Equal(title, actual.Title);
             Assert.Single(columns);
         }
 
@@ -164,14 +169,13 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         [Fact]
         public void AddBooleanProperty_Column()
         {
-            String title = ResourceProvider.GetPropertyTitle<AllTypesView, Boolean>(model => model.BooleanField);
             Expression<Func<AllTypesView, Boolean>> expression = (model) => model.BooleanField;
 
             IGridColumn<AllTypesView> actual = columns.AddBooleanProperty(expression);
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
-            Assert.Equal(title, actual.Title);
+            Assert.Empty(actual.Title.ToString());
             Assert.Single(columns);
         }
 
@@ -213,7 +217,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
-            Assert.Equal(title, actual.Title);
+            Assert.Empty(actual.Title.ToString());
             Assert.Single(columns);
         }
 
@@ -266,8 +270,8 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
+            Assert.Empty(actual.Title.ToString());
             Assert.Equal("{0:g}", actual.Format);
-            Assert.Equal(title, actual.Title);
             Assert.Single(columns);
         }
 
@@ -285,8 +289,8 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
+            Assert.Empty(actual.Title.ToString());
             Assert.Equal("{0:g}", actual.Format);
-            Assert.Equal(title, actual.Title);
             Assert.Single(columns);
         }
 
@@ -304,7 +308,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
             Assert.Equal("text-left", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
-            Assert.Equal(title, actual.Title);
+            Assert.Empty(actual.Title.ToString());
             Assert.Single(columns);
         }
 

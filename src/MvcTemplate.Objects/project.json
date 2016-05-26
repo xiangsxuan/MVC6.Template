@@ -1,19 +1,18 @@
 ﻿{
   "authors": [ "NonFactors" ],
-  "version": "0.1.0",
+  "version": "0.9.0",
 
   "dependencies": {
-    "MvcTemplate.Components": "",
+    "MvcTemplate.Components": "0.9.0",
 
-    "System.Linq.Dynamic": "1.0.6",
-    "NonFactors.Lookup.Core.Mvc6": "0.9.1-rc1-final"
+    "NonFactors.Lookup.Core.Mvc6": "0.9.6-rc2-final"
   },
 
-  "compilationOptions": {
+  "buildOptions": {
     "warningsAsErrors": true
   },
 
   "frameworks": {
-    "dnx451": { }
+    "net46": { }
   }
 }

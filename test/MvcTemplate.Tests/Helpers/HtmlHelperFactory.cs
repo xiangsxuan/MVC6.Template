@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Mvc.ModelBinding;
-using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.AspNet.Routing;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
 using NSubstitute;
@@ -23,7 +23,7 @@ namespace MvcTemplate.Tests
             html.ViewContext.RouteData = new RouteData();
             html.ViewContext.HttpContext = Substitute.For<HttpContext>();
             html.MetadataProvider.Returns(new EmptyModelMetadataProvider());
-            html.ViewContext.HttpContext.ApplicationServices
+            html.ViewContext.HttpContext.RequestServices
                 .GetService<IAuthorizationProvider>()
                 .Returns(Substitute.For<IAuthorizationProvider>());
             html.ViewContext.ViewData.Model = model;

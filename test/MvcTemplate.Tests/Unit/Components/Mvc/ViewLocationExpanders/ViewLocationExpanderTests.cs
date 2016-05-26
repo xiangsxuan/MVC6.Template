@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNet.Http.Internal;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Abstractions;
-using Microsoft.AspNet.Mvc.Razor;
-using Microsoft.AspNet.Mvc.Routing;
-using Microsoft.AspNet.Routing;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
 using MvcTemplate.Components.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,12 +18,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void ExpandViewLocations_Area_ReturnsAreaLocations()
         {
-            RouteData routeData = new RouteData();
-            routeData.Values.Add("area", "Test");
-
-            ActionContext actionContext = new ActionContext(new DefaultHttpContext(), routeData, new ActionDescriptor());
-            ViewLocationExpanderContext context = new ViewLocationExpanderContext(actionContext, "Index", false);
+            ActionContext actionContext = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
+            ViewLocationExpanderContext context = new ViewLocationExpanderContext(actionContext, "Index", null, null, true);
             actionContext.ActionDescriptor.RouteConstraints = new List<RouteDataActionConstraint>();
+            actionContext.RouteData.Values.Add("area", "Test");
 
             IEnumerable<String> expected = new[] { "/Views/{2}/Shared/{0}.cshtml", "/Views/{2}/{1}/{0}.cshtml", "/Views/Shared/{0}.cshtml" };
             IEnumerable<String> actual = new ViewLocationExpander().ExpandViewLocations(context, null);
@@ -35,7 +33,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void ExpandViewLocations_ReturnsViewLocations()
         {
             ActionContext actionContext = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
-            ViewLocationExpanderContext context = new ViewLocationExpanderContext(actionContext, "Index", false);
+            ViewLocationExpanderContext context = new ViewLocationExpanderContext(actionContext, "Index", null, null, true);
             actionContext.ActionDescriptor.RouteConstraints = new List<RouteDataActionConstraint>();
 
             IEnumerable<String> expected = new[] { "/Views/{1}/{0}.cshtml", "/Views/Shared/{0}.cshtml" };

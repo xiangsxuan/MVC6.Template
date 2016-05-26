@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding;
-using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
-using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.AspNet.Mvc.ViewFeatures;
-using Microsoft.AspNet.Razor.TagHelpers;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using MvcTemplate.Components.Mvc;
 using NSubstitute;
 using System;
@@ -19,7 +19,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         public FormLabelTagHelperTests()
         {
-            output = new TagHelperOutput("label", new TagHelperAttributeList(), _ => null);
+            output = new TagHelperOutput("label", new TagHelperAttributeList(), (useCachedResult, encoder) => null);
             provider = new EmptyModelMetadataProvider();
             helper = new FormLabelTagHelper();
         }
@@ -33,7 +33,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             helper.For = new ModelExpression("Relation.Required", new ModelExplorer(provider, metadata, null));
             metadata.ValidatorMetadata.Returns(new[] { new RequiredAttribute() });
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
-            output.Attributes["for"] = "Test";
+            output.Attributes.SetAttribute("for", "Test");
 
             helper.Process(null, output);
 
@@ -49,7 +49,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(Int64), "RequiredValue", typeof(TagHelperModel)));
             helper.For = new ModelExpression("RequiredValue", new ModelExplorer(provider, metadata, null));
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
-            output.Attributes["for"] = "Test";
+            output.Attributes.SetAttribute("for", "Test");
 
             helper.Process(null, output);
 
@@ -65,7 +65,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "NotRequired", typeof(TagHelperModel)));
             helper.For = new ModelExpression("NotRequired", new ModelExplorer(provider, metadata, null));
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
-            output.Attributes["for"] = "Test";
+            output.Attributes.SetAttribute("for", "Test");
 
             helper.Process(null, output);
 
@@ -81,7 +81,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(Int64?), "NotRequiredNullableValue", typeof(TagHelperModel)));
             helper.For = new ModelExpression("NotRequiredNullableValue", new ModelExplorer(provider, metadata, null));
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
-            output.Attributes["for"] = "Test";
+            output.Attributes.SetAttribute("for", "Test");
 
             helper.Process(null, output);
 
@@ -97,7 +97,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "NotRequired", typeof(TagHelperModel)));
             helper.For = new ModelExpression("NotRequired", new ModelExplorer(provider, metadata, null));
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
-            output.Attributes["for"] = "Test";
+            output.Attributes.SetAttribute("for", "Test");
             helper.Required = true;
 
             helper.Process(null, output);
@@ -115,7 +115,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             helper.For = new ModelExpression("Required", new ModelExplorer(provider, metadata, null));
             metadata.ValidatorMetadata.Returns(new[] { new RequiredAttribute() });
             helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
-            output.Attributes["for"] = "Test";
+            output.Attributes.SetAttribute("for", "Test");
             helper.Required = false;
 
             helper.Process(null, output);

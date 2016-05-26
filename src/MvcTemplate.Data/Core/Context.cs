@@ -1,5 +1,5 @@
-﻿using Microsoft.Data.Entity;
-using Microsoft.Data.Entity.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 using MvcTemplate.Data.Mapping;
 using MvcTemplate.Objects;
@@ -11,10 +11,10 @@ namespace MvcTemplate.Data.Core
     {
         #region Administration
 
-        protected DbSet<Role> Roles { get; set; }
-        protected DbSet<Account> Accounts { get; set; }
-        protected DbSet<Permission> Permissions { get; set; }
-        protected DbSet<RolePermission> RolePermissions { get; set; }
+        protected DbSet<Role> Role { get; set; }
+        protected DbSet<Account> Account { get; set; }
+        protected DbSet<Permission> Permission { get; set; }
+        protected DbSet<RolePermission> RolePermission { get; set; }
 
         #endregion
 

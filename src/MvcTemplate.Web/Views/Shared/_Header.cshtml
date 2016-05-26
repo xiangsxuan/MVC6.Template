@@ -6,7 +6,7 @@
                 <span class="text">@Actions.Profile</span>
             </a>
         </li>
-        @{ IGlobalizationProvider globalizationProvider = Context.ApplicationServices.GetService<IGlobalizationProvider>(); }
+        @{ IGlobalizationProvider globalizationProvider = Context.RequestServices.GetService<IGlobalizationProvider>(); }
         @if (globalizationProvider.Languages.Length > 1)
         {
             String query = ViewContext.HttpContext.Request.Query.Count > 0 ? ViewContext.HttpContext.Request.QueryString.ToString() : "";

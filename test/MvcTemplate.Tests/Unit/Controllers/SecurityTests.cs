@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Controllers;
 using System.Collections.Generic;
 using System.Linq;

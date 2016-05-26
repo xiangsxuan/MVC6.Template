@@ -1,46 +1,51 @@
 {
   "authors": [ "NonFactors" ],
-  "webroot": "wwwroot",
-  "version": "0.1.0",
+  "version": "0.9.0",
 
   "dependencies": {
-    "MvcTemplate": "",
-    "MvcTemplate.Controllers": "",
+    "MvcTemplate.Controllers": "0.9.0",
 
-    "NonFactors.Grid.Mvc6": "0.9.0-rc1-final",
-    "NonFactors.Lookup.Mvc6": "0.9.1-rc1-final",
-    "Microsoft.AspNet.Session": "1.0.0-rc1-final",
-    "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
-    "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
-    "Microsoft.AspNet.Tooling.Razor": "1.0.0-rc1-final",
-    "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-rc1-final",
-    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
-    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
-    "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final"
+    "NonFactors.Grid.Mvc6": "0.9.5-rc2-final",
+    "NonFactors.Lookup.Mvc6": "0.9.6-rc2-final",
+    "Microsoft.AspNetCore.Session": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Diagnostics": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Mvc.TagHelpers": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Razor.Tools": "1.0.0-preview1-final",
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0-rc2-final",
+    "Microsoft.VisualStudio.Web.CodeGeneration.Utils": "1.0.0-preview1-final"
   },
 
-  "compilationOptions": {
-    "warningsAsErrors": true
+  "buildOptions": {
+    "emitEntryPoint": true,
+    "warningsAsErrors": true,
+    "preserveCompilationContext": true
   },
 
-  "commands": {
-    "web": "Microsoft.AspNet.Server.Kestrel"
+  "tools": {
+    "Microsoft.AspNetCore.Razor.Tools": {
+      "version": "1.0.0-preview1-final",
+      "imports": "portable-net45+win8+dnxcore50"
+    }
   },
 
   "frameworks": {
-    "dnx451": { }
+    "net46": { }
   },
 
-  "publishExclude": [
-    "bower_components",
-    "node_modules",
-    "**.xproj",
-    "**.user",
-    "**.vspscc"
-  ],
-  "exclude": [
-    "wwwroot",
-    "node_modules",
-    "bower_components"
-  ]
+  "publishOptions": {
+    "include": [
+      "Views",
+      "wwwroot",
+      "web.config",
+      "configuration.json",
+      "globalization.json"
+    ]
+  },
+
+  "scripts": {
+    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+  }
 }

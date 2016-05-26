@@ -1,18 +1,20 @@
 ﻿{
   "authors": [ "NonFactors" ],
-  "version": "0.1.0",
+  "version": "0.9.0",
 
   "dependencies": {
-    "MvcTemplate": "",
-    "MvcTemplate.Services": "",
-    "MvcTemplate.Validators": ""
+    "MvcTemplate": "0.9.0",
+    "MvcTemplate.Services": "0.9.0",
+    "MvcTemplate.Validators": "0.9.0",
+
+    "Microsoft.AspNetCore.Mvc.ViewFeatures": "1.0.0-rc2-final"
   },
 
-  "compilationOptions": {
+  "buildOptions": {
     "warningsAsErrors": true
   },
 
   "frameworks": {
-    "dnx451": { }
+    "net46": { }
   }
 }

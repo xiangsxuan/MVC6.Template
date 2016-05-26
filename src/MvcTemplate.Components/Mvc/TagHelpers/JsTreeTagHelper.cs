@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.AspNet.Mvc.ViewFeatures;
-using Microsoft.AspNet.Razor.TagHelpers;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using MvcTemplate.Components.Html;
 using System;
 using System.Collections.Generic;
@@ -28,10 +29,10 @@ namespace MvcTemplate.Components.Mvc
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             JsTree tree = ExpressionMetadataProvider.FromStringExpression(For.Name, ViewContext.ViewData, Html.MetadataProvider).Model as JsTree;
-            output.Attributes["class"] = (output.Attributes["class"]?.Value + " js-tree").Trim();
+            output.Attributes.SetAttribute("class", (output.Attributes["class"]?.Value + " js-tree").Trim());
 
-            output.Content.Append(HiddenIdsFor(tree));
-            output.Content.Append(JsTreeFor(tree));
+            output.Content.AppendHtml(HiddenIdsFor(tree));
+            output.Content.AppendHtml(JsTreeFor(tree));
         }
 
         private TagBuilder HiddenIdsFor(JsTree jsTree)
@@ -49,7 +50,7 @@ namespace MvcTemplate.Components.Mvc
                 input.MergeAttribute("type", "hidden");
                 input.MergeAttribute("name", name);
 
-                ids.InnerHtml.Append(input);
+                ids.InnerHtml.AppendHtml(input);
             }
 
             return ids;
@@ -78,10 +79,10 @@ namespace MvcTemplate.Components.Mvc
                 node.MergeAttribute("id", id);
 
                 AddNodes(node, treeNode.Nodes);
-                branch.InnerHtml.Append(node);
+                branch.InnerHtml.AppendHtml(node);
             }
 
-            root.InnerHtml.Append(branch);
+            root.InnerHtml.AppendHtml(branch);
         }
     }
 }

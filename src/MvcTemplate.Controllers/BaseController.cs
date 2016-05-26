@@ -1,7 +1,7 @@
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Filters;
-using Microsoft.AspNet.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Mvc;
@@ -66,10 +66,10 @@ namespace MvcTemplate.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            IGlobalizationProvider globalizationProvider = HttpContext.ApplicationServices.GetRequiredService<IGlobalizationProvider>();
+            IGlobalizationProvider globalizationProvider = HttpContext.RequestServices.GetRequiredService<IGlobalizationProvider>();
             globalizationProvider.CurrentLanguage = globalizationProvider[RouteData.Values["language"] as String];
 
-            AuthorizationProvider = HttpContext.ApplicationServices.GetService<IAuthorizationProvider>();
+            AuthorizationProvider = HttpContext.RequestServices.GetService<IAuthorizationProvider>();
 
             CurrentAccountId = User.Id() ?? 0;
         }

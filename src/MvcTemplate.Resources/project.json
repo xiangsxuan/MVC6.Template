@@ -1,12 +1,12 @@
 ﻿{
   "authors": [ "NonFactors" ],
-  "version": "0.1.0",
+  "version": "0.9.0",
 
-  "compilationOptions": {
+  "buildOptions": {
     "warningsAsErrors": true
   },
 
   "frameworks": {
-    "dnx451": { }
+    "net46": { }
   }
 }

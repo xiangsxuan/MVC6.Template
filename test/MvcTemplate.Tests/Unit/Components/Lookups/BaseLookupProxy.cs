@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Components.Lookups;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;

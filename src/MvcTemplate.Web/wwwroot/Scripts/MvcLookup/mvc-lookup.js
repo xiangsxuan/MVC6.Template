@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Lookup 0.9.1
+ * Mvc.Lookup 0.9.6
  * https://github.com/NonFactors/MVC6.Lookup
  *
  * Copyright © NonFactors
@@ -77,7 +77,8 @@
                     that._select(selection.item.item, false);
                     e.preventDefault();
                 },
-                minLength: 1
+                minLength: 1,
+                delay: 500
             });
 
             this.element.on('keyup.mvclookup', function (e) {
@@ -90,7 +91,6 @@
         _initLookupOpenSpan: function () {
             var lookupAddon = this.element.nextAll('.mvc-lookup-open-span:first');
             if (lookupAddon.length != 0) {
-                var lookup = $('#MvcLookup');
                 var that = this;
 
                 this._on(lookupAddon, {
@@ -234,22 +234,22 @@
             return value;
         },
         _cleanUp: function () {
-            this.element.removeAttr('data-lookup-records-per-page');
-            this.element.removeAttr('data-lookup-dialog-title');
-            this.element.removeAttr('data-lookup-sort-column');
-            this.element.removeAttr('data-lookup-sort-order');
-            this.element.removeAttr('data-lookup-filters');
-            this.element.removeAttr('data-lookup-term');
-            this.element.removeAttr('data-lookup-page');
-            this.element.removeAttr('data-lookup-url');
+            this.element.removeAttr('data-mvc-lookup-records-per-page');
+            this.element.removeAttr('data-mvc-lookup-dialog-title');
+            this.element.removeAttr('data-mvc-lookup-sort-column');
+            this.element.removeAttr('data-mvc-lookup-sort-order');
+            this.element.removeAttr('data-mvc-lookup-filters');
+            this.element.removeAttr('data-mvc-lookup-term');
+            this.element.removeAttr('data-mvc-lookup-page');
+            this.element.removeAttr('data-mvc-lookup-url');
         },
 
         _update: function (lookup) {
             var that = this;
             var term = lookup.find('.mvc-lookup-search-input').val();
+            lookup.find('.mvc-lookup-error-container').fadeOut(300);
 
             var timeout = setTimeout(function () {
-                lookup.find('.mvc-lookup-error-container').fadeOut(300);
                 lookup.find('.mvc-lookup-processing').fadeIn(300);
                 lookup.find('.mvc-lookup-pager').fadeOut(300);
                 lookup.find('.mvc-lookup-data').fadeOut(300);

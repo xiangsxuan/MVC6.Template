@@ -27,6 +27,7 @@
 .table > tfoot > tr > th {
   vertical-align: middle;
   white-space: nowrap;
+  text-align: center;
 }
 .table-hover > tbody > tr:hover > td {
   background: linear-gradient(#6f93a7, #2a4e62);

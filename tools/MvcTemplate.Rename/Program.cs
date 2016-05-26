@@ -13,12 +13,13 @@ namespace MvcTemplate.Rename
         private static String Project { get; set; }
         private static String Company { get; set; }
 
-        public static void Main(String[] args)
+        public static void Main()
         {
-            Console.Write("Enter root namespace name: ");
-            while ((Project = Console.ReadLine().Trim()) == "") { }
+            Console.WriteLine("Enter root namespace name: ");
+            while ((Project = Console.ReadLine().Trim()) == "")
+            { }
 
-            Console.Write("Enter company name: ");
+            Console.WriteLine("Enter company name: ");
             Company = Console.ReadLine().Trim();
 
             String[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.*", SearchOption.AllDirectories);
@@ -26,10 +27,12 @@ namespace MvcTemplate.Rename
             Regex version = new Regex("^  \"version\": \"\\d+\\.\\d\\.\\d+\"");
             Regex newLine = new Regex("(?<!\\r)\\n");
 
+            Console.WriteLine();
+
             for (Int32 i = 0; i < files.Length; i++)
             {
-                Console.CursorLeft = 0;
-                Console.Write(String.Format("Renaming content...     {0}%", ((Int32)(((i + 1) / files.Length) * 100)).ToString().PadLeft(3)));
+                Console.CursorTop -= 1;
+                Console.WriteLine(String.Format("Renaming content...     {0}%", ((Int32)(((i + 1) / files.Length) * 100)).ToString().PadLeft(3)));
 
                 String extension = Path.GetExtension(files[i]);
                 if (extension == ".cs" ||

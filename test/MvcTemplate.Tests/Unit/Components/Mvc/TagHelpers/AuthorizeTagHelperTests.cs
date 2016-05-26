@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Razor.TagHelpers;
+﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using NSubstitute;
@@ -15,8 +15,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         public AuthorizeTagHelperTests()
         {
+            output = new TagHelperOutput("authorize", new TagHelperAttributeList(), (useCachedResult, encoder) => null);
             helper = new AuthorizeTagHelper(authorizationProvider = Substitute.For<IAuthorizationProvider>());
-            output = new TagHelperOutput("authorize", new TagHelperAttributeList(), _ => null);
             helper.ViewContext = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
         }
 

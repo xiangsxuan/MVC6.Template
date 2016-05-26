@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Services;
 
@@ -31,13 +31,13 @@ namespace MvcTemplate.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ViewResult NotFound()
+        public new ViewResult NotFound()
         {
             return View();
         }
 
         [HttpGet]
-        public ActionResult Unauthorized()
+        public new ActionResult Unauthorized()
         {
             if (!Service.IsActive(CurrentAccountId))
                 return RedirectToAction("Logout", "Auth");

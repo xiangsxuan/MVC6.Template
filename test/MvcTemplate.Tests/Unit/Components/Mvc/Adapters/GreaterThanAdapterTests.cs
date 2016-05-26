@@ -1,34 +1,35 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding;
-using Microsoft.AspNet.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using MvcTemplate.Components.Mvc;
+using MvcTemplate.Resources.Form;
 using MvcTemplate.Tests.Objects;
-using NSubstitute;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class GreaterThanAdapterTests
     {
-        #region GetClientValidationRules(ClientModelValidationContext context)
+        #region AddValidation(ClientModelValidationContext context)
 
         [Fact]
-        public void GetClientValidationRules_ReturnsGreaterValidationRule()
+        public void AddValidation_GreaterThan()
         {
-            IServiceProvider services = Substitute.For<IServiceProvider>();
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
+            Dictionary<String, String> attributes = new Dictionary<String, String>();
             GreaterThanAdapter adapter = new GreaterThanAdapter(new GreaterThanAttribute(128));
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "GreaterThan");
 
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, services);
-            String expectedMessage = new GreaterThanAttribute(128).FormatErrorMessage("GreaterThan");
-            ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
+            ClientModelValidationContext context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
 
-            Assert.Equal(128M, actual.ValidationParameters["min"]);
-            Assert.Equal(expectedMessage, actual.ErrorMessage);
-            Assert.Equal("greater", actual.ValidationType);
-            Assert.Single(actual.ValidationParameters);
+            adapter.AddValidation(context);
+
+            Assert.Equal(String.Format(Validations.GreaterThan, "GreaterThan", 128), attributes["data-greater"]);
+            Assert.Equal("128", attributes["data-greater-min"]);
+            Assert.Equal("true", attributes["data-val"]);
+            Assert.Equal(3, attributes.Count);
         }
 
         #endregion

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Objects;

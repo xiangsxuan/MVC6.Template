@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
-using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -8,27 +7,30 @@ namespace MvcTemplate.Components.Mvc
 {
     public class TrimmingModelBinder : IModelBinder
     {
-        public Task<ModelBindingResult> BindModelAsync(ModelBindingContext bindingContext)
+        public Task BindModelAsync(ModelBindingContext bindingContext)
         {
-            if (bindingContext.ModelType != typeof(String))
-                return ModelBindingResult.NoResultAsync;
+            bindingContext.Result = BindModel(bindingContext);
 
-            ValueProviderResult result = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            return Task.CompletedTask;
+        }
+
+        private ModelBindingResult? BindModel(ModelBindingContext context)
+        {
+            ValueProviderResult result = context.ValueProvider.GetValue(context.ModelName);
             if (result == ValueProviderResult.None)
-                return ModelBindingResult.NoResultAsync;
+                return null;
 
-            Type containerType = bindingContext.ModelMetadata.ContainerType;
-            PropertyInfo property = containerType?.GetProperty(bindingContext.ModelMetadata.PropertyName);
+            String value = result.FirstValue;
+            context.ModelState.SetModelValue(context.ModelName, result);
+            PropertyInfo property = context.ModelMetadata.ContainerType?.GetProperty(context.ModelMetadata.PropertyName);
 
-            if (property?.IsDefined(typeof(NotTrimmedAttribute), false) == true)
-                return ModelBindingResult.NoResultAsync;
+            if (property?.IsDefined(typeof(NotTrimmedAttribute), false) != true)
+                value = value.Trim();
 
-            String value = result.FirstValue.Trim();
-            bindingContext.ModelState.SetModelValue(bindingContext.ModelName, result);
-            if (bindingContext.ModelMetadata.ConvertEmptyStringToNull && value.Length == 0)
-                return ModelBindingResult.SuccessAsync(bindingContext.ModelName, null);
+            if (context.ModelMetadata.ConvertEmptyStringToNull && value.Length == 0)
+                return ModelBindingResult.Success(context.ModelName, null);
 
-            return ModelBindingResult.SuccessAsync(bindingContext.ModelName, value);
+            return ModelBindingResult.Success(context.ModelName, value);
         }
     }
 }

@@ -1,53 +1,34 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding;
-using Microsoft.AspNet.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using MvcTemplate.Components.Mvc;
-using MvcTemplate.Resources;
+using MvcTemplate.Resources.Form;
 using MvcTemplate.Tests.Objects;
-using NSubstitute;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class EqualToAdapterTests
     {
-        #region GetClientValidationRules(ClientModelValidationContext context)
+        #region AddValidation(ClientModelValidationContext context)
 
         [Fact]
-        public void GetClientValidationRules_SetsOtherPropertyDisplayName()
+        public void AddValidation_EqualTo()
         {
-            IServiceProvider services = Substitute.For<IServiceProvider>();
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EqualTo");
-            EqualToAttribute attribute = new EqualToAttribute("EqualTo");
-            attribute.OtherPropertyDisplayName = null;
-
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, services);
-            new EqualToAdapter(attribute).GetClientValidationRules(context);
-
-            String expected = ResourceProvider.GetPropertyTitle(typeof(AdaptersModel), "EqualTo");
-            String actual = attribute.OtherPropertyDisplayName;
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void GetClientValidationRules_ReturnsEqualToValidationRule()
-        {
-            IServiceProvider services = Substitute.For<IServiceProvider>();
-            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EqualTo");
+            Dictionary<String, String> attributes = new Dictionary<String, String>();
             EqualToAdapter adapter = new EqualToAdapter(new EqualToAttribute("StringLength"));
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EqualTo");
+            ClientModelValidationContext context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
 
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, services);
-            String expectedMessage = new EqualToAttribute("StringLength").FormatErrorMessage("EqualTo");
-            ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
+            adapter.AddValidation(context);
 
-            Assert.Equal("*.StringLength", actual.ValidationParameters["other"]);
-            Assert.Equal(expectedMessage, actual.ErrorMessage);
-            Assert.Equal("equalto", actual.ValidationType);
-            Assert.Single(actual.ValidationParameters);
+            Assert.Equal(String.Format(Validations.EqualTo, "EqualTo", ""), attributes["data-equalto"]);
+            Assert.Equal("*.StringLength", attributes["data-equalto-other"]);
+            Assert.Equal("true", attributes["data-val"]);
+            Assert.Equal(3, attributes.Count);
         }
 
         #endregion

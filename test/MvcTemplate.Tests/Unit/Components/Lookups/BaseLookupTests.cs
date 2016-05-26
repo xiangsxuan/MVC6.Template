@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Routing;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
@@ -39,12 +39,12 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         }
 
         [Fact]
-        public void BaseLookup_SetsLookupUrl()
+        public void BaseLookup_SetsUrl()
         {
             urlHelper.Action(Arg.Is<UrlActionContext>(context => context.Action == typeof(Role).Name && context.Controller == "Lookup")).Returns("Test");
             lookup = new BaseLookupProxy<Role, RoleView>(urlHelper);
 
-            String actual = lookup.LookupUrl;
+            String actual = lookup.Url;
             String expected = "Test";
 
             Assert.Equal(expected, actual);

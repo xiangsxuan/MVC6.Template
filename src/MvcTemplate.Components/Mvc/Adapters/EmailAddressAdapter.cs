@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using MvcTemplate.Resources.Form;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MvcTemplate.Components.Mvc
 {
-    public class EmailAddressAdapter : DataAnnotationsClientModelValidator<EmailAddressAttribute>
+    public class EmailAddressAdapter : ValidationAttributeAdapter<EmailAddressAttribute>
     {
         public EmailAddressAdapter(EmailAddressAttribute attribute)
             : base(attribute, null)
@@ -13,9 +13,10 @@ namespace MvcTemplate.Components.Mvc
             Attribute.ErrorMessage = Validations.Email;
         }
 
-        public override IEnumerable<ModelClientValidationRule> GetClientValidationRules(ClientModelValidationContext context)
+        public override void AddValidation(ClientModelValidationContext context)
         {
-            return new[] { new ModelClientValidationRule("email", GetErrorMessage(context.ModelMetadata)) };
+            MergeAttribute(context.Attributes, "data-val", "true");
+            MergeAttribute(context.Attributes, "data-email", GetErrorMessage(context.ModelMetadata));
         }
     }
 }

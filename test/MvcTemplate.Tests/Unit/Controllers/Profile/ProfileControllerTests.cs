@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.ViewFeatures;
-using Microsoft.AspNet.Routing;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Controllers;
 using MvcTemplate.Objects;
@@ -31,7 +31,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             profileEdit = ObjectFactory.CreateProfileEditView();
 
             controller = Substitute.ForPartsOf<ProfileController>(validator, service);
-            controller.ActionContext.RouteData = new RouteData();
+            controller.ControllerContext.RouteData = new RouteData();
             ReturnCurrentAccountId(controller, 1);
         }
 

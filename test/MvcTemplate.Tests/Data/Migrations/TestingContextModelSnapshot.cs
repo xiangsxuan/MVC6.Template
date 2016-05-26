@@ -1,8 +1,8 @@
-using System;
-using Microsoft.Data.Entity;
-using Microsoft.Data.Entity.Infrastructure;
-using Microsoft.Data.Entity.Metadata;
-using Microsoft.Data.Entity.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using MvcTemplate.Tests.Data;
 
 namespace MvcTemplate.Tests.Data.Migrations
@@ -13,7 +13,7 @@ namespace MvcTemplate.Tests.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
+                .HasAnnotation("ProductVersion", "1.0.0-rc2-20901")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("MvcTemplate.Objects.Account", b =>
@@ -45,6 +45,14 @@ namespace MvcTemplate.Tests.Data.Migrations
                         .HasAnnotation("MaxLength", 32);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Username");
+
+                    b.HasIndex("Email");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Account");
                 });
 
             modelBuilder.Entity("MvcTemplate.Objects.Permission", b =>
@@ -65,6 +73,8 @@ namespace MvcTemplate.Tests.Data.Migrations
                     b.Property<DateTime>("CreationDate");
 
                     b.HasKey("Id");
+
+                    b.ToTable("Permission");
                 });
 
             modelBuilder.Entity("MvcTemplate.Objects.Role", b =>
@@ -79,6 +89,8 @@ namespace MvcTemplate.Tests.Data.Migrations
                         .HasAnnotation("MaxLength", 128);
 
                     b.HasKey("Id");
+
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("MvcTemplate.Objects.RolePermission", b =>
@@ -93,6 +105,12 @@ namespace MvcTemplate.Tests.Data.Migrations
                     b.Property<int>("RoleId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RolePermission");
                 });
 
             modelBuilder.Entity("MvcTemplate.Objects.Account", b =>

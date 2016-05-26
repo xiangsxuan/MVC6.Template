@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding;
-using Microsoft.AspNet.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Resources.Form;
 using MvcTemplate.Tests.Objects;
-using NSubstitute;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Mvc
@@ -35,22 +35,21 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region GetClientValidationRules(ClientModelValidationContext context)
+        #region AddValidation(ClientModelValidationContext context)
 
         [Fact]
-        public void GetClientValidationRules_ReturnsEmailValidationRule()
+        public void AddValidation_Email()
         {
-            IServiceProvider services = Substitute.For<IServiceProvider>();
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
+            Dictionary<String, String> attributes = new Dictionary<String, String>();
             ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EmailAddress");
+            ClientModelValidationContext context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
 
-            ClientModelValidationContext context = new ClientModelValidationContext(metadata, provider, services);
-            ModelClientValidationRule actual = adapter.GetClientValidationRules(context).Single();
-            String expectedMessage = attribute.FormatErrorMessage(metadata.GetDisplayName());
+            adapter.AddValidation(context);
 
-            Assert.Equal(expectedMessage, actual.ErrorMessage);
-            Assert.Equal("email", actual.ValidationType);
-            Assert.Empty(actual.ValidationParameters);
+            Assert.Equal(String.Format(Validations.Email, "EmailAddress"), attributes["data-email"]);
+            Assert.Equal("true", attributes["data-val"]);
+            Assert.Equal(2, attributes.Count);
         }
 
         #endregion

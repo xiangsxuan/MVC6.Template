@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Grid 0.6.0
+ * Mvc.Grid 0.9.0
  * https://github.com/NonFactors/MVC6.Grid
  *
  * Copyright © NonFactors
@@ -8,31 +8,31 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 
-.mvc-grid-table .mvc-grid-header {
+.mvc-grid th {
     background-clip: padding-box;
     position: relative;
 }
 
-    .mvc-grid-table .mvc-grid-header.sortable,
-    .mvc-grid-table .mvc-grid-header .mvc-grid-filter {
-        cursor: pointer;
-    }
-
-.mvc-grid-sort {
-    display: inline-block;
-    min-width: 7px;
+.mvc-grid .filterable {
+    padding-right: 30px;
 }
 
-    .mvc-grid-sort.asc:after {
-        content: "\2193";
-    }
+.mvc-grid .sortable,
+.mvc-grid .mvc-grid-filter {
+    cursor: pointer;
+}
 
-    .mvc-grid-sort.desc:after {
-        content: "\2191";
-    }
+.mvc-grid .asc:after,
+.mvc-grid .desc:after {
+    padding-left: 3px;
+}
 
-.mvc-grid-header.filterable {
-    padding-right: 30px;
+.mvc-grid .asc:after {
+    content: '\2193';
+}
+
+.mvc-grid .desc:after {
+    content: '\2191';
 }
 
 .mvc-grid-filter {
@@ -147,7 +147,7 @@
         padding: 5px 8px;
     }
 
-.mvc-grid-table-empty {
+.mvc-grid-empty {
     text-align: center;
 }
 

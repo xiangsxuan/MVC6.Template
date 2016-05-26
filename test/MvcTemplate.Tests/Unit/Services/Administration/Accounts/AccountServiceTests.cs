@@ -1,7 +1,7 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Microsoft.AspNet.Http.Authentication;
-using Microsoft.Data.Entity;
+using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.EntityFrameworkCore;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;

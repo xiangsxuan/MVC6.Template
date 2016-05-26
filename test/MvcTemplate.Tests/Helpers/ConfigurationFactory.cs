@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace MvcTemplate.Tests
 {
@@ -8,7 +9,10 @@ namespace MvcTemplate.Tests
 
         static ConfigurationFactory()
         {
-            Config = new ConfigurationBuilder().AddJsonFile("configuration.json").Build();
+            Config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("configuration.json")
+                .Build();
         }
         public static IConfiguration Create()
         {
