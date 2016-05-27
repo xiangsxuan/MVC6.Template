@@ -167,6 +167,7 @@
                 data.instance.select_node(selectedNodes[j].value, false, true);
             }
 
+            data.instance.open_node($.makeArray(jsTree.find('> ul > li')), null, null);
             data.instance.element.show();
         });
     }
