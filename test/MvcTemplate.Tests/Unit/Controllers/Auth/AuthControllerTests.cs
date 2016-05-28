@@ -88,7 +88,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanRegister(accountRegister).Returns(false);
 
-            Object actual = (controller.Register(accountRegister) as ViewResult).ViewData.Model;
+            Object actual = (controller.Register(accountRegister) as ViewResult).Model;
             Object expected = accountRegister;
 
             Assert.Same(expected, actual);
@@ -179,7 +179,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanRecover(accountRecovery).Returns(false);
 
-            Object actual = (controller.Recover(accountRecovery).Result as ViewResult).ViewData.Model;
+            Object actual = (controller.Recover(accountRecovery).Result as ViewResult).Model;
             Object expected = accountRecovery;
 
             Assert.Same(expected, actual);
@@ -406,7 +406,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             validator.CanLogin(accountLogin).Returns(false);
 
-            Object actual = (controller.Login(accountLogin, null) as ViewResult).ViewData.Model;
+            Object actual = (controller.Login(accountLogin, null) as ViewResult).Model;
             Object expected = accountLogin;
 
             Assert.Same(expected, actual);

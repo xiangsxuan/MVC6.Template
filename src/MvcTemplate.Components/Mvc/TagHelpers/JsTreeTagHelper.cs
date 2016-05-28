@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using MvcTemplate.Components.Html;
 using System;
@@ -14,75 +12,62 @@ namespace MvcTemplate.Components.Mvc
         [HtmlAttributeName("jstree-for")]
         public ModelExpression For { get; set; }
 
-        [HtmlAttributeNotBound]
-        public IHtmlHelper Html { get; set; }
-
-        [ViewContext]
-        [HtmlAttributeNotBound]
-        public ViewContext ViewContext { get; set; }
-
-        public JsTreeTagHelper(IHtmlHelper html)
-        {
-            Html = html;
-        }
-
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            JsTree tree = ExpressionMetadataProvider.FromStringExpression(For.Name, ViewContext.ViewData, Html.MetadataProvider).Model as JsTree;
-            output.Attributes.SetAttribute("class", (output.Attributes["class"]?.Value + " js-tree").Trim());
+            JsTree tree = For.Metadata.PropertyGetter(For.Model) as JsTree;
 
+            output.Attributes.SetAttribute("class", (output.Attributes["class"]?.Value + " js-tree").Trim());
             output.Content.AppendHtml(HiddenIdsFor(tree));
             output.Content.AppendHtml(JsTreeFor(tree));
         }
 
-        private TagBuilder HiddenIdsFor(JsTree jsTree)
+        private void Add(TagBuilder root, IList<JsTreeNode> nodes)
+        {
+            TagBuilder branch = new TagBuilder("ul");
+            foreach (JsTreeNode jsNode in nodes)
+            {
+                TagBuilder node = new TagBuilder("li");
+                node.InnerHtml.Append(jsNode.Title);
+                String id = jsNode.Id.ToString();
+                node.Attributes["id"] = id;
+
+                Add(node, jsNode.Nodes);
+                branch.InnerHtml.AppendHtml(node);
+            }
+
+            if (nodes.Count > 0)
+                root.InnerHtml.AppendHtml(branch);
+        }
+        private TagBuilder HiddenIdsFor(JsTree model)
         {
             String name = For.Name + ".SelectedIds";
             TagBuilder ids = new TagBuilder("div");
             ids.AddCssClass("js-tree-view-ids");
 
-            foreach (Int32 id in jsTree.SelectedIds)
+            foreach (Int32 id in model.SelectedIds)
             {
                 TagBuilder input = new TagBuilder("input");
 
                 input.TagRenderMode = TagRenderMode.SelfClosing;
-                input.MergeAttribute("value", id.ToString());
-                input.MergeAttribute("type", "hidden");
-                input.MergeAttribute("name", name);
+                input.Attributes["value"] = id.ToString();
+                input.Attributes["type"] = "hidden";
+                input.Attributes["name"] = name;
 
                 ids.InnerHtml.AppendHtml(input);
             }
 
             return ids;
         }
-        private TagBuilder JsTreeFor(JsTree jsTree)
+        private TagBuilder JsTreeFor(JsTree model)
         {
             String name = For.Name + ".SelectedIds";
             TagBuilder tree = new TagBuilder("div");
-            tree.MergeAttribute("for", name);
             tree.AddCssClass("js-tree-view");
-            AddNodes(tree, jsTree.Nodes);
+            tree.Attributes["for"] = name;
+
+            Add(tree, model.Nodes);
 
             return tree;
-        }
-        private void AddNodes(TagBuilder root, IList<JsTreeNode> nodes)
-        {
-            if (nodes.Count == 0) return;
-
-            TagBuilder branch = new TagBuilder("ul");
-
-            foreach (JsTreeNode treeNode in nodes)
-            {
-                TagBuilder node = new TagBuilder("li");
-                node.InnerHtml.Append(treeNode.Title);
-                String id = treeNode.Id.ToString();
-                node.MergeAttribute("id", id);
-
-                AddNodes(node, treeNode.Nodes);
-                branch.InnerHtml.AppendHtml(node);
-            }
-
-            root.InnerHtml.AppendHtml(branch);
         }
     }
 }

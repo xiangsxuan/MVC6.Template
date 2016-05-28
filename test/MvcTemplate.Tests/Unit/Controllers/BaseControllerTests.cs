@@ -60,7 +60,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         public void NotEmptyView_ReturnsModelView()
         {
             Object expected = new Object();
-            Object actual = (controller.NotEmptyView(expected) as ViewResult).ViewData.Model;
+            Object actual = (controller.NotEmptyView(expected) as ViewResult).Model;
 
             Assert.Same(expected, actual);
         }

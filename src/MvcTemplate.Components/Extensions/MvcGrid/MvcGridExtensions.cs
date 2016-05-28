@@ -91,16 +91,16 @@ namespace MvcTemplate.Components.Extensions
         private static IHtmlContent GetLink<T>(IGrid grid, T model, String action, String iconClass)
         {
             IUrlHelper url = grid.ViewContext.HttpContext.RequestServices.GetRequiredService<IUrlHelperFactory>().GetUrlHelper(grid.ViewContext);
-            TagBuilder actionTag = new TagBuilder("a");
+            TagBuilder anchor = new TagBuilder("a");
             TagBuilder icon = new TagBuilder("i");
 
-            actionTag.MergeAttribute("href", url.Action(action, GetRouteValuesFor(model)));
-            actionTag.AddCssClass(action.ToLower() + "-action");
+            anchor.Attributes["href"] = url.Action(action, GetRouteValuesFor(model));
+            anchor.AddCssClass(action.ToLower() + "-action");
             icon.AddCssClass(iconClass);
 
-            actionTag.InnerHtml.AppendHtml(icon);
+            anchor.InnerHtml.AppendHtml(icon);
 
-            return actionTag;
+            return anchor;
         }
         private static Boolean IsAuthorizedToView(IGrid grid, String action)
         {

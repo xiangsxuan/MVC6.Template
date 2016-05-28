@@ -1,5 +1,4 @@
 ﻿using MvcTemplate.Components.Mvc;
-using MvcTemplate.Resources;
 using MvcTemplate.Resources.Form;
 using MvcTemplate.Tests.Objects;
 using System;
@@ -54,20 +53,6 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             ValidationContext context = new ValidationContext(model);
 
             Assert.Null(attribute.GetValidationResult(model.Sum, context));
-        }
-
-        [Fact]
-        public void IsValid_SetsOtherPropertyDisplayName()
-        {
-            AttributesModel model = new AttributesModel { Total = 10 };
-            ValidationContext context = new ValidationContext(model);
-
-            attribute.GetValidationResult(model.Sum, context);
-
-            String expected = ResourceProvider.GetPropertyTitle(context.ObjectType, attribute.OtherPropertyName);
-            String actual = attribute.OtherPropertyDisplayName;
-
-            Assert.Equal(expected, actual);
         }
 
         [Fact]

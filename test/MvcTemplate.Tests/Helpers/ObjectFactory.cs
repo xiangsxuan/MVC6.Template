@@ -158,6 +158,7 @@ namespace MvcTemplate.Tests
         {
             return new RolePermission
             {
+                RoleId = id,
                 Role = CreateRole(id),
 
                 PermissionId = id,

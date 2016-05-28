@@ -36,7 +36,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             service.GetViews().Returns(new RoleView[0].AsQueryable());
 
-            Object actual = controller.Index().ViewData.Model;
+            Object actual = controller.Index().Model;
             Object expected = service.GetViews();
 
             Assert.Same(expected, actual);
@@ -49,7 +49,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         [Fact]
         public void Create_ReturnsNewRoleView()
         {
-            RoleView actual = controller.Create().ViewData.Model as RoleView;
+            RoleView actual = controller.Create().Model as RoleView;
 
             Assert.NotNull(actual.Permissions);
             Assert.Null(actual.Title);
@@ -58,7 +58,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         [Fact]
         public void Create_SeedsPermissions()
         {
-            RoleView view = controller.Create().ViewData.Model as RoleView;
+            RoleView view = controller.Create().Model as RoleView;
 
             service.Received().SeedPermissions(view);
         }
@@ -82,7 +82,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             validator.CanCreate(role).Returns(false);
 
-            Object actual = (controller.Create(role) as ViewResult).ViewData.Model;
+            Object actual = (controller.Create(role) as ViewResult).Model;
             Object expected = role;
 
             Assert.Same(expected, actual);
@@ -158,7 +158,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             validator.CanEdit(role).Returns(false);
 
-            Object actual = (controller.Edit(role) as ViewResult).ViewData.Model;
+            Object actual = (controller.Edit(role) as ViewResult).Model;
             Object expected = role;
 
             Assert.Same(expected, actual);

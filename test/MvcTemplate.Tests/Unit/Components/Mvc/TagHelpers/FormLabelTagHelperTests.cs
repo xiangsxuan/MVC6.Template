@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.Extensions.Options;
 using MvcTemplate.Components.Mvc;
 using NSubstitute;
 using System;
@@ -19,9 +20,12 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         public FormLabelTagHelperTests()
         {
-            output = new TagHelperOutput("label", new TagHelperAttributeList(), (useCachedResult, encoder) => null);
+            IOptions<HtmlHelperOptions> options = Substitute.For<IOptions<HtmlHelperOptions>>();
+            options.Value.Returns(new HtmlHelperOptions { IdAttributeDotReplacement = "___" });
             provider = new EmptyModelMetadataProvider();
-            helper = new FormLabelTagHelper();
+            helper = new FormLabelTagHelper(options);
+
+            output = new TagHelperOutput("label", new TagHelperAttributeList(), (useCachedResult, encoder) => null);
         }
 
         #region Process(TagHelperContext context, TagHelperOutput output)
@@ -40,7 +44,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             TagHelperOutput actual = output;
 
             Assert.Equal("Title<span class=\"require\">*</span>", actual.Content.GetContent());
-            Assert.Equal("Relation_Required", actual.Attributes["for"].Value);
+            Assert.Equal("Relation___Required", actual.Attributes["for"].Value);
         }
 
         [Fact]

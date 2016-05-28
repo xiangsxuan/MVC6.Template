@@ -41,7 +41,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             service.GetViews().Returns(new AccountView[0].AsQueryable());
 
-            Object actual = controller.Index().ViewData.Model;
+            Object actual = controller.Index().Model;
             Object expected = service.GetViews();
 
             Assert.Same(expected, actual);
@@ -68,7 +68,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             validator.CanCreate(accountCreate).Returns(false);
 
-            Object actual = (controller.Create(accountCreate) as ViewResult).ViewData.Model;
+            Object actual = (controller.Create(accountCreate) as ViewResult).Model;
             Object expected = accountCreate;
 
             Assert.Same(expected, actual);
@@ -134,7 +134,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             validator.CanEdit(accountEdit).Returns(false);
 
-            Object actual = (controller.Edit(accountEdit) as ViewResult).ViewData.Model;
+            Object actual = (controller.Edit(accountEdit) as ViewResult).Model;
             Object expected = accountEdit;
 
             Assert.Same(expected, actual);

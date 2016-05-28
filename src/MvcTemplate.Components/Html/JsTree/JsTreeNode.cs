@@ -7,7 +7,6 @@ namespace MvcTemplate.Components.Html
     {
         public Int32? Id { get; set; }
         public String Title { get; set; }
-
         public IList<JsTreeNode> Nodes { get; set; }
 
         public JsTreeNode(Int32? id, String title)

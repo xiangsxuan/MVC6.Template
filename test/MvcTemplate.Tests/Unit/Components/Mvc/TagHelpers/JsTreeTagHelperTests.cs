@@ -27,10 +27,9 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             EmptyModelMetadataProvider provider = new EmptyModelMetadataProvider();
             ModelExplorer explorer = new ModelExplorer(provider, provider.GetMetadataForProperty(tree.GetType(), "JsTree"), tree);
 
-            output = new TagHelperOutput("div", new TagHelperAttributeList(), (useCachedResult, encoder) => null);
-            helper = new JsTreeTagHelper(HtmlHelperFactory.CreateHtmlHelper(tree));
+            helper = new JsTreeTagHelper();
             helper.For = new ModelExpression("JsTree", explorer);
-            helper.ViewContext = helper.Html.ViewContext;
+            output = new TagHelperOutput("div", new TagHelperAttributeList(), (useCachedResult, encoder) => null);
         }
 
         #region Process(TagHelperContext context, TagHelperOutput output)
