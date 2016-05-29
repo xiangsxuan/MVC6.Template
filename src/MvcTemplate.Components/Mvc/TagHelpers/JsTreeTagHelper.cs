@@ -14,7 +14,7 @@ namespace MvcTemplate.Components.Mvc
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            JsTree tree = For.Metadata.PropertyGetter(For.Model) as JsTree;
+            JsTree tree = For.Model as JsTree;
 
             output.Attributes.SetAttribute("class", (output.Attributes["class"]?.Value + " js-tree").Trim());
             output.Content.AppendHtml(HiddenIdsFor(tree));

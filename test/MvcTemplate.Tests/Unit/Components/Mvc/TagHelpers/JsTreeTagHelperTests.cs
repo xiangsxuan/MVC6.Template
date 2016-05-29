@@ -17,15 +17,15 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         public JsTreeTagHelperTests()
         {
-            JsTreeView tree = new JsTreeView();
-            tree.JsTree.SelectedIds.Add(4567);
-            tree.JsTree.SelectedIds.Add(12345);
-            tree.JsTree.Nodes.Add(new JsTreeNode("Test"));
-            tree.JsTree.Nodes[0].Nodes.Add(new JsTreeNode(12345, "Test1"));
-            tree.JsTree.Nodes[0].Nodes.Add(new JsTreeNode(23456, "Test2"));
+            JsTree tree = new JsTree();
+            tree.SelectedIds.Add(4567);
+            tree.SelectedIds.Add(12345);
+            tree.Nodes.Add(new JsTreeNode("Test"));
+            tree.Nodes[0].Nodes.Add(new JsTreeNode(12345, "Test1"));
+            tree.Nodes[0].Nodes.Add(new JsTreeNode(23456, "Test2"));
 
             EmptyModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            ModelExplorer explorer = new ModelExplorer(provider, provider.GetMetadataForProperty(tree.GetType(), "JsTree"), tree);
+            ModelExplorer explorer = new ModelExplorer(provider, provider.GetMetadataForProperty(typeof(JsTreeView), "JsTree"), tree);
 
             helper = new JsTreeTagHelper();
             helper.For = new ModelExpression("JsTree", explorer);
