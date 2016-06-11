@@ -383,8 +383,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security
                 rolePermission.Permission.Action = action;
                 rolePermission.Permission.Area = area;
 
-                context.Add(rolePermission.Permission);
-                context.Add(account.Role);
                 context.Add(account);
                 context.SaveChanges();
 

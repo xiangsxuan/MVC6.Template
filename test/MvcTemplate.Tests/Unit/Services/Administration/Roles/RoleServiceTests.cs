@@ -321,7 +321,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
         private void SetUpData()
         {
-            context.Add(role = ObjectFactory.CreateRole());
+            role = ObjectFactory.CreateRole();
             foreach (String controller in new[] { "Roles", "Profile" })
                 foreach (String action in new[] { "Edit", "Delete" })
                 {
@@ -333,9 +333,9 @@ namespace MvcTemplate.Tests.Unit.Services
                     rolePermission.Role = null;
 
                     role.Permissions.Add(rolePermission);
-                    context.Add(rolePermission.Permission);
                 }
 
+            context.Add(role);
             context.SaveChanges();
         }
 

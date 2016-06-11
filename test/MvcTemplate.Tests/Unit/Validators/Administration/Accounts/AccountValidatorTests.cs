@@ -303,7 +303,6 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanEdit_UsedUsername_ReturnsFalse()
         {
             Account takenAccount = ObjectFactory.CreateAccount(2);
-            context.Add(takenAccount.Role);
             context.Add(takenAccount);
             context.SaveChanges();
 
@@ -330,7 +329,6 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanEdit_UsedEmail_ReturnsFalse()
         {
             Account usedEmailAccount = ObjectFactory.CreateAccount(2);
-            context.Add(usedEmailAccount.Role);
             context.Add(usedEmailAccount);
             context.SaveChanges();
 
@@ -399,7 +397,6 @@ namespace MvcTemplate.Tests.Unit.Validators
             account = ObjectFactory.CreateAccount();
             account.IsLocked = false;
 
-            context.Add(account.Role);
             context.Add(account);
 
             context.SaveChanges();

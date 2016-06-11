@@ -18,11 +18,12 @@ namespace MvcTemplate.Tests.Unit.Validators
         public RoleValidatorTests()
         {
             context = new TestingContext();
+            role = ObjectFactory.CreateRole();
             validator = new RoleValidator(new UnitOfWork(context));
 
             context.DropData();
 
-            context.Add(role = ObjectFactory.CreateRole());
+            context.Add(role);
             context.SaveChanges();
         }
         public void Dispose()

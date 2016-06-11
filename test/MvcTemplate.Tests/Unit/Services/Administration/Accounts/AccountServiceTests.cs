@@ -410,7 +410,6 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             account = ObjectFactory.CreateAccount();
 
-            context.Add(account.Role);
             context.Add(account);
 
             context.SaveChanges();
