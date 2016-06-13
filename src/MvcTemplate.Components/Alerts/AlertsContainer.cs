@@ -11,7 +11,7 @@ namespace MvcTemplate.Components.Alerts
         {
             Add(type, message, DefaultFadeout);
         }
-        public void Add(AlertType type, String message, Decimal fadeoutAfter)
+        public void Add(AlertType type, String message, Int32 fadeoutAfter)
         {
             Add(new Alert
             {
@@ -25,7 +25,7 @@ namespace MvcTemplate.Components.Alerts
         {
             AddError(message, 0);
         }
-        public void AddError(String message, Decimal fadeoutAfter)
+        public void AddError(String message, Int32 fadeoutAfter)
         {
             Add(AlertType.Danger, message, fadeoutAfter);
         }

@@ -6,6 +6,6 @@ namespace MvcTemplate.Components.Alerts
     {
         public String Message { get; set; }
         public AlertType Type { get; set; }
-        public Decimal FadeoutAfter { get; set; }
+        public Int32 FadeoutAfter { get; set; }
     }
 }

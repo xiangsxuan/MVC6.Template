@@ -41,7 +41,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
 
         #endregion
 
-        #region Add(AlertType type, String message, Decimal fadeoutAfter)
+        #region Add(AlertType type, String message, Int32 fadeoutAfter)
 
         [Fact]
         public void Add_FadingTypedMessage()
@@ -73,7 +73,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
 
         #endregion
 
-        #region AddError(String message, Decimal fadeoutAfter)
+        #region AddError(String message, Int32 fadeoutAfter)
 
         [Fact]
         public void AddError_FadingMessage()
