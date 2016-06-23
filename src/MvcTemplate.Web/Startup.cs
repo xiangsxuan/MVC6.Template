@@ -52,6 +52,7 @@ namespace MvcTemplate.Web
         {
             services
                 .AddMvc()
+                .AddMvcOptions(options => options.Filters.Add(typeof(AuthorizationFilter)))
                 .AddMvcOptions(options => options.Filters.Add(typeof(GlobalizationFilter)))
                 .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
                 .AddMvcOptions(options => options.ModelBinderProviders.Insert(0, new TrimmingModelBinderProvider()));
