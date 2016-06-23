@@ -25,6 +25,10 @@ namespace MvcTemplate.Rename
             String[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.*", SearchOption.AllDirectories);
             Regex authors = new Regex("^  \"authors\": \\[ \"NonFactors\" \\]");
             Regex version = new Regex("^  \"version\": \"\\d+\\.\\d\\.\\d+\"");
+            Regex assemblyVersion = new Regex("assembly: AssemblyVersion.*");
+            Regex fileVersion = new Regex("assembly: AssemblyFileVersion.*");
+            Regex copyright = new Regex("assembly: AssemblyCopyright.*");
+            Regex company = new Regex("assembly: AssemblyCompany.*");
             Regex newLine = new Regex("(?<!\\r)\\n");
 
             Console.WriteLine();
@@ -49,6 +53,10 @@ namespace MvcTemplate.Rename
                     content = newLine.Replace(content, Environment.NewLine);
                     content = version.Replace(content, "  \"version\": \"0.1.0\"");
                     content = authors.Replace(content, "  \"authors\": [ \"" + Company + "\" ]");
+                    content = company.Replace(content, "assembly: AssemblyCompany(\"" + Company + "\")]");
+                    content = fileVersion.Replace(content, "assembly: AssemblyFileVersion(\"0.1.0.0\")]");
+                    content = assemblyVersion.Replace(content, "assembly: AssemblyVersion(\"0.1.0.0\")]");
+                    content = copyright.Replace(content, "assembly: AssemblyCopyright(\"Copyright © " + Company + "\")]");
 
                     File.WriteAllText(files[i], content, Encoding.UTF8);
                 }

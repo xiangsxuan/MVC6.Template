@@ -6,10 +6,6 @@
 2. Run "dotnet ef database update" command from src/{YourSolutionName}.Data folder.
 3. Run "dotnet ef database update" command from test/{YourSolutionName}.Tests folder.
 
-# Running tests
-1. Make sure you started the web site at least once.
-2. Run "dotnet test -parallel none" command from test/{YourSolutionName}.Tests folder.
-
 # Features in progress
 - Script and styling minification and bundling.
 - Dynamic script and styling loading.
