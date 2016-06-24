@@ -10,7 +10,8 @@
     "NonFactors.Grid.Core.Mvc6": "0.9.5-rc2-final",
     "Microsoft.AspNetCore.Mvc.Core": "1.0.0-rc2-final",
     "Microsoft.AspNetCore.Mvc.TagHelpers": "1.0.0-rc2-final",
-    "Microsoft.AspNetCore.Mvc.DataAnnotations": "1.0.0-rc2-final"
+    "Microsoft.AspNetCore.Mvc.DataAnnotations": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0-rc2-final"
   },
 
   "buildOptions": {

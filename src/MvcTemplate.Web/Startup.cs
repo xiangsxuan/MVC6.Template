@@ -101,10 +101,10 @@ namespace MvcTemplate.Web
         {
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
+                Events = new GlobalizedAuthenticationEvents(),
                 AuthenticationScheme = "Cookies",
                 AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                LoginPath = "/auth/login"
+                AutomaticChallenge = true
             });
             app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
