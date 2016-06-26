@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MvcTemplate.Components.Mvc
 {
-    public class GlobalizedValidationAdapterProvider : IValidationAttributeAdapterProvider
+    public class ValidationAdapterProvider : IValidationAttributeAdapterProvider
     {
         public IAttributeAdapter GetAttributeAdapter(ValidationAttribute attribute, IStringLocalizer stringLocalizer)
         {

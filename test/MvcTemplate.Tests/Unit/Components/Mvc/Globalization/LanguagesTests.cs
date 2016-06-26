@@ -9,11 +9,11 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
-    public class GlobalizationProviderTests
+    public class LanguagesTests
     {
-        private GlobalizationProvider provider;
+        private Languages languages;
 
-        static GlobalizationProviderTests()
+        static LanguagesTests()
         {
             XElement english = new XElement("language");
             english.SetAttributeValue("default", "true");
@@ -26,38 +26,38 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             lithuanian.SetAttributeValue("culture", "lt-LT");
             lithuanian.SetAttributeValue("abbreviation", "lt");
 
-            XElement globalization = new XElement("globalization");
-            globalization.Add(lithuanian);
-            globalization.Add(english);
+            XElement languages = new XElement("languages");
+            languages.Add(lithuanian);
+            languages.Add(english);
 
             IConfiguration config = ConfigurationFactory.Create();
             Directory.CreateDirectory(config["Application:Path"]);
-            globalization.Save(Path.Combine(config["Application:Path"], config["Globalization:Path"]));
+            languages.Save(Path.Combine(config["Application:Path"], config["Languages:Path"]));
         }
-        public GlobalizationProviderTests()
+        public LanguagesTests()
         {
-            provider = new GlobalizationProvider(ConfigurationFactory.Create());
+            languages = new Languages(ConfigurationFactory.Create());
         }
 
-        #region CurrentLanguage
+        #region Current
 
         [Fact]
-        public void CurrentLanguage_ReturnsCurrentLanguage()
+        public void Current_ReturnsCurrentLanguage()
         {
-            Thread.CurrentThread.CurrentUICulture = provider["en"].Culture;
+            Thread.CurrentThread.CurrentUICulture = languages["en"].Culture;
 
-            Language actual = provider.CurrentLanguage;
-            Language expected = provider["en"];
+            Language actual = languages.Current;
+            Language expected = languages["en"];
 
             Assert.Same(expected, actual);
         }
 
         [Fact]
-        public void CurrentLanguage_SetsCurrentLanguage()
+        public void Current_SetsCurrentLanguage()
         {
-            provider.CurrentLanguage = provider.Languages.Last();
+            languages.Current = languages.Supported.Last();
 
-            CultureInfo expectedCulture = provider.Languages.Last().Culture;
+            CultureInfo expectedCulture = languages.Supported.Last().Culture;
             CultureInfo actualUICulture = CultureInfo.CurrentUICulture;
             CultureInfo actualCulture = CultureInfo.CurrentCulture;
 
@@ -67,13 +67,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region GlobalizationProvider(String path)
+        #region Languages(String path)
 
         [Fact]
-        public void GlobalizationProvider_LoadsAllLanguages()
+        public void Languages_SetsSupported()
         {
-            Language ltLanguage = provider.Languages.First();
-            Language enLanguage = provider.Languages.Last();
+            Language ltLanguage = languages.Supported.First();
+            Language enLanguage = languages.Supported.Last();
 
             Assert.Equal(new CultureInfo("en-GB"), enLanguage.Culture);
             Assert.Equal("en", enLanguage.Abbreviation);
@@ -87,9 +87,9 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void GlobalizationProvider_SetsDefaultLanguage()
+        public void Languages_SetsDefault()
         {
-            Language actual = provider.DefaultLanguage;
+            Language actual = languages.Default;
 
             Assert.Equal(new CultureInfo("en-GB"), actual.Culture);
             Assert.Equal("en", actual.Abbreviation);
@@ -104,7 +104,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void Indexer_ReturnsLanguage()
         {
-            Language actual = provider["en"];
+            Language actual = languages["en"];
 
             Assert.Equal(new CultureInfo("en-GB"), actual.Culture);
             Assert.Equal("en", actual.Abbreviation);

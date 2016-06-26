@@ -4,13 +4,13 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Mvc.Providers
 {
-    public class GlobalizedValidationAdapterProviderTests
+    public class ValidationAdapterProviderTests
     {
-        private GlobalizedValidationAdapterProvider provider;
+        private ValidationAdapterProvider provider;
 
-        public GlobalizedValidationAdapterProviderTests()
+        public ValidationAdapterProviderTests()
         {
-            provider = new GlobalizedValidationAdapterProvider();
+            provider = new ValidationAdapterProvider();
         }
 
         #region GetAttributeAdapter(ValidationAttribute attribute, IStringLocalizer stringLocalizer)

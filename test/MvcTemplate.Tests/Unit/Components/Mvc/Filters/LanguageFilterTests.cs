@@ -9,7 +9,7 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
-    public class GlobalizationFilterTests
+    public class LanguageFilterTests
     {
         #region OnResourceExecuting(ResourceExecutingContext context)
 
@@ -18,14 +18,14 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             ActionContext action = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
             ResourceExecutingContext context = new ResourceExecutingContext(action, new IFilterMetadata[0]);
-            IGlobalizationProvider provider = Substitute.For<IGlobalizationProvider>();
+            ILanguages languages = Substitute.For<ILanguages>();
             context.RouteData.Values["language"] = "lt";
-            provider["lt"].Returns(new Language());
+            languages["lt"].Returns(new Language());
 
-            new GlobalizationFilter(provider).OnResourceExecuting(context);
+            new LanguageFilter(languages).OnResourceExecuting(context);
 
-            Language actual = provider.CurrentLanguage;
-            Language expected = provider["lt"];
+            Language actual = languages.Current;
+            Language expected = languages["lt"];
 
             Assert.Equal(expected, actual);
         }

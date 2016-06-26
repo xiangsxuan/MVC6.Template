@@ -3,8 +3,8 @@
     "Connection": "Server=(localdb)\\mssqllocaldb;Database=Mvc6Template;Trusted_Connection=True;MultipleActiveResultSets=True"
   },
 
-  "Globalization": {
-    "Path": "globalization.config"
+  "Languages": {
+    "Path": "languages.config"
   },
 
   "Logger": {

@@ -22,7 +22,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
             controller.ControllerContext.RouteData = new RouteData();
             controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
-            controller.HttpContext.RequestServices.GetService<IGlobalizationProvider>().Returns(Substitute.For<IGlobalizationProvider>());
+            controller.HttpContext.RequestServices.GetService<ILanguages>().Returns(Substitute.For<ILanguages>());
         }
 
         #region ServicedController(TService service)

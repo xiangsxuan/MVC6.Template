@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MvcTemplate.Components.Security
 {
-    public class GlobalizedAuthenticationEvents : CookieAuthenticationEvents
+    public class AuthenticationEvents : CookieAuthenticationEvents
     {
         public override Task RedirectToLogin(CookieRedirectContext context)
         {

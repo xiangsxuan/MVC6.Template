@@ -39,8 +39,8 @@
       "Views",
       "wwwroot",
       "web.config",
-      "configuration.json",
-      "globalization.json"
+      "languages.json",
+      "configuration.json"
     ]
   },
 

@@ -1,9 +1,6 @@
 ﻿@using Texts = MvcTemplate.Resources.Views.Administration.Accounts.AccountView.Texts
 @using MvcTemplate.Resources.Views.Auth.AccountLoginView
-@{
-    IGlobalizationProvider globalization = Context.RequestServices.GetRequiredService<IGlobalizationProvider>();
-    globalization.CurrentLanguage = globalization[ViewContext.RouteData.Values["language"] as String];
-}
+
 @model AccountLoginView
 
 <div class="title text">@ContentTitles.AuthLogin</div>
@@ -22,8 +19,8 @@
             <input asp-for="Password" type="password" placeholder="@Titles.Password" autocomplete="off" />
             <span class="input-error fa fa-warning"></span>
         </div>
-        @{ IGlobalizationProvider globalizationProvider = Context.RequestServices.GetService<IGlobalizationProvider>(); }
-        @if (globalizationProvider.Languages.Length > 1)
+        @{ ILanguages languages = Context.RequestServices.GetService<ILanguages>(); }
+        @if (languages.Supported.Length > 1)
         {
             String query = ViewContext.HttpContext.Request.Query.Count > 0 ? ViewContext.HttpContext.Request.QueryString.ToString() : "";
 
@@ -31,13 +28,13 @@
                 <span class="fa fa-globe"></span>
                 <div class="language-container dropdown-toggle" data-toggle="dropdown">
                     <span class="current-language">
-                        <img src="@Url.Content($"~/Images/Flags/{globalizationProvider.CurrentLanguage.Abbreviation}.gif")" alt="">
-                        @globalizationProvider.CurrentLanguage.Name
+                        <img src="@Url.Content($"~/Images/Flags/{languages.Current.Abbreviation}.gif")" alt="">
+                        @languages.Current.Name
                     </span>
                     <span class="caret"></span>
                 </div>
                 <ul class="dropdown-menu" role="menu">
-                    @foreach (Language language in globalizationProvider.Languages)
+                    @foreach (Language language in languages.Supported)
                     {
                         <li>
                             <a href="@(Url.Action("Login", new { language = language.Abbreviation }) + query)">

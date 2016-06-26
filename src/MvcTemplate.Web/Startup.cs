@@ -53,8 +53,8 @@ namespace MvcTemplate.Web
         {
             services
                 .AddMvc()
+                .AddMvcOptions(options => options.Filters.Add(typeof(LanguageFilter)))
                 .AddMvcOptions(options => options.Filters.Add(typeof(AuthorizationFilter)))
-                .AddMvcOptions(options => options.Filters.Add(typeof(GlobalizationFilter)))
                 .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
                 .AddMvcOptions(options => options.ModelBinderProviders.Insert(0, new TrimmingModelBinderProvider()));
         }
@@ -75,9 +75,9 @@ namespace MvcTemplate.Web
 
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IModelMetadataProvider, DisplayNameMetadataProvider>();
-            services.AddSingleton<IValidationAttributeAdapterProvider, GlobalizedValidationAdapterProvider>();
+            services.AddSingleton<IValidationAttributeAdapterProvider, ValidationAdapterProvider>();
 
-            services.AddSingleton<IGlobalizationProvider, GlobalizationProvider>();
+            services.AddSingleton<ILanguages, Languages>();
             services.AddSingleton<IAuthorizationProvider>(provider =>
                 new AuthorizationProvider(typeof(BaseController).Assembly, provider));
 
@@ -103,7 +103,7 @@ namespace MvcTemplate.Web
         {
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                Events = new GlobalizedAuthenticationEvents(),
+                Events = new AuthenticationEvents(),
                 AuthenticationScheme = "Cookies",
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true

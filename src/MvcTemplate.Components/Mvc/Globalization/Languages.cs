@@ -9,21 +9,17 @@ using System.Xml.Linq;
 
 namespace MvcTemplate.Components.Mvc
 {
-    public class GlobalizationProvider : IGlobalizationProvider
+    public class Languages : ILanguages
     {
-        public Language[] Languages
+        public Language Default
         {
             get;
         }
-        public Language DefaultLanguage
-        {
-            get;
-        }
-        public Language CurrentLanguage
+        public Language Current
         {
             get
             {
-                return Languages.Single(language => language.Culture.Equals(CultureInfo.CurrentUICulture));
+                return Supported.Single(language => language.Culture.Equals(CultureInfo.CurrentUICulture));
             }
             set
             {
@@ -31,15 +27,19 @@ namespace MvcTemplate.Components.Mvc
                 Thread.CurrentThread.CurrentUICulture = value.Culture;
             }
         }
-        private Dictionary<String, Language> LanguageDictionary
+        public Language[] Supported
+        {
+            get;
+        }
+        private Dictionary<String, Language> Dictionary
         {
             get;
         }
 
-        public GlobalizationProvider(IConfiguration config)
+        public Languages(IConfiguration config)
         {
-            String path = Path.Combine(config["Application:Path"], config["Globalization:Path"]);
-            LanguageDictionary = new Dictionary<String, Language>();
+            String path = Path.Combine(config["Application:Path"], config["Languages:Path"]);
+            Dictionary = new Dictionary<String, Language>();
             XElement languages = XElement.Load(path);
 
             foreach (XElement lang in languages.Elements("language"))
@@ -50,13 +50,13 @@ namespace MvcTemplate.Components.Mvc
                 language.Abbreviation = (String)lang.Attribute("abbreviation");
                 language.Name = (String)lang.Attribute("name");
 
-                LanguageDictionary.Add(language.Abbreviation, language);
+                Dictionary.Add(language.Abbreviation, language);
             }
 
-            Languages = LanguageDictionary.Select(language => language.Value).ToArray();
-            DefaultLanguage = Languages.Single(language => language.IsDefault);
+            Supported = Dictionary.Select(language => language.Value).ToArray();
+            Default = Supported.Single(language => language.IsDefault);
         }
 
-        public Language this[String abbreviation] => LanguageDictionary[abbreviation];
+        public Language this[String abbreviation] => Dictionary[abbreviation];
     }
 }
