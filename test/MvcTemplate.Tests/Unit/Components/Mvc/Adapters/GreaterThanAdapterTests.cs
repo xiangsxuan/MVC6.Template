@@ -12,24 +12,43 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class GreaterThanAdapterTests
     {
+        private GreaterThanAdapter adapter;
+        private ClientModelValidationContext context;
+        private Dictionary<String, String> attributes;
+
+        public GreaterThanAdapterTests()
+        {
+            attributes = new Dictionary<String, String>();
+            adapter = new GreaterThanAdapter(new GreaterThanAttribute(128));
+            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "GreaterThan");
+            context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
+        }
+
         #region AddValidation(ClientModelValidationContext context)
 
         [Fact]
         public void AddValidation_GreaterThan()
         {
-            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            Dictionary<String, String> attributes = new Dictionary<String, String>();
-            GreaterThanAdapter adapter = new GreaterThanAdapter(new GreaterThanAttribute(128));
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "GreaterThan");
-
-            ClientModelValidationContext context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
-
             adapter.AddValidation(context);
-
-            Assert.Equal(String.Format(Validations.GreaterThan, "GreaterThan", 128), attributes["data-greater"]);
-            Assert.Equal("128", attributes["data-greater-min"]);
-            Assert.Equal("true", attributes["data-val"]);
+            
             Assert.Equal(3, attributes.Count);
+            Assert.Equal("true", attributes["data-val"]);
+            Assert.Equal("128", attributes["data-val-greater-min"]);
+            Assert.Equal(String.Format(Validations.GreaterThan, "GreaterThan", 128), attributes["data-val-greater"]);
+        }
+
+        #endregion
+
+        #region GetErrorMessage(ModelValidationContextBase validationContext)
+
+        [Fact]
+        public void GetErrorMessage_GreaterThan()
+        {
+            String expected = String.Format(Validations.GreaterThan, "GreaterThan", 128);
+            String actual = adapter.GetErrorMessage(context);
+
+            Assert.Equal(expected, actual);
         }
 
         #endregion

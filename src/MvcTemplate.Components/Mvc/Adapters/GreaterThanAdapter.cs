@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Globalization;
 
 namespace MvcTemplate.Components.Mvc
 {
-    public class GreaterThanAdapter : ValidationAttributeAdapter<GreaterThanAttribute>
+    public class GreaterThanAdapter : AttributeAdapterBase<GreaterThanAttribute>
     {
         public GreaterThanAdapter(GreaterThanAttribute attribute)
             : base(attribute, null)
@@ -14,8 +15,12 @@ namespace MvcTemplate.Components.Mvc
         public override void AddValidation(ClientModelValidationContext context)
         {
             context.Attributes["data-val"] = "true";
-            context.Attributes["data-greater"] = GetErrorMessage(context.ModelMetadata);
-            context.Attributes["data-greater-min"] = Attribute.Minimum.ToString(CultureInfo.InvariantCulture);
+            context.Attributes["data-val-greater"] = GetErrorMessage(context);
+            context.Attributes["data-val-greater-min"] = Attribute.Minimum.ToString(CultureInfo.InvariantCulture);
+        }
+        public override String GetErrorMessage(ModelValidationContextBase validationContext)
+        {
+            return GetErrorMessage(validationContext.ModelMetadata);
         }
     }
 }

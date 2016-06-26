@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Globalization;
 
 namespace MvcTemplate.Components.Mvc
 {
-    public class MaxValueAdapter : ValidationAttributeAdapter<MaxValueAttribute>
+    public class MaxValueAdapter : AttributeAdapterBase<MaxValueAttribute>
     {
         public MaxValueAdapter(MaxValueAttribute attribute)
             : base(attribute, null)
@@ -14,8 +15,12 @@ namespace MvcTemplate.Components.Mvc
         public override void AddValidation(ClientModelValidationContext context)
         {
             context.Attributes["data-val"] = "true";
-            context.Attributes["data-range"] = GetErrorMessage(context.ModelMetadata);
-            context.Attributes["data-range-max"] = Attribute.Maximum.ToString(CultureInfo.InvariantCulture);
+            context.Attributes["data-val-range"] = GetErrorMessage(context);
+            context.Attributes["data-val-range-max"] = Attribute.Maximum.ToString(CultureInfo.InvariantCulture);
+        }
+        public override String GetErrorMessage(ModelValidationContextBase validationContext)
+        {
+            return GetErrorMessage(validationContext.ModelMetadata);
         }
     }
 }

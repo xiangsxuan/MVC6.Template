@@ -1,5 +1,9 @@
-﻿using MvcTemplate.Components.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using MvcTemplate.Components.Mvc;
 using MvcTemplate.Resources.Form;
+using MvcTemplate.Tests.Objects;
 using System;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
@@ -8,29 +12,41 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class StringLengthAdapterTests
     {
-        #region StringLengthAdapter(StringLengthAttribute attribute)
+        private StringLengthAdapter adapter;
+        private ModelValidationContextBase context;
 
-        [Fact]
-        public void StringLengthAdapter_SetsExceededErrorMessage()
+        public StringLengthAdapterTests()
         {
-            StringLengthAttribute attribute = new StringLengthAttribute(128);
-            new StringLengthAdapter(attribute);
+            adapter = new StringLengthAdapter(new StringLengthAttribute(128));
+            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "StringLength");
 
-            String expected = Validations.StringLength;
-            String actual = attribute.ErrorMessage;
-
-            Assert.Equal(expected, actual);
+            context = new ModelValidationContextBase(new ActionContext(), metadata, provider);
         }
 
+        #region GetErrorMessage(ModelValidationContextBase validationContext)
+
         [Fact]
-        public void StringLengthAdapter_SetsRangeErrorMessage()
+        public void GetErrorMessage_StringLength()
         {
-            StringLengthAttribute attribute = new StringLengthAttribute(128) { MinimumLength = 4 };
-            new StringLengthAdapter(attribute);
+            adapter.Attribute.MinimumLength = 0;
 
-            String expected = Validations.StringLengthRange;
-            String actual = attribute.ErrorMessage;
+            String expected = String.Format(Validations.StringLength, "StringLength", 128);
+            String actual = adapter.GetErrorMessage(context);
 
+            Assert.Equal(Validations.StringLength, adapter.Attribute.ErrorMessage);
+            Assert.Equal(expected, actual);
+        }
+        
+        [Fact]
+        public void GetErrorMessage_StringLengthRange()
+        {
+            adapter.Attribute.MinimumLength = 4;
+
+            String expected = String.Format(Validations.StringLengthRange, "StringLength", 128, 4);
+            String actual = adapter.GetErrorMessage(context);
+
+            Assert.Equal(Validations.StringLengthRange, adapter.Attribute.ErrorMessage);
             Assert.Equal(expected, actual);
         }
 

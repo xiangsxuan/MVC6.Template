@@ -13,43 +13,42 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class EmailAddressAdapterTests
     {
-        private EmailAddressAttribute attribute;
         private EmailAddressAdapter adapter;
+        private ClientModelValidationContext context;
+        private Dictionary<String, String> attributes;
 
         public EmailAddressAdapterTests()
         {
-            attribute = new EmailAddressAttribute();
-            adapter = new EmailAddressAdapter(attribute);
+            attributes = new Dictionary<String, String>();
+            adapter = new EmailAddressAdapter(new EmailAddressAttribute());
+            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EmailAddress");
+            context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
         }
-
-        #region EmailAddressAdapter(EmailAddressAttribute attribute)
-
-        [Fact]
-        public void EmailAddressAdapter_SetsErrorMessage()
-        {
-            String actual = attribute.ErrorMessage;
-            String expected = Validations.Email;
-
-            Assert.Equal(expected, actual);
-        }
-
-        #endregion
 
         #region AddValidation(ClientModelValidationContext context)
 
         [Fact]
         public void AddValidation_Email()
         {
-            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            Dictionary<String, String> attributes = new Dictionary<String, String>();
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EmailAddress");
-            ClientModelValidationContext context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
-
             adapter.AddValidation(context);
-
-            Assert.Equal(String.Format(Validations.Email, "EmailAddress"), attributes["data-email"]);
-            Assert.Equal("true", attributes["data-val"]);
+            
             Assert.Equal(2, attributes.Count);
+            Assert.Equal("true", attributes["data-val"]);
+            Assert.Equal(String.Format(Validations.Email, "EmailAddress"), attributes["data-val-email"]);
+        }
+
+        #endregion
+
+        #region GetErrorMessage(ModelValidationContextBase validationContext)
+
+        [Fact]
+        public void GetErrorMessage_Email()
+        {
+            String expected = String.Format(Validations.Email, "EmailAddress");
+            String actual = adapter.GetErrorMessage(context);
+
+            Assert.Equal(expected, actual);
         }
 
         #endregion

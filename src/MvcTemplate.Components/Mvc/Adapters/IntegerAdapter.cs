@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 
 namespace MvcTemplate.Components.Mvc
 {
-    public class IntegerAdapter : ValidationAttributeAdapter<IntegerAttribute>
+    public class IntegerAdapter : AttributeAdapterBase<IntegerAttribute>
     {
         public IntegerAdapter(IntegerAttribute attribute)
             : base(attribute, null)
@@ -12,8 +13,12 @@ namespace MvcTemplate.Components.Mvc
 
         public override void AddValidation(ClientModelValidationContext context)
         {
-            MergeAttribute(context.Attributes, "data-val", "true");
-            MergeAttribute(context.Attributes, "data-integer", GetErrorMessage(context.ModelMetadata));
+            context.Attributes["data-val"] = "true";
+            context.Attributes["data-val-integer"] = GetErrorMessage(context);
+        }
+        public override String GetErrorMessage(ModelValidationContextBase validationContext)
+        {
+            return GetErrorMessage(validationContext.ModelMetadata);
         }
     }
 }

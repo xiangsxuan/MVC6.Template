@@ -12,21 +12,42 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class DigitsAdapterTests
     {
+        private DigitsAdapter adapter;
+        private ClientModelValidationContext context;
+        private Dictionary<String, String> attributes;
+
+        public DigitsAdapterTests()
+        {
+            attributes = new Dictionary<String, String>();
+            adapter = new DigitsAdapter(new DigitsAttribute());
+            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "Digits");
+            context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
+        }
+
         #region AddValidation(ClientModelValidationContext context)
 
         [Fact]
         public void AddValidation_Digits()
         {
-            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            Dictionary<String, String> attributes = new Dictionary<String, String>();
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "Digits");
-            ClientModelValidationContext context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
-
-            new DigitsAdapter(new DigitsAttribute()).AddValidation(context);
-
-            Assert.Equal(String.Format(Validations.Digits, "Digits"), attributes["data-digits"]);
-            Assert.Equal("true", attributes["data-val"]);
+            adapter.AddValidation(context);
+            
             Assert.Equal(2, attributes.Count);
+            Assert.Equal("true", attributes["data-val"]);
+            Assert.Equal(String.Format(Validations.Digits, "Digits"), attributes["data-val-digits"]);
+        }
+
+        #endregion
+
+        #region GetErrorMessage(ModelValidationContextBase validationContext)
+
+        [Fact]
+        public void GetErrorMessage_Digits()
+        {
+            String expected = String.Format(Validations.Digits, "Digits");
+            String actual = adapter.GetErrorMessage(context);
+
+            Assert.Equal(expected, actual);
         }
 
         #endregion

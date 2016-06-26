@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -74,6 +75,7 @@ namespace MvcTemplate.Web
 
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IModelMetadataProvider, DisplayNameMetadataProvider>();
+            services.AddSingleton<IValidationAttributeAdapterProvider, GlobalizedValidationAdapterProvider>();
 
             services.AddSingleton<IGlobalizationProvider, GlobalizationProvider>();
             services.AddSingleton<IAuthorizationProvider>(provider =>

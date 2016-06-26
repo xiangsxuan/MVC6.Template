@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using MvcTemplate.Resources.Form;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MvcTemplate.Components.Mvc
@@ -9,7 +11,13 @@ namespace MvcTemplate.Components.Mvc
         public MinLengthAdapter(MinLengthAttribute attribute)
             : base(attribute, null)
         {
+        }
+
+        public override String GetErrorMessage(ModelValidationContextBase validationContext)
+        {
             Attribute.ErrorMessage = Validations.MinLength;
+
+            return base.GetErrorMessage(validationContext);
         }
     }
 }

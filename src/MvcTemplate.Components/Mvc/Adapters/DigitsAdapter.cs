@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 
 namespace MvcTemplate.Components.Mvc
 {
-    public class DigitsAdapter : ValidationAttributeAdapter<DigitsAttribute>
+    public class DigitsAdapter : AttributeAdapterBase<DigitsAttribute>
     {
         public DigitsAdapter(DigitsAttribute attribute)
             : base(attribute, null)
@@ -12,8 +13,12 @@ namespace MvcTemplate.Components.Mvc
 
         public override void AddValidation(ClientModelValidationContext context)
         {
-            MergeAttribute(context.Attributes, "data-val", "true");
-            MergeAttribute(context.Attributes, "data-digits", GetErrorMessage(context.ModelMetadata));
+            context.Attributes["data-val"] = "true";
+            context.Attributes["data-val-digits"] = GetErrorMessage(context);
+        }
+        public override String GetErrorMessage(ModelValidationContextBase validationContext)
+        {
+            return GetErrorMessage(validationContext.ModelMetadata);
         }
     }
 }

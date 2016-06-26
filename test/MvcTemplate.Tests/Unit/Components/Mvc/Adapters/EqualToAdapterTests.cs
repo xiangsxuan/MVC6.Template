@@ -12,23 +12,43 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class EqualToAdapterTests
     {
+        private EqualToAdapter adapter;
+        private ClientModelValidationContext context;
+        private Dictionary<String, String> attributes;
+
+        public EqualToAdapterTests()
+        {
+            attributes = new Dictionary<String, String>();
+            adapter = new EqualToAdapter(new EqualToAttribute("StringLength"));
+            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EqualTo");
+            context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
+        }
+
         #region AddValidation(ClientModelValidationContext context)
 
         [Fact]
         public void AddValidation_EqualTo()
         {
-            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            Dictionary<String, String> attributes = new Dictionary<String, String>();
-            EqualToAdapter adapter = new EqualToAdapter(new EqualToAttribute("StringLength"));
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EqualTo");
-            ClientModelValidationContext context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
-
             adapter.AddValidation(context);
-
-            Assert.Equal(String.Format(Validations.EqualTo, "EqualTo", ""), attributes["data-equalto"]);
-            Assert.Equal("*.StringLength", attributes["data-equalto-other"]);
-            Assert.Equal("true", attributes["data-val"]);
+            
             Assert.Equal(3, attributes.Count);
+            Assert.Equal("true", attributes["data-val"]);
+            Assert.Equal("*.StringLength", attributes["data-val-equalto-other"]);
+            Assert.Equal(String.Format(Validations.EqualTo, "EqualTo", ""), attributes["data-val-equalto"]);
+        }
+
+        #endregion
+
+        #region GetErrorMessage(ModelValidationContextBase validationContext)
+
+        [Fact]
+        public void GetErrorMessage_EqualTo()
+        {
+            String expected = String.Format(Validations.EqualTo, "EqualTo", "");
+            String actual = adapter.GetErrorMessage(context);
+
+            Assert.Equal(expected, actual);
         }
 
         #endregion
