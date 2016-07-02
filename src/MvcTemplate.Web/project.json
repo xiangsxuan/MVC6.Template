@@ -39,6 +39,7 @@
       "Views",
       "wwwroot",
       "web.config",
+      "Mvc.sitemap",
       "languages.json",
       "configuration.json"
     ]
