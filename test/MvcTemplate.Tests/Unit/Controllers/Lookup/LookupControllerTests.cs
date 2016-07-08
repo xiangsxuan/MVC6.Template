@@ -29,11 +29,11 @@ namespace MvcTemplate.Tests.Unit.Controllers
         #region GetData(MvcLookup lookup, LookupFilter filter)
 
         [Fact]
-        public void GetData_SetsCurrentFilter()
+        public void GetData_SetsFilter()
         {
             controller.GetData(lookup, filter);
 
-            LookupFilter actual = lookup.CurrentFilter;
+            LookupFilter actual = lookup.Filter;
             LookupFilter expected = filter;
 
             Assert.Equal(expected, actual);

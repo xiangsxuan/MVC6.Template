@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using MvcTemplate.Components.Mvc;
 using NSubstitute;
@@ -17,7 +18,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void OnActionExecuting_SetsCurrentLanguage()
         {
             ActionContext action = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
-            ResourceExecutingContext context = new ResourceExecutingContext(action, new IFilterMetadata[0]);
+            ResourceExecutingContext context = new ResourceExecutingContext(action, new IFilterMetadata[0], new IValueProviderFactory[0]);
             ILanguages languages = Substitute.For<ILanguages>();
             context.RouteData.Values["language"] = "lt";
             languages["lt"].Returns(new Language());

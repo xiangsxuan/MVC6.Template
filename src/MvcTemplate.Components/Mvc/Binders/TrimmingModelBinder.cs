@@ -14,11 +14,11 @@ namespace MvcTemplate.Components.Mvc
             return Task.CompletedTask;
         }
 
-        private ModelBindingResult? BindModel(ModelBindingContext context)
+        private ModelBindingResult BindModel(ModelBindingContext context)
         {
             ValueProviderResult result = context.ValueProvider.GetValue(context.ModelName);
             if (result == ValueProviderResult.None)
-                return null;
+                return context.Result;
 
             String value = result.FirstValue;
             context.ModelState.SetModelValue(context.ModelName, result);
@@ -27,10 +27,10 @@ namespace MvcTemplate.Components.Mvc
             if (property?.IsDefined(typeof(NotTrimmedAttribute), false) != true)
                 value = value.Trim();
 
-            if (context.ModelMetadata.ConvertEmptyStringToNull && value.Length == 0)
-                return ModelBindingResult.Success(context.ModelName, null);
+            if (value.Length == 0 && context.ModelMetadata.ConvertEmptyStringToNull)
+                return ModelBindingResult.Success(null);
 
-            return ModelBindingResult.Success(context.ModelName, value);
+            return ModelBindingResult.Success(value);
         }
     }
 }

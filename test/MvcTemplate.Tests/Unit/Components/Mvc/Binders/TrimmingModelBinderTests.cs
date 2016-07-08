@@ -32,7 +32,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             binder.BindModelAsync(context).Wait();
 
-            Assert.Null(context.Result);
+            ModelBindingResult expected = new ModelBindingResult();
+            ModelBindingResult actual = context.Result;
+
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -45,12 +48,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             binder.BindModelAsync(context).Wait();
 
-            ModelBindingResult expected = ModelBindingResult.Success("Model.NotTrimmed", " Value ");
-            ModelBindingResult actual = context.Result.Value;
+            ModelBindingResult expected = ModelBindingResult.Success(" Value ");
+            ModelBindingResult actual = context.Result;
 
             Assert.Equal(expected.IsModelSet, actual.IsModelSet);
             Assert.Equal(expected.Model, actual.Model);
-            Assert.Equal(expected.Key, actual.Key);
         }
 
         [Theory]
@@ -65,12 +67,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             binder.BindModelAsync(context).Wait();
 
-            ModelBindingResult expected = ModelBindingResult.Success("Model.Trimmed", null);
-            ModelBindingResult actual = context.Result.Value;
+            ModelBindingResult expected = ModelBindingResult.Success(null);
+            ModelBindingResult actual = context.Result;
 
             Assert.Equal(expected.IsModelSet, actual.IsModelSet);
             Assert.Equal(expected.Model, actual.Model);
-            Assert.Equal(expected.Key, actual.Key);
         }
 
         [Theory]
@@ -86,12 +87,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             binder.BindModelAsync(context).Wait();
 
-            ModelBindingResult expected = ModelBindingResult.Success("Model.Trimmed", "");
-            ModelBindingResult actual = context.Result.Value;
+            ModelBindingResult expected = ModelBindingResult.Success("");
+            ModelBindingResult actual = context.Result;
 
             Assert.Equal(expected.IsModelSet, actual.IsModelSet);
             Assert.Equal(expected.Model, actual.Model);
-            Assert.Equal(expected.Key, actual.Key);
         }
 
         [Fact]
@@ -104,12 +104,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             binder.BindModelAsync(context).Wait();
 
-            ModelBindingResult expected = ModelBindingResult.Success("Model.Trimmed", "Value");
-            ModelBindingResult actual = context.Result.Value;
+            ModelBindingResult expected = ModelBindingResult.Success("Value");
+            ModelBindingResult actual = context.Result;
 
             Assert.Equal(expected.IsModelSet, actual.IsModelSet);
             Assert.Equal(expected.Model, actual.Model);
-            Assert.Equal(expected.Key, actual.Key);
         }
 
         #endregion

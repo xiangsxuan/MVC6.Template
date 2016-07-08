@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
 using MvcTemplate.Components.Mvc;
 using System;
@@ -20,7 +19,6 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             ActionContext actionContext = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
             ViewLocationExpanderContext context = new ViewLocationExpanderContext(actionContext, "Index", null, null, true);
-            actionContext.ActionDescriptor.RouteConstraints = new List<RouteDataActionConstraint>();
             actionContext.RouteData.Values.Add("area", "Test");
 
             IEnumerable<String> expected = new[] { "/Views/{2}/Shared/{0}.cshtml", "/Views/{2}/{1}/{0}.cshtml", "/Views/Shared/{0}.cshtml" };
@@ -34,7 +32,6 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             ActionContext actionContext = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
             ViewLocationExpanderContext context = new ViewLocationExpanderContext(actionContext, "Index", null, null, true);
-            actionContext.ActionDescriptor.RouteConstraints = new List<RouteDataActionConstraint>();
 
             IEnumerable<String> expected = new[] { "/Views/{1}/{0}.cshtml", "/Views/Shared/{0}.cshtml" };
             IEnumerable<String> actual = new ViewLocationExpander().ExpandViewLocations(context, null);

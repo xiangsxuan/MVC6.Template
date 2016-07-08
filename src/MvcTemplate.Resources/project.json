@@ -1,12 +1,12 @@
 ﻿{
   "authors": [ "NonFactors" ],
-  "version": "0.9.0",
+  "version": "1.0.0",
 
   "buildOptions": {
     "warningsAsErrors": true
   },
 
   "frameworks": {
-    "net46": { }
+    "net46": {}
   }
 }

@@ -1,7 +1,7 @@
 ﻿{
   "description": "MvcTemplate renaming tool",
   "authors": [ "NonFactors" ],
-  "version": "0.9.0",
+  "version": "1.0.0",
 
   "buildOptions": {
     "warningsAsErrors": true,
@@ -9,6 +9,6 @@
   },
 
   "frameworks": {
-    "net451": { }
+    "net46": { }
   }
 }

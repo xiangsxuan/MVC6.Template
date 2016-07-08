@@ -1,5 +1,5 @@
 ﻿$.fn.mvclookup.lang = {
-    Error: "Error while retrieving records",
-    NoDataFound: "No data found",
-    Search: "Search..."
+    error: "Error while retrieving records",
+    noData: "No data found",
+    search: "Search..."
 };

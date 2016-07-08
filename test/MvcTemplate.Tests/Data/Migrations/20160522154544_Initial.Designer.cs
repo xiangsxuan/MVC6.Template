@@ -14,7 +14,7 @@ namespace MvcTemplate.Tests.Data.Migrations
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.0-rc2-20901")
+                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("MvcTemplate.Objects.Account", b =>
@@ -112,19 +112,19 @@ namespace MvcTemplate.Tests.Data.Migrations
 
             modelBuilder.Entity("MvcTemplate.Objects.Account", b =>
                 {
-                    b.HasOne("MvcTemplate.Objects.Role")
+                    b.HasOne("MvcTemplate.Objects.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId");
                 });
 
             modelBuilder.Entity("MvcTemplate.Objects.RolePermission", b =>
                 {
-                    b.HasOne("MvcTemplate.Objects.Permission")
+                    b.HasOne("MvcTemplate.Objects.Permission", "Permission")
                         .WithMany()
                         .HasForeignKey("PermissionId");
 
-                    b.HasOne("MvcTemplate.Objects.Role")
-                        .WithMany()
+                    b.HasOne("MvcTemplate.Objects.Role", "Role")
+                        .WithMany("Permissions")
                         .HasForeignKey("RoleId");
                 });
         }

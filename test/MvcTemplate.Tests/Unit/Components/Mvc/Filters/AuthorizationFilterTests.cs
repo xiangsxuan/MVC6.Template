@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
@@ -19,7 +20,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public AuthorizationFilterTests()
         {
             ActionContext action = new ActionContext(Substitute.For<HttpContext>(), new RouteData(), new ActionDescriptor());
-            context = new ResourceExecutingContext(action, new IFilterMetadata[0]);
+            context = new ResourceExecutingContext(action, new IFilterMetadata[0], new IValueProviderFactory[0]);
             provider = Substitute.For<IAuthorizationProvider>();
             filter = new AuthorizationFilter(provider);
         }

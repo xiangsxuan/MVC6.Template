@@ -1,5 +1,5 @@
 ﻿$.fn.mvclookup.lang = {
-    Error: "Įvyko klaida, susisiekite su administratoriumi",
-    NoDataFound: "Irašų nerasta",
-    Search: "Ieškoti..."
+    error: "Įvyko klaida, susisiekite su administratoriumi",
+    noData: "Irašų nerasta",
+    search: "Ieškoti..."
 };

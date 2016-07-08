@@ -35,7 +35,7 @@ namespace MvcTemplate.Validators
                 .Select<Role>()
                 .Any(role =>
                     role.Id != view.Id &&
-                    role.Title.ToLower() == view.Title.ToLower());
+                    role.Title.ToLower() == (view.Title ?? "").ToLower());
 
             if (!isUnique)
                 ModelState.AddModelError<RoleView>(role => role.Title, Validations.UniqueTitle);

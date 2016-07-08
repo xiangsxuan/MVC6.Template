@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Grid 0.9.0
+ * Mvc.Grid 1.0.0
  * https://github.com/NonFactors/MVC6.Grid
  *
  * Copyright © NonFactors
@@ -12,7 +12,7 @@ var MvcGrid = (function () {
         this.columns = [];
         this.element = grid;
         options = options || {};
-        this.name = grid.data('name') || '';
+        this.name = grid.attr('id') || '';
         this.rowClicked = options.rowClicked;
         this.reloadEnded = options.reloadEnded;
         this.reloadFailed = options.reloadFailed;
@@ -130,6 +130,7 @@ var MvcGrid = (function () {
         bindPager: function (grid) {
             if (grid.pager) {
                 grid.pager.rowsPerPage.on('change', function () {
+                    grid.applyPage(grid, grid.pager.currentPage);
                     grid.reload(grid);
                 });
 
@@ -334,7 +335,6 @@ var MvcGrid = (function () {
         },
         clean: function (grid) {
             grid.element.removeAttr('data-source-url');
-            grid.element.removeAttr('data-name');
         }
     };
 

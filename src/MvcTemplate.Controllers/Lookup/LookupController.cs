@@ -23,7 +23,7 @@ namespace MvcTemplate.Controllers
         [NonAction]
         public virtual JsonResult GetData(MvcLookup lookup, LookupFilter filter)
         {
-            lookup.CurrentFilter = filter;
+            lookup.Filter = filter;
 
             return Json(lookup.GetData());
         }

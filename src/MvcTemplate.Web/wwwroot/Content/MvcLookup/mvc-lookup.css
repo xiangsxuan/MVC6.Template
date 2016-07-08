@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Lookup 0.9.6
+ * Mvc.Lookup 1.0.0
  * https://github.com/NonFactors/MVC6.Lookup
  *
  * Copyright © NonFactors
@@ -207,6 +207,6 @@
         cursor: pointer;
     }
 
-        .mvc-lookup-pager .pagination > li > a {
+        .mvc-lookup-pager .pagination > li > span {
             padding: 2px 8px;
         }

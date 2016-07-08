@@ -1,10 +1,10 @@
 ﻿{
   "authors": [ "NonFactors" ],
-  "version": "0.9.0",
+  "version": "1.0.0",
 
   "dependencies": {
-    "MvcTemplate.Data": "0.9.0",
-    "MvcTemplate.Components": "0.9.0"
+    "MvcTemplate.Data": "1.0.0",
+    "MvcTemplate.Components": "1.0.0"
   },
 
   "buildOptions": {
@@ -12,6 +12,6 @@
   },
 
   "frameworks": {
-    "net46": { }
+    "net46": {}
   }
 }

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -56,6 +55,7 @@ namespace MvcTemplate.Web
                 .AddMvcOptions(options => options.Filters.Add(typeof(LanguageFilter)))
                 .AddMvcOptions(options => options.Filters.Add(typeof(AuthorizationFilter)))
                 .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
+                .AddMvcOptions(options => options.ModelMetadataDetailsProviders.Add(new DisplayMetadataProvider()))
                 .AddMvcOptions(options => options.ModelBinderProviders.Insert(0, new TrimmingModelBinderProvider()));
         }
         public virtual void RegisterServices(IServiceCollection services)
@@ -74,7 +74,6 @@ namespace MvcTemplate.Web
                     provider.GetService<IHttpContextAccessor>().HttpContext?.User.Id()));
 
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<IModelMetadataProvider, DisplayNameMetadataProvider>();
             services.AddSingleton<IValidationAttributeAdapterProvider, ValidationAdapterProvider>();
 
             services.AddSingleton<ILanguages, Languages>();

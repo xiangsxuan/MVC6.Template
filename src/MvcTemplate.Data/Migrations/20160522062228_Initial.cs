@@ -14,9 +14,9 @@ namespace MvcTemplate.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false),
-                    Action = table.Column<string>(nullable: false),
-                    Area = table.Column<string>(nullable: true),
-                    Controller = table.Column<string>(nullable: false),
+                    Action = table.Column<string>(maxLength: 64, nullable: false),
+                    Area = table.Column<string>(maxLength: 64, nullable: true),
+                    Controller = table.Column<string>(maxLength: 64, nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -31,7 +31,7 @@ namespace MvcTemplate.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreationDate = table.Column<DateTime>(nullable: false),
-                    Title = table.Column<string>(nullable: false)
+                    Title = table.Column<string>(maxLength: 128, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,13 +45,13 @@ namespace MvcTemplate.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreationDate = table.Column<DateTime>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(maxLength: 256, nullable: false),
                     IsLocked = table.Column<bool>(nullable: false),
-                    Passhash = table.Column<string>(nullable: false),
-                    RecoveryToken = table.Column<string>(nullable: true),
+                    Passhash = table.Column<string>(maxLength: 64, nullable: false),
+                    RecoveryToken = table.Column<string>(maxLength: 36, nullable: true),
                     RecoveryTokenExpirationDate = table.Column<DateTime>(nullable: true),
                     RoleId = table.Column<int>(nullable: true),
-                    Username = table.Column<string>(nullable: false)
+                    Username = table.Column<string>(maxLength: 32, nullable: false)
                 },
                 constraints: table =>
                 {
