@@ -32,7 +32,6 @@
     > tfoot > tr > th {
         vertical-align: middle;
         white-space: nowrap;
-        text-align: center;
     }
 }
 
@@ -131,6 +130,11 @@
         .ui_tpicker_time {
             text-align: center;
             margin: 0 0 5px;
+
+            .ui_tpicker_time_input {
+                text-align: center;
+                border: none;
+            }
         }
 
         .ui_tpicker_time_label,
@@ -170,15 +174,11 @@
     overflow-x: auto;
     width: 100%;
 
-    .mvc-grid-header:not(.action-cell) {
+    th:not(.action-cell) {
         padding-right: 30px;
         padding-left: 30px;
         text-align: center;
     }
-}
-
-.mvc-grid-sort {
-    display: inline;
 }
 
 .mvc-grid-pager {

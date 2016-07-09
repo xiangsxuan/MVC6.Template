@@ -27,7 +27,6 @@
 .table > tfoot > tr > th {
   vertical-align: middle;
   white-space: nowrap;
-  text-align: center;
 }
 .table-hover > tbody > tr:hover > td {
   background: linear-gradient(#6f93a7, #2a4e62);
@@ -103,6 +102,10 @@
   text-align: center;
   margin: 0 0 5px;
 }
+.ui-datepicker .ui-timepicker-div .ui_tpicker_time .ui_tpicker_time_input {
+  text-align: center;
+  border: none;
+}
 .ui-datepicker .ui-timepicker-div .ui_tpicker_time_label,
 .ui-datepicker .ui-timepicker-div .ui_tpicker_hour_label,
 .ui-datepicker .ui-timepicker-div .ui_tpicker_minute_label,
@@ -133,13 +136,10 @@
   overflow-x: auto;
   width: 100%;
 }
-.mvc-grid .mvc-grid-header:not(.action-cell) {
+.mvc-grid th:not(.action-cell) {
   padding-right: 30px;
   padding-left: 30px;
   text-align: center;
-}
-.mvc-grid-sort {
-  display: inline;
 }
 .mvc-grid-pager {
   text-align: center;

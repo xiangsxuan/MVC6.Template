@@ -4,33 +4,43 @@ using System.Collections.Generic;
 
 namespace MvcTemplate.Data.Mapping
 {
-    public static class ObjectMapper
+    public class ObjectMapper
     {
         public static void MapObjects()
         {
+            Mapper.Initialize(configuration => new ObjectMapper(configuration).Map());
+        }
+
+        private IMapperConfigurationExpression Configuration { get; set; }
+
+        private ObjectMapper(IMapperConfigurationExpression configuration)
+        {
+            Configuration = configuration;
+        }
+
+        private void Map()
+        {
             MapRoles();
             MapAccounts();
-
-            Mapper.Configuration.Seal();
         }
 
         #region Administration
 
-        private static void MapRoles()
+        private void MapRoles()
         {
-            Mapper.CreateMap<Role, RoleView>()
+            Configuration.CreateMap<Role, RoleView>()
                 .ForMember(role => role.Permissions, member => member.Ignore());
-            Mapper.CreateMap<RoleView, Role>()
+            Configuration.CreateMap<RoleView, Role>()
                 .ForMember(role => role.Permissions, member => member.UseValue(new List<RolePermission>()));
         }
-        private static void MapAccounts()
+        private void MapAccounts()
         {
-            Mapper.CreateMap<Account, AccountView>();
-            Mapper.CreateMap<Account, AccountEditView>();
-            Mapper.CreateMap<Account, ProfileEditView>();
+            Configuration.CreateMap<Account, AccountView>();
+            Configuration.CreateMap<Account, AccountEditView>();
+            Configuration.CreateMap<Account, ProfileEditView>();
 
-            Mapper.CreateMap<AccountCreateView, Account>();
-            Mapper.CreateMap<AccountRegisterView, Account>();
+            Configuration.CreateMap<AccountCreateView, Account>();
+            Configuration.CreateMap<AccountRegisterView, Account>();
         }
 
         #endregion
