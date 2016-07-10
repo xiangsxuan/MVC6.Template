@@ -103,8 +103,8 @@ namespace MvcTemplate.Web
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 Events = new AuthenticationEvents(),
+                CookieName = ".WebAuthentication",
                 AuthenticationScheme = "Cookies",
-                AutomaticAuthenticate = true,
                 AutomaticChallenge = true
             });
             app.UseDeveloperExceptionPage();
