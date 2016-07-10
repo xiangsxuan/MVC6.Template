@@ -35,7 +35,6 @@ namespace MvcTemplate.Web
         }
         public void Configure(IApplicationBuilder app)
         {
-            RegisterMiddleware(app);
             RegisterServices(app);
             RegisterRoute(app);
 
@@ -94,10 +93,6 @@ namespace MvcTemplate.Web
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         }
 
-        public virtual void RegisterMiddleware(IApplicationBuilder app)
-        {
-            app.UseMiddleware<ExceptionFilterMiddleware>();
-        }
         public virtual void RegisterServices(IApplicationBuilder app)
         {
             app.UseCookieAuthentication(new CookieAuthenticationOptions
@@ -108,6 +103,8 @@ namespace MvcTemplate.Web
                 AutomaticChallenge = true
             });
             app.UseDeveloperExceptionPage();
+
+            app.UseMiddleware<ExceptionFilterMiddleware>();
             app.UseStaticFiles();
             app.UseSession();
         }
