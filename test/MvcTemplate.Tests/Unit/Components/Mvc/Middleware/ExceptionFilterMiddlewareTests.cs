@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using MvcTemplate.Components.Logging;
 using MvcTemplate.Components.Mvc;
 using NSubstitute;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Mvc
@@ -26,11 +26,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Invoke(HttpContext context)
 
         [Fact]
-        public void Invoke_NextAction()
+        public async Task Invoke_NextAction()
         {
-            middleware.Invoke(context).Wait();
+            await middleware.Invoke(context);
 
-            next.Received()(context);
+            await next.Received()(context);
         }
 
         [Fact]

@@ -7,22 +7,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class MvcSiteMapParserTests
     {
-        private MvcSiteMapParser parser;
-        private XElement siteMap;
-
-        public MvcSiteMapParserTests()
-        {
-            parser = new MvcSiteMapParser();
-            siteMap = CreateSiteMap();
-        }
-
         #region GetNodeTree(XElement siteMap)
 
         [Fact]
         public void GetNodes_ReturnsAllSiteMapNodes()
         {
-            IEnumerator<MvcSiteMapNode> actual = TreeToEnumerable(parser.GetNodeTree(siteMap)).GetEnumerator();
-            IEnumerator<MvcSiteMapNode> expected = TreeToEnumerable(GetExpectedNodeTree()).GetEnumerator();
+            IEnumerator<MvcSiteMapNode> actual = ToEnumerable(new MvcSiteMapParser().GetNodeTree(CreateSiteMap())).GetEnumerator();
+            IEnumerator<MvcSiteMapNode> expected = ToEnumerable(GetExpectedNodeTree()).GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
             {
@@ -112,19 +103,19 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
                 }
             };
 
-            foreach (MvcSiteMapNode level1Node in map)
+            foreach (MvcSiteMapNode level1 in map)
             {
-                foreach (MvcSiteMapNode level2Node in level1Node.Children)
+                foreach (MvcSiteMapNode level2 in level1.Children)
                 {
-                    level2Node.Parent = level1Node;
+                    level2.Parent = level1;
 
-                    foreach (MvcSiteMapNode level3Node in level2Node.Children)
+                    foreach (MvcSiteMapNode level3 in level2.Children)
                     {
-                        level3Node.Parent = level2Node;
+                        level3.Parent = level2;
 
-                        foreach (MvcSiteMapNode level4Node in level3Node.Children)
+                        foreach (MvcSiteMapNode level4 in level3.Children)
                         {
-                            level4Node.Parent = level3Node;
+                            level4.Parent = level3;
                         }
                     }
                 }
@@ -133,13 +124,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             return map;
         }
 
-        private IEnumerable<MvcSiteMapNode> TreeToEnumerable(IEnumerable<MvcSiteMapNode> nodes)
+        private IEnumerable<MvcSiteMapNode> ToEnumerable(IEnumerable<MvcSiteMapNode> nodes)
         {
             List<MvcSiteMapNode> list = new List<MvcSiteMapNode>();
             foreach (MvcSiteMapNode node in nodes)
             {
                 list.Add(node);
-                list.AddRange(TreeToEnumerable(node.Children));
+                list.AddRange(ToEnumerable(node.Children));
             }
 
             return list;

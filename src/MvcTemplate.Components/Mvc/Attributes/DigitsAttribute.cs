@@ -8,7 +8,8 @@ namespace MvcTemplate.Components.Mvc
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class DigitsAttribute : ValidationAttribute
     {
-        public DigitsAttribute() : base(() => Validations.Digits)
+        public DigitsAttribute()
+            : base(() => Validations.Digits)
         {
         }
 

@@ -10,7 +10,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class AjaxOnlyAttributeTests
     {
-        #region IsValidForRequest(RouteContext routeContext, ActionDescriptor action)
+        #region IsValidForRequest(RouteContext context, ActionDescriptor action)
 
         [Fact]
         public void IsValidForRequest_NullHeader_ReturnsFalse()
@@ -24,12 +24,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Theory]
         [InlineData("", false)]
         [InlineData("XMLHttpRequest", true)]
-        public void IsValidForRequest_Ajax(String headerValue, Boolean expected)
+        public void IsValidForRequest_Ajax(String headerValue, Boolean isValid)
         {
             RouteContext context = new RouteContext(Substitute.For<HttpContext>());
             context.HttpContext.Request.Headers["X-Requested-With"].Returns(new StringValues(headerValue));
 
             Boolean actual = new AjaxOnlyAttribute().IsValidForRequest(context, null);
+            Boolean expected = isValid;
 
             Assert.Equal(expected, actual);
         }

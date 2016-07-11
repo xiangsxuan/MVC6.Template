@@ -18,11 +18,11 @@
             </div>
         }
     }
-    @foreach (String errorMessage in errorMessages)
+    @foreach (String message in errorMessages)
     {
         <div class="alert alert-@AlertType.Danger.ToString().ToLowerInvariant()">
             <div class="alert-text">
-                <span>@errorMessage</span>
+                <span>@message</span>
             </div>
             <div class="alert-close">
                 <a class="close" href="#">×</a>

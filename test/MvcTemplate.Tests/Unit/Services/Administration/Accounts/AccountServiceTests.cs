@@ -92,12 +92,13 @@ namespace MvcTemplate.Tests.Unit.Services
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void IsLoggedIn_ReturnsIsAuthenticated(Boolean expected)
+        public void IsLoggedIn_ReturnsIsAuthenticated(Boolean isAuthenticated)
         {
             IPrincipal user = Substitute.For<IPrincipal>();
-            user.Identity.IsAuthenticated.Returns(expected);
+            user.Identity.IsAuthenticated.Returns(isAuthenticated);
 
             Boolean actual = service.IsLoggedIn(user);
+            Boolean expected = isAuthenticated;
 
             Assert.Equal(expected, actual);
         }

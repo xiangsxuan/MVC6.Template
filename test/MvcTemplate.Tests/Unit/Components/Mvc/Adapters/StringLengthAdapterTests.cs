@@ -24,7 +24,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             context = new ModelValidationContextBase(new ActionContext(), metadata, provider);
         }
 
-        #region GetErrorMessage(ModelValidationContextBase validationContext)
+        #region GetErrorMessage(ModelValidationContextBase context)
 
         [Fact]
         public void GetErrorMessage_StringLength()

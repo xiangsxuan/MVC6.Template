@@ -12,7 +12,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class RangeAdapterTests
     {
-        #region GetErrorMessage(ModelValidationContextBase validationContext)
+        #region GetErrorMessage(ModelValidationContextBase context)
 
         [Fact]
         public void GetErrorMessage_Range()

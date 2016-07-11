@@ -29,16 +29,15 @@ namespace MvcTemplate.Data.Core
             Config = config;
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            modelBuilder.Entity<Permission>().Property(model => model.Id).ValueGeneratedNever();
-            foreach (IMutableForeignKey key in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            builder.Entity<Permission>().Property(model => model.Id).ValueGeneratedNever();
+            foreach (IMutableForeignKey key in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 key.DeleteBehavior = DeleteBehavior.Restrict;
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            optionsBuilder.UseSqlServer(Config["Data:Connection"]);
+            builder.UseSqlServer(Config["Data:Connection"]);
         }
     }
 }

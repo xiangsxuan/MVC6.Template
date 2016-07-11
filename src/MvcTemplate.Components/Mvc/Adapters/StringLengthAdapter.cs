@@ -13,14 +13,14 @@ namespace MvcTemplate.Components.Mvc
         {
         }
 
-        public override String GetErrorMessage(ModelValidationContextBase validationContext)
+        public override String GetErrorMessage(ModelValidationContextBase context)
         {
             if (Attribute.MinimumLength == 0)
                 Attribute.ErrorMessage = Validations.StringLength;
             else
                 Attribute.ErrorMessage = Validations.StringLengthRange;
 
-            return GetErrorMessage(validationContext.ModelMetadata);
+            return GetErrorMessage(context.ModelMetadata);
         }
     }
 }

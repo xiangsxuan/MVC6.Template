@@ -22,17 +22,17 @@ namespace MvcTemplate.Components.Mvc
         {
             return String.Format(ErrorMessageString, name, OtherPropertyDisplayName);
         }
-        protected override ValidationResult IsValid(Object value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(Object value, ValidationContext context)
         {
-            PropertyInfo otherProperty = validationContext.ObjectType.GetProperty(OtherPropertyName);
-            Object otherPropertyValue = otherProperty.GetValue(validationContext.ObjectInstance);
+            PropertyInfo other = context.ObjectType.GetProperty(OtherPropertyName);
+            Object otherValue = other.GetValue(context.ObjectInstance);
 
-            if (Equals(value, otherPropertyValue))
+            if (Equals(value, otherValue))
                 return null;
 
-            OtherPropertyDisplayName = ResourceProvider.GetPropertyTitle(validationContext.ObjectType, OtherPropertyName);
+            OtherPropertyDisplayName = ResourceProvider.GetPropertyTitle(context.ObjectType, OtherPropertyName);
 
-            return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
+            return new ValidationResult(FormatErrorMessage(context.DisplayName));
         }
     }
 }

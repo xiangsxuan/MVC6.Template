@@ -20,9 +20,9 @@ namespace MvcTemplate.Components.Mvc
 
             Attribute.OtherPropertyDisplayName = ResourceProvider.GetPropertyTitle(context.ModelMetadata.ContainerType, Attribute.OtherPropertyName);
         }
-        public override String GetErrorMessage(ModelValidationContextBase validationContext)
+        public override String GetErrorMessage(ModelValidationContextBase context)
         {
-            return GetErrorMessage(validationContext.ModelMetadata);
+            return GetErrorMessage(context.ModelMetadata);
         }
     }
 }

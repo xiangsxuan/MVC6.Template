@@ -49,21 +49,21 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         {
             AllTypesView view = new AllTypesView();
             StringWriter writer = new StringWriter();
-            IUrlHelper urlHelper = Substitute.For<IUrlHelper>();
-            urlHelper.Action("Details", Arg.Any<Object>()).Returns("Test");
-            IUrlHelperFactory urlHelperFactory = Substitute.For<IUrlHelperFactory>();
-            IAuthorizationProvider authorizationProvider = columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
-            authorizationProvider.IsAuthorizedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
+            IUrlHelper url = Substitute.For<IUrlHelper>();
+            url.Action("Details", Arg.Any<Object>()).Returns("Test");
+            IUrlHelperFactory urlFactory = Substitute.For<IUrlHelperFactory>();
+            IAuthorizationProvider provider = columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
             columns.Grid.ViewContext = new ViewContext { RouteData = new RouteData(), HttpContext = Substitute.For<HttpContext>() };
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IUrlHelperFactory>().Returns(urlHelperFactory);
-            urlHelperFactory.GetUrlHelper(columns.Grid.ViewContext).Returns(urlHelper);
+            provider.IsAuthorizedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IUrlHelperFactory>().Returns(urlFactory);
+            urlFactory.GetUrlHelper(columns.Grid.ViewContext).Returns(url);
 
             IGridColumn<AllTypesView> column = columns.AddActionLink("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
             String actual = writer.ToString();
             String expected =
-                $"<a class=\"details-action\" href=\"{urlHelper.Action("Details", new { view.Id })}\">" +
+                $"<a class=\"details-action\" href=\"{url.Action("Details", new { view.Id })}\">" +
                     "<i class=\"fa fa-info\"></i>" +
                 "</a>";
 
@@ -75,20 +75,20 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         {
             AllTypesView view = new AllTypesView();
             StringWriter writer = new StringWriter();
-            IUrlHelper urlHelper = Substitute.For<IUrlHelper>();
-            urlHelper.Action("Details", Arg.Any<Object>()).Returns("Test");
-            IUrlHelperFactory urlHelperFactory = Substitute.For<IUrlHelperFactory>();
+            IUrlHelper url = Substitute.For<IUrlHelper>();
+            url.Action("Details", Arg.Any<Object>()).Returns("Test");
+            IUrlHelperFactory urlFactory = Substitute.For<IUrlHelperFactory>();
             columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(null as IAuthorizationProvider);
             columns.Grid.ViewContext = new ViewContext { RouteData = new RouteData(), HttpContext = Substitute.For<HttpContext>() };
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IUrlHelperFactory>().Returns(urlHelperFactory);
-            urlHelperFactory.GetUrlHelper(columns.Grid.ViewContext).Returns(urlHelper);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IUrlHelperFactory>().Returns(urlFactory);
+            urlFactory.GetUrlHelper(columns.Grid.ViewContext).Returns(url);
 
             IGridColumn<AllTypesView> column = columns.AddActionLink("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
             String actual = writer.ToString();
             String expected =
-                $"<a class=\"details-action\" href=\"{urlHelper.Action("Details", new { view.Id })}\">" +
+                $"<a class=\"details-action\" href=\"{url.Action("Details", new { view.Id })}\">" +
                     "<i class=\"fa fa-info\"></i>" +
                 "</a>";
 

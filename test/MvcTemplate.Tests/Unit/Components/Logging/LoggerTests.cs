@@ -10,19 +10,19 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
     public class LoggerTests
     {
         private IConfiguration config;
-        private String logDirectory;
         private Int32 backupSize;
         private String logPath;
+        private String log;
 
         public LoggerTests()
         {
             config = ConfigurationFactory.Create();
             backupSize = Int32.Parse(config["Logger:BackupSize"]);
-            logDirectory = Path.Combine(config["Application:Path"], config["Logger:Path"]);
-            logPath = Path.Combine(config["Application:Path"], config["Logger:Path"], "Log.txt");
+            logPath = Path.Combine(config["Application:Path"], config["Logger:Path"]);
+            log = Path.Combine(config["Application:Path"], config["Logger:Path"], "Log.txt");
 
-            if (Directory.Exists(logDirectory))
-                Directory.Delete(logDirectory, true);
+            if (Directory.Exists(logPath))
+                Directory.Delete(logPath, true);
         }
 
         #region Log(String message)
@@ -35,7 +35,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
             logger.Log("Test");
 
             String expected = "Account: " + Environment.NewLine + "Message: Test" + Environment.NewLine + Environment.NewLine;
-            String actual = File.ReadAllText(logPath);
+            String actual = File.ReadAllText(log);
 
             Assert.True(actual.StartsWith("Time   :"));
             Assert.True(actual.EndsWith(expected));
@@ -49,7 +49,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
             logger.Log(new String('T', backupSize));
 
             String expected = "Account: 2" + Environment.NewLine + "Message: " + new String('T', backupSize) + Environment.NewLine + Environment.NewLine;
-            String actual = File.ReadAllText(Path.Combine(logDirectory, String.Format("Log {0}.txt", DateTime.Now.ToString("yyyy-MM-dd HHmmss"))));
+            String actual = File.ReadAllText(Path.Combine(logPath, String.Format("Log {0}.txt", DateTime.Now.ToString("yyyy-MM-dd HHmmss"))));
 
             Assert.True(actual.StartsWith("Time   :"));
             Assert.True(actual.EndsWith(expected));
@@ -69,7 +69,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
 
             logger.Log(exception);
 
-            String actual = File.ReadAllText(logPath);
+            String actual = File.ReadAllText(log);
             String expected = String.Format("Account: 2{0}Message: {1}: {2}{0}{3}{0}{0}",
                  Environment.NewLine,
                  exception.InnerException.GetType(),

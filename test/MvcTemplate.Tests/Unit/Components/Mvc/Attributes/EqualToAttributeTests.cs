@@ -44,7 +44,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region IsValid(Object value, ValidationContext validationContext)
+        #region IsValid(Object value, ValidationContext context)
 
         [Fact]
         public void IsValid_EqualValue()

@@ -40,7 +40,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region GetErrorMessage(ModelValidationContextBase validationContext)
+        #region GetErrorMessage(ModelValidationContextBase context)
 
         [Fact]
         public void GetErrorMessage_EqualTo()

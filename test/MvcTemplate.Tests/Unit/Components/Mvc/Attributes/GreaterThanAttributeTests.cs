@@ -14,23 +14,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attribute = new GreaterThanAttribute(12.56);
         }
 
-        #region GreaterThanAttribute(Int32 minimum)
-
-        [Fact]
-        public void GreaterThanAttribute_SetsMinimumFromInteger()
-        {
-            Decimal actual = new GreaterThanAttribute(10).Minimum;
-            Decimal expected = 10M;
-
-            Assert.Equal(expected, actual);
-        }
-
-        #endregion
-
         #region GreaterThanAttribute(Double minimum)
 
         [Fact]
-        public void GreaterThanAttribute_SetsMinimumFromDouble()
+        public void GreaterThanAttribute_SetsMinimum()
         {
             Decimal actual = new GreaterThanAttribute(12.56).Minimum;
             Decimal expected = 12.56M;

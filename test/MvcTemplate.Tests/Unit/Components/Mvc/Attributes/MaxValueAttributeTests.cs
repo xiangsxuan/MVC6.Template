@@ -14,23 +14,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attribute = new MaxValueAttribute(12.56);
         }
 
-        #region MaxValueAttribute(Int32 maximum)
-
-        [Fact]
-        public void MaxValueAttribute_ForInteger()
-        {
-            Decimal actual = new MaxValueAttribute(10).Maximum;
-            Decimal expected = 10M;
-
-            Assert.Equal(expected, actual);
-        }
-
-        #endregion
-
         #region MaxValueAttribute(Double maximum)
 
         [Fact]
-        public void MaxValueAttribute_ForDouble()
+        public void MaxValueAttribute_SetsMaximum()
         {
             Decimal actual = new MaxValueAttribute(12.56).Maximum;
             Decimal expected = 12.56M;

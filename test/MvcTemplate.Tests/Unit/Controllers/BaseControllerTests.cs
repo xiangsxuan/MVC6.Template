@@ -136,7 +136,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
-        #region RedirectToAction(String actionName, String controllerName, Object routeValues)
+        #region RedirectToAction(String action, String controller, Object route)
 
         [Fact]
         public void RedirectToAction_Action_Controller_Route_NotAuthorized_RedirectsToDefault()
@@ -208,9 +208,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [InlineData("", 0)]
         [InlineData("1", 1)]
         [InlineData(null, 0)]
-        public void OnActionExecuting_SetsCurrentAccountId(String identityName, Int32 accountId)
+        public void OnActionExecuting_SetsCurrentAccountId(String identity, Int32 accountId)
         {
-            controller.HttpContext.User.Identity.Name.Returns(identityName);
+            controller.HttpContext.User.Identity.Name.Returns(identity);
 
             controller.OnActionExecuting(null);
 

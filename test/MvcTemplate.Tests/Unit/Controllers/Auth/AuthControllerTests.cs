@@ -12,6 +12,7 @@ using MvcTemplate.Validators;
 using NSubstitute;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
@@ -168,77 +169,77 @@ namespace MvcTemplate.Tests.Unit.Controllers
         #region Recover(AccountRecoveryView account)
 
         [Fact]
-        public void Recover_Post_IsLoggedIn_RedirectsToDefault()
+        public async Task Recover_Post_IsLoggedIn_RedirectsToDefault()
         {
             service.IsLoggedIn(controller.User).Returns(true);
             validator.CanRecover(accountRecovery).Returns(true);
 
             Object expected = RedirectToDefault(controller);
-            Object actual = controller.Recover(null).Result;
+            Object actual = await controller.Recover(null);
 
             Assert.Same(expected, actual);
         }
 
         [Fact]
-        public void Recover_CanNotRecover_ReturnsSameView()
+        public async Task Recover_CanNotRecover_ReturnsSameView()
         {
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanRecover(accountRecovery).Returns(false);
 
-            Object actual = (controller.Recover(accountRecovery).Result as ViewResult).Model;
+            Object actual = (await controller.Recover(accountRecovery) as ViewResult).Model;
             Object expected = accountRecovery;
 
             Assert.Same(expected, actual);
         }
 
         [Fact]
-        public void Recover_Account()
+        public async Task Recover_Account()
         {
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanRecover(accountRecovery).Returns(true);
 
-            controller.Recover(accountRecovery).Wait();
+            await controller.Recover(accountRecovery);
 
             service.Received().Recover(accountRecovery);
         }
 
         [Fact]
-        public void Recover_SendsRecoveryInformation()
+        public async Task Recover_SendsRecoveryInformation()
         {
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanRecover(accountRecovery).Returns(true);
             service.Recover(accountRecovery).Returns("TestToken");
 
-            controller.Recover(accountRecovery).Wait();
+            await controller.Recover(accountRecovery);
 
             String url = controller.Url.Action("Reset", "Auth", new { token = "TestToken" }, controller.Request.Scheme);
             String body = String.Format(Messages.RecoveryEmailBody, url);
             String subject = Messages.RecoveryEmailSubject;
             String email = accountRecovery.Email;
 
-            mailClient.Received().SendAsync(email, subject, body);
+            await mailClient.Received().SendAsync(email, subject, body);
         }
 
         [Fact]
-        public void Recover_NullToken_DoesNotSendRecoveryInformation()
+        public async Task Recover_NullToken_DoesNotSendRecoveryInformation()
         {
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanRecover(accountRecovery).Returns(true);
             service.Recover(accountRecovery).Returns(null as String);
 
-            controller.Recover(accountRecovery).Wait();
+            await controller.Recover(accountRecovery);
 
-            mailClient.DidNotReceive().SendAsync(Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>());
+            await mailClient.DidNotReceive().SendAsync(Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>());
         }
 
         [Fact]
-        public void Recover_AddsRecoveryMessage()
+        public async Task Recover_AddsRecoveryMessage()
         {
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanRecover(accountRecovery).Returns(true);
             service.Recover(accountRecovery).Returns("RecoveryToken");
 
-            controller.Recover(accountRecovery).Wait();
+            await controller.Recover(accountRecovery);
 
             Alert actual = controller.Alerts.Single();
 
@@ -248,14 +249,14 @@ namespace MvcTemplate.Tests.Unit.Controllers
         }
 
         [Fact]
-        public void Recover_RedirectsToLogin()
+        public async Task Recover_RedirectsToLogin()
         {
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanRecover(accountRecovery).Returns(true);
             service.Recover(accountRecovery).Returns("RecoveryToken");
 
             Object expected = RedirectToAction(controller, "Login");
-            Object actual = controller.Recover(accountRecovery).Result;
+            Object actual = await controller.Recover(accountRecovery);
 
             Assert.Same(expected, actual);
         }

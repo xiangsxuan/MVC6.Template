@@ -14,24 +14,24 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Lookups
 {
-    public class BaseLookupTests
+    public class LookupOfTests
     {
-        private BaseLookup<Role, RoleView> lookup;
-        private IUrlHelper urlHelper;
+        private LookupOf<Role, RoleView> lookup;
+        private IUrlHelper url;
 
-        public BaseLookupTests()
+        public LookupOfTests()
         {
-            urlHelper = Substitute.For<IUrlHelper>();
-            lookup = new BaseLookup<Role, RoleView>(urlHelper);
+            url = Substitute.For<IUrlHelper>();
+            lookup = new LookupOf<Role, RoleView>(url);
             using (TestingContext context = new TestingContext()) context.DropData();
         }
 
-        #region BaseLookup(IUrlHelper url)
+        #region LookupOf(IUrlHelper url)
 
         [Fact]
-        public void BaseLookup_SetsTitle()
+        public void LookupOf_SetsTitle()
         {
-            lookup = new BaseLookup<Role, RoleView>(urlHelper);
+            lookup = new LookupOf<Role, RoleView>(url);
 
             String expected = ResourceProvider.GetLookupTitle(typeof(RoleView).Name.Replace("View", ""));
             String actual = lookup.Title;
@@ -40,10 +40,10 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         }
 
         [Fact]
-        public void BaseLookup_SetsUrl()
+        public void LookupOf_SetsUrl()
         {
-            urlHelper.Action(Arg.Is<UrlActionContext>(context => context.Action == typeof(Role).Name && context.Controller == "Lookup")).Returns("Test");
-            lookup = new BaseLookup<Role, RoleView>(urlHelper);
+            url.Action(Arg.Is<UrlActionContext>(context => context.Action == typeof(Role).Name && context.Controller == "Lookup")).Returns("Test");
+            lookup = new LookupOf<Role, RoleView>(url);
 
             String actual = lookup.Url;
             String expected = "Test";
@@ -130,7 +130,7 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
             IUnitOfWork unitOfWork = Substitute.For<IUnitOfWork>();
             unitOfWork.Select<Role>().To<RoleView>().Returns(new RoleView[0].AsQueryable());
 
-            Object actual = new BaseLookup<Role, RoleView>(unitOfWork).GetModels();
+            Object actual = new LookupOf<Role, RoleView>(unitOfWork).GetModels();
             Object expected = unitOfWork.Select<Role>().To<RoleView>();
 
             Assert.Same(expected, actual);
@@ -157,7 +157,7 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
             context.SaveChanges();
 
             IUnitOfWork unitOfWork = new UnitOfWork(context);
-            lookup = new BaseLookup<Role, RoleView>(unitOfWork);
+            lookup = new LookupOf<Role, RoleView>(unitOfWork);
 
             lookup.Filter.Id = role.Id.ToString();
 

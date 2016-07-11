@@ -28,7 +28,7 @@ namespace MvcTemplate.Components.Mvc
             if (Required == true)
                 requiredSpan.InnerHtml.Append("*");
 
-            if (!Required.HasValue && IsRequiredExpression())
+            if (Required == null && IsRequiredExpression())
                 requiredSpan.InnerHtml.Append("*");
 
             output.Attributes.SetAttribute("for", TagBuilder.CreateSanitizedId(For.Name, Options.IdAttributeDotReplacement));

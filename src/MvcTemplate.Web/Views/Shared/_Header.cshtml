@@ -9,7 +9,7 @@
         @{ ILanguages languages = Context.RequestServices.GetService<ILanguages>(); }
         @if (languages.Supported.Length > 1)
         {
-            String query = ViewContext.HttpContext.Request.Query.Count > 0 ? ViewContext.HttpContext.Request.QueryString.ToString() : "";
+            String query = ViewContext.HttpContext.Request.QueryString.ToString();
             String action = ViewContext.RouteData.Values["action"] as String;
             String area = ViewContext.RouteData.Values["area"] as String;
             String id = ViewContext.RouteData.Values["id"] as String;

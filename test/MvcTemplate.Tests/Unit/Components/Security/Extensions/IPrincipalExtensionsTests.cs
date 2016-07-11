@@ -14,10 +14,10 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         [InlineData("1", 1)]
         [InlineData("", null)]
         [InlineData(null, null)]
-        public void Id_ReturnsEntityNameAsInteger(String identityName, Int32? id)
+        public void Id_ReturnsEntityNameAsInteger(String identity, Int32? id)
         {
             IPrincipal principal = Substitute.For<IPrincipal>();
-            principal.Identity.Name.Returns(identityName);
+            principal.Identity.Name.Returns(identity);
 
             Int32? actual = principal.Id();
             Int32? expected = id;

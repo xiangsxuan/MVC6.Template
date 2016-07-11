@@ -12,8 +12,8 @@ namespace MvcTemplate.Components.Security
     {
         public override Task RedirectToLogin(CookieRedirectContext context)
         {
-            RouteData routeData = context.HttpContext.GetRouteData();
-            ActionContext action = new ActionContext(context.HttpContext, routeData, new ActionDescriptor());
+            RouteData route = context.HttpContext.GetRouteData();
+            ActionContext action = new ActionContext(context.HttpContext, route, new ActionDescriptor());
             IUrlHelper url = context.Request.HttpContext.RequestServices.GetRequiredService<IUrlHelperFactory>().GetUrlHelper(action);
 
             context.RedirectUri = url.Action("Login", "Auth", new { area = "", returnUrl = context.Request.Path }, context.Request.Scheme);

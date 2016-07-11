@@ -25,15 +25,15 @@ namespace MvcTemplate.Components.Mvc
         private void Add(TagBuilder root, IList<JsTreeNode> nodes)
         {
             TagBuilder branch = new TagBuilder("ul");
-            foreach (JsTreeNode jsNode in nodes)
+            foreach (JsTreeNode node in nodes)
             {
-                TagBuilder node = new TagBuilder("li");
-                node.InnerHtml.Append(jsNode.Title);
-                String id = jsNode.Id.ToString();
-                node.Attributes["id"] = id;
+                TagBuilder item = new TagBuilder("li");
+                item.InnerHtml.Append(node.Title);
+                String id = node.Id.ToString();
+                item.Attributes["id"] = id;
 
-                Add(node, jsNode.Nodes);
-                branch.InnerHtml.AppendHtml(node);
+                Add(item, node.Nodes);
+                branch.InnerHtml.AppendHtml(item);
             }
 
             if (nodes.Count > 0)

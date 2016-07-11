@@ -71,26 +71,26 @@ namespace MvcTemplate.Tests.Unit.Resources
         public void Resources_HasEquivalents()
         {
             IEnumerable<CultureInfo> languages = new[] { new CultureInfo("en-GB"), new CultureInfo("lt-LT") };
-            IEnumerable<Type> resourceTypes = Assembly
+            IEnumerable<Type> types = Assembly
                 .Load("MvcTemplate.Resources")
                 .GetTypes()
                 .Where(type => type.Namespace.StartsWith("MvcTemplate.Resources."));
 
-            foreach (Type type in resourceTypes)
+            foreach (Type type in types)
             {
                 ResourceManager manager = new ResourceManager(type);
-                IEnumerable<String> resourceKeys = new String[0];
+                IEnumerable<String> keys = new String[0];
 
                 foreach (ResourceSet set in languages.Select(language => manager.GetResourceSet(language, true, true)))
                 {
-                    resourceKeys = resourceKeys.Union(set.Cast<DictionaryEntry>().Select(resource => resource.Key.ToString()));
-                    resourceKeys = resourceKeys.Distinct();
+                    keys = keys.Union(set.Cast<DictionaryEntry>().Select(resource => resource.Key.ToString()));
+                    keys = keys.Distinct();
                 }
 
                 foreach (CultureInfo language in languages)
                 {
                     ResourceSet set = manager.GetResourceSet(language, true, true);
-                    foreach (String key in resourceKeys)
+                    foreach (String key in keys)
                         Assert.True((set.GetObject(key) ?? "").ToString() != "",
                             $"{type.FullName}, does not have translation for '{key}' in {language.EnglishName} language.");
                 }

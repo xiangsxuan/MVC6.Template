@@ -18,11 +18,11 @@ namespace MvcTemplate.Components.Mvc
             context.Attributes["data-val"] = "true";
             context.Attributes["data-val-email"] = GetErrorMessage(context);
         }
-        public override String GetErrorMessage(ModelValidationContextBase validationContext)
+        public override String GetErrorMessage(ModelValidationContextBase context)
         {
             Attribute.ErrorMessage = Validations.Email;
 
-            return GetErrorMessage(validationContext.ModelMetadata);
+            return GetErrorMessage(context.ModelMetadata);
         }
     }
 }

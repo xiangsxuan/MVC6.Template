@@ -13,7 +13,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc.Providers
             provider = new ValidationAdapterProvider();
         }
 
-        #region GetAttributeAdapter(ValidationAttribute attribute, IStringLocalizer stringLocalizer)
+        #region GetAttributeAdapter(ValidationAttribute attribute, IStringLocalizer localizer)
 
         [Fact]
         public void GetAttributeAdapter_Required()

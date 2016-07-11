@@ -7,9 +7,9 @@ namespace MvcTemplate.Components.Mvc
 {
     public class TrimmingModelBinder : IModelBinder
     {
-        public Task BindModelAsync(ModelBindingContext bindingContext)
+        public Task BindModelAsync(ModelBindingContext context)
         {
-            bindingContext.Result = BindModel(bindingContext);
+            context.Result = BindModel(context);
 
             return Task.CompletedTask;
         }

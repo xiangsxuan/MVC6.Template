@@ -9,19 +9,10 @@ namespace MvcTemplate.Components.Mvc
     {
         public Decimal Minimum { get; }
 
-        public GreaterThanAttribute(Int32 minimum)
-            : this()
-        {
-            Minimum = minimum;
-        }
         public GreaterThanAttribute(Double minimum)
-            : this()
-        {
-            Minimum = Convert.ToDecimal(minimum);
-        }
-        private GreaterThanAttribute()
             : base(() => Validations.GreaterThan)
         {
+            Minimum = Convert.ToDecimal(minimum);
         }
 
         public override String FormatErrorMessage(String name)

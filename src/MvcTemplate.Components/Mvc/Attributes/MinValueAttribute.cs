@@ -9,19 +9,10 @@ namespace MvcTemplate.Components.Mvc
     {
         public Decimal Minimum { get; }
 
-        public MinValueAttribute(Int32 minimum)
-            : this()
-        {
-            Minimum = minimum;
-        }
         public MinValueAttribute(Double minimum)
-            : this()
-        {
-            Minimum = Convert.ToDecimal(minimum);
-        }
-        private MinValueAttribute()
             : base(() => Validations.MinValue)
         {
+            Minimum = Convert.ToDecimal(minimum);
         }
 
         public override String FormatErrorMessage(String name)

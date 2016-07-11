@@ -9,19 +9,19 @@ using System.Reflection;
 
 namespace MvcTemplate.Components.Lookups
 {
-    public class BaseLookup<TModel, TView> : MvcLookup<TView>
+    public class LookupOf<TModel, TView> : MvcLookup<TView>
         where TModel : BaseModel
         where TView : BaseView
     {
         private IUnitOfWork UnitOfWork { get; }
 
-        public BaseLookup(IUrlHelper url)
+        public LookupOf(IUrlHelper url)
         {
             String view = typeof(TView).Name.Replace("View", "");
             Url = url.Action(view, Prefix, new { area = "" });
             Title = ResourceProvider.GetLookupTitle(view);
         }
-        public BaseLookup(IUnitOfWork unitOfWork)
+        public LookupOf(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }

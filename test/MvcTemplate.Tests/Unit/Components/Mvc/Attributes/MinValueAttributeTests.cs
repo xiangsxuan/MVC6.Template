@@ -14,23 +14,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attribute = new MinValueAttribute(12.56);
         }
 
-        #region MinValueAttribute(Int32 minimum)
-
-        [Fact]
-        public void MinValueAttribute_ForInteger()
-        {
-            Decimal actual = new MinValueAttribute(10).Minimum;
-            Decimal expected = 10M;
-
-            Assert.Equal(expected, actual);
-        }
-
-        #endregion
-
         #region MinValueAttribute(Double minimum)
 
         [Fact]
-        public void MinValueAttribute_ForDouble()
+        public void MinValueAttribute_SetsMinimum()
         {
             Decimal actual = new MinValueAttribute(12.56).Minimum;
             Decimal expected = 12.56M;

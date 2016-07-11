@@ -20,9 +20,9 @@ namespace MvcTemplate.Tests.Data
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            optionsBuilder.UseSqlServer(Config["Data:TestConnection"]);
+            builder.UseSqlServer(Config["Data:TestConnection"]);
         }
     }
 }

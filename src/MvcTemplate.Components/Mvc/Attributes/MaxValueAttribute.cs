@@ -9,16 +9,10 @@ namespace MvcTemplate.Components.Mvc
     {
         public Decimal Maximum { get; }
 
-        public MaxValueAttribute(Int32 maximum) : this()
-        {
-            Maximum = maximum;
-        }
-        public MaxValueAttribute(Double maximum) : this()
+        public MaxValueAttribute(Double maximum)
+            : base(() => Validations.MaxValue)
         {
             Maximum = Convert.ToDecimal(maximum);
-        }
-        private MaxValueAttribute() : base(() => Validations.MaxValue)
-        {
         }
 
         public override String FormatErrorMessage(String name)

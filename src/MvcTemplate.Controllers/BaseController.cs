@@ -49,18 +49,18 @@ namespace MvcTemplate.Controllers
         {
             return base.RedirectToAction("Unauthorized", "Home", new { area = "" });
         }
-        public override RedirectToActionResult RedirectToAction(String actionName, String controllerName, Object routeValues)
+        public override RedirectToActionResult RedirectToAction(String action, String controller, Object route)
         {
-            IDictionary<String, Object> values = HtmlHelper.AnonymousObjectToHtmlAttributes(routeValues);
-            String controller = controllerName ?? (values.ContainsKey("controller") ? values["controller"] as String : null);
+            IDictionary<String, Object> values = HtmlHelper.AnonymousObjectToHtmlAttributes(route);
+            controller = controller ?? (values.ContainsKey("controller") ? values["controller"] as String : null);
             String area = values.ContainsKey("area") ? values["area"] as String : null;
             controller = controller ?? RouteData.Values["controller"] as String;
             area = area ?? RouteData.Values["area"] as String;
 
-            if (!IsAuthorizedFor(actionName, controller, area))
+            if (!IsAuthorizedFor(action, controller, area))
                 return RedirectToDefault();
 
-            return base.RedirectToAction(actionName, controllerName, routeValues);
+            return base.RedirectToAction(action, controller, route);
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)

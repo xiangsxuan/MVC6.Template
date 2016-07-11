@@ -341,10 +341,10 @@ namespace MvcTemplate.Tests.Unit.Services
 
         private JsTree CreatePermissions()
         {
-            JsTreeNode rootNode = new JsTreeNode(Titles.All);
+            JsTreeNode root = new JsTreeNode(Titles.All);
             JsTree expectedTree = new JsTree();
 
-            expectedTree.Nodes.Add(rootNode);
+            expectedTree.Nodes.Add(root);
             expectedTree.SelectedIds = role.Permissions.Select(rolePermission => rolePermission.PermissionId).ToList();
 
             IEnumerable<Permission> permissions = role
@@ -368,13 +368,13 @@ namespace MvcTemplate.Tests.Unit.Services
                         controllerNode.Nodes.Add(new JsTreeNode(permission.Id, permission.Action));
 
                     if (areaNode.Title == null)
-                        rootNode.Nodes.Add(controllerNode);
+                        root.Nodes.Add(controllerNode);
                     else
                         areaNode.Nodes.Add(controllerNode);
                 }
 
                 if (areaNode.Title != null)
-                    rootNode.Nodes.Add(areaNode);
+                    root.Nodes.Add(areaNode);
             }
 
             return expectedTree;
