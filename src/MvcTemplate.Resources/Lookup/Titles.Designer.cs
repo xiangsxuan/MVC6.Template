@@ -58,7 +58,7 @@ namespace MvcTemplate.Resources.Lookup {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///    Looks up a localized string similar to Roles.
         /// </summary>
