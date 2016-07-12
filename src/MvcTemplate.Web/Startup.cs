@@ -53,6 +53,7 @@ namespace MvcTemplate.Web
                 .AddMvc()
                 .AddMvcOptions(options => options.Filters.Add(typeof(LanguageFilter)))
                 .AddMvcOptions(options => options.Filters.Add(typeof(AuthorizationFilter)))
+                .AddMvcOptions(options => new ModelMessagesProvider(options.ModelBindingMessageProvider))
                 .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
                 .AddMvcOptions(options => options.ModelMetadataDetailsProviders.Add(new DisplayMetadataProvider()))
                 .AddMvcOptions(options => options.ModelBinderProviders.Insert(0, new TrimmingModelBinderProvider()));

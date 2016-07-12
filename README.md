@@ -9,7 +9,6 @@
 # Features in progress
 - Script and styling minification and bundling.
 - Dynamic script and styling loading.
-- Globalization.
 
 # Features
 - Model-View-ViewModel architectural design.

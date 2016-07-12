@@ -135,6 +135,12 @@
   <data name="Integer" xml:space="preserve">
     <value>Laukas '{0}' turi būti sveikas skaičius.</value>
   </data>
+  <data name="InvalidField" xml:space="preserve">
+    <value>Lauko '{0}' reikšmė yra neteisinga.</value>
+  </data>
+  <data name="InvalidValue" xml:space="preserve">
+    <value>Reikšmė '{0}' yra neteisinga.</value>
+  </data>
   <data name="MaxValue" xml:space="preserve">
     <value>Laukas '{0}' turi būti mažesnis arba lygus {1}.</value>
   </data>
@@ -152,6 +158,9 @@
   </data>
   <data name="Required" xml:space="preserve">
     <value>Laukas '{0}' yra privalomas.</value>
+  </data>
+  <data name="RequiredValue" xml:space="preserve">
+    <value>Laukas yra privalomas.</value>
   </data>
   <data name="StringLength" xml:space="preserve">
     <value>Laukas '{0}' negali viršyti maksimalaus {1} simbolių ilgio.</value>

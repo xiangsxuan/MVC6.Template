@@ -114,6 +114,24 @@ namespace MvcTemplate.Resources.Form {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to &apos;{0}&apos; field value is invalid..
+        /// </summary>
+        public static string InvalidField {
+            get {
+                return ResourceManager.GetString("InvalidField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Value &apos;{0}&apos; is not valid..
+        /// </summary>
+        public static string InvalidValue {
+            get {
+                return ResourceManager.GetString("InvalidValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to &apos;{0}&apos; field must be less or equal to {1}..
         /// </summary>
         public static string MaxValue {
@@ -164,6 +182,15 @@ namespace MvcTemplate.Resources.Form {
         public static string Required {
             get {
                 return ResourceManager.GetString("Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Value is required..
+        /// </summary>
+        public static string RequiredValue {
+            get {
+                return ResourceManager.GetString("RequiredValue", resourceCulture);
             }
         }
         
