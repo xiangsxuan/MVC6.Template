@@ -1,19 +1,7 @@
-(function( window, undefined ) {
-
-var Globalize;
-
-if ( typeof require !== "undefined" &&
-    typeof exports !== "undefined" &&
-    typeof module !== "undefined" ) {
-    // Assume CommonJS
-    Globalize = require( "globalize" );
-} else {
-    // Global variable
-    Globalize = window.Globalize;
-}
-
-Globalize.addCultureInfo( "en-GB", "default", {
-    name: "en-GB",
+window.cultures = window.cultures || {};
+window.cultures.globalize = window.cultures.globalize || {};
+window.cultures.globalize['en'] = {
+    name: "en",
     englishName: "English (United Kingdom)",
     nativeName: "English (United Kingdom)",
     numberFormat: {
@@ -38,8 +26,4 @@ Globalize.addCultureInfo( "en-GB", "default", {
             }
         }
     }
-});
-
-}( this ));
-
-Globalize.culture("en-GB");
+};

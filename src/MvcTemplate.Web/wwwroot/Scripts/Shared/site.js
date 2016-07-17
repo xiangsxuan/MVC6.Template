@@ -114,32 +114,34 @@
             return $(this).is(currentIgnore) && !$(this).hasClass('mvc-lookup-hidden-input');
         }
     });
+    
+    var lang = $('html').attr('lang');
+
+    Globalize.cultures.en = null;
+    Globalize.addCultureInfo(lang, window.cultures.globalize[lang]);
+    Globalize.culture(lang);
 }());
 
 // Datepicker binding
 (function () {
-    var datePickers = $(".datepicker");
-    for (var i = 0; i < datePickers.length; i++) {
-        $(datePickers[i]).datepicker({
-            beforeShow: function (e) {
-                return !$(e).attr('readonly');
-            },
-            onSelect: function () {
-                $(this).focusout();
-            }
-        });
+    var options = {
+        beforeShow: function (e) {
+            return !$(e).attr('readonly');
+        },
+        onSelect: function () {
+            $(this).focusout();
+        }
+    };
+
+    if ($.fn.datepicker) {
+        var lang = $('html').attr('lang');
+        $(".datepicker").datepicker(options);
+        $.datepicker.setDefaults(window.cultures.datepicker[lang]);
     }
 
-    var datetimePickers = $(".datetimepicker");
-    for (var j = 0; j < datetimePickers.length; j++) {
-        $(datetimePickers[j]).datetimepicker({
-            beforeShow: function (e) {
-                return !$(e).attr('readonly');
-            },
-            onSelect: function () {
-                $(this).focusout();
-            }
-        });
+    if ($.fn.timepicker) {
+        $(".datetimepicker").datetimepicker(options);
+        $.timepicker.setDefaults(window.cultures.timepicker[lang]);
     }
 }());
 
@@ -192,17 +194,24 @@
 
 // Mvc.Grid binding
 (function () {
-    if (window.MvcGridNumberFilter) {
-        MvcGridNumberFilter.prototype.isValid = function (value) {
-            var pattern = new RegExp('^(?=.*\\d+.*)[-+]?\\d*[' + Globalize.culture().numberFormat['.'] + ']?\\d*$');
+    if ($.fn.mvcgrid) {
+        $('.mvc-grid').mvcgrid();
+        $.fn.mvcgrid.lang = window.cultures.grid[$('html').attr('lang')];
 
-            return value == '' || pattern.test(value);
+        if (MvcGridNumberFilter) {
+            MvcGridNumberFilter.prototype.isValid = function (value) {
+                var pattern = new RegExp('^(?=.*\\d+.*)[-+]?\\d*[' + Globalize.culture().numberFormat['.'] + ']?\\d*$');
+
+                return value == '' || pattern.test(value);
+            }
         }
     }
+}());
 
-    var mvcGrids = $('.mvc-grid');
-    for (var i = 0; i < mvcGrids.length; i++) {
-        $(mvcGrids[i]).mvcgrid();
+// Lookup binding
+(function () {
+    if ($.fn.mvclookup) {
+        $.fn.mvclookup.lang = window.cultures.lookup[$('html').attr('lang')];
     }
 }());
 

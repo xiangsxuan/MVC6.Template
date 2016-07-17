@@ -1,4 +1,8 @@
-﻿$.datepicker.regional['lt-LT'] = {
+﻿window.cultures = window.cultures || {};
+window.cultures.datepicker = window.cultures.datepicker || {};
+window.cultures.timepicker = window.cultures.timepicker || {};
+
+window.cultures.datepicker['lt'] = {
     closeText: 'Uždaryti',
     prevText: '&#x3c;Atgal',
     nextText: 'Pirmyn&#x3e;',
@@ -18,7 +22,7 @@
     yearSuffix: ''
 };
 
-$.timepicker.regional['lt-LT'] = {
+window.cultures.timepicker['lt'] = {
     timeOnlyTitle: 'Pasirinkite laiką',
     timeText: 'Laikas',
     hourText: 'Valandos',
@@ -35,6 +39,3 @@ $.timepicker.regional['lt-LT'] = {
     pmNames: ['popiet', 'PM', 'P'],
     isRTL: false
 };
-
-$.datepicker.setDefaults($.datepicker.regional['lt-LT']);
-$.timepicker.setDefaults($.timepicker.regional['lt-LT']);

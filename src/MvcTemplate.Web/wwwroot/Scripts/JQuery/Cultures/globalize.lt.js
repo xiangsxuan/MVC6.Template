@@ -1,19 +1,7 @@
-(function( window, undefined ) {
-
-var Globalize;
-
-if ( typeof require !== "undefined" &&
-    typeof exports !== "undefined" &&
-    typeof module !== "undefined" ) {
-    // Assume CommonJS
-    Globalize = require( "globalize" );
-} else {
-    // Global variable
-    Globalize = window.Globalize;
-}
-
-Globalize.addCultureInfo( "lt-LT", "default", {
-    name: "lt-LT",
+window.cultures = window.cultures || {};
+window.cultures.globalize = window.cultures.globalize || {};
+window.cultures.globalize['lt'] = {
+    name: "lt",
     englishName: "Lithuanian (Lithuania)",
     nativeName: "lietuvių (Lietuva)",
     language: "lt",
@@ -66,8 +54,4 @@ Globalize.addCultureInfo( "lt-LT", "default", {
             }
         }
     }
-});
-
-}( this ));
-
-Globalize.culture("lt-LT");
+};

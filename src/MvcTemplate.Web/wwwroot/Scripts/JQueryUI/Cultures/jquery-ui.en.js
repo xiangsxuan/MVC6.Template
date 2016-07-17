@@ -1,4 +1,8 @@
-﻿$.datepicker.regional['en-GB'] = {
+﻿window.cultures = window.cultures || {};
+window.cultures.datepicker = window.cultures.datepicker || {};
+window.cultures.timepicker = window.cultures.timepicker || {};
+
+window.cultures.datepicker['en'] = {
     closeText: 'Done',
     prevText: 'Prev',
     nextText: 'Next',
@@ -18,7 +22,7 @@
     yearSuffix: ''
 };
 
-$.timepicker.regional['en-GB'] = {
+window.cultures.timepicker['en'] = {
     currentText: 'Now',
     closeText: 'Done',
     amNames: ['AM', 'A'],
@@ -34,6 +38,3 @@ $.timepicker.regional['en-GB'] = {
     timezoneText: 'Time Zone',
     isRTL: false
 };
-
-$.datepicker.setDefaults($.datepicker.regional['en-GB']);
-$.timepicker.setDefaults($.timepicker.regional['en-GB']);

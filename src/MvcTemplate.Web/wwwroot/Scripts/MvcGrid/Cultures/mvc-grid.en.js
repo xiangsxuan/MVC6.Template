@@ -1,4 +1,6 @@
-﻿$.fn.mvcgrid.lang = {
+﻿window.cultures = window.cultures || {};
+window.cultures.grid = window.cultures.grid || {};
+window.cultures.grid['en'] = {
     Text: {
         Contains: 'Contains',
         Equals: 'Equals',

@@ -1,4 +1,6 @@
-﻿$.fn.mvcgrid.lang = {
+﻿window.cultures = window.cultures || {};
+window.cultures.grid = window.cultures.grid || {};
+window.cultures.grid['lt'] = {
     Text: {
         Contains: 'Reikšmėje yra',
         Equals: 'Lygus',
