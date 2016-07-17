@@ -28,7 +28,7 @@
                 <span class="fa fa-globe"></span>
                 <div class="language-container dropdown-toggle" data-toggle="dropdown">
                     <span class="current-language">
-                        <img src="@Url.Content($"~/Images/Flags/{languages.Current.Abbreviation}.gif")" alt="">
+                        <img src="@Url.Content($"~/Images/Flags/{languages.Current.Abbreviation}.gif")" width="16" height="11" alt="">
                         @languages.Current.Name
                     </span>
                     <span class="caret"></span>
@@ -38,7 +38,7 @@
                     {
                         <li>
                             <a href="@(Url.Action("Login", new { language = language.Abbreviation }) + query)">
-                                <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" alt="">
+                                <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" width="16" height="11" alt="">
                                 @language.Name
                             </a>
                         </li>
