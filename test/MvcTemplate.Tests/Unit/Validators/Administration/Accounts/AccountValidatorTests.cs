@@ -119,8 +119,8 @@ namespace MvcTemplate.Tests.Unit.Validators
             Alert alert = validator.Alerts.Single();
 
             Assert.False(canReset);
+            Assert.Equal(0, alert.Timeout);
             Assert.Empty(validator.ModelState);
-            Assert.Equal(0, alert.FadeoutAfter);
             Assert.Equal(AlertType.Danger, alert.Type);
             Assert.Equal(Validations.ExpiredToken, alert.Message);
         }
@@ -153,8 +153,8 @@ namespace MvcTemplate.Tests.Unit.Validators
             Alert alert = validator.Alerts.Single();
 
             Assert.False(canLogin);
+            Assert.Equal(0, alert.Timeout);
             Assert.Empty(validator.ModelState);
-            Assert.Equal(0, alert.FadeoutAfter);
             Assert.Equal(AlertType.Danger, alert.Type);
             Assert.Equal(Validations.IncorrectAuthentication, alert.Message);
         }
@@ -173,8 +173,8 @@ namespace MvcTemplate.Tests.Unit.Validators
             Alert alert = validator.Alerts.Single();
 
             Assert.False(canLogin);
+            Assert.Equal(0, alert.Timeout);
             Assert.Empty(validator.ModelState);
-            Assert.Equal(0, alert.FadeoutAfter);
             Assert.Equal(AlertType.Danger, alert.Type);
             Assert.Equal(Validations.IncorrectAuthentication, alert.Message);
         }
@@ -191,8 +191,8 @@ namespace MvcTemplate.Tests.Unit.Validators
             Alert alert = validator.Alerts.Single();
 
             Assert.False(canLogin);
+            Assert.Equal(0, alert.Timeout);
             Assert.Empty(validator.ModelState);
-            Assert.Equal(0, alert.FadeoutAfter);
             Assert.Equal(AlertType.Danger, alert.Type);
             Assert.Equal(Validations.LockedAccount, alert.Message);
         }

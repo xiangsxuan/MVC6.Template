@@ -14,17 +14,6 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
             container = new AlertsContainer();
         }
 
-        #region DefaultFadeout
-
-        [Fact]
-        public void DefaultFadeout_IsConstant()
-        {
-            Assert.True(typeof(AlertsContainer).GetField("DefaultFadeout").IsLiteral);
-            Assert.Equal(4000, AlertsContainer.DefaultFadeout);
-        }
-
-        #endregion
-
         #region Add(AlertType type, String message)
 
         [Fact]
@@ -34,14 +23,14 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
 
             Alert actual = container.Single();
 
-            Assert.Equal(AlertsContainer.DefaultFadeout, actual.FadeoutAfter);
             Assert.Equal(AlertType.Success, actual.Type);
             Assert.Equal("Message", actual.Message);
+            Assert.Equal(4000, actual.Timeout);
         }
 
         #endregion
 
-        #region Add(AlertType type, String message, Int32 fadeoutAfter)
+        #region Add(AlertType type, String message, Int32 timeout)
 
         [Fact]
         public void Add_FadingTypedMessage()
@@ -52,7 +41,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
 
             Assert.Equal(AlertType.Danger, actual.Type);
             Assert.Equal("Message", actual.Message);
-            Assert.Equal(20, actual.FadeoutAfter);
+            Assert.Equal(20, actual.Timeout);
         }
 
         #endregion
@@ -68,12 +57,12 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
 
             Assert.Equal(AlertType.Danger, actual.Type);
             Assert.Equal("Message", actual.Message);
-            Assert.Equal(0, actual.FadeoutAfter);
+            Assert.Equal(0, actual.Timeout);
         }
 
         #endregion
 
-        #region AddError(String message, Int32 fadeoutAfter)
+        #region AddError(String message, Int32 timeout)
 
         [Fact]
         public void AddError_FadingMessage()
@@ -84,7 +73,7 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
 
             Assert.Equal(AlertType.Danger, actual.Type);
             Assert.Equal("Message", actual.Message);
-            Assert.Equal(1, actual.FadeoutAfter);
+            Assert.Equal(1, actual.Timeout);
         }
 
         #endregion

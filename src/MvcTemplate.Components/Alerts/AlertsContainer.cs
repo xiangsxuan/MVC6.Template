@@ -5,19 +5,17 @@ namespace MvcTemplate.Components.Alerts
 {
     public class AlertsContainer : List<Alert>
     {
-        public const Int32 DefaultFadeout = 4000;
-
         public void Add(AlertType type, String message)
         {
-            Add(type, message, DefaultFadeout);
+            Add(type, message, 4000);
         }
-        public void Add(AlertType type, String message, Int32 fadeoutAfter)
+        public void Add(AlertType type, String message, Int32 timeout)
         {
             Add(new Alert
             {
                 Type = type,
                 Message = message,
-                FadeoutAfter = fadeoutAfter
+                Timeout = timeout
             });
         }
 
@@ -25,9 +23,9 @@ namespace MvcTemplate.Components.Alerts
         {
             AddError(message, 0);
         }
-        public void AddError(String message, Int32 fadeoutAfter)
+        public void AddError(String message, Int32 timeout)
         {
-            Add(AlertType.Danger, message, fadeoutAfter);
+            Add(AlertType.Danger, message, timeout);
         }
 
         public void Merge(AlertsContainer alerts)

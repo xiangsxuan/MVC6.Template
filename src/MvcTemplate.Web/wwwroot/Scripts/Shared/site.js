@@ -5,26 +5,24 @@
     });
 }());
 
-// Alerts fading & closing
+// Alert closure
 (function () {
     $('.alerts .alert').each(function () {
         var alert = $(this);
 
-        if (alert.data('fadeout-after') != null && alert.data('fadeout-after') != 0) {
+        if (alert.data('timeout')) {
             setTimeout(function () {
                 alert.fadeTo(300, 0).slideUp(300, function () {
                     $(this).remove();
                 });
-            }, alert.data('fadeout-after'));
+            }, alert.data('timeout'));
         }
     });
 
     $(document).on('click', '.alert .close', function () {
-        $(this.parentNode.parentNode).fadeTo(300, 0).slideUp(300, function () {
+        $(this.parentNode).fadeTo(300, 0).slideUp(300, function () {
             $(this).remove();
         });
-
-        return false;
     });
 }());
 

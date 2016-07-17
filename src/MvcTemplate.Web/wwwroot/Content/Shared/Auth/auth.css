@@ -1,7 +1,4 @@
-﻿.alerts {
-  padding: 10px 0;
-}
-.alerts .alert div {
+﻿.alerts .alert {
   text-align: center;
 }
 form {

@@ -1,19 +1,21 @@
 ﻿.alerts {
-  padding: 10px 0;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 .alerts .alert {
+  text-align: justify;
   padding: 8px 15px;
   margin: 0;
 }
 .alerts .alert + .alert {
-  margin-top: 3px;
+  margin-top: 5px;
 }
-.alerts .alert div {
+.alerts .alert span {
   vertical-align: middle;
-  text-align: justify;
   display: table-cell;
+  float: none;
 }
-.alerts .alert .alert-text {
+.alerts .alert span:first-of-type {
   padding-right: 10px;
   width: 100%;
 }
