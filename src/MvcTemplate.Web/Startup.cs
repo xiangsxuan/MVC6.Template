@@ -106,7 +106,13 @@ namespace MvcTemplate.Web
             app.UseDeveloperExceptionPage();
 
             app.UseMiddleware<ExceptionFilterMiddleware>();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = (response) =>
+                {
+                    response.Context.Response.Headers["Cache-Control"] = "max-age=8640000";
+                }
+            });
             app.UseSession();
         }
         public virtual void RegisterRoute(IApplicationBuilder app)
