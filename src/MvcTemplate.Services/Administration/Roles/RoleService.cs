@@ -1,4 +1,4 @@
-﻿using MvcTemplate.Components.Html;
+﻿using MvcTemplate.Components.Extensions;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;

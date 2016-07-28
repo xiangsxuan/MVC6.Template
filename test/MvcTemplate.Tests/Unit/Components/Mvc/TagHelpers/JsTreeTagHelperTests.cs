@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using MvcTemplate.Components.Html;
+using MvcTemplate.Components.Extensions;
 using MvcTemplate.Components.Mvc;
-using MvcTemplate.Tests.Unit.Components.Html;
+using MvcTemplate.Tests.Unit.Components.Extensions;
 using System;
 using Xunit;
 
