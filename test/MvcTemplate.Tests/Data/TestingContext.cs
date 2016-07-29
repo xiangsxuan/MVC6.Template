@@ -16,6 +16,11 @@ namespace MvcTemplate.Tests.Data
             SaveChanges();
         }
 
+        static TestingContext()
+        {
+            using (TestingContext context = new TestingContext())
+                context.Database.Migrate();
+        }
         public TestingContext() : base(ConfigurationFactory.Create())
         {
         }

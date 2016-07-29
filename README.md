@@ -3,8 +3,6 @@
 # Installation
 1. Set Web as default start up project.
 2. Rename your project using "MvcTemplate.Rename.cmd".
-2. Run "dotnet ef database update" command from src/{YourSolutionName}.Data folder.
-3. Run "dotnet ef database update" command from test/{YourSolutionName}.Tests folder.
 
 # Features in progress
 - Script and styling minification and bundling.

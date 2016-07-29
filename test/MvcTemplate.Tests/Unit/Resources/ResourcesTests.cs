@@ -1,4 +1,5 @@
 ﻿using MvcTemplate.Data.Core;
+using MvcTemplate.Data.Migrations;
 using MvcTemplate.Objects;
 using System;
 using System.Collections;
@@ -13,6 +14,12 @@ namespace MvcTemplate.Tests.Unit.Resources
 {
     public class ResourcesTests
     {
+        static ResourcesTests()
+        {
+            using (Configuration configuration = new Configuration(new Context(ConfigurationFactory.Create())))
+                configuration.UpdateDatabase();
+        }
+
         [Fact]
         public void Resources_HasAllPermissionAreaTitles()
         {

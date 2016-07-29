@@ -1,4 +1,5 @@
 ﻿using MvcTemplate.Data.Core;
+using MvcTemplate.Data.Migrations;
 using MvcTemplate.Objects;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,11 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
     {
         private Context context;
 
+        static InitialDataTests()
+        {
+            using (Configuration configuration = new Configuration(new Context(ConfigurationFactory.Create())))
+                configuration.UpdateDatabase();
+        }
         public InitialDataTests()
         {
             context = new Context(ConfigurationFactory.Create());

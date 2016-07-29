@@ -10,14 +10,18 @@ namespace MvcTemplate.Data.Migrations
     {
         private IUnitOfWork UnitOfWork { get; }
         private Boolean Disposed { get; set; }
+        private DbContext Context { get; }
 
         public Configuration(DbContext context)
         {
             UnitOfWork = new UnitOfWork(context);
+            Context = context;
         }
 
-        public void Seed()
+        public void UpdateDatabase()
         {
+            Context.Database.Migrate();
+
             SeedPermissions();
             SeedRoles();
 
@@ -138,6 +142,7 @@ namespace MvcTemplate.Data.Migrations
             if (Disposed) return;
 
             UnitOfWork.Dispose();
+            Context.Dispose();
 
             Disposed = true;
         }

@@ -38,7 +38,7 @@ namespace MvcTemplate.Web
             RegisterServices(app);
             RegisterRoute(app);
 
-            SeedData(app);
+            UpdateDatabase(app);
         }
         public void ConfigureServices(IServiceCollection services)
         {
@@ -145,10 +145,10 @@ namespace MvcTemplate.Web
             });
         }
 
-        public virtual void SeedData(IApplicationBuilder app)
+        public virtual void UpdateDatabase(IApplicationBuilder app)
         {
             using (Configuration configuration = new Configuration(app.ApplicationServices.GetService<DbContext>()))
-                configuration.Seed();
+                configuration.UpdateDatabase();
         }
     }
 }
