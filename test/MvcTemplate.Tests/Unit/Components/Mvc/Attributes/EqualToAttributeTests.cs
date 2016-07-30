@@ -56,15 +56,15 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void IsValid_NotEqualValue_ReturnsValidationResult()
+        public void IsValid_NotEqualValueMessage()
         {
             AttributesModel model = new AttributesModel { Total = 10 };
             ValidationContext context = new ValidationContext(model);
 
-            ValidationResult expected = new ValidationResult(attribute.FormatErrorMessage(context.DisplayName));
-            ValidationResult actual = attribute.GetValidationResult(model.Sum, context);
+            String expected = String.Format(Validations.EqualTo, context.DisplayName, "Total");
+            String actual = attribute.GetValidationResult(model.Sum, context).ErrorMessage;
 
-            Assert.Equal(expected.ErrorMessage, actual.ErrorMessage);
+            Assert.Equal(expected, actual);
         }
 
         #endregion

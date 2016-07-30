@@ -31,11 +31,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void AddValidation_EqualTo()
         {
             adapter.AddValidation(context);
-            
+
             Assert.Equal(3, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
             Assert.Equal("*.StringLength", attributes["data-val-equalto-other"]);
-            Assert.Equal(String.Format(Validations.EqualTo, "EqualTo", ""), attributes["data-val-equalto"]);
+            Assert.Equal(String.Format(Validations.EqualTo, "EqualTo", "StringLength"), attributes["data-val-equalto"]);
         }
 
         #endregion

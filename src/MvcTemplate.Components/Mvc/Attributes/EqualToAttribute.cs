@@ -30,7 +30,7 @@ namespace MvcTemplate.Components.Mvc
             if (Equals(value, otherValue))
                 return null;
 
-            OtherPropertyDisplayName = ResourceProvider.GetPropertyTitle(context.ObjectType, OtherPropertyName);
+            OtherPropertyDisplayName = ResourceProvider.GetPropertyTitle(context.ObjectType, OtherPropertyName) ?? OtherPropertyName;
 
             return new ValidationResult(FormatErrorMessage(context.DisplayName));
         }
