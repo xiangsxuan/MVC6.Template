@@ -56,7 +56,7 @@ namespace MvcTemplate.Web
                 .AddMvcOptions(options => new ModelMessagesProvider(options.ModelBindingMessageProvider))
                 .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
                 .AddMvcOptions(options => options.ModelMetadataDetailsProviders.Add(new DisplayMetadataProvider()))
-                .AddMvcOptions(options => options.ModelBinderProviders.Insert(0, new TrimmingModelBinderProvider()));
+                .AddMvcOptions(options => options.ModelBinderProviders.Insert(4, new TrimmingModelBinderProvider()));
         }
         public virtual void RegisterServices(IServiceCollection services)
         {
