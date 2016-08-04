@@ -68,7 +68,7 @@ namespace MvcTemplate.Resources
             MemberExpression expression = property.Body as MemberExpression;
             if (expression == null) return null;
 
-            return GetPropertyTitle(typeof(TModel), expression.Member.Name);
+            return GetPropertyTitle(expression.Member.DeclaringType, expression.Member.Name);
         }
         public static String GetPropertyTitle(Type view, String property)
         {
