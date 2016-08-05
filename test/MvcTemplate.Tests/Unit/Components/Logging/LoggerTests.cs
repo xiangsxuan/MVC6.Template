@@ -49,7 +49,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
             logger.Log(new String('T', backupSize));
 
             String expected = "Account: 2" + Environment.NewLine + "Message: " + new String('T', backupSize) + Environment.NewLine + Environment.NewLine;
-            String actual = File.ReadAllText(Path.Combine(logPath, String.Format("Log {0}.txt", DateTime.Now.ToString("yyyy-MM-dd HHmmss"))));
+            String actual = File.ReadAllText(Path.Combine(logPath, $"Log {DateTime.Now.ToString("yyyy-MM-dd HHmmss")}.txt"));
 
             Assert.True(actual.StartsWith("Time   :"));
             Assert.True(actual.EndsWith(expected));

@@ -5,7 +5,7 @@ namespace MvcTemplate.Tests
 {
     public static class ConfigurationFactory
     {
-        private static IConfiguration Config { get; set; }
+        private static IConfiguration Config { get; }
 
         static ConfigurationFactory()
         {

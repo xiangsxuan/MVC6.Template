@@ -11,7 +11,7 @@ namespace MvcTemplate.Data.Mapping
             Mapper.Initialize(configuration => new ObjectMapper(configuration).Map());
         }
 
-        private IMapperConfigurationExpression Configuration { get; set; }
+        private IMapperConfigurationExpression Configuration { get; }
 
         private ObjectMapper(IMapperConfigurationExpression configuration)
         {

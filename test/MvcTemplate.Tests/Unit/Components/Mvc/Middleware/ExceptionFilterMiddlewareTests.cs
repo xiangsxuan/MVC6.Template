@@ -43,7 +43,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Exception expected = exception;
 
             logger.Received().Log(exception);
-            Assert.Same(exception, actual);
+            Assert.Same(expected, actual);
         }
 
         #endregion

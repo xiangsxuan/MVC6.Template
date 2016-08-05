@@ -39,7 +39,7 @@ namespace MvcTemplate.Components.Logging
 
                 if (new FileInfo(logPath).Length >= backupSize)
                 {
-                    String logBackupFile = String.Format("Log {0}.txt", DateTime.Now.ToString("yyyy-MM-dd HHmmss"));
+                    String logBackupFile = $"Log {DateTime.Now.ToString("yyyy-MM-dd HHmmss")}.txt";
                     String backupPath = Path.Combine(logDirectory, logBackupFile);
                     File.Move(logPath, backupPath);
                 }
