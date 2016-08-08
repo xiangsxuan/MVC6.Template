@@ -122,6 +122,7 @@
 
 // Datepicker binding
 (function () {
+    var lang = $('html').attr('lang');
     var options = {
         beforeShow: function (e) {
             return !$(e).attr('readonly');
@@ -132,14 +133,13 @@
     };
 
     if ($.fn.datepicker) {
-        var lang = $('html').attr('lang');
-        $(".datepicker").datepicker(options);
         $.datepicker.setDefaults(window.cultures.datepicker[lang]);
+        $(".datepicker").datepicker(options);
     }
 
     if ($.fn.timepicker) {
-        $(".datetimepicker").datetimepicker(options);
         $.timepicker.setDefaults(window.cultures.timepicker[lang]);
+        $(".datetimepicker").datetimepicker(options);
     }
 }());
 
