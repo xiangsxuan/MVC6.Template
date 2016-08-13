@@ -1,0 +1,157 @@
+﻿@model ModuleModel
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
+using MvcTemplate.Data.Core;
+using MvcTemplate.Objects;
+using MvcTemplate.Services;
+using MvcTemplate.Tests.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
+
+namespace MvcTemplate.Tests.Unit.Services
+{
+    public class @Model.ServiceTests : IDisposable
+    {
+        private @Model.Service service;
+        private TestingContext context;
+        private @Model.Model @Model.ModelVarName;
+
+        public @(Model.ServiceTests)()
+        {
+            context = new TestingContext();
+            service = new @(Model.Service)(new UnitOfWork(context));
+
+            context.DropData();
+            SetUpData();
+        }
+        public void Dispose()
+        {
+            service.Dispose();
+            context.Dispose();
+        }
+
+        #region Get<TView>(String id)
+
+        [Fact]
+        public void Get_ReturnsViewById()
+        {
+            @Model.View actual = service.Get<@Model.View>(@(Model.ModelVarName).Id);
+            @Model.View expected = Mapper.Map<@Model.View>(@Model.ModelVarName);
+
+            @foreach (PropertyInfo property in Model.AllProperties.OrderByDescending(prop => prop.Name.Length).ThenBy(prop => prop.Name))
+            {
+            @:Assert.Equal(expected.@property.Name, actual.@property.Name);
+            }
+            @if (Model.Properties.Length == 0)
+            {
+@:Assert.True(false, "Not all properties tested");
+            }
+        }
+
+        #endregion
+
+        #region GetViews()
+
+        [Fact]
+        public void GetViews_Returns@(Model.ModelShortName)Views()
+        {
+            IEnumerator<@Model.View> actual = service.GetViews().GetEnumerator();
+            IEnumerator<@Model.View> expected = context
+                .Set<@Model.Model>()
+                .ProjectTo<@Model.View>()
+                .OrderByDescending(view => view.CreationDate)
+                .GetEnumerator();
+
+            while (expected.MoveNext() | actual.MoveNext())
+            {
+                @foreach (PropertyInfo property in Model.AllProperties.OrderByDescending(prop => prop.Name.Length).ThenBy(prop => prop.Name))
+                {
+                @:Assert.Equal(expected.Current.@property.Name, actual.Current.@property.Name);
+                }
+            }
+            @if (Model.Properties.Length == 0)
+            {
+            @:Assert.True(false, "Not all properties tested");
+            }
+        }
+
+        #endregion
+
+        #region Create(@Model.View view)
+
+        [Fact]
+        public void Create_@(Model.ModelShortName)()
+        {
+            @Model.View view = ObjectFactory.Create@(Model.View)(2);
+
+            service.Create(view);
+
+            @Model.Model actual = context.Set<@Model.Model>().AsNoTracking().Single(model => model.Id == view.Id);
+            @Model.View expected = view;
+
+            @foreach (PropertyInfo property in Model.AllProperties.OrderByDescending(prop => prop.Name.Length).ThenBy(prop => prop.Name))
+            {
+            @:Assert.Equal(expected.@property.Name, actual.@property.Name);
+            }
+            @if (Model.Properties.Length == 0)
+            {
+@:Assert.True(false, "Not all properties tested");
+            }
+        }
+
+        #endregion
+
+        #region Edit(@Model.View view)
+
+        [Fact]
+        public void Edit_@(Model.ModelShortName)()
+        {
+            @Model.Model @Model.ModelVarName = context.Set<@Model.Model>().AsNoTracking().Single();
+            @Model.View view = ObjectFactory.Create@(Model.View)();
+            Assert.True(false, "No update made");
+
+            service.Edit(view);
+
+            @Model.Model actual = context.Set<@Model.Model>().AsNoTracking().Single();
+            @Model.Model expected = @Model.ModelVarName;
+
+            @foreach (PropertyInfo property in Model.AllProperties.OrderByDescending(prop => prop.Name.Length).ThenBy(prop => prop.Name))
+            {
+            @:Assert.Equal(expected.@property.Name, actual.@property.Name);
+            }
+            @if (Model.Properties.Length == 0)
+            {
+@:Assert.True(false, "Not all properties tested");
+            }
+        }
+
+        #endregion
+
+        #region Delete(String id)
+
+        [Fact]
+        public void Delete_@(Model.ModelShortName)()
+        {
+            service.Delete(@(Model.ModelVarName).Id);
+
+            Assert.Empty(context.Set<@Model.Model>());
+        }
+
+        #endregion
+
+        #region Test helpers
+
+        private void SetUpData()
+        {
+            @Model.ModelVarName = ObjectFactory.Create@(Model.Model)();
+
+            context.Set<@Model.Model>().Add(@Model.ModelVarName);
+            context.SaveChanges();
+        }
+
+        #endregion
+    }
+}
