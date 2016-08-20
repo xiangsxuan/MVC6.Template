@@ -18,6 +18,7 @@ using MvcTemplate.Validators;
 using NonFactors.Mvc.Grid;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MvcTemplate.Web
 {
@@ -83,11 +84,13 @@ namespace MvcTemplate.Web
             services.AddTransient<IMvcSiteMapParser, MvcSiteMapParser>();
             services.AddSingleton<IMvcSiteMapProvider, MvcSiteMapProvider>();
 
-            services.AddTransient<IRoleService, RoleService>();
-            services.AddTransient<IAccountService, AccountService>();
+            foreach (Type service in typeof(IService).Assembly.GetTypes().Where(type =>
+                typeof(IService).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract))
+                    services.AddTransient(service.GetInterface("I" + service.Name), service);
 
-            services.AddTransient<IRoleValidator, RoleValidator>();
-            services.AddTransient<IAccountValidator, AccountValidator>();
+            foreach (Type validator in typeof(IValidator).Assembly.GetTypes().Where(type =>
+                typeof(IValidator).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract))
+                    services.AddTransient(validator.GetInterface("I" + validator.Name), validator);
         }
         public virtual void RegisterLowercaseUrls(IServiceCollection services)
         {
