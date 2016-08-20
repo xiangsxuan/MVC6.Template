@@ -16,12 +16,12 @@ namespace MvcTemplate.Data.Mapping
         private ObjectMapper(IMapperConfigurationExpression configuration)
         {
             Configuration = configuration;
+            Configuration.AddConditionalObjectMapper().Conventions.Add(pair => true);
         }
 
         private void Map()
         {
             MapRoles();
-            MapAccounts();
         }
 
         #region Administration
@@ -32,15 +32,6 @@ namespace MvcTemplate.Data.Mapping
                 .ForMember(role => role.Permissions, member => member.Ignore());
             Configuration.CreateMap<RoleView, Role>()
                 .ForMember(role => role.Permissions, member => member.UseValue(new List<RolePermission>()));
-        }
-        private void MapAccounts()
-        {
-            Configuration.CreateMap<Account, AccountView>();
-            Configuration.CreateMap<Account, AccountEditView>();
-            Configuration.CreateMap<Account, ProfileEditView>();
-
-            Configuration.CreateMap<AccountCreateView, Account>();
-            Configuration.CreateMap<AccountRegisterView, Account>();
         }
 
         #endregion
