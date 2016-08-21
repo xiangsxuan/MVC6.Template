@@ -48,7 +48,6 @@ namespace MvcTemplate.Components.Mvc
             foreach (Int32 id in model.SelectedIds)
             {
                 TagBuilder input = new TagBuilder("input");
-
                 input.TagRenderMode = TagRenderMode.SelfClosing;
                 input.Attributes["value"] = id.ToString();
                 input.Attributes["type"] = "hidden";

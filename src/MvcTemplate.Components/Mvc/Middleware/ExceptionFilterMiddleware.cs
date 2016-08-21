@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Logging;
 using System;
 using System.Threading.Tasks;
@@ -7,12 +8,10 @@ namespace MvcTemplate.Components.Mvc
 {
     public class ExceptionFilterMiddleware
     {
-        private ILogger Logger { get; }
         private RequestDelegate Next { get; }
 
-        public ExceptionFilterMiddleware(RequestDelegate next, ILogger logger)
+        public ExceptionFilterMiddleware(RequestDelegate next)
         {
-            Logger = logger;
             Next = next;
         }
 
@@ -24,7 +23,7 @@ namespace MvcTemplate.Components.Mvc
             }
             catch (Exception exception)
             {
-                Logger.Log(exception);
+                context.RequestServices.GetRequiredService<ILogger>().Log(exception);
 
                 throw;
             }

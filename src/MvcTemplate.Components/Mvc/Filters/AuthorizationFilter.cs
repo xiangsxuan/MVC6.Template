@@ -39,7 +39,7 @@ namespace MvcTemplate.Components.Mvc
 
             return AuthorizationProvider.IsAuthorizedFor(accountId, area, controller, action);
         }
-        private IActionResult RedirectToUnauthorized(ResourceExecutingContext context)
+        private IActionResult RedirectToUnauthorized(ActionContext context)
         {
             RouteValueDictionary route = new RouteValueDictionary();
             route["language"] = context.RouteData.Values["language"];

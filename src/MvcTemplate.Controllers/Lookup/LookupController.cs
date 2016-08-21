@@ -31,7 +31,7 @@ namespace MvcTemplate.Controllers
         [AjaxOnly]
         public JsonResult Role(LookupFilter filter)
         {
-            return GetData(new LookupOf<Role, RoleView>(UnitOfWork), filter);
+            return GetData(new MvcLookup<Role, RoleView>(UnitOfWork), filter);
         }
 
         protected override void Dispose(Boolean disposing)

@@ -383,9 +383,7 @@ namespace MvcTemplate.Tests.Unit.Services
         private IEnumerable<JsTreeNode> GetAllLeafNodes(IEnumerable<JsTreeNode> nodes)
         {
             List<JsTreeNode> leafs = nodes.Where(node => node.Nodes.Count == 0).ToList();
-            IEnumerable<JsTreeNode> branches = nodes.Where(node => node.Nodes.Count > 0);
-
-            foreach (JsTreeNode branch in branches)
+            foreach (JsTreeNode branch in nodes.Where(node => node.Nodes.Count > 0))
                 leafs.AddRange(GetAllLeafNodes(branch.Nodes));
 
             return leafs;

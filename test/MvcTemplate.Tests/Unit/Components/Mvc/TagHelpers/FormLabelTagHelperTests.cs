@@ -6,127 +6,45 @@ using Microsoft.Extensions.Options;
 using MvcTemplate.Components.Mvc;
 using NSubstitute;
 using System;
-using System.ComponentModel.DataAnnotations;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class FormLabelTagHelperTests
     {
-        private EmptyModelMetadataProvider provider;
         private FormLabelTagHelper helper;
         private TagHelperOutput output;
+        private ModelMetadata metadata;
 
         public FormLabelTagHelperTests()
         {
+            metadata = Substitute.For<ModelMetadata>(ModelMetadataIdentity.ForType(typeof(String)));
             IOptions<HtmlHelperOptions> options = Substitute.For<IOptions<HtmlHelperOptions>>();
             options.Value.Returns(new HtmlHelperOptions { IdAttributeDotReplacement = "___" });
-            provider = new EmptyModelMetadataProvider();
             helper = new FormLabelTagHelper(options);
+            metadata.DisplayName.Returns("Title");
 
-            output = new TagHelperOutput("label", new TagHelperAttributeList(), (useCachedResult, encoder) => null);
+            TagHelperAttribute[] attributes = new[] { new TagHelperAttribute("for", "Test") };
+            output = new TagHelperOutput("label", new TagHelperAttributeList(attributes), (useCache, encoder) => null);
+            helper.For = new ModelExpression("Total.Sum", new ModelExplorer(new EmptyModelMetadataProvider(), metadata, null));
         }
 
         #region Process(TagHelperContext context, TagHelperOutput output)
 
-        [Fact]
-        public void Process_Required()
+        [Theory]
+        [InlineData(true, true, "*")]
+        [InlineData(true, false, "")]
+        [InlineData(false, true, "*")]
+        [InlineData(false, false, "")]
+        public void Process_Label(Boolean metadataRequired, Boolean helperRequired, String required)
         {
-            ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "Relation.Required", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("Relation.Required", new ModelExplorer(provider, metadata, null));
-            metadata.ValidatorMetadata.Returns(new[] { new RequiredAttribute() });
-            helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
-            output.Attributes.SetAttribute("for", "Test");
+            metadata.IsRequired.Returns(metadataRequired);
+            helper.Required = helperRequired;
 
             helper.Process(null, output);
 
-            TagHelperOutput actual = output;
-
-            Assert.Equal("Title<span class=\"require\">*</span>", actual.Content.GetContent());
-            Assert.Equal("Relation___Required", actual.Attributes["for"].Value);
-        }
-
-        [Fact]
-        public void Process_ValueType()
-        {
-            ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(Int64), "RequiredValue", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("RequiredValue", new ModelExplorer(provider, metadata, null));
-            helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
-            output.Attributes.SetAttribute("for", "Test");
-
-            helper.Process(null, output);
-
-            TagHelperOutput actual = output;
-
-            Assert.Equal("Title<span class=\"require\">*</span>", actual.Content.GetContent());
-            Assert.Equal("RequiredValue", actual.Attributes["for"].Value);
-        }
-
-        [Fact]
-        public void Process_NotRequired()
-        {
-            ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "NotRequired", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("NotRequired", new ModelExplorer(provider, metadata, null));
-            helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
-            output.Attributes.SetAttribute("for", "Test");
-
-            helper.Process(null, output);
-
-            TagHelperOutput actual = output;
-
-            Assert.Equal("Title<span class=\"require\"></span>", actual.Content.GetContent());
-            Assert.Equal("NotRequired", actual.Attributes["for"].Value);
-        }
-
-        [Fact]
-        public void Process_NullableValueType()
-        {
-            ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(Int64?), "NotRequiredNullableValue", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("NotRequiredNullableValue", new ModelExplorer(provider, metadata, null));
-            helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
-            output.Attributes.SetAttribute("for", "Test");
-
-            helper.Process(null, output);
-
-            TagHelperOutput actual = output;
-
-            Assert.Equal("Title<span class=\"require\"></span>", actual.Content.GetContent());
-            Assert.Equal("NotRequiredNullableValue", actual.Attributes["for"].Value);
-        }
-
-        [Fact]
-        public void Process_OverwrittenRequired()
-        {
-            ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "NotRequired", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("NotRequired", new ModelExplorer(provider, metadata, null));
-            helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
-            output.Attributes.SetAttribute("for", "Test");
-            helper.Required = true;
-
-            helper.Process(null, output);
-
-            TagHelperOutput actual = output;
-
-            Assert.Equal("Title<span class=\"require\">*</span>", actual.Content.GetContent());
-            Assert.Equal("NotRequired", actual.Attributes["for"].Value);
-        }
-
-        [Fact]
-        public void Process_OverwrittenNotRequired()
-        {
-            ModelMetadata metadata = Substitute.ForPartsOf<ModelMetadata>(ModelMetadataIdentity.ForProperty(typeof(String), "Required", typeof(TagHelperModel)));
-            helper.For = new ModelExpression("Required", new ModelExplorer(provider, metadata, null));
-            metadata.ValidatorMetadata.Returns(new[] { new RequiredAttribute() });
-            helper.For.ModelExplorer.Metadata.DisplayName.Returns("Title");
-            output.Attributes.SetAttribute("for", "Test");
-            helper.Required = false;
-
-            helper.Process(null, output);
-
-            TagHelperOutput actual = output;
-
-            Assert.Equal("Title<span class=\"require\"></span>", actual.Content.GetContent());
-            Assert.Equal("Required", actual.Attributes["for"].Value);
+            Assert.Equal("Total___Sum", output.Attributes["for"].Value);
+            Assert.Equal($"Title<span class=\"require\">{required}</span>", output.Content.GetContent());
         }
 
         #endregion
