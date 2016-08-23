@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Alerts;
+using MvcTemplate.Components.Extensions;
 using MvcTemplate.Components.Security;
 using Newtonsoft.Json;
 using System;

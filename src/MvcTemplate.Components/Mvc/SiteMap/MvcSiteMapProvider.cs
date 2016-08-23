@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
+using MvcTemplate.Components.Extensions;
 using MvcTemplate.Components.Security;
 using System;
 using System.Collections.Generic;

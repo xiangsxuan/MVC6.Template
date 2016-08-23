@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Security.Principal;
 
-namespace MvcTemplate.Components.Security
+namespace MvcTemplate.Components.Extensions
 {
-    public static class IPrincipalExtensions
+    public static class PrincipalExtensions
     {
         public static Int32? Id(this IPrincipal principal)
         {
