@@ -37,7 +37,7 @@
                     @foreach (Language language in languages.Supported)
                     {
                         <li>
-                            <a href="@(Url.Action("Login", new { language = language.Abbreviation }) + query)">
+                            <a href="@(Url.Action("Login", new { language = language.IsDefault ? "" : language.Abbreviation }) + query)">
                                 <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" width="16" height="11" alt="">
                                 @language.Name
                             </a>

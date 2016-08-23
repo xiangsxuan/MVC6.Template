@@ -126,25 +126,25 @@ namespace MvcTemplate.Web
                     "DefaultMultilingualArea",
                     "{language}/{area:exists}/{controller}/{action}/{id?}",
                     new { controller = "Home", action = "Index" },
-                    new { language = "lt", id = "[0-9]*" });
+                    new { id = "[0-9]*" });
 
                 routes.MapRoute(
                     "DefaultArea",
                     "{area:exists}/{controller}/{action}/{id?}",
-                    new { language = "en", controller = "Home", action = "Index" },
-                    new { language = "en", id = "[0-9]*" });
+                    new { controller = "Home", action = "Index" },
+                    new { id = "[0-9]*" });
 
                 routes.MapRoute(
                     "DefaultMultilingual",
                     "{language}/{controller}/{action}/{id?}",
                     new { controller = "Home", action = "Index" },
-                    new { language = "lt", id = "[0-9]*" });
+                    new { id = "[0-9]*" });
 
                 routes.MapRoute(
                     "Default",
                     "{controller}/{action}/{id?}",
-                    new { language = "en", controller = "Home", action = "Index" },
-                    new { language = "en", id = "[0-9]*" });
+                    new { controller = "Home", action = "Index" },
+                    new { id = "[0-9]*" });
             });
         }
 
