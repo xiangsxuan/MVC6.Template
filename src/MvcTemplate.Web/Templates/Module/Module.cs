@@ -26,7 +26,7 @@ namespace MvcTemplate.Web.Templates
         {
             String path = (Area != null ? Area + "/" : "") + Controller;
             Dictionary<String, GennyScaffoldingResult> results = new Dictionary<String, GennyScaffoldingResult>();
-            /*
+
             results.Add($"../MvcTemplate.Controllers/{path}/{Controller}Controller.cs", Scaffold("Controllers/Controller"));
             results.Add($"../../test/MvcTemplate.Tests/Unit/Controllers/{path}/{Controller}Tests.cs", Scaffold("Tests/ControllerTests"));
 
@@ -40,7 +40,7 @@ namespace MvcTemplate.Web.Templates
             results.Add($"../MvcTemplate.Validators/{path}/{Model}Validator.cs", Scaffold("Validators/Validator"));
             results.Add($"../MvcTemplate.Validators/{path}/I{Model}Validator.cs", Scaffold("Validators/IValidator"));
             results.Add($"../../test/MvcTemplate.Tests/Unit/Validators/{path}/{Model}ValidatorTests.cs", Scaffold("Tests/ValidatorTests"));
-            */
+
             results.Add($"../MvcTemplate.Web/Views/{path}/Index.cshtml", Scaffold("Web/Index"));
             results.Add($"../MvcTemplate.Web/Views/{path}/Create.cshtml", Scaffold("Web/Create"));
             results.Add($"../MvcTemplate.Web/Views/{path}/Details.cshtml", Scaffold("Web/Details"));
