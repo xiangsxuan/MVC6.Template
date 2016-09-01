@@ -21,7 +21,6 @@ namespace MvcTemplate.Data.Core
         void Delete<TModel>(TModel model) where TModel : BaseModel;
         void Delete<TModel>(Int32 id) where TModel : BaseModel;
 
-        void Rollback();
         void Commit();
     }
 }

@@ -64,11 +64,6 @@ namespace MvcTemplate.Data.Core
             Delete(Context.Set<TModel>().Single(model => model.Id == id));
         }
 
-        public void Rollback()
-        {
-            Context.Dispose();
-            Context = Activator.CreateInstance(Context.GetType()) as DbContext;
-        }
         public void Commit()
         {
             Context.SaveChanges();
