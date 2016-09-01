@@ -1,12 +1,11 @@
 ![License](https://img.shields.io/badge/license-MIT-green.svg?style=plastic)
 
 # Installation
-1. Set Web as default start up project.
-2. Rename your project using "MvcTemplate.Rename.cmd".
+1. Rename your project using "MvcTemplate.Rename.cmd".
+2. Set Web as default start up project.
 
-# Features in progress
-- Script and styling minification and bundling.
-- Dynamic script and styling loading.
+# Features completeness
+- This template is currently not as feature complete as MVC5 version is, because of various framework limitations.
 
 # Features
 - Model-View-ViewModel architectural design.
