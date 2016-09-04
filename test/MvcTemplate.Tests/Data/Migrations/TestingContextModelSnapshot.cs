@@ -46,11 +46,13 @@ namespace MvcTemplate.Tests.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Username");
-
-                    b.HasIndex("Email");
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Account");
                 });
@@ -90,7 +92,8 @@ namespace MvcTemplate.Tests.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Title");
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Role");
                 });

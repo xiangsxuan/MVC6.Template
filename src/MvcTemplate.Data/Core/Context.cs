@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+using MvcTemplate.Components.Mvc;
 using MvcTemplate.Data.Mapping;
 using MvcTemplate.Objects;
 using System.Linq;
+using System.Reflection;
 
 namespace MvcTemplate.Data.Core
 {
@@ -31,6 +33,13 @@ namespace MvcTemplate.Data.Core
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            foreach (IEntityType entity in builder.Model.GetEntityTypes())
+                foreach (PropertyInfo property in entity.ClrType.GetProperties())
+                {
+                    IndexAttribute index = property.GetCustomAttribute<IndexAttribute>(false);
+                    if (index != null) builder.Entity(entity.ClrType).HasIndex(property.Name).IsUnique(index.IsUnique);
+                }
+
             builder.Entity<Permission>().Property(model => model.Id).ValueGeneratedNever();
             foreach (IMutableForeignKey key in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 key.DeleteBehavior = DeleteBehavior.Restrict;

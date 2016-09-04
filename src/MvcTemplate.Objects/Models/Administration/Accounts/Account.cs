@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MvcTemplate.Components.Mvc;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MvcTemplate.Objects
@@ -7,6 +8,7 @@ namespace MvcTemplate.Objects
     {
         [Required]
         [StringLength(32)]
+        [Index(IsUnique = true)]
         public String Username { get; set; }
 
         [Required]
@@ -16,6 +18,7 @@ namespace MvcTemplate.Objects
         [Required]
         [EmailAddress]
         [StringLength(256)]
+        [Index(IsUnique = true)]
         public String Email { get; set; }
 
         public Boolean IsLocked { get; set; }
