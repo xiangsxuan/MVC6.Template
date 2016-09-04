@@ -1,6 +1,7 @@
 ﻿@model ModuleModel
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
 using @Model.ControllerNamespace;
 using MvcTemplate.Objects;
 using MvcTemplate.Services;
@@ -27,6 +28,7 @@ namespace @Model.ControllerTestsNamespace
             @Model.ModelVarName = ObjectFactory.Create@(Model.View)();
 
             controller = Substitute.ForPartsOf<@Model.Controller>(validator, service);
+            controller.ControllerContext.RouteData = new RouteData();
         }
 
         #region Index()

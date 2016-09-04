@@ -28,7 +28,7 @@ namespace MvcTemplate.Web.Templates
             Dictionary<String, GennyScaffoldingResult> results = new Dictionary<String, GennyScaffoldingResult>();
 
             results.Add($"../MvcTemplate.Controllers/{path}/{Controller}Controller.cs", Scaffold("Controllers/Controller"));
-            results.Add($"../../test/MvcTemplate.Tests/Unit/Controllers/{path}/{Controller}Tests.cs", Scaffold("Tests/ControllerTests"));
+            results.Add($"../../test/MvcTemplate.Tests/Unit/Controllers/{path}/{Controller}ControllerTests.cs", Scaffold("Tests/ControllerTests"));
 
             results.Add($"../MvcTemplate.Objects/Models/{path}/{Model}.cs", Scaffold("Objects/Model"));
             results.Add($"../MvcTemplate.Objects/Views/{path}/{Model}View.cs", Scaffold("Objects/View"));

@@ -29,6 +29,8 @@ namespace MvcTemplate.Web.Templates
 
         public String Area { get; }
 
+        public String HeaderTitle { get; set; }
+
         public PropertyInfo[] Properties { get; set; }
         public PropertyInfo[] AllProperties { get; set; }
 
@@ -54,6 +56,8 @@ namespace MvcTemplate.Web.Templates
             Controller = $"{controller}Controller";
 
             Area = area;
+
+            HeaderTitle = $"{area}{controller}";
 
             AllProperties = typeof(BaseModel)
                 .Assembly

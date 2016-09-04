@@ -5,7 +5,7 @@
     <div class="widget-box">
         <div class="widget-title">
             <span class="widget-title-icon fa fa-th-list"></span>
-            <h5>@@Headers.@(Model.Area + Model.Controller)</h5>
+            <h5>@@Headers.@Model.HeaderTitle</h5>
             <div class="widget-title-buttons">
                 <authorize action="Details">
                     <a asp-action="Details" asp-route-id="@Model.Area" class="btn">
