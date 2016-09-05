@@ -1,11 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
+using System.Linq;
 
 namespace MvcTemplate.Tests.Data
 {
     public class TestingContext : Context
     {
+        public void DropState()
+        {
+            foreach (EntityEntry entry in ChangeTracker.Entries().ToArray())
+                entry.State = EntityState.Detached;
+        }
         public void DropData()
         {
             RemoveRange(Set<RolePermission>());

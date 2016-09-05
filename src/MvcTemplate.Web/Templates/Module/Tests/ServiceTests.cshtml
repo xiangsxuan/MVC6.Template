@@ -116,7 +116,6 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_@(Model.ModelShortName)()
         {
-            @Model.Model @Model.ModelVarName = context.Set<@Model.Model>().AsNoTracking().Single();
             @Model.View view = ObjectFactory.Create@(Model.View)(@(Model.ModelVarName).Id);
             Assert.True(false, "No update made");
 
@@ -160,6 +159,7 @@ namespace MvcTemplate.Tests.Unit.Services
 
             context.Set<@Model.Model>().Add(@Model.ModelVarName);
             context.SaveChanges();
+            context.DropState();
         }
 
         #endregion

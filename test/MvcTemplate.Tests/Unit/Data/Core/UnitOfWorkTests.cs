@@ -40,7 +40,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Add(model);
             context.SaveChanges();
 
-            RoleView expected = Mapper.Map<RoleView>(context.Set<Role>().AsNoTracking().Single());
+            RoleView expected = Mapper.Map<RoleView>(model);
             RoleView actual = unitOfWork.GetAs<Role, RoleView>(model.Id);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
@@ -141,31 +141,26 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
-        #region Update(TModel model)
+        #region Update<TModel>(TModel model)
 
-        [Fact]
-        public void Update_UpdatesNotAttachedModel()
+        [Theory]
+        [InlineData(EntityState.Added, EntityState.Modified)]
+        [InlineData(EntityState.Deleted, EntityState.Modified)]
+        [InlineData(EntityState.Detached, EntityState.Modified)]
+        [InlineData(EntityState.Modified, EntityState.Modified)]
+        [InlineData(EntityState.Unchanged, EntityState.Unchanged)]
+        public void Update_Entry(EntityState initialState, EntityState state)
         {
-            model.Id = 1;
-            model.Title += "Test";
+            EntityEntry<Role> entry = context.Entry(model);
+            entry.State = initialState;
+            entry.Entity.Id = 0;
 
             unitOfWork.Update(model);
 
-            EntityEntry<Role> actual = context.Entry(model);
-            Role expected = model;
+            EntityEntry<Role> actual = entry;
 
-            Assert.Equal(expected.CreationDate, actual.Entity.CreationDate);
-            Assert.Equal(expected.Title, actual.Entity.Title);
-            Assert.Equal(EntityState.Modified, actual.State);
-            Assert.Equal(expected.Id, actual.Entity.Id);
-        }
-
-        [Fact]
-        public void Update_DoesNotModifyCreationDate()
-        {
-            unitOfWork.Update(model);
-
-            Assert.False(context.Entry(model).Property(prop => prop.CreationDate).IsModified);
+            Assert.Equal(state, actual.State);
+            Assert.False(actual.Property(prop => prop.CreationDate).IsModified);
         }
 
         #endregion
