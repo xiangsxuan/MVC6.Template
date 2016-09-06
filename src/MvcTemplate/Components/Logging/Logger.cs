@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using MvcTemplate.Components.Extensions;
 using System;
 using System.IO;
 using System.Text;
@@ -7,17 +9,20 @@ namespace MvcTemplate.Components.Logging
 {
     public class Logger : ILogger
     {
-        private Int32? AccountId { get; }
         private IConfiguration Config { get; }
+        private Func<Int32?> AccountId { get; }
         private static Object LogWriting = new Object();
 
         public Logger(IConfiguration config)
         {
+            IHttpContextAccessor accessor = new HttpContextAccessor();
+            AccountId = () => accessor.HttpContext?.User.Id();
             Config = config;
         }
-        public Logger(IConfiguration config, Int32? accountId) : this(config)
+        public Logger(IConfiguration config, Int32? accountId)
         {
-            AccountId = accountId;
+            AccountId = () => accountId;
+            Config = config;
         }
 
         public void Log(String message)
@@ -28,7 +33,7 @@ namespace MvcTemplate.Components.Logging
 
             StringBuilder log = new StringBuilder();
             log.AppendLine("Time   : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            log.AppendLine("Account: " + AccountId);
+            log.AppendLine("Account: " + AccountId());
             log.AppendLine("Message: " + message);
             log.AppendLine();
 

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -68,20 +67,18 @@ namespace MvcTemplate.Web
             services.AddTransient<DbContext, Context>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            services.AddTransient<IHasher, BCrypter>();
-            services.AddTransient<IMailClient, SmtpMailClient>();
-            services.AddTransient<ILogger>(provider => new Logger(
-                    provider.GetService<IConfiguration>(),
-                    provider.GetService<IHttpContextAccessor>().HttpContext?.User.Id()));
+            services.AddSingleton<ILogger, Logger>();
 
-            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHasher, BCrypter>();
+            services.AddSingleton<IMailClient, SmtpMailClient>();
+
             services.AddSingleton<IValidationAttributeAdapterProvider, ValidationAdapterProvider>();
 
             services.AddSingleton<ILanguages, Languages>();
             services.AddSingleton<IAuthorizationProvider>(provider =>
                 new AuthorizationProvider(typeof(BaseController).Assembly, provider));
 
-            services.AddTransient<IMvcSiteMapParser, MvcSiteMapParser>();
+            services.AddSingleton<IMvcSiteMapParser, MvcSiteMapParser>();
             services.AddSingleton<IMvcSiteMapProvider, MvcSiteMapProvider>();
 
             services.AddTransientImplementations<IService>();
