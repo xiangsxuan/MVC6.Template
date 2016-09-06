@@ -1,10 +1,4 @@
-﻿.alerts .alert {
-  text-align: center;
-}
-form {
-  padding: 0 10px;
-}
-.auth-content {
+﻿.auth-content {
   box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px inset, rgba(255, 255, 255, 0.4) 0 1px 0;
   background-color: #FFFFFF;
   margin-bottom: 20px;
@@ -77,13 +71,6 @@ form {
 .auth-content .language-container .caret {
   margin-top: 8px;
   float: right;
-}
-.btn {
-  margin-bottom: 20px;
-  border-radius: 6px;
-  font-size: 1.3em;
-  padding: 10px;
-  width: 100%;
 }
 .auth-actions {
   text-align: right;

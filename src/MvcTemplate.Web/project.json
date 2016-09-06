@@ -6,8 +6,8 @@
     "MvcTemplate.Controllers": "1.0.0",
 
     "Genny": "1.0.0-preview2-final",
-    "NonFactors.Grid.Mvc6": "1.0.0",
-    "NonFactors.Lookup.Mvc6": "1.0.0",
+    "NonFactors.Grid.Mvc6": "1.1.0",
+    "NonFactors.Lookup.Mvc6": "1.1.0",
     "Microsoft.AspNetCore.Session": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",

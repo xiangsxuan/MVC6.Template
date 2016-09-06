@@ -5,7 +5,7 @@
   "dependencies": {
     "MvcTemplate.Components": "1.0.0",
 
-    "NonFactors.Lookup.Core.Mvc6": "1.0.0"
+    "NonFactors.Lookup.Core.Mvc6": "1.1.0"
   },
 
   "buildOptions": {

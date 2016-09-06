@@ -4,11 +4,13 @@ window.cultures.grid['en'] = {
     Text: {
         Contains: 'Contains',
         Equals: 'Equals',
+        NotEquals: 'Not equals',
         StartsWith: 'Starts with',
         EndsWith: 'Ends with'
     },
     Number: {
         Equals: 'Equals',
+        NotEquals: 'Not equals',
         LessThan: 'Less than',
         GreaterThan: 'Greater than',
         LessThanOrEqual: 'Less than or equal',
@@ -16,6 +18,7 @@ window.cultures.grid['en'] = {
     },
     Date: {
         Equals: 'Equals',
+        NotEquals: 'Not equals',
         LessThan: 'Is before',
         GreaterThan: 'Is after',
         LessThanOrEqual: 'Is before or equal',
