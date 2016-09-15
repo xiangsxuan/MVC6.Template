@@ -37,13 +37,13 @@ namespace MvcTemplate.Resources
         {
             return GetResource("MvcTemplate.Resources.Lookup.Titles", lookup ?? "");
         }
-        public static String GetContentTitle(IDictionary<String, Object> values)
+        public static String GetPageTitle(IDictionary<String, Object> values)
         {
             String area = values["area"] as String;
             String action = values["action"] as String;
             String controller = values["controller"] as String;
 
-            return GetResource("MvcTemplate.Resources.Shared.ContentTitles", area + controller + action);
+            return GetResource("MvcTemplate.Resources.Shared.Pages", area + controller + action);
         }
         public static String GetSiteMapTitle(String area, String controller, String action)
         {

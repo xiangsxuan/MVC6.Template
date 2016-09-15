@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Extensions;
 using MvcTemplate.Components.Security;
-using MvcTemplate.Resources.Table;
+using MvcTemplate.Resources.Shared;
 using MvcTemplate.Tests.Objects;
 using NonFactors.Mvc.Grid;
 using NSubstitute;
@@ -183,7 +183,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             IGridColumn<AllTypesView> column = columns.AddBooleanProperty(model => model.BooleanField);
 
             String actual = column.ValueFor(row).ToString();
-            String expected = TableResources.Yes;
+            String expected = Strings.Yes;
 
             Assert.Equal(expected, actual);
         }
@@ -195,7 +195,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             IGridColumn<AllTypesView> column = columns.AddBooleanProperty(model => model.BooleanField);
 
             String actual = column.ValueFor(row).ToString();
-            String expected = TableResources.No;
+            String expected = Strings.No;
 
             Assert.Equal(expected, actual);
         }
@@ -235,7 +235,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             IGridColumn<AllTypesView> column = columns.AddBooleanProperty(model => model.NullableBooleanField);
 
             String actual = column.ValueFor(row).ToString();
-            String expected = TableResources.Yes;
+            String expected = Strings.Yes;
 
             Assert.Equal(expected, actual);
         }
@@ -247,7 +247,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             IGridColumn<AllTypesView> column = columns.AddBooleanProperty(model => model.NullableBooleanField);
 
             String actual = column.ValueFor(row).ToString();
-            String expected = TableResources.No;
+            String expected = Strings.No;
 
             Assert.Equal(expected, actual);
         }
@@ -492,7 +492,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
             IGrid actual = html.ApplyDefaults().Grid;
 
-            Assert.Equal(TableResources.NoDataFound, actual.EmptyText);
+            Assert.Equal(Strings.NoDataFound, actual.EmptyText);
             Assert.Equal("table-hover", actual.CssClasses);
             Assert.Equal(true, column.IsFilterable);
             Assert.Equal(true, column.IsSortable);

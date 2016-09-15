@@ -22,13 +22,13 @@ namespace MvcTemplate.Resources.Shared {
     // with the /str option, or rebuild your VS project.
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ContentTitles {
+    public class Pages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        internal ContentTitles() {
+        internal Pages() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace MvcTemplate.Resources.Shared {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MvcTemplate.Resources.Shared.ContentTitles", typeof(ContentTitles).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MvcTemplate.Resources.Shared.Pages", typeof(Pages).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

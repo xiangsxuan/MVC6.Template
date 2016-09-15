@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Resources;
-using MvcTemplate.Resources.Table;
+using MvcTemplate.Resources.Shared;
 using NonFactors.Mvc.Grid;
 using System;
 using System.Collections.Generic;
@@ -45,8 +45,8 @@ namespace MvcTemplate.Components.Extensions
                 .AddProperty(expression)
                 .RenderedAs(model =>
                     valueFor(model)
-                        ? TableResources.Yes
-                        : TableResources.No);
+                        ? Strings.Yes
+                        : Strings.No);
         }
         public static IGridColumn<T> AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean?>> expression)
         {
@@ -57,8 +57,8 @@ namespace MvcTemplate.Components.Extensions
                 .RenderedAs(model =>
                     valueFor(model) != null
                         ? valueFor(model) == true
-                            ? TableResources.Yes
-                            : TableResources.No
+                            ? Strings.Yes
+                            : Strings.No
                         : "");
         }
         public static IGridColumn<T> AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
@@ -82,7 +82,7 @@ namespace MvcTemplate.Components.Extensions
             return grid
                 .Pageable(pager => { pager.RowsPerPage = 16; })
                 .Named(typeof(T).Name.Replace("View", ""))
-                .Empty(TableResources.NoDataFound)
+                .Empty(Strings.NoDataFound)
                 .Css("table-hover")
                 .Filterable()
                 .Sortable();

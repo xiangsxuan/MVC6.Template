@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NoDataFound" xml:space="preserve">
+    <value>No data found</value>
+  </data>
   <data name="PageNotFound" xml:space="preserve">
     <value>The page you are looking for does not exist</value>
   </data>
@@ -125,5 +131,8 @@
   </data>
   <data name="Unauthorized" xml:space="preserve">
     <value>You are unauthorized to view this page</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>
