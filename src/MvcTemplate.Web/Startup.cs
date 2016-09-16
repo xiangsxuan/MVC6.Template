@@ -55,6 +55,7 @@ namespace MvcTemplate.Web
                 .AddMvcOptions(options => options.Filters.Add(typeof(AuthorizationFilter)))
                 .AddMvcOptions(options => new ModelMessagesProvider(options.ModelBindingMessageProvider))
                 .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
+                .AddViewOptions(options => options.ClientModelValidatorProviders.Add(new DateValidatorProvider()))
                 .AddMvcOptions(options => options.ModelMetadataDetailsProviders.Add(new DisplayMetadataProvider()))
                 .AddMvcOptions(options => options.ModelBinderProviders.Insert(4, new TrimmingModelBinderProvider()));
         }
