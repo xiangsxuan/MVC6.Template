@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Routing;
@@ -27,10 +28,14 @@ namespace MvcTemplate.Web
 
         public Startup(IHostingEnvironment env)
         {
+            Dictionary<String, String> config = new Dictionary<String, String>();
+            config.Add("Application:Path", env.ContentRootPath);
+            config.Add("Application:Env", env.EnvironmentName);
+
             Config = new ConfigurationBuilder()
-                .AddInMemoryCollection(new[] { new KeyValuePair<String, String>("Application:Path", env.ContentRootPath) })
                 .AddJsonFile("configuration.json")
                 .SetBasePath(env.ContentRootPath)
+                .AddInMemoryCollection(config)
                 .Build();
         }
         public void Configure(IApplicationBuilder app)
@@ -92,6 +97,12 @@ namespace MvcTemplate.Web
 
         public virtual void RegisterServices(IApplicationBuilder app)
         {
+            if (Config["Application:Env"] == EnvironmentName.Development)
+                app.UseMiddleware<DeveloperExceptionPageMiddleware>();
+            else
+                app.UseMiddleware<ErrorPagesMiddleware>();
+
+            app.UseMiddleware<ExceptionFilterMiddleware>();
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 Events = new AuthenticationEvents(),
@@ -99,9 +110,7 @@ namespace MvcTemplate.Web
                 AuthenticationScheme = "Cookies",
                 AutomaticChallenge = true
             });
-            app.UseDeveloperExceptionPage();
 
-            app.UseMiddleware<ExceptionFilterMiddleware>();
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = (response) =>
