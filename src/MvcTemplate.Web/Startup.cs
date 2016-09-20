@@ -103,6 +103,8 @@ namespace MvcTemplate.Web
                 app.UseMiddleware<ErrorPagesMiddleware>();
 
             app.UseMiddleware<ExceptionFilterMiddleware>();
+            app.UseMiddleware<SecureHeadersMiddleware>();
+
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 Events = new AuthenticationEvents(),
