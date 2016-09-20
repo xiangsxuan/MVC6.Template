@@ -1,13 +1,13 @@
 ﻿{
   "authors": [ "NonFactors" ],
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "dependencies": {
-    "MvcTemplate": "1.0.0",
-    "MvcTemplate.Services": "1.0.0",
-    "MvcTemplate.Validators": "1.0.0",
+    "MvcTemplate": "1.0.1",
+    "MvcTemplate.Services": "1.0.1",
+    "MvcTemplate.Validators": "1.0.1",
 
-    "Microsoft.AspNetCore.Mvc.ViewFeatures": "1.0.0"
+    "Microsoft.AspNetCore.Mvc.ViewFeatures": "1.0.1"
   },
 
   "buildOptions": {

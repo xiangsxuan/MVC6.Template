@@ -1,10 +1,10 @@
 ﻿{
   "authors": [ "NonFactors" ],
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "dependencies": {
-    "MvcTemplate.Data": "1.0.0",
-    "MvcTemplate.Components": "1.0.0"
+    "MvcTemplate.Data": "1.0.1",
+    "MvcTemplate.Components": "1.0.1"
   },
 
   "buildOptions": {

@@ -1,9 +1,9 @@
 {
   "authors": [ "NonFactors" ],
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "dependencies": {
-    "MvcTemplate.Controllers": "1.0.0",
+    "MvcTemplate.Controllers": "1.0.1",
 
     "Genny": "1.0.0-preview2-final",
     "NonFactors.Grid.Mvc6": "1.1.0",
@@ -11,8 +11,8 @@
     "Microsoft.AspNetCore.Session": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
-    "Microsoft.AspNetCore.Mvc.TagHelpers": "1.0.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
+    "Microsoft.AspNetCore.Mvc.TagHelpers": "1.0.1",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
     "Microsoft.AspNetCore.Razor.Tools": "1.0.0-preview2-final",
     "Microsoft.VisualStudio.Web.CodeGeneration.Utils": "1.0.0-preview2-final"

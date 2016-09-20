@@ -1,9 +1,9 @@
 ﻿{
   "authors": [ "NonFactors" ],
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "dependencies": {
-    "MvcTemplate.Web": "1.0.0",
+    "MvcTemplate.Web": "1.0.1",
 
     "NSubstitute": "1.10.0",
     "xunit": "2.2.0-beta2-build3300",
