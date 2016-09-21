@@ -1,0 +1,42 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/Scripts/Private/bundle.min.js",
+    "inputFiles": [
+      "wwwroot/Scripts/JQuery/**/*.js",
+      "wwwroot/Scripts/JQueryUI/**/*.js",
+      "wwwroot/Scripts/MvcLookup/**/*.js",
+      "wwwroot/Scripts/MvcGrid/**/*.js",
+      "wwwroot/Scripts/Bootstrap/*.js",
+      "wwwroot/Scripts/JsTree/*.js",
+      "wwwroot/Scripts/Shared/*.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/Scripts/Public/bundle.min.js",
+    "inputFiles": [
+      "wwwroot/Scripts/JQuery/**/*.js",
+      "wwwroot/Scripts/Bootstrap/*.js",
+      "wwwroot/Scripts/Shared/*.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/Content/Private/bundle.min.css",
+    "inputFiles": [
+      "wwwroot/Content/JQueryUI/*.css",
+      "wwwroot/Content/Bootstrap/*.css",
+      "wwwroot/Content/FontAwesome/*.css",
+      "wwwroot/Content/MvcGrid/*.css",
+      "wwwroot/Content/JsTree/*.css",
+      "wwwroot/Content/MvcLookup/*.css",
+      "wwwroot/Content/Shared/**/*.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/Content/Public/bundle.min.css",
+    "inputFiles": [
+      "wwwroot/Content/Bootstrap/*.css",
+      "wwwroot/Content/FontAwesome/*.css",
+      "wwwroot/Content/Shared/**/*.css"
+    ]
+  }
+]
