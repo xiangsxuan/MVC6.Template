@@ -12,7 +12,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class ViewLocationExpanderTests
     {
-        #region ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<String> viewLocations)
+        #region ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<String> locations)
 
         [Fact]
         public void ExpandViewLocations_Area_ReturnsAreaLocations()

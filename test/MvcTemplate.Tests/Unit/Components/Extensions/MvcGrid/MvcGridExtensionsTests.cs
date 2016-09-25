@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Extensions;
@@ -36,8 +34,6 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         [Fact]
         public void AddActionLink_Unauthorized_Empty()
         {
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IUrlHelperFactory>().Returns(new UrlHelperFactory());
-
             IGridColumn<AllTypesView> actual = columns.AddActionLink("Edit", "fa fa-pencil");
 
             Assert.Empty(actual.ValueFor(null).ToString());
@@ -49,21 +45,19 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         {
             AllTypesView view = new AllTypesView();
             StringWriter writer = new StringWriter();
-            IUrlHelper url = Substitute.For<IUrlHelper>();
-            url.Action("Details", Arg.Any<Object>()).Returns("Test");
-            IUrlHelperFactory urlFactory = Substitute.For<IUrlHelperFactory>();
-            IAuthorizationProvider provider = columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
-            columns.Grid.ViewContext = new ViewContext { RouteData = new RouteData(), HttpContext = Substitute.For<HttpContext>() };
-            provider.IsAuthorizedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IUrlHelperFactory>().Returns(urlFactory);
-            urlFactory.GetUrlHelper(columns.Grid.ViewContext).Returns(url);
+            IRouter router = Substitute.For<IRouter>();
+            IAuthorizationProvider authorization = columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
+
+            authorization.IsAuthorizedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
+            router.GetVirtualPath(Arg.Any<VirtualPathContext>()).Returns(new VirtualPathData(router, "/test"));
+            columns.Grid.ViewContext.RouteData.Routers.Add(router);
 
             IGridColumn<AllTypesView> column = columns.AddActionLink("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
             String actual = writer.ToString();
             String expected =
-                $"<a class=\"details-action\" href=\"{url.Action("Details", new { view.Id })}\">" +
+                $"<a class=\"details-action\" href=\"/test\">" +
                     "<i class=\"fa fa-info\"></i>" +
                 "</a>";
 
@@ -75,20 +69,18 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         {
             AllTypesView view = new AllTypesView();
             StringWriter writer = new StringWriter();
-            IUrlHelper url = Substitute.For<IUrlHelper>();
-            url.Action("Details", Arg.Any<Object>()).Returns("Test");
-            IUrlHelperFactory urlFactory = Substitute.For<IUrlHelperFactory>();
+            IRouter router = Substitute.For<IRouter>();
+
             columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(null as IAuthorizationProvider);
-            columns.Grid.ViewContext = new ViewContext { RouteData = new RouteData(), HttpContext = Substitute.For<HttpContext>() };
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IUrlHelperFactory>().Returns(urlFactory);
-            urlFactory.GetUrlHelper(columns.Grid.ViewContext).Returns(url);
+            router.GetVirtualPath(Arg.Any<VirtualPathContext>()).Returns(new VirtualPathData(router, "/test"));
+            columns.Grid.ViewContext.RouteData.Routers.Add(router);
 
             IGridColumn<AllTypesView> column = columns.AddActionLink("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
             String actual = writer.ToString();
             String expected =
-                $"<a class=\"details-action\" href=\"{url.Action("Details", new { view.Id })}\">" +
+                $"<a class=\"details-action\" href=\"/test\">" +
                     "<i class=\"fa fa-info\"></i>" +
                 "</a>";
 
@@ -101,7 +93,6 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             IGrid<Object> grid = new Grid<Object>(new Object[0]);
             IGridColumnsOf<Object> columns = new GridColumns<Object>(grid);
             columns.Grid.ViewContext = new ViewContext { HttpContext = Substitute.For<HttpContext>() };
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IUrlHelperFactory>().Returns(new UrlHelperFactory());
 
             IGridColumn<Object> column = columns.AddActionLink("Delete", "fa fa-times");
 

@@ -13,16 +13,16 @@ namespace MvcTemplate.Components.Security
     public class AuthorizationProvider : IAuthorizationProvider
     {
         private IEnumerable<Type> Controllers { get; }
-        private IServiceProvider ServiceProvider { get; }
+        private IServiceProvider Services { get; }
         private Dictionary<String, String> Required { get; }
         private Dictionary<Int32, HashSet<String>> Permissions { get; set; }
 
-        public AuthorizationProvider(Assembly controllersAssembly, IServiceProvider provider)
+        public AuthorizationProvider(Assembly controllers, IServiceProvider services)
         {
-            Controllers = GetValidControllers(controllersAssembly);
             Permissions = new Dictionary<Int32, HashSet<String>>();
             Required = new Dictionary<String, String>();
-            ServiceProvider = provider;
+            Controllers = GetValid(controllers);
+            Services = services;
 
             foreach (Type type in Controllers)
             {
@@ -53,7 +53,7 @@ namespace MvcTemplate.Components.Security
 
         public void Refresh()
         {
-            using (IUnitOfWork unitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>())
+            using (IUnitOfWork unitOfWork = Services.GetRequiredService<IUnitOfWork>())
             {
                 Permissions = unitOfWork
                     .Select<Account>()
@@ -89,9 +89,9 @@ namespace MvcTemplate.Components.Security
                     .OrderByDescending(method =>
                         method.IsDefined(typeof(HttpGetAttribute), false));
         }
-        private IEnumerable<Type> GetValidControllers(Assembly assembly)
+        private IEnumerable<Type> GetValid(Assembly controllers)
         {
-            return assembly
+            return controllers
                 .GetTypes()
                 .Where(type =>
                     type.Name.EndsWith("Controller", StringComparison.OrdinalIgnoreCase) &&
@@ -157,9 +157,8 @@ namespace MvcTemplate.Components.Security
         }
         private Type GetControllerType(String area, String controller)
         {
-            String typeName = controller + "Controller";
             IEnumerable<Type> controllers = Controllers
-                .Where(type => type.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
+                .Where(type => type.Name.Equals(controller + "Controller", StringComparison.OrdinalIgnoreCase));
 
             if (String.IsNullOrEmpty(area))
                 controllers = controllers.Where(type =>

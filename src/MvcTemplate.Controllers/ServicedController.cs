@@ -8,7 +8,6 @@ namespace MvcTemplate.Controllers
         where TService : IService
     {
         public TService Service { get; }
-        private Boolean Disposed { get; set; }
 
         protected ServicedController(TService service)
         {
@@ -24,10 +23,7 @@ namespace MvcTemplate.Controllers
 
         protected override void Dispose(Boolean disposing)
         {
-            if (Disposed) return;
-
             Service.Dispose();
-            Disposed = true;
 
             base.Dispose(disposing);
         }

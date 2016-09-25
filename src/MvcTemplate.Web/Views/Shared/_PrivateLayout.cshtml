@@ -36,8 +36,8 @@
         <div class="menu-search">
             <input id="SiteMapSearch" placeholder="@(Actions.Search + "...")" />
         </div>
-        @{ IMvcSiteMapProvider provider = Context.RequestServices.GetRequiredService<IMvcSiteMapProvider>(); }
-        @Html.Partial("_SiteMap", provider.GetSiteMap(ViewContext))
+        @{ IMvcSiteMapProvider siteMap = Context.RequestServices.GetRequiredService<IMvcSiteMapProvider>(); }
+        @Html.Partial("_SiteMap", siteMap.GetSiteMap(ViewContext))
     </div>
     <div class="content-container">
         <div class="separator"></div>

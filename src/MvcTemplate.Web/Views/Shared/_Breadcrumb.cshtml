@@ -1,6 +1,6 @@
 ﻿@{
-    IMvcSiteMapProvider provider = Context.RequestServices.GetRequiredService<IMvcSiteMapProvider>();
-    IEnumerable<MvcSiteMapNode> breadcrumb = provider.GetBreadcrumb(ViewContext);
+    IMvcSiteMapProvider siteMap = Context.RequestServices.GetRequiredService<IMvcSiteMapProvider>();
+    IEnumerable<MvcSiteMapNode> breadcrumb = siteMap.GetBreadcrumb(ViewContext);
     MvcSiteMapNode current = breadcrumb.LastOrDefault();
 }
 

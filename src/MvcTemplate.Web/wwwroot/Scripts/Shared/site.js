@@ -77,32 +77,32 @@
         var validator = $(this).parents('form').validate();
 
         if (validator) {
-            var lookupInput = $(this).prevAll('[data-mvc-lookup-for="' + this.id + '"]');
+            var lookup = $(this).prevAll('[data-mvc-lookup-for="' + this.id + '"]');
             if (validator.element('#' + this.id)) {
-                lookupInput.removeClass('input-validation-error');
+                lookup.removeClass('input-validation-error');
             } else {
-                lookupInput.addClass('input-validation-error');
+                lookup.addClass('input-validation-error');
             }
         }
     });
     $('form').on('invalid-form', function (form, validator) {
         var lookups = $(this).find('.mvc-lookup-input');
         for (var i = 0; i < lookups.length; i++) {
-            var lookupInput = $(lookups[i]);
-            var hiddenInputId = lookupInput.attr('data-mvc-lookup-for');
+            var lookup = $(lookups[i]);
+            var hiddenInputId = lookup.attr('data-mvc-lookup-for');
 
             if (validator.invalid[hiddenInputId]) {
-                lookupInput.addClass('input-validation-error');
+                lookup.addClass('input-validation-error');
             } else {
-                lookupInput.removeClass('input-validation-error');
+                lookup.removeClass('input-validation-error');
             }
         }
     });
     $(document).on('ready', function () {
-        var hiddenLookupInputs = $('.mvc-lookup-hidden-input.input-validation-error');
-        for (var i = 0; i < hiddenLookupInputs.length; i++) {
-            var hiddenInput = $(hiddenLookupInputs[i]);
-            hiddenInput.prevAll('[data-mvc-lookup-for="' + hiddenLookupInputs[i].id + '"]').addClass('input-validation-error');
+        var hiddenInputs = $('.mvc-lookup-hidden-input.input-validation-error');
+        for (var i = 0; i < hiddenInputs.length; i++) {
+            var hiddenInput = $(hiddenInputs[i]);
+            hiddenInput.prevAll('[data-mvc-lookup-for="' + hiddenInputs[i].id + '"]').addClass('input-validation-error');
         }
     });
 
@@ -112,7 +112,7 @@
             return $(this).is(currentIgnore) && !$(this).hasClass('mvc-lookup-hidden-input');
         }
     });
-    
+
     var lang = $('html').attr('lang');
 
     Globalize.cultures.en = null;
@@ -145,9 +145,9 @@
 
 // JsTree binding
 (function () {
-    var jsTrees = $('.js-tree-view');
-    for (var i = 0; i < jsTrees.length; i++) {
-        var jsTree = $(jsTrees[i]).jstree({
+    var trees = $('.js-tree-view');
+    for (var i = 0; i < trees.length; i++) {
+        var tree = $(trees[i]).jstree({
             'core': {
                 'themes': {
                     'icons': false
@@ -161,29 +161,29 @@
             }
         });
 
-        jsTree.on('ready.jstree', function (e, data) {
-            var selectedNodes = $(this).prev('.js-tree-view-ids').children();
-            for (var j = 0; j < selectedNodes.length; j++) {
-                data.instance.select_node(selectedNodes[j].value, false, true);
+        tree.on('ready.jstree', function (e, data) {
+            var selected = $(this).prev('.js-tree-view-ids').children();
+            for (var j = 0; j < selected.length; j++) {
+                data.instance.select_node(selected[j].value, false, true);
             }
 
-            data.instance.open_node($.makeArray(jsTree.find('> ul > li')), null, null);
+            data.instance.open_node($.makeArray(tree.find('> ul > li')), null, null);
             data.instance.element.show();
         });
     }
 
     $(document).on('submit', 'form', function () {
-        var jsTrees = $(this).find('.js-tree-view');
-        for (var i = 0; i < jsTrees.length; i++) {
-            var jsTree = $(jsTrees[i]).jstree();
-            var treeIdSpan = jsTree.element.prev('.js-tree-view-ids');
+        var trees = $(this).find('.js-tree-view');
+        for (var i = 0; i < trees.length; i++) {
+            var tree = $(trees[i]).jstree();
+            var ids = tree.element.prev('.js-tree-view-ids');
 
-            treeIdSpan.empty();
-            var selectedNodes = jsTree.get_selected();
-            for (var j = 0; j < selectedNodes.length; j++) {
-                var node = jsTree.get_node(selectedNodes[j]);
+            ids.empty();
+            var selected = tree.get_selected();
+            for (var j = 0; j < selected.length; j++) {
+                var node = tree.get_node(selected[j]);
                 if (node.li_attr.id) {
-                    treeIdSpan.append('<input type="hidden" value="' + node.li_attr.id + '" name="' + jsTree.element.attr('for') + '" />');
+                    ids.append('<input type="hidden" value="' + node.li_attr.id + '" name="' + tree.element.attr('for') + '" />');
                 }
             }
         }

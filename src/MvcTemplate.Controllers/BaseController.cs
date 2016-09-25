@@ -15,7 +15,7 @@ namespace MvcTemplate.Controllers
     [Authorize]
     public abstract class BaseController : Controller
     {
-        public IAuthorizationProvider AuthorizationProvider { get; protected set; }
+        public IAuthorizationProvider Authorization { get; protected set; }
         public virtual Int32 CurrentAccountId { get; protected set; }
         public AlertsContainer Alerts { get; protected set; }
 
@@ -66,7 +66,7 @@ namespace MvcTemplate.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            AuthorizationProvider = HttpContext.RequestServices.GetService<IAuthorizationProvider>();
+            Authorization = HttpContext.RequestServices.GetService<IAuthorizationProvider>();
 
             CurrentAccountId = User.Id() ?? 0;
         }
@@ -83,9 +83,9 @@ namespace MvcTemplate.Controllers
 
         public virtual Boolean IsAuthorizedFor(String action, String controller, String area)
         {
-            if (AuthorizationProvider == null) return true;
+            if (Authorization == null) return true;
 
-            return AuthorizationProvider.IsAuthorizedFor(CurrentAccountId, area, controller, action);
+            return Authorization.IsAuthorizedFor(CurrentAccountId, area, controller, action);
         }
     }
 }

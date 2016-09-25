@@ -9,7 +9,6 @@ namespace MvcTemplate.Data.Migrations
     public sealed class Configuration : IDisposable
     {
         private IUnitOfWork UnitOfWork { get; }
-        private Boolean Disposed { get; set; }
         private DbContext Context { get; }
 
         public Configuration(DbContext context)
@@ -52,7 +51,6 @@ namespace MvcTemplate.Data.Migrations
                 if (!permissions.Any(perm => perm.Id == permission.Id))
                 {
                     UnitOfWork.DeleteRange(UnitOfWork.Select<RolePermission>().Where(role => role.PermissionId == permission.Id));
-
                     UnitOfWork.Delete(permission);
                 }
             }
@@ -60,17 +58,17 @@ namespace MvcTemplate.Data.Migrations
             foreach (Permission permission in permissions)
             {
                 Permission currentPermission = currentPermissions.SingleOrDefault(perm => perm.Id == permission.Id);
-                if (currentPermission == null)
-                {
-                    UnitOfWork.Insert(permission);
-                }
-                else
+                if (currentPermission != null)
                 {
                     currentPermission.Controller = permission.Controller;
                     currentPermission.Action = permission.Action;
                     currentPermission.Area = permission.Area;
 
                     UnitOfWork.Update(currentPermission);
+                }
+                else
+                {
+                    UnitOfWork.Insert(permission);
                 }
             }
 
@@ -86,13 +84,13 @@ namespace MvcTemplate.Data.Migrations
             }
 
             Int32 adminRoleId = UnitOfWork.Select<Role>().Single(role => role.Title == "Sys_Admin").Id;
-            RolePermission[] adminPermissions = UnitOfWork
+            RolePermission[] currentPermissions = UnitOfWork
                 .Select<RolePermission>()
                 .Where(rolePermission => rolePermission.RoleId == adminRoleId)
                 .ToArray();
 
             foreach (Permission permission in UnitOfWork.Select<Permission>())
-                if (!adminPermissions.Any(rolePermission => rolePermission.PermissionId == permission.Id))
+                if (!currentPermissions.Any(rolePermission => rolePermission.PermissionId == permission.Id))
                     UnitOfWork.Insert(new RolePermission
                     {
                         RoleId = adminRoleId,
@@ -119,12 +117,13 @@ namespace MvcTemplate.Data.Migrations
 
             foreach (Account account in accounts)
             {
-                Account dbAccount = UnitOfWork.Select<Account>().FirstOrDefault(model => model.Username == account.Username);
-                if (dbAccount != null)
+                Account currentAccount = UnitOfWork.Select<Account>().FirstOrDefault(model => model.Username == account.Username);
+                if (currentAccount != null)
                 {
-                    dbAccount.IsLocked = account.IsLocked;
+                    currentAccount.IsLocked = account.IsLocked;
+                    currentAccount.RoleId = account.RoleId;
 
-                    UnitOfWork.Update(dbAccount);
+                    UnitOfWork.Update(currentAccount);
                 }
                 else
                 {
@@ -139,12 +138,8 @@ namespace MvcTemplate.Data.Migrations
 
         public void Dispose()
         {
-            if (Disposed) return;
-
             UnitOfWork.Dispose();
             Context.Dispose();
-
-            Disposed = true;
         }
     }
 }

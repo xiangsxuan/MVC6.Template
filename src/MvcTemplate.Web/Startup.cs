@@ -41,7 +41,7 @@ namespace MvcTemplate.Web
         public void Configure(IApplicationBuilder app)
         {
             RegisterServices(app);
-            RegisterRoute(app);
+            RegisterMvc(app);
 
             UpdateDatabase(app);
         }
@@ -52,7 +52,7 @@ namespace MvcTemplate.Web
             RegisterLowercaseUrls(services);
         }
 
-        public virtual void RegisterMvc(IServiceCollection services)
+        public void RegisterMvc(IServiceCollection services)
         {
             services
                 .AddMvc()
@@ -64,7 +64,7 @@ namespace MvcTemplate.Web
                 .AddMvcOptions(options => options.ModelMetadataDetailsProviders.Add(new DisplayMetadataProvider()))
                 .AddMvcOptions(options => options.ModelBinderProviders.Insert(4, new TrimmingModelBinderProvider()));
         }
-        public virtual void RegisterServices(IServiceCollection services)
+        public void RegisterServices(IServiceCollection services)
         {
             services.AddMvcGrid();
             services.AddSession();
@@ -90,12 +90,12 @@ namespace MvcTemplate.Web
             services.AddTransientImplementations<IService>();
             services.AddTransientImplementations<IValidator>();
         }
-        public virtual void RegisterLowercaseUrls(IServiceCollection services)
+        public void RegisterLowercaseUrls(IServiceCollection services)
         {
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         }
 
-        public virtual void RegisterServices(IApplicationBuilder app)
+        public void RegisterServices(IApplicationBuilder app)
         {
             if (Config["Application:Env"] == EnvironmentName.Development)
                 app.UseMiddleware<DeveloperExceptionPageMiddleware>();
@@ -122,7 +122,7 @@ namespace MvcTemplate.Web
             });
             app.UseSession();
         }
-        public virtual void RegisterRoute(IApplicationBuilder app)
+        public void RegisterMvc(IApplicationBuilder app)
         {
             app.UseMvc(routes =>
             {
@@ -152,7 +152,7 @@ namespace MvcTemplate.Web
             });
         }
 
-        public virtual void UpdateDatabase(IApplicationBuilder app)
+        public void UpdateDatabase(IApplicationBuilder app)
         {
             using (Configuration configuration = new Configuration(app.ApplicationServices.GetService<DbContext>()))
                 configuration.UpdateDatabase();

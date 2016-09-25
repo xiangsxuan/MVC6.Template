@@ -6,7 +6,7 @@ namespace MvcTemplate.Components.Mvc
 {
     public class ViewLocationExpander : IViewLocationExpander
     {
-        public IEnumerable<String> ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<String> viewLocations)
+        public IEnumerable<String> ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<String> locations)
         {
             if (RazorViewEngine.GetNormalizedRouteValue(context.ActionContext, "area") != null)
             {

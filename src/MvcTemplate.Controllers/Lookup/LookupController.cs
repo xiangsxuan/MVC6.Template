@@ -13,7 +13,6 @@ namespace MvcTemplate.Controllers
     public class LookupController : BaseController
     {
         private IUnitOfWork UnitOfWork { get; }
-        private Boolean Disposed { get; set; }
 
         public LookupController(IUnitOfWork unitOfWork)
         {
@@ -36,10 +35,7 @@ namespace MvcTemplate.Controllers
 
         protected override void Dispose(Boolean disposing)
         {
-            if (Disposed) return;
-
             UnitOfWork.Dispose();
-            Disposed = true;
 
             base.Dispose(disposing);
         }

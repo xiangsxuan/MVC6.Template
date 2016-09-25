@@ -194,12 +194,12 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void OnActionExecuting_SetsAuthorizationProvider()
         {
-            IAuthorizationProvider provider = controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
+            IAuthorizationProvider authorization = controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
 
             controller.OnActionExecuting(null);
 
-            Object actual = controller.AuthorizationProvider;
-            Object expected = provider;
+            Object actual = controller.Authorization;
+            Object expected = authorization;
 
             Assert.Same(expected, actual);
         }
@@ -266,19 +266,19 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             controller = Substitute.ForPartsOf<BaseController>();
 
-            Assert.Null(controller.AuthorizationProvider);
+            Assert.Null(controller.Authorization);
             Assert.True(controller.IsAuthorizedFor(null, null, null));
         }
 
         [Fact]
         public void IsAuthorizedFor_ReturnsAuthorizationResult()
         {
-            IAuthorizationProvider provider = controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
-            provider.IsAuthorizedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
+            IAuthorizationProvider authorization = controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
+            authorization.IsAuthorizedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
             controller.OnActionExecuting(null);
 
             Assert.True(controller.IsAuthorizedFor("Action", "Controller", "Area"));
-            Assert.Same(provider, controller.AuthorizationProvider);
+            Assert.Same(authorization, controller.Authorization);
         }
 
         #endregion

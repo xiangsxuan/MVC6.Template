@@ -37,7 +37,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Equal(Validations.StringLength, adapter.Attribute.ErrorMessage);
             Assert.Equal(expected, actual);
         }
-        
+
         [Fact]
         public void GetErrorMessage_StringLengthRange()
         {

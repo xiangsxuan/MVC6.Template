@@ -32,7 +32,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void AddValidation_Email()
         {
             adapter.AddValidation(context);
-            
+
             Assert.Equal(2, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
             Assert.Equal(String.Format(Validations.Email, "EmailAddress"), attributes["data-val-email"]);

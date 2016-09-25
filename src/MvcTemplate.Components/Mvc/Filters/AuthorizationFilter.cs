@@ -9,11 +9,11 @@ namespace MvcTemplate.Components.Mvc
 {
     public class AuthorizationFilter : IResourceFilter
     {
-        private IAuthorizationProvider AuthorizationProvider { get; }
+        private IAuthorizationProvider Authorization { get; }
 
-        public AuthorizationFilter(IAuthorizationProvider provider)
+        public AuthorizationFilter(IAuthorizationProvider authorization)
         {
-            AuthorizationProvider = provider;
+            Authorization = authorization;
         }
 
         public void OnResourceExecuting(ResourceExecutingContext context)
@@ -35,10 +35,10 @@ namespace MvcTemplate.Components.Mvc
 
         private Boolean IsAuthorizedFor(Int32? accountId, String action, String controller, String area)
         {
-            if (AuthorizationProvider == null)
+            if (Authorization == null)
                 return true;
 
-            return AuthorizationProvider.IsAuthorizedFor(accountId, area, controller, action);
+            return Authorization.IsAuthorizedFor(accountId, area, controller, action);
         }
         private IActionResult RedirectToUnauthorized(ActionContext context)
         {

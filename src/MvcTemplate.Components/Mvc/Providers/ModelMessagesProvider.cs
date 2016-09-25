@@ -6,15 +6,15 @@ namespace MvcTemplate.Components.Mvc
 {
     public class ModelMessagesProvider
     {
-        public ModelMessagesProvider(ModelBindingMessageProvider provider)
+        public ModelMessagesProvider(ModelBindingMessageProvider messages)
         {
-            provider.AttemptedValueIsInvalidAccessor = (value, field) => String.Format(Validations.InvalidField, field);
-            provider.UnknownValueIsInvalidAccessor = (field) => String.Format(Validations.InvalidField, field);
-            provider.MissingBindRequiredValueAccessor = (field) => String.Format(Validations.Required, field);
-            provider.ValueMustNotBeNullAccessor = (field) => String.Format(Validations.Required, field);
-            provider.ValueIsInvalidAccessor = (value) => String.Format(Validations.InvalidValue, value);
-            provider.ValueMustBeANumberAccessor = (field) => String.Format(Validations.Numeric, field);
-            provider.MissingKeyOrValueAccessor = () => Validations.RequiredValue;
+            messages.AttemptedValueIsInvalidAccessor = (value, field) => String.Format(Validations.InvalidField, field);
+            messages.UnknownValueIsInvalidAccessor = (field) => String.Format(Validations.InvalidField, field);
+            messages.MissingBindRequiredValueAccessor = (field) => String.Format(Validations.Required, field);
+            messages.ValueMustNotBeNullAccessor = (field) => String.Format(Validations.Required, field);
+            messages.ValueIsInvalidAccessor = (value) => String.Format(Validations.InvalidValue, value);
+            messages.ValueMustBeANumberAccessor = (field) => String.Format(Validations.Numeric, field);
+            messages.MissingKeyOrValueAccessor = () => Validations.RequiredValue;
         }
     }
 }

@@ -14,13 +14,13 @@ namespace MvcTemplate.Components.Mvc
     {
         private IEnumerable<MvcSiteMapNode> NodeList { get; }
         private IEnumerable<MvcSiteMapNode> NodeTree { get; }
-        private IAuthorizationProvider AuthorizationProvider { get; }
+        private IAuthorizationProvider Authorization { get; }
 
-        public MvcSiteMapProvider(IConfiguration config, IMvcSiteMapParser parser, IAuthorizationProvider provider)
+        public MvcSiteMapProvider(IConfiguration config, IMvcSiteMapParser parser, IAuthorizationProvider authorization)
         {
             String path = Path.Combine(config["Application:Path"], config["SiteMap:Path"]);
             XElement siteMap = XElement.Load(path);
-            AuthorizationProvider = provider;
+            Authorization = authorization;
 
             NodeTree = parser.GetNodeTree(siteMap);
             NodeList = ToList(NodeTree);
@@ -123,9 +123,9 @@ namespace MvcTemplate.Components.Mvc
         private Boolean IsAuthorizedToView(Int32? accountId, MvcSiteMapNode menu)
         {
             if (menu.Action == null) return true;
-            if (AuthorizationProvider == null) return true;
+            if (Authorization == null) return true;
 
-            return AuthorizationProvider.IsAuthorizedFor(accountId, menu.Area, menu.Controller, menu.Action);
+            return Authorization.IsAuthorizedFor(accountId, menu.Area, menu.Controller, menu.Action);
         }
         private Boolean IsEmpty(MvcSiteMapNode node)
         {

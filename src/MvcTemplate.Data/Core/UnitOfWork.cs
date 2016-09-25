@@ -12,7 +12,6 @@ namespace MvcTemplate.Data.Core
     public class UnitOfWork : IUnitOfWork
     {
         private DbContext Context { get; set; }
-        private Boolean Disposed { get; set; }
 
         public UnitOfWork(DbContext context)
         {
@@ -74,11 +73,7 @@ namespace MvcTemplate.Data.Core
 
         public void Dispose()
         {
-            if (Disposed) return;
-
             Context.Dispose();
-
-            Disposed = true;
         }
     }
 }

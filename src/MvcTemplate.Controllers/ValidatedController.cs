@@ -10,7 +10,6 @@ namespace MvcTemplate.Controllers
         where TService : IService
     {
         public TValidator Validator { get; }
-        private Boolean Disposed { get; set; }
 
         protected ValidatedController(TValidator validator, TService service)
             : base(service)
@@ -29,10 +28,7 @@ namespace MvcTemplate.Controllers
 
         protected override void Dispose(Boolean disposing)
         {
-            if (Disposed) return;
-
             Validator.Dispose();
-            Disposed = true;
 
             base.Dispose(disposing);
         }

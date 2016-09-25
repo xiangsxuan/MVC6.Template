@@ -17,7 +17,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
     {
         private IAuthorizationProvider authorizationProvider;
         private IDictionary<String, Object> route;
-        private MvcSiteMapProvider provider;
+        private MvcSiteMapProvider siteMap;
         private MvcSiteMapParser parser;
         private IConfiguration config;
         private ViewContext context;
@@ -34,7 +34,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             config = ConfigurationFactory.Create();
             context = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
             authorizationProvider = Substitute.For<IAuthorizationProvider>();
-            provider = new MvcSiteMapProvider(config, parser, authorizationProvider);
+            siteMap = new MvcSiteMapProvider(config, parser, authorizationProvider);
 
             route = context.RouteData.Values;
         }
@@ -44,9 +44,9 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetSiteMap_NullAuthorization_ReturnsAllMenus()
         {
-            provider = new MvcSiteMapProvider(config, parser, null);
+            siteMap = new MvcSiteMapProvider(config, parser, null);
 
-            MvcSiteMapNode[] actual = provider.GetSiteMap(context).ToArray();
+            MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
 
             Assert.Equal(1, actual.Length);
 
@@ -87,7 +87,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             authorizationProvider.IsAuthorizedFor(context.HttpContext.User.Id(), "Administration", "Accounts", "Index").Returns(true);
 
-            MvcSiteMapNode[] actual = provider.GetSiteMap(context).ToArray();
+            MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
 
             Assert.Equal(1, actual.Length);
 
@@ -115,9 +115,9 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             route["controller"] = "Roles";
             route["area"] = "Administration";
 
-            provider = new MvcSiteMapProvider(config, parser, null);
+            siteMap = new MvcSiteMapProvider(config, parser, null);
 
-            MvcSiteMapNode[] actual = provider.GetSiteMap(context).ToArray();
+            MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
 
             Assert.Equal(1, actual.Length);
             Assert.False(actual[0].IsActive);
@@ -143,9 +143,9 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             route["controller"] = "Accounts";
             route["area"] = "Administration";
 
-            provider = new MvcSiteMapProvider(config, parser, null);
+            siteMap = new MvcSiteMapProvider(config, parser, null);
 
-            MvcSiteMapNode[] actual = provider.GetSiteMap(context).ToArray();
+            MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
 
             Assert.Equal(1, actual.Length);
             Assert.False(actual[0].IsActive);
@@ -171,9 +171,9 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             route["controller"] = "Roles";
             route["area"] = "Administration";
 
-            provider = new MvcSiteMapProvider(config, parser, null);
+            siteMap = new MvcSiteMapProvider(config, parser, null);
 
-            MvcSiteMapNode[] actual = provider.GetSiteMap(context).ToArray();
+            MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
 
             Assert.Equal(1, actual.Length);
             Assert.True(actual[0].HasActiveChildren);
@@ -198,7 +198,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             authorizationProvider.IsAuthorizedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
             authorizationProvider.IsAuthorizedFor(context.HttpContext.User.Id(), "Administration", "Roles", "Create").Returns(false);
 
-            MvcSiteMapNode[] actual = provider.GetSiteMap(context).ToArray();
+            MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
 
             Assert.Equal(1, actual.Length);
 
@@ -230,7 +230,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             route["action"] = "edit";
             route["area"] = null;
 
-            MvcSiteMapNode[] actual = provider.GetBreadcrumb(context).ToArray();
+            MvcSiteMapNode[] actual = siteMap.GetBreadcrumb(context).ToArray();
 
             Assert.Equal(3, actual.Length);
 
@@ -257,7 +257,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             route["action"] = "edit";
             route["area"] = "area";
 
-            Assert.Empty(provider.GetBreadcrumb(context));
+            Assert.Empty(siteMap.GetBreadcrumb(context));
         }
 
         #endregion

@@ -7,7 +7,6 @@ namespace MvcTemplate.Services
     {
         public Int32 CurrentAccountId { get; set; }
         protected IUnitOfWork UnitOfWork { get; }
-        private Boolean Disposed { get; set; }
 
         protected BaseService(IUnitOfWork unitOfWork)
         {
@@ -16,11 +15,7 @@ namespace MvcTemplate.Services
 
         public void Dispose()
         {
-            if (Disposed) return;
-
             UnitOfWork.Dispose();
-
-            Disposed = true;
         }
     }
 }

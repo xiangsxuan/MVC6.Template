@@ -17,8 +17,8 @@ namespace MvcTemplate.Web.Templates
         [GennyParameter(2, Required = false)]
         public String Area { get; set; }
 
-        public Module(IServiceProvider provider)
-            : base(provider)
+        public Module(IServiceProvider services)
+            : base(services)
         {
         }
 

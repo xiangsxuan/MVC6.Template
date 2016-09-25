@@ -20,11 +20,11 @@ namespace MvcTemplate.Components.Extensions
     {
         public static IGridColumn<T> AddActionLink<T>(this IGridColumnsOf<T> columns, String action, String iconClass) where T : class
         {
-            if (!IsAuthorizedToView(columns.Grid, action))
+            if (!IsAuthorizedTo(columns.Grid.ViewContext, action))
                 return new GridColumn<T, String>(columns.Grid, model => "");
 
             return columns
-                .Add(model => GetLink(columns.Grid, model, action, iconClass))
+                .Add(model => GetLink(columns.Grid.ViewContext, model, action, iconClass))
                 .Css("action-cell")
                 .Encoded(false);
         }
@@ -88,44 +88,42 @@ namespace MvcTemplate.Components.Extensions
                 .Sortable();
         }
 
-        private static IHtmlContent GetLink<T>(IGrid grid, T model, String action, String iconClass)
+        private static IHtmlContent GetLink<T>(ViewContext context, T model, String action, String iconClass)
         {
-            IUrlHelper url = grid.ViewContext.HttpContext.RequestServices.GetRequiredService<IUrlHelperFactory>().GetUrlHelper(grid.ViewContext);
             TagBuilder anchor = new TagBuilder("a");
-            TagBuilder icon = new TagBuilder("i");
-
-            anchor.Attributes["href"] = url.Action(action, GetRouteValuesFor(model));
             anchor.AddCssClass(action.ToLower() + "-action");
+            anchor.Attributes["href"] = new UrlHelper(context).Action(action, GetRouteFor(model));
+
+            TagBuilder icon = new TagBuilder("i");
             icon.AddCssClass(iconClass);
 
             anchor.InnerHtml.AppendHtml(icon);
 
             return anchor;
         }
-        private static Boolean IsAuthorizedToView(IGrid grid, String action)
+        private static Boolean IsAuthorizedTo(ViewContext view, String action)
         {
-            IAuthorizationProvider provider = grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
-            if (provider == null)
+            IAuthorizationProvider authorization = view.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
+            if (authorization == null)
                 return true;
 
-            Int32? account = grid.ViewContext.HttpContext.User.Id();
-            String area = grid.ViewContext.RouteData.Values["area"] as String;
-            String controller = grid.ViewContext.RouteData.Values["controller"] as String;
+            Int32? account = view.HttpContext.User.Id();
+            String area = view.RouteData.Values["area"] as String;
+            String controller = view.RouteData.Values["controller"] as String;
 
-            return provider.IsAuthorizedFor(account, area, controller, action);
+            return authorization.IsAuthorizedFor(account, area, controller, action);
         }
-        private static IDictionary<String, Object> GetRouteValuesFor<T>(T model)
+        private static IDictionary<String, Object> GetRouteFor<T>(T model)
         {
-            PropertyInfo keyProperty = typeof(T)
+            PropertyInfo key = typeof(T)
                 .GetProperties()
                 .FirstOrDefault(property => property.IsDefined(typeof(KeyAttribute), false));
 
-            if (keyProperty == null)
+            if (key == null)
                 throw new Exception(typeof(T).Name + " type does not have a key property.");
 
-            String key = Char.ToLower(keyProperty.Name[0]) + keyProperty.Name.Substring(1);
             IDictionary<String, Object> route = new Dictionary<String, Object>();
-            route.Add(key, keyProperty.GetValue(model));
+            route.Add(key.Name, key.GetValue(model));
 
             return route;
         }

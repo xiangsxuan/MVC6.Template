@@ -31,7 +31,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void AddValidation_Integer()
         {
             adapter.AddValidation(context);
-            
+
             Assert.Equal(2, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
             Assert.Equal(String.Format(Validations.Integer, "Integer"), attributes["data-val-integer"]);

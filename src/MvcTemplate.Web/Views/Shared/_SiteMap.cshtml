@@ -4,17 +4,17 @@
     @foreach (MvcSiteMapNode node in Model)
     {
         String link = node.Action != null ? Url.Action(node.Action, node.Controller, new { area = node.Area }) : "#";
-        String addOn = node.Action == null ? "<i class='arrow fa fa-chevron-right'></i>" : "";
-        String menuClass = node.HasActiveChildren ? "has-active open" : "";
-        menuClass += node.Children.Any() ? " submenu" : "";
-        menuClass += node.IsActive ? " active" : "";
-        menuClass = menuClass.Trim();
+        String toggle = node.Action == null ? "<i class='arrow fa fa-chevron-right'></i>" : "";
+        String menu = node.HasActiveChildren ? "has-active open" : "";
+        menu += node.Children.Any() ? " submenu" : "";
+        menu += node.IsActive ? " active" : "";
+        menu = menu.Trim();
 
-        <li class="@menuClass">
+        <li class="@menu">
             <a href="@link">
                 <i class="menu-icon @node.IconClass"></i>
                 <span>@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
-                @Html.Raw(addOn)
+                @Html.Raw(toggle)
             </a>
             @if (node.Children.Any())
             {
