@@ -35,7 +35,7 @@ body.public .public-action {
 }
 .content-container {
   background-image: url("../../Images/Shared/content-background.jpg");
-  background-color: #f2f2f2;
+  background-color: #F2F2F2;
   border-radius: 8px 0 0 8px;
   margin-left: 200px;
   margin-top: -40px;
@@ -83,7 +83,7 @@ body.public .public-action {
   margin-bottom: 6px;
 }
 .control-label .require {
-  color: #d11919;
+  color: #D11919;
   display: inline-block;
   min-width: 8px;
 }
@@ -95,14 +95,14 @@ body.public .public-action {
   border-color: #cecece;
 }
 .input-validation-error {
-  border-color: #d11919;
+  border-color: #D11919;
 }
 .input-validation-error:focus {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #f7bfbf;
-  border-color: #d11919;
+  border-color: #D11919;
 }
 .field-validation-error {
-  color: #d11919;
+  color: #D11919;
   vertical-align: middle;
   display: inline-table;
   padding-top: 11px;

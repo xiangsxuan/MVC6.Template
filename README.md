@@ -3,9 +3,8 @@
 # Installation
 1. Rename your project using "MvcTemplate.Rename.cmd".
 2. Set Web as default start up project.
-
-# Features completeness
-- This template is currently not as feature complete as MVC5 version is, because of various framework limitations.
+3. Install necessary VS extensions if you don't have them already:
+  - Web compiler.
 
 # Features
 - Model-View-ViewModel architectural design.
@@ -14,6 +13,8 @@
 - Protection from CSRF, XSS, etc.
 - Custom membership providers.
 - Easy project renaming.
+- Dependency injection.
+- Custom error pages.
 - Globalization.
 - Site map.
 - Tests.

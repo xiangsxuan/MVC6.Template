@@ -1,0 +1,38 @@
+﻿[
+  {
+    "outputFile": "wwwroot/Content/Shared/Auth/auth.css",
+    "inputFile": "wwwroot/Content/Shared/Auth/auth.less"
+  },
+  {
+    "outputFile": "wwwroot/Content/Shared/alerts.css",
+    "inputFile": "wwwroot/Content/Shared/alerts.less"
+  },
+  {
+    "outputFile": "wwwroot/Content/Shared/base.css",
+    "inputFile": "wwwroot/Content/Shared/base.less"
+  },
+  {
+    "outputFile": "wwwroot/Content/Shared/content.css",
+    "inputFile": "wwwroot/Content/Shared/content.less"
+  },
+  {
+    "outputFile": "wwwroot/Content/Shared/header.css",
+    "inputFile": "wwwroot/Content/Shared/header.less"
+  },
+  {
+    "outputFile": "wwwroot/Content/Shared/menu.css",
+    "inputFile": "wwwroot/Content/Shared/menu.less"
+  },
+  {
+    "outputFile": "wwwroot/Content/Shared/overrides.css",
+    "inputFile": "wwwroot/Content/Shared/overrides.less"
+  },
+  {
+    "outputFile": "wwwroot/Content/Shared/table.css",
+    "inputFile": "wwwroot/Content/Shared/table.less"
+  },
+  {
+    "outputFile": "wwwroot/Content/Shared/widget-box.css",
+    "inputFile": "wwwroot/Content/Shared/widget-box.less"
+  }
+]

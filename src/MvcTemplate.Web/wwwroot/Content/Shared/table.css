@@ -1,6 +1,6 @@
 ﻿table thead {
-  background-image: linear-gradient(#ffffff, #f2f2f2);
-  background-color: #ffffff;
+  background-image: linear-gradient(#FFFFFF, #F2F2F2);
+  background-color: #FFFFFF;
 }
 table th {
   text-align: center;
@@ -25,18 +25,18 @@ table .action-cell + .action-cell {
   width: 28px;
 }
 table .action-cell .details-action {
-  background-color: #5cb85c;
+  background-color: #5CB85C;
 }
 table .action-cell .edit-action {
-  background-color: #f0ad4e;
+  background-color: #F0AD4E;
 }
 table .action-cell .delete-action {
-  background-color: #d9534f;
+  background-color: #D9534F;
 }
 table .action-cell a {
   transition-duration: 0.3s;
   display: inline-block;
-  color: #ffffff;
+  color: #FFFFFF;
   border-radius: 4px;
   line-height: 1.8;
   font-size: 11px;
