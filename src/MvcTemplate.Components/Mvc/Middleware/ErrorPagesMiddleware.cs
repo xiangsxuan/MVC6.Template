@@ -22,6 +22,9 @@ namespace MvcTemplate.Components.Mvc
             try
             {
                 await Next(context);
+
+                if (context.Response.StatusCode == 404)
+                    Redirect(context, "NotFound", "Home", new { area = "" });
             }
             catch
             {

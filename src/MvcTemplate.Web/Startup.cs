@@ -126,6 +126,8 @@ namespace MvcTemplate.Web
         {
             app.UseMvc(routes =>
             {
+                routes.DefaultHandler = new DefaultRouteHandler(routes.DefaultHandler);
+
                 routes.MapRoute(
                     "DefaultMultilingualArea",
                     "{language}/{area:exists}/{controller}/{action}/{id?}",
