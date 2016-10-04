@@ -31,6 +31,9 @@ namespace MvcTemplate.Components.Mvc
             if (type == typeof(MinValueAttribute))
                 return new MinValueAdapter((MinValueAttribute)attribute);
 
+            if (type == typeof(FileSizeAttribute))
+                return new FileSizeAdapter((FileSizeAttribute)attribute);
+
             if (type == typeof(EqualToAttribute))
                 return new EqualToAdapter((EqualToAttribute)attribute);
 

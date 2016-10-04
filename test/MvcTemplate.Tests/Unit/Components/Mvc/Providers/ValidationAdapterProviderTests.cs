@@ -22,6 +22,12 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc.Providers
         }
 
         [Fact]
+        public void GetAttributeAdapter_FileSize()
+        {
+            Assert.IsType<FileSizeAdapter>(provider.GetAttributeAdapter(new FileSizeAttribute(45), null));
+        }
+
+        [Fact]
         public void GetAttributeAdapter_StringLength()
         {
             Assert.IsType<StringLengthAdapter>(provider.GetAttributeAdapter(new StringLengthAttribute(45), null));

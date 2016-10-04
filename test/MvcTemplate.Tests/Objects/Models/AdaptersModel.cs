@@ -1,4 +1,5 @@
-﻿using MvcTemplate.Components.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using MvcTemplate.Components.Mvc;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,6 +12,9 @@ namespace MvcTemplate.Tests.Objects
 
         [Digits]
         public String Digits { get; set; }
+
+        [EqualTo("StringLength")]
+        public String EqualTo { get; set; }
 
         [Integer]
         public Int32? Integer { get; set; }
@@ -30,13 +34,13 @@ namespace MvcTemplate.Tests.Objects
         [GreaterThan(128)]
         public String GreaterThan { get; set; }
 
+        [FileSize(12.25)]
+        public IFormFile FileSize { get; set; }
+
         [EmailAddress]
         public String EmailAddress { get; set; }
 
         [StringLength(128)]
         public String StringLength { get; set; }
-
-        [EqualTo("StringLength")]
-        public String EqualTo { get; set; }
     }
 }

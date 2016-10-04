@@ -72,6 +72,26 @@
     });
     $.validator.unobtrusive.adapters.addBool("integer");
 
+    $.validator.addMethod('filesize', function (value, element, param) {
+        if (this.optional(element) || !element.files)
+            return true;
+
+        var bytes = 0;
+        for (var i = 0; i < element.files.length; i++) {
+            bytes += element.files[i].size;
+        }
+
+        return bytes <= parseFloat(param);
+    });
+    $.validator.unobtrusive.adapters.add("filesize", ["max"], function (options) {
+        options.rules["filesize"] = options.params.max;
+        if (options.message) {
+            options.messages["filesize"] = options.message;
+        }
+    });
+    $(document).on('change', '[type="file"]', function () {
+        $(this).focusout();
+    });
 
     $(document).on('change', '.mvc-lookup-hidden-input', function () {
         var validator = $(this).parents('form').validate();

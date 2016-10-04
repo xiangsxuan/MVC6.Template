@@ -129,6 +129,9 @@
   <data name="EqualTo" xml:space="preserve">
     <value>'{0}' field must be equal to '{1}'.</value>
   </data>
+  <data name="FileSize" xml:space="preserve">
+    <value>'{0}' size should not exceed {1} MB.</value>
+  </data>
   <data name="GreaterThan" xml:space="preserve">
     <value>'{0}' field must be greater than {1}.</value>
   </data>

@@ -129,6 +129,9 @@
   <data name="EqualTo" xml:space="preserve">
     <value>Laukas '{0}' turi būti lygus laukui '{1}'.</value>
   </data>
+  <data name="FileSize" xml:space="preserve">
+    <value>Lauko '{0}' dydis negali viršyti {1} MB.</value>
+  </data>
   <data name="GreaterThan" xml:space="preserve">
     <value>Laukas '{0}' turi būti didesnis už {1}.</value>
   </data>

@@ -96,6 +96,15 @@ namespace MvcTemplate.Resources.Form {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to &apos;{0}&apos; size should not exceed {1} MB..
+        /// </summary>
+        public static string FileSize {
+            get {
+                return ResourceManager.GetString("FileSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to &apos;{0}&apos; field must be greater than {1}..
         /// </summary>
         public static string GreaterThan {
