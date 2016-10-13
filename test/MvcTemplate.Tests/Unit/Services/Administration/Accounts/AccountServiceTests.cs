@@ -242,9 +242,9 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             AccountEditView view = ObjectFactory.CreateAccountEditView(account.Id);
             view.IsLocked = account.IsLocked = !account.IsLocked;
-            view.Username = account.Username + "Test";
+            view.Email = (account.Email += "s").ToUpper();
+            view.Username = account.Username += "Test";
             view.RoleId = account.RoleId = null;
-            view.Email = account.Email + "s";
 
             service.Edit(view);
 

@@ -80,6 +80,8 @@ namespace MvcTemplate.Services
         public void Edit(AccountEditView view)
         {
             Account account = UnitOfWork.Get<Account>(view.Id);
+            account.Email = view.Email.ToLower();
+            account.Username = view.Username;
             account.IsLocked = view.IsLocked;
             account.RoleId = view.RoleId;
 
