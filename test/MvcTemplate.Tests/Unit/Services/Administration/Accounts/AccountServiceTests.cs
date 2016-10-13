@@ -170,32 +170,6 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Register(AccountRegisterView view)
-
-        [Fact]
-        public void Register_Account()
-        {
-            AccountRegisterView view = ObjectFactory.CreateAccountRegisterView(2);
-            view.Email = view.Email.ToUpper();
-
-            service.Register(view);
-
-            Account actual = context.Set<Account>().AsNoTracking().Single(model => model.Id != account.Id);
-            AccountRegisterView expected = view;
-
-            Assert.Equal(hasher.HashPassword(expected.Password), actual.Passhash);
-            Assert.Equal(expected.CreationDate, actual.CreationDate);
-            Assert.Equal(expected.Email.ToLower(), actual.Email);
-            Assert.Equal(expected.Username, actual.Username);
-            Assert.Null(actual.RecoveryTokenExpirationDate);
-            Assert.Null(actual.RecoveryToken);
-            Assert.False(actual.IsLocked);
-            Assert.Null(actual.RoleId);
-            Assert.Null(actual.Role);
-        }
-
-        #endregion
-
         #region Reset(AccountResetView view)
 
         [Fact]

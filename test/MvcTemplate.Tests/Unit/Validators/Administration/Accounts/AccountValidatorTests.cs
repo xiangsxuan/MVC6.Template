@@ -37,50 +37,6 @@ namespace MvcTemplate.Tests.Unit.Validators
             context.Dispose();
         }
 
-        #region CanRegister(AccountRegisterView view)
-
-        [Fact]
-        public void CanRegister_InvalidState_ReturnsFalse()
-        {
-            validator.ModelState.AddModelError("Test", "Test");
-
-            Assert.False(validator.CanRegister(ObjectFactory.CreateAccountRegisterView()));
-        }
-
-        [Fact]
-        public void CanRegister_UsedUsername_ReturnsFalse()
-        {
-            AccountRegisterView view = ObjectFactory.CreateAccountRegisterView(2);
-            view.Username = account.Username.ToLower();
-
-            Boolean canRegister = validator.CanRegister(view);
-
-            Assert.False(canRegister);
-            Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UniqueUsername, validator.ModelState["Username"].Errors.Single().ErrorMessage);
-        }
-
-        [Fact]
-        public void CanRegister_UsedEmail_ReturnsFalse()
-        {
-            AccountRegisterView view = ObjectFactory.CreateAccountRegisterView(2);
-            view.Email = account.Email;
-
-            Boolean canRegister = validator.CanRegister(view);
-
-            Assert.False(canRegister);
-            Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UniqueEmail, validator.ModelState["Email"].Errors.Single().ErrorMessage);
-        }
-
-        [Fact]
-        public void CanRegister_ValidAccount()
-        {
-            Assert.True(validator.CanRegister(ObjectFactory.CreateAccountRegisterView(2)));
-        }
-
-        #endregion
-
         #region CanRecover(AccountRecoveryView view)
 
         [Fact]

@@ -132,9 +132,6 @@
   <data name="RecoveryInformation" xml:space="preserve">
     <value>Paskyros atkūrimo informacija išsiųsta į jūsų elektroninį paštą</value>
   </data>
-  <data name="SuccessfulRegistration" xml:space="preserve">
-    <value>Jūsų paskyra sukurta sėkmingai</value>
-  </data>
   <data name="SuccessfulReset" xml:space="preserve">
     <value>Jūsų paskyros slaptažodis pakeistas sėkmingai</value>
   </data>

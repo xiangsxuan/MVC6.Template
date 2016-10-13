@@ -150,15 +150,6 @@ namespace MvcTemplate.Resources.Shared {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Register.
-        /// </summary>
-        public static string Register {
-            get {
-                return ResourceManager.GetString("Register", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Search.
         /// </summary>
         public static string Search {

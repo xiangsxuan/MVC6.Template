@@ -15,7 +15,6 @@ namespace MvcTemplate.Services
         Boolean IsActive(Int32 id);
 
         String Recover(AccountRecoveryView view);
-        void Register(AccountRegisterView view);
         void Reset(AccountResetView view);
 
         void Create(AccountCreateView view);

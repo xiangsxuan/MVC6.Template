@@ -24,32 +24,6 @@ namespace MvcTemplate.Controllers
         }
 
         [HttpGet]
-        public ActionResult Register()
-        {
-            if (Service.IsLoggedIn(User))
-                return RedirectToDefault();
-
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register([BindExcludeId] AccountRegisterView account)
-        {
-            if (Service.IsLoggedIn(User))
-                return RedirectToDefault();
-
-            if (!Validator.CanRegister(account))
-                return View(account);
-
-            Service.Register(account);
-
-            Alerts.Add(AlertType.Success, Messages.SuccessfulRegistration);
-
-            return RedirectToAction("Login");
-        }
-
-        [HttpGet]
         public ActionResult Recover()
         {
             if (Service.IsLoggedIn(User))

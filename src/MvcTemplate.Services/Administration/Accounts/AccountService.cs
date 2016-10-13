@@ -55,15 +55,6 @@ namespace MvcTemplate.Services
 
             return account.RecoveryToken;
         }
-        public void Register(AccountRegisterView view)
-        {
-            Account account = UnitOfWork.To<Account>(view);
-            account.Passhash = Hasher.HashPassword(view.Password);
-            account.Email = view.Email.ToLower();
-
-            UnitOfWork.Insert(account);
-            UnitOfWork.Commit();
-        }
         public void Reset(AccountResetView view)
         {
             Account account = UnitOfWork.Select<Account>().Single(model => model.RecoveryToken == view.Token);

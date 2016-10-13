@@ -82,16 +82,6 @@ namespace MvcTemplate.Tests
                 NewPassword = "NewPassword" + id
             };
         }
-        public static AccountRegisterView CreateAccountRegisterView(Int32 id = 0)
-        {
-            return new AccountRegisterView
-            {
-                Username = "Username" + id,
-                Password = "Password" + id,
-
-                Email = id + "@tests.com"
-            };
-        }
         public static AccountRecoveryView CreateAccountRecoveryView(Int32 id = 0)
         {
             return new AccountRecoveryView
