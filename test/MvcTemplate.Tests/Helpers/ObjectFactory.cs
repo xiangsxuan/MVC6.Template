@@ -1,4 +1,5 @@
-﻿using MvcTemplate.Objects;
+﻿using MvcTemplate.Components.Extensions;
+using MvcTemplate.Objects;
 using System;
 using System.Collections.Generic;
 
@@ -129,7 +130,8 @@ namespace MvcTemplate.Tests
             {
                 Id = id,
 
-                Title = "Title" + id
+                Title = "Title" + id,
+                Permissions = new JsTree()
             };
         }
 

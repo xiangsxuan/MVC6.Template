@@ -35,13 +35,13 @@ namespace MvcTemplate.Tests.Unit.Validators
         {
             validator.ModelState.AddModelError("Test", "Test");
 
-            Assert.False(validator.CanCreate(ObjectFactory.Create@(Model.View)()));
+            Assert.False(validator.CanCreate(ObjectFactory.Create@(Model.View)(1)));
         }
 
         [Fact]
         public void CanCreate_Valid@(Model.ModelShortName)()
         {
-            Assert.True(validator.CanCreate(ObjectFactory.Create@(Model.View)()));
+            Assert.True(validator.CanCreate(ObjectFactory.Create@(Model.View)(1)));
         }
 
         #endregion
@@ -53,13 +53,13 @@ namespace MvcTemplate.Tests.Unit.Validators
         {
             validator.ModelState.AddModelError("Test", "Test");
 
-            Assert.False(validator.CanEdit(ObjectFactory.Create@(Model.View)()));
+            Assert.False(validator.CanEdit(ObjectFactory.Create@(Model.View)(@(Model.ModelVarName).Id)));
         }
 
         [Fact]
         public void CanEdit_Valid@(Model.ModelShortName)()
         {
-            Assert.True(validator.CanEdit(ObjectFactory.Create@(Model.View)()));
+            Assert.True(validator.CanEdit(ObjectFactory.Create@(Model.View)(@(Model.ModelVarName).Id)));
         }
 
         #endregion

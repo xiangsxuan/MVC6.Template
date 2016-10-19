@@ -203,7 +203,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Create_Account()
         {
-            AccountCreateView view = ObjectFactory.CreateAccountCreateView(2);
+            AccountCreateView view = ObjectFactory.CreateAccountCreateView(1);
             view.Email = view.Email.ToUpper();
             view.RoleId = account.RoleId;
 
@@ -225,7 +225,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Create_RefreshesAuthorization()
         {
-            AccountCreateView view = ObjectFactory.CreateAccountCreateView(2);
+            AccountCreateView view = ObjectFactory.CreateAccountCreateView(1);
             view.RoleId = null;
 
             service.Create(view);
@@ -280,7 +280,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_Profile()
         {
-            ProfileEditView view = ObjectFactory.CreateProfileEditView(2);
+            ProfileEditView view = ObjectFactory.CreateProfileEditView();
             account.Passhash = hasher.HashPassword(view.NewPassword);
             view.Username = account.Username += "Test";
             view.Email = account.Email += "Test";

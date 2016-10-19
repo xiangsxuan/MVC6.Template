@@ -17,16 +17,24 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         [Fact]
         public void MapRoles_Role_RoleView()
         {
-            RoleView actual = Mapper.Map<RoleView>(new Role());
+            Role expected = ObjectFactory.CreateRole();
+            RoleView actual = Mapper.Map<RoleView>(expected);
 
-            Assert.NotNull(actual.Permissions);
+            Assert.Equal(expected.CreationDate, actual.CreationDate);
+            Assert.Equal(expected.Title, actual.Title);
+            Assert.Equal(expected.Id, actual.Id);
+            Assert.Null(actual.Permissions);
         }
 
         [Fact]
         public void MapRoles_RoleView_Role()
         {
-            Role actual = Mapper.Map<Role>(new RoleView());
+            RoleView expected = ObjectFactory.CreateRoleView();
+            Role actual = Mapper.Map<Role>(expected);
 
+            Assert.Equal(expected.CreationDate, actual.CreationDate);
+            Assert.Equal(expected.Title, actual.Title);
+            Assert.Equal(expected.Id, actual.Id);
             Assert.Empty(actual.Permissions);
         }
 

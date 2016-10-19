@@ -13,10 +13,5 @@ namespace MvcTemplate.Objects
         public String Title { get; set; }
 
         public JsTree Permissions { get; set; }
-
-        public RoleView()
-        {
-            Permissions = new JsTree();
-        }
     }
 }

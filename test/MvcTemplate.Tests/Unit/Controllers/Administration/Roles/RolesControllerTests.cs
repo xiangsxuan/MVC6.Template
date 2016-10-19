@@ -51,16 +51,9 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             RoleView actual = controller.Create().Model as RoleView;
 
-            Assert.NotNull(actual.Permissions);
+            service.Received().SeedPermissions(actual);
+            Assert.Null(actual.Permissions);
             Assert.Null(actual.Title);
-        }
-
-        [Fact]
-        public void Create_SeedsPermissions()
-        {
-            RoleView view = controller.Create().Model as RoleView;
-
-            service.Received().SeedPermissions(view);
         }
 
         #endregion
@@ -219,7 +212,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Delete_RedirectsToIndex()
+        public void DeleteConfirmed_RedirectsToIndex()
         {
             Object expected = RedirectToAction(controller, "Index");
             Object actual = controller.DeleteConfirmed(role.Id);

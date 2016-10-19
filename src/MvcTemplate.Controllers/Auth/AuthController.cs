@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Mail;
-using MvcTemplate.Components.Mvc;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
 using MvcTemplate.Services;
@@ -64,10 +63,7 @@ namespace MvcTemplate.Controllers
             if (Service.IsLoggedIn(User))
                 return RedirectToDefault();
 
-            AccountResetView account = new AccountResetView();
-            account.Token = token;
-
-            if (!Validator.CanReset(account))
+            if (!Validator.CanReset(new AccountResetView { Token = token }))
                 return RedirectToAction("Recover");
 
             return View();

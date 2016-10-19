@@ -23,6 +23,7 @@ namespace MvcTemplate.Services
         public virtual void SeedPermissions(RoleView view)
         {
             JsTreeNode root = new JsTreeNode(Titles.All);
+            view.Permissions = new JsTree();
             view.Permissions.Nodes.Add(root);
 
             IEnumerable<Permission> permissions = GetAllPermissions();
@@ -74,6 +75,7 @@ namespace MvcTemplate.Services
             RoleView role = UnitOfWork.GetAs<Role, RoleView>(id);
             if (role != null)
             {
+                role.Permissions = new JsTree();
                 role.Permissions.SelectedIds = UnitOfWork
                     .Select<RolePermission>()
                     .Where(rolePermission => rolePermission.RoleId == role.Id)
