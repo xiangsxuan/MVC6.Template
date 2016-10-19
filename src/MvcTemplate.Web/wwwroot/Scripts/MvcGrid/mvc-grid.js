@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Grid 1.1.0
+ * Mvc.Grid 1.2.0
  * https://github.com/NonFactors/MVC6.Grid
  *
  * Copyright © NonFactors
@@ -54,7 +54,7 @@ var MvcGrid = (function () {
         var pager = grid.find('.mvc-grid-pager');
         if (pager.length > 0) {
             this.pager = {
-                currentPage: pager.find('li.active').data('page') || '',
+                currentPage: pager.find('li.active').data('page') || 0,
                 rowsPerPage: pager.find('.mvc-grid-pager-rows'),
                 pages: pager.find('li:not(.disabled)'),
                 element: pager
@@ -171,7 +171,7 @@ var MvcGrid = (function () {
                 $.ajax({
                     cache: false,
                     url: grid.sourceUrl + '?' + grid.query
-                }).success(function (result) {
+                }).done(function (result) {
                     grid.element.hide();
                     grid.element.after(result);
 
@@ -191,7 +191,7 @@ var MvcGrid = (function () {
                         grid.reloadEnded(newGrid);
                     }
                 })
-                .error(function (result) {
+                .fail(function (result) {
                     if (grid.reloadFailed) {
                         grid.reloadFailed(grid, result);
                     }
