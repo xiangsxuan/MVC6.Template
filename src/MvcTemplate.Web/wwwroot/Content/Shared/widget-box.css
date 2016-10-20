@@ -4,42 +4,45 @@
   border: 1px solid #CDCDCD;
   margin-bottom: 15px;
 }
-.widget-title {
+.widget-header {
   border-bottom: 1px solid #CDCDCD;
-  height: 35px;
+  height: 2.5em;
 }
-.widget-title .widget-title-icon {
+.widget-header .widget-header-icon {
   border-right: 1px solid #CDCDCD;
-  padding: 11px 11px 8px;
-  line-height: 1.1;
+  padding: 0.85em;
+  height: 100%;
   float: left;
 }
-.widget-title h5 {
-  padding: 10px 11px 9px;
+.widget-header h5 {
   font-weight: bold;
+  padding: 0.75em;
+  font-size: 1em;
+  height: 100%;
   float: left;
   margin: 0;
 }
-.widget-title .widget-title-buttons {
+.widget-header .widget-header-buttons {
+  height: 100%;
   float: right;
 }
-.widget-title .widget-title-buttons .btn {
+.widget-header .widget-header-buttons .btn {
   border-left: 1px solid #CDCDCD;
   border-top-style: none;
   color: #555555;
-  padding: 9px 10px 8px;
+  font-size: 0.85em;
   border-radius: 0;
-  min-height: 35px;
-  min-width: 40px;
-  font-size: 12px;
+  padding: 0.8em;
+  min-width: 3em;
   display: block;
+  height: 100%;
   float: left;
 }
-.widget-title .widget-title-buttons .btn:hover {
+.widget-header .widget-header-buttons .btn:hover {
   background: linear-gradient(#6F93A7, #2A4E62);
   color: #FFFFFF;
 }
-.widget-title .widget-title-buttons .btn > i {
+.widget-header .widget-header-buttons .btn > i {
   padding-right: 5px;
 }
 .widget-content {
@@ -76,10 +79,10 @@
   text-align: center;
 }
 @media (max-width: 767px) {
-  .widget-title .widget-title-buttons .btn > i {
+  .widget-header .widget-header-buttons .btn > i {
     padding: 0;
   }
-  .widget-title .widget-title-buttons .text {
+  .widget-header .widget-header-buttons .text {
     display: none;
   }
 }
