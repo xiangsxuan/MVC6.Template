@@ -88,21 +88,6 @@ namespace MvcTemplate.Rename
             }
 
             Console.WriteLine();
-
-            if (Directory.Exists("tools"))
-                Directory.Delete("tools", true);
-
-            if (File.Exists("CONTRIBUTING.md"))
-                File.Delete("CONTRIBUTING.md");
-
-            if (File.Exists("LICENSE.txt"))
-                File.Delete("LICENSE.txt");
-
-            if (File.Exists("README.md"))
-                File.WriteAllText("README.MD", "");
-
-            if (File.Exists($"{TemplateName}.Rename.cmd"))
-                File.Delete($"{TemplateName}.Rename.cmd");
         }
     }
 }
