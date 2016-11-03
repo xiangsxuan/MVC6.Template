@@ -15,7 +15,7 @@ window.cultures.globalize['en'] = {
             firstDay: 1,
             patterns: {
                 d: "dd/MM/yyyy",
-                dt: "dd/MM/yyyy HH:mm",
+                g: "dd/MM/yyyy HH:mm",
                 D: "dd MMMM yyyy",
                 t: "HH:mm",
                 T: "HH:mm:ss",
