@@ -22,6 +22,7 @@ namespace MvcTemplate.Services
 
         public virtual void SeedPermissions(RoleView view)
         {
+            view.Permissions = view.Permissions ?? new JsTree();
             JsTreeNode root = new JsTreeNode(Titles.All);
             view.Permissions.Nodes.Add(root);
 
