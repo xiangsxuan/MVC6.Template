@@ -34,7 +34,7 @@
     @Html.Partial("MvcLookup/_Dialog")
     <div class="menu">
         <div class="menu-search">
-            <input id="SiteMapSearch" placeholder="@(Actions.Search + "...")" />
+            <input placeholder="@(Actions.Search)..." />
         </div>
         @{ IMvcSiteMapProvider siteMap = Context.RequestServices.GetRequiredService<IMvcSiteMapProvider>(); }
         @Html.Partial("_SiteMap", siteMap.GetSiteMap(ViewContext))
