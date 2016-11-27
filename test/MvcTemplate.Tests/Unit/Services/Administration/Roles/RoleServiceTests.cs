@@ -137,8 +137,8 @@ namespace MvcTemplate.Tests.Unit.Services
 
             while (expected.MoveNext() | actual.MoveNext())
             {
+                Assert.Equal(expected.Current.Permissions.SelectedIds, actual.Current.Permissions.SelectedIds);
                 Assert.Equal(expected.Current.CreationDate, actual.Current.CreationDate);
-                Assert.Equal(expected.Current.Permissions, actual.Current.Permissions);
                 Assert.Equal(expected.Current.Title, actual.Current.Title);
                 Assert.Equal(expected.Current.Id, actual.Current.Id);
             }

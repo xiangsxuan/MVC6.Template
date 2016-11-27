@@ -51,9 +51,16 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         {
             RoleView actual = controller.Create().Model as RoleView;
 
-            service.Received().SeedPermissions(actual);
-            Assert.Null(actual.Permissions);
+            Assert.NotNull(actual.Permissions);
             Assert.Null(actual.Title);
+        }
+
+        [Fact]
+        public void Create_SeedsPermissions()
+        {
+            RoleView view = controller.Create().Model as RoleView;
+
+            service.Received().SeedPermissions(view);
         }
 
         #endregion
