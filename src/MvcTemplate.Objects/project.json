@@ -1,9 +1,9 @@
 ﻿{
   "authors": [ "NonFactors" ],
-  "version": "1.0.1",
+  "version": "1.1.0",
 
   "dependencies": {
-    "MvcTemplate.Components": "1.0.1",
+    "MvcTemplate.Components": "1.1.0",
 
     "NonFactors.Lookup.Core.Mvc6": "1.1.0"
   },

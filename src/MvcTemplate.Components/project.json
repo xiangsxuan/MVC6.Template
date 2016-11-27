@@ -1,17 +1,17 @@
 {
   "authors": [ "NonFactors" ],
-  "version": "1.0.1",
+  "version": "1.1.0",
 
   "dependencies": {
-    "MvcTemplate.Resources": "1.0.1",
+    "MvcTemplate.Resources": "1.1.0",
 
     "BCrypt-Official": "0.1.109",
-    "Microsoft.AspNetCore.Mvc": "1.0.1",
+    "Microsoft.AspNetCore.Mvc": "1.1.0",
     "NonFactors.Grid.Core.Mvc6": "1.2.0",
-    "Microsoft.AspNetCore.Mvc.Core": "1.0.1",
-    "Microsoft.AspNetCore.Mvc.TagHelpers": "1.0.1",
-    "Microsoft.AspNetCore.Mvc.DataAnnotations": "1.0.1",
-    "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0"
+    "Microsoft.AspNetCore.Mvc.Core": "1.1.0",
+    "Microsoft.AspNetCore.Mvc.TagHelpers": "1.1.0",
+    "Microsoft.AspNetCore.Mvc.DataAnnotations": "1.1.0",
+    "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0"
   },
 
   "buildOptions": {
