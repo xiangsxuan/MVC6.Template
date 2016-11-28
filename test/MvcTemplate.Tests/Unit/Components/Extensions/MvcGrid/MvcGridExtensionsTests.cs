@@ -91,10 +91,10 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         public void AddActionLink_NoKey_Throws()
         {
             IGrid<Object> grid = new Grid<Object>(new Object[0]);
-            IGridColumnsOf<Object> columns = new GridColumns<Object>(grid);
-            columns.Grid.ViewContext = new ViewContext { HttpContext = Substitute.For<HttpContext>() };
+            IGridColumnsOf<Object> gridColumns = new GridColumns<Object>(grid);
+            gridColumns.Grid.ViewContext = new ViewContext { HttpContext = Substitute.For<HttpContext>() };
 
-            IGridColumn<Object> column = columns.AddActionLink("Delete", "fa fa-times");
+            IGridColumn<Object> column = gridColumns.AddActionLink("Delete", "fa fa-times");
 
             String actual = Assert.Throws<Exception>(() => column.ValueFor(new GridRow<Object>(new Object()))).Message;
             String expected = "Object type does not have a key property.";

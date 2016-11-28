@@ -86,12 +86,12 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #region Test helpers
 
-        private JsonResult GetData<TLookup>(LookupController controller) where TLookup : MvcLookup
+        private JsonResult GetData<TLookup>(LookupController lookupController) where TLookup : MvcLookup
         {
-            controller.When(sub => sub.GetData(Arg.Any<TLookup>(), filter)).DoNotCallBase();
-            controller.GetData(Arg.Any<TLookup>(), filter).Returns(new JsonResult("Test"));
+            lookupController.When(sub => sub.GetData(Arg.Any<TLookup>(), filter)).DoNotCallBase();
+            lookupController.GetData(Arg.Any<TLookup>(), filter).Returns(new JsonResult("Test"));
 
-            return controller.GetData(null, filter);
+            return lookupController.GetData(null, filter);
         }
 
         #endregion

@@ -48,12 +48,12 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Expression_IsSetsExpression()
         {
+            TestingContext testingContext = Substitute.For<TestingContext>();
             DbSet<Role> set = Substitute.For<DbSet<Role>, IQueryable>();
-            TestingContext context = Substitute.For<TestingContext>();
             ((IQueryable)set).Expression.Returns(Expression.Empty());
-            context.Set<Role>().Returns(set);
+            testingContext.Set<Role>().Returns(set);
 
-            select = new Select<Role>(context.Set<Role>());
+            select = new Select<Role>(testingContext.Set<Role>());
 
             Object actual = ((IQueryable)select).Expression;
             Object expected = ((IQueryable)set).Expression;

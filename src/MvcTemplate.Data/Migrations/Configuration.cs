@@ -48,7 +48,7 @@ namespace MvcTemplate.Data.Migrations
             Permission[] currentPermissions = UnitOfWork.Select<Permission>().ToArray();
             foreach (Permission permission in currentPermissions)
             {
-                if (!permissions.Any(perm => perm.Id == permission.Id))
+                if (permissions.All(perm => perm.Id != permission.Id))
                 {
                     UnitOfWork.DeleteRange(UnitOfWork.Select<RolePermission>().Where(role => role.PermissionId == permission.Id));
                     UnitOfWork.Delete(permission);
@@ -90,7 +90,7 @@ namespace MvcTemplate.Data.Migrations
                 .ToArray();
 
             foreach (Permission permission in UnitOfWork.Select<Permission>())
-                if (!currentPermissions.Any(rolePermission => rolePermission.PermissionId == permission.Id))
+                if (currentPermissions.All(rolePermission => rolePermission.PermissionId != permission.Id))
                     UnitOfWork.Insert(new RolePermission
                     {
                         RoleId = adminRoleId,
