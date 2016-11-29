@@ -67,7 +67,7 @@ namespace MvcTemplate.Components.Lookups
             if (!Int32.TryParse(Filter.Id, out id))
                 return Enumerable.Empty<TView>().AsQueryable();
 
-            return UnitOfWork.Select<TModel>().Where(model => model.Id == id).To<TView>();
+            return UnitOfWork.Select<TModel>().To<TView>().Where(model => model.Id == id);
         }
     }
 }
