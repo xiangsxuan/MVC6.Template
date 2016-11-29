@@ -22,7 +22,10 @@ namespace MvcTemplate.Rename
             Console.WriteLine("Enter company name: ");
             Company = Console.ReadLine().Trim();
 
+            Int32 port = new Random().Next(1000, 19175);
+
             String[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.*", SearchOption.AllDirectories);
+            Regex iisPort = new Regex("(\"(applicationUrl|launchUrl)\": .*:)\\d+(.*\")");
             Regex authors = new Regex("^  \"authors\": \\[ \"NonFactors\" \\]");
             Regex version = new Regex("^  \"version\": \"\\d+\\.\\d\\.\\d+\"");
             Regex assemblyVersion = new Regex("assembly: AssemblyVersion.*");
@@ -51,6 +54,7 @@ namespace MvcTemplate.Rename
                     content = content.Replace(TemplateName, Project);
                     content = content.Replace(TemplateDbName, Project);
                     content = newLine.Replace(content, Environment.NewLine);
+                    content = iisPort.Replace(content, "${1}" + port + "${3}");
                     content = version.Replace(content, "  \"version\": \"0.1.0\"");
                     content = authors.Replace(content, "  \"authors\": [ \"" + Company + "\" ]");
                     content = company.Replace(content, "assembly: AssemblyCompany(\"" + Company + "\")]");
