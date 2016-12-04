@@ -9,24 +9,24 @@
     <title>@(ViewBag.Title ?? ResourceProvider.GetPageTitle(ViewContext.RouteData.Values))</title>
 
     <environment names="Development">
-        <link href="~/Content/JQueryUI/jquery-ui.css" rel="stylesheet">
-        <link href="~/Content/JQueryUI/jquery-ui.timepicker-addon.css" rel="stylesheet">
-        <link href="~/Content/Bootstrap/bootstrap.css" rel="stylesheet">
-        <link href="~/Content/FontAwesome/font-awesome.css" rel="stylesheet">
-        <link href="~/Content/MvcLookup/mvc-lookup.css" rel="stylesheet">
-        <link href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet">
-        <link href="~/Content/JsTree/jstree.css" rel="stylesheet">
-        <link href="~/Content/Shared/alerts.css" rel="stylesheet">
-        <link href="~/Content/Shared/base.css" rel="stylesheet">
-        <link href="~/Content/Shared/content.css" rel="stylesheet">
-        <link href="~/Content/Shared/header.css" rel="stylesheet">
-        <link href="~/Content/Shared/menu.css" rel="stylesheet">
-        <link href="~/Content/Shared/overrides.css" rel="stylesheet">
-        <link href="~/Content/Shared/table.css" rel="stylesheet">
-        <link href="~/Content/Shared/widget-box.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/JQueryUI/jquery-ui.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/JQueryUI/jquery-ui.timepicker-addon.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/Bootstrap/bootstrap.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/FontAwesome/font-awesome.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/MvcLookup/mvc-lookup.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/MvcGrid/mvc-grid.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/JsTree/jstree.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/Shared/alerts.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/Shared/base.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/Shared/content.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/Shared/header.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/Shared/menu.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/Shared/overrides.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/Shared/table.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/Content/Shared/widget-box.css" rel="stylesheet">
     </environment>
     <environment names="Staging,Production">
-        <link href="~/content/private/bundle.min.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/content/private/bundle.min.css" rel="stylesheet">
     </environment>
 </head>
 <body class="private">
@@ -66,31 +66,31 @@
     </div>
 
     <environment names="Development">
-        <script src="~/Scripts/JQuery/jquery.js"></script>
-        <script src="~/Scripts/JQuery/jquery.validate.js"></script>
-        <script src="~/Scripts/JQuery/jquery.validate.unobtrusive.js"></script>
-        <script src="~/Scripts/JQuery/jquery.globalize.js"></script>
-        <script src="~/Scripts/JQuery/Cultures/globalize.en.js"></script>
-        <script src="~/Scripts/JQuery/Cultures/globalize.lt.js"></script>
-        <script src="~/Scripts/JQueryUI/jquery-ui.js"></script>
-        <script src="~/Scripts/JQueryUI/Cultures/jquery-ui.en.js"></script>
-        <script src="~/Scripts/JQueryUI/Cultures/jquery-ui.lt.js"></script>
-        <script src="~/Scripts/JQueryUI/jquery-ui.no-conflict.js"></script>
-        <script src="~/Scripts/JQueryUI/jquery-ui.timepicker-addon.js"></script>
-        <script src="~/Scripts/Bootstrap/bootstrap.js"></script>
-        <script src="~/Scripts/Bootstrap/bootstrap.no-conflict.js"></script>
-        <script src="~/Scripts/MvcLookup/mvc-lookup.js"></script>
-        <script src="~/Scripts/MvcLookup/Cultures/mvc-lookup.en.js"></script>
-        <script src="~/Scripts/MvcLookup/Cultures/mvc-lookup.lt.js"></script>
-        <script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
-        <script src="~/Scripts/MvcGrid/Cultures/mvc-grid.en.js"></script>
-        <script src="~/Scripts/MvcGrid/Cultures/mvc-grid.lt.js"></script>
-        <script src="~/Scripts/JsTree/jstree.js"></script>
-        <script src="~/Scripts/Shared/menu.js"></script>
-        <script src="~/Scripts/Shared/site.js"></script>
+        <script asp-append-version="true" src="~/Scripts/JQuery/jquery.js"></script>
+        <script asp-append-version="true" src="~/Scripts/JQuery/jquery.validate.js"></script>
+        <script asp-append-version="true" src="~/Scripts/JQuery/jquery.validate.unobtrusive.js"></script>
+        <script asp-append-version="true" src="~/Scripts/JQuery/jquery.globalize.js"></script>
+        <script asp-append-version="true" src="~/Scripts/JQuery/Cultures/globalize.en.js"></script>
+        <script asp-append-version="true" src="~/Scripts/JQuery/Cultures/globalize.lt.js"></script>
+        <script asp-append-version="true" src="~/Scripts/JQueryUI/jquery-ui.js"></script>
+        <script asp-append-version="true" src="~/Scripts/JQueryUI/Cultures/jquery-ui.en.js"></script>
+        <script asp-append-version="true" src="~/Scripts/JQueryUI/Cultures/jquery-ui.lt.js"></script>
+        <script asp-append-version="true" src="~/Scripts/JQueryUI/jquery-ui.no-conflict.js"></script>
+        <script asp-append-version="true" src="~/Scripts/JQueryUI/jquery-ui.timepicker-addon.js"></script>
+        <script asp-append-version="true" src="~/Scripts/Bootstrap/bootstrap.js"></script>
+        <script asp-append-version="true" src="~/Scripts/Bootstrap/bootstrap.no-conflict.js"></script>
+        <script asp-append-version="true" src="~/Scripts/MvcLookup/mvc-lookup.js"></script>
+        <script asp-append-version="true" src="~/Scripts/MvcLookup/Cultures/mvc-lookup.en.js"></script>
+        <script asp-append-version="true" src="~/Scripts/MvcLookup/Cultures/mvc-lookup.lt.js"></script>
+        <script asp-append-version="true" src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+        <script asp-append-version="true" src="~/Scripts/MvcGrid/Cultures/mvc-grid.en.js"></script>
+        <script asp-append-version="true" src="~/Scripts/MvcGrid/Cultures/mvc-grid.lt.js"></script>
+        <script asp-append-version="true" src="~/Scripts/JsTree/jstree.js"></script>
+        <script asp-append-version="true" src="~/Scripts/Shared/menu.js"></script>
+        <script asp-append-version="true" src="~/Scripts/Shared/site.js"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="~/scripts/private/bundle.min.js"></script>
+        <script asp-append-version="true" src="~/scripts/private/bundle.min.js"></script>
     </environment>
 </body>
 </html>
