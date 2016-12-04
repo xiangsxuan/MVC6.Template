@@ -62,36 +62,18 @@ namespace MvcTemplate.Resources.Shared {
         /// <summary>
         ///    Looks up a localized string similar to Account.
         /// </summary>
-        public static string AdministrationAccounts {
+        public static string Account {
             get {
-                return ResourceManager.GetString("AdministrationAccounts", resourceCulture);
+                return ResourceManager.GetString("Account", resourceCulture);
             }
         }
         
         /// <summary>
         ///    Looks up a localized string similar to Accounts.
         /// </summary>
-        public static string AdministrationAccountsIndex {
+        public static string Accounts {
             get {
-                return ResourceManager.GetString("AdministrationAccountsIndex", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Role.
-        /// </summary>
-        public static string AdministrationRoles {
-            get {
-                return ResourceManager.GetString("AdministrationRoles", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Roles.
-        /// </summary>
-        public static string AdministrationRolesIndex {
-            get {
-                return ResourceManager.GetString("AdministrationRolesIndex", resourceCulture);
+                return ResourceManager.GetString("Accounts", resourceCulture);
             }
         }
         
@@ -101,6 +83,24 @@ namespace MvcTemplate.Resources.Shared {
         public static string Profile {
             get {
                 return ResourceManager.GetString("Profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Role.
+        /// </summary>
+        public static string Role {
+            get {
+                return ResourceManager.GetString("Role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Roles.
+        /// </summary>
+        public static string Roles {
+            get {
+                return ResourceManager.GetString("Roles", resourceCulture);
             }
         }
     }

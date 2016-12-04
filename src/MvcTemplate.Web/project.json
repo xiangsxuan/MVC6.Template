@@ -5,6 +5,7 @@
   "dependencies": {
     "MvcTemplate.Controllers": "1.1.0",
 
+    "Humanizer.Core": "2.1.0",
     "Genny": "1.0.0-preview3-final",
     "NonFactors.Grid.Mvc6": "1.2.0",
     "NonFactors.Lookup.Mvc6": "1.1.0",

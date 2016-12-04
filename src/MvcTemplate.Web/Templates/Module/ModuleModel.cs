@@ -1,4 +1,5 @@
-﻿using MvcTemplate.Objects;
+﻿using Humanizer;
+using MvcTemplate.Objects;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -9,6 +10,7 @@ namespace MvcTemplate.Web.Templates
     public class ModuleModel
     {
         public String Model { get; }
+        public String Models { get; }
         public String ModelVarName { get; }
         public String ModelShortName { get; }
 
@@ -29,8 +31,6 @@ namespace MvcTemplate.Web.Templates
 
         public String Area { get; }
 
-        public String HeaderTitle { get; set; }
-
         public PropertyInfo[] Properties { get; set; }
         public PropertyInfo[] AllProperties { get; set; }
 
@@ -38,6 +38,7 @@ namespace MvcTemplate.Web.Templates
         {
             ModelShortName = Regex.Split(model, "(?=[A-Z])").Last();
             ModelVarName = ModelShortName.ToLower();
+            Models = model.Pluralize(false);
             Model = model;
 
             View = $"{Model}View";
@@ -56,8 +57,6 @@ namespace MvcTemplate.Web.Templates
             Controller = $"{controller}Controller";
 
             Area = area;
-
-            HeaderTitle = $"{area}{controller}";
 
             AllProperties = typeof(BaseModel)
                 .Assembly
