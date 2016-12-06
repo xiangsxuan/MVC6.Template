@@ -134,12 +134,10 @@
   width: 100%;
 }
 .mvc-grid th {
-  height: 2.65em;
-}
-.mvc-grid th:not(.action-cell) {
   padding-right: 30px;
   padding-left: 30px;
   text-align: center;
+  height: 2.65em;
 }
 .mvc-grid-pager {
   text-align: center;
