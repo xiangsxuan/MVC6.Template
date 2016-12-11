@@ -39,6 +39,20 @@ namespace MvcTemplate.Tests.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TestModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    Title = table.Column<string>(maxLength: 128, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestModel", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Account",
                 columns: table => new
                 {
@@ -92,12 +106,6 @@ namespace MvcTemplate.Tests.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Account_Username",
-                table: "Account",
-                column: "Username",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Account_Email",
                 table: "Account",
                 column: "Email",
@@ -109,20 +117,26 @@ namespace MvcTemplate.Tests.Data.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Account_Username",
+                table: "Account",
+                column: "Username",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Role_Title",
                 table: "Role",
                 column: "Title",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RolePermission_RoleId",
-                table: "RolePermission",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RolePermission_PermissionId",
                 table: "RolePermission",
                 column: "PermissionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RolePermission_RoleId",
+                table: "RolePermission",
+                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -132,6 +146,9 @@ namespace MvcTemplate.Tests.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "RolePermission");
+
+            migrationBuilder.DropTable(
+                name: "TestModel");
 
             migrationBuilder.DropTable(
                 name: "Permission");

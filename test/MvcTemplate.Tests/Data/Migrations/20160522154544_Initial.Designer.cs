@@ -14,7 +14,7 @@ namespace MvcTemplate.Tests.Data.Migrations
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
+                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("MvcTemplate.Objects.Account", b =>
@@ -26,16 +26,16 @@ namespace MvcTemplate.Tests.Data.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<bool>("IsLocked");
 
                     b.Property<string>("Passhash")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 64);
+                        .HasMaxLength(64);
 
                     b.Property<string>("RecoveryToken")
-                        .HasAnnotation("MaxLength", 36);
+                        .HasMaxLength(36);
 
                     b.Property<DateTime?>("RecoveryTokenExpirationDate");
 
@@ -43,11 +43,17 @@ namespace MvcTemplate.Tests.Data.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 32);
+                        .HasMaxLength(32);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Account");
                 });
@@ -58,14 +64,14 @@ namespace MvcTemplate.Tests.Data.Migrations
 
                     b.Property<string>("Action")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 64);
+                        .HasMaxLength(64);
 
                     b.Property<string>("Area")
-                        .HasAnnotation("MaxLength", 64);
+                        .HasMaxLength(64);
 
                     b.Property<string>("Controller")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 64);
+                        .HasMaxLength(64);
 
                     b.Property<DateTime>("CreationDate");
 
@@ -83,9 +89,12 @@ namespace MvcTemplate.Tests.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 128);
+                        .HasMaxLength(128);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Role");
                 });
@@ -108,6 +117,21 @@ namespace MvcTemplate.Tests.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePermission");
+                });
+
+            modelBuilder.Entity("MvcTemplate.Tests.Objects.TestModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(128);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TestModel");
                 });
 
             modelBuilder.Entity("MvcTemplate.Objects.Account", b =>

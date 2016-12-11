@@ -2,12 +2,28 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
+using MvcTemplate.Tests.Objects;
 using System.Linq;
 
 namespace MvcTemplate.Tests.Data
 {
     public class TestingContext : Context
     {
+        #region Tests
+
+        protected DbSet<TestModel> TestModel { get; set; } 
+
+        #endregion
+
+        static TestingContext()
+        {
+            using (TestingContext context = new TestingContext())
+                context.Database.Migrate();
+        }
+        public TestingContext() : base(ConfigurationFactory.Create())
+        {
+        }
+
         public void DropState()
         {
             foreach (EntityEntry entry in ChangeTracker.Entries().ToArray())
@@ -21,15 +37,6 @@ namespace MvcTemplate.Tests.Data
             RemoveRange(Set<Role>());
 
             SaveChanges();
-        }
-
-        static TestingContext()
-        {
-            using (TestingContext context = new TestingContext())
-                context.Database.Migrate();
-        }
-        public TestingContext() : base(ConfigurationFactory.Create())
-        {
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)

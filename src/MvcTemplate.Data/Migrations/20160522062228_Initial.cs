@@ -92,12 +92,6 @@ namespace MvcTemplate.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Account_Username",
-                table: "Account",
-                column: "Username",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Account_Email",
                 table: "Account",
                 column: "Email",
@@ -109,20 +103,26 @@ namespace MvcTemplate.Data.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Account_Username",
+                table: "Account",
+                column: "Username",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Role_Title",
                 table: "Role",
                 column: "Title",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RolePermission_RoleId",
-                table: "RolePermission",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RolePermission_PermissionId",
                 table: "RolePermission",
                 column: "PermissionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RolePermission_RoleId",
+                table: "RolePermission",
+                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

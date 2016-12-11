@@ -1,6 +1,7 @@
 ﻿using MvcTemplate.Objects;
 using MvcTemplate.Resources;
 using MvcTemplate.Resources.Shared;
+using MvcTemplate.Tests.Objects;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -177,7 +178,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         [Fact]
         public void GetPropertyTitle_NotMemberExpression_ReturnNull()
         {
-            Assert.Null(ResourceProvider.GetPropertyTitle<RoleView, String>(view => view.ToString()));
+            Assert.Null(ResourceProvider.GetPropertyTitle<TestView, String>(view => view.ToString()));
         }
 
         [Fact]
@@ -250,7 +251,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         [Fact]
         public void GetPropertyTitle_NotFoundTypeProperty_ReturnsNull()
         {
-            Assert.Null(ResourceProvider.GetPropertyTitle(typeof(RoleView), "Test"));
+            Assert.Null(ResourceProvider.GetPropertyTitle(typeof(TestView), "Title"));
         }
 
         [Fact]

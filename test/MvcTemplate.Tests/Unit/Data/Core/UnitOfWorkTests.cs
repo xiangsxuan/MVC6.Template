@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MvcTemplate.Data.Core;
-using MvcTemplate.Objects;
 using MvcTemplate.Tests.Data;
+using MvcTemplate.Tests.Objects;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -16,14 +16,15 @@ namespace MvcTemplate.Tests.Unit.Data.Core
     {
         private TestingContext context;
         private UnitOfWork unitOfWork;
-        private Role model;
+        private TestModel model;
 
         public UnitOfWorkTests()
         {
             context = new TestingContext();
-            model = ObjectFactory.CreateRole();
             unitOfWork = new UnitOfWork(context);
+            model = ObjectFactory.CreateTestModel();
 
+            context.RemoveRange(context.Set<TestModel>());
             context.DropData();
         }
         public void Dispose()
@@ -40,8 +41,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Add(model);
             context.SaveChanges();
 
-            RoleView expected = Mapper.Map<RoleView>(model);
-            RoleView actual = unitOfWork.GetAs<Role, RoleView>(model.Id);
+            TestView expected = Mapper.Map<TestView>(model);
+            TestView actual = unitOfWork.GetAs<TestModel, TestView>(model.Id);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Title, actual.Title);
@@ -58,8 +59,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Add(model);
             context.SaveChanges();
 
-            Role expected = context.Set<Role>().AsNoTracking().Single();
-            Role actual = unitOfWork.Get<Role>(model.Id);
+            TestModel expected = context.Set<TestModel>().AsNoTracking().Single();
+            TestModel actual = unitOfWork.Get<TestModel>(model.Id);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Title, actual.Title);
@@ -69,7 +70,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Get_NotFound_ReturnsNull()
         {
-            Assert.Null(unitOfWork.Get<Role>(0));
+            Assert.Null(unitOfWork.Get<TestModel>(0));
         }
 
         #endregion
@@ -79,8 +80,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void To_ConvertsSourceToDestination()
         {
-            RoleView actual = unitOfWork.To<RoleView>(model);
-            RoleView expected = Mapper.Map<RoleView>(model);
+            TestView actual = unitOfWork.To<TestView>(model);
+            TestView expected = Mapper.Map<TestView>(model);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Title, actual.Title);
@@ -97,8 +98,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Add(model);
             context.SaveChanges();
 
-            IEnumerable<Role> actual = unitOfWork.Select<Role>();
-            IEnumerable<Role> expected = context.Set<Role>();
+            IEnumerable<TestModel> actual = unitOfWork.Select<TestModel>();
+            IEnumerable<TestModel> expected = context.Set<TestModel>();
 
             Assert.Equal(expected, actual);
         }
@@ -110,11 +111,11 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void InsertRange_AddsModelsToDbSet()
         {
-            IEnumerable<Role> models = new[] { ObjectFactory.CreateRole(1), ObjectFactory.CreateRole(2) };
+            IEnumerable<TestModel> models = new[] { ObjectFactory.CreateTestModel(1), ObjectFactory.CreateTestModel(2) };
             unitOfWork.InsertRange(models);
 
-            IEnumerator<Role> actual = context.ChangeTracker.Entries<Role>().Select(entry => entry.Entity).GetEnumerator();
-            IEnumerator<Role> expected = models.GetEnumerator();
+            IEnumerator<TestModel> actual = context.ChangeTracker.Entries<TestModel>().Select(entry => entry.Entity).GetEnumerator();
+            IEnumerator<TestModel> expected = models.GetEnumerator();
 
             while (expected.MoveNext() | actual.MoveNext())
             {
@@ -132,7 +133,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         {
             unitOfWork.Insert(model);
 
-            Object actual = context.ChangeTracker.Entries<Role>().Single().Entity;
+            Object actual = context.ChangeTracker.Entries<TestModel>().Single().Entity;
             Object expected = model;
 
             Assert.Equal(EntityState.Added, context.Entry(model).State);
@@ -151,13 +152,13 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [InlineData(EntityState.Unchanged, EntityState.Unchanged)]
         public void Update_Entry(EntityState initialState, EntityState state)
         {
-            EntityEntry<Role> entry = context.Entry(model);
+            EntityEntry<TestModel> entry = context.Entry(model);
             entry.State = initialState;
             entry.Entity.Id = 0;
 
             unitOfWork.Update(model);
 
-            EntityEntry<Role> actual = entry;
+            EntityEntry<TestModel> actual = entry;
 
             Assert.Equal(state, actual.State);
             Assert.False(actual.Property(prop => prop.CreationDate).IsModified);
@@ -170,7 +171,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void DeleteRange_Models()
         {
-            IEnumerable<Role> models = new[] { ObjectFactory.CreateRole(1), ObjectFactory.CreateRole(2) };
+            IEnumerable<TestModel> models = new[] { ObjectFactory.CreateTestModel(1), ObjectFactory.CreateTestModel(2) };
 
             context.AddRange(models);
             context.SaveChanges();
@@ -178,7 +179,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             unitOfWork.DeleteRange(models);
             unitOfWork.Commit();
 
-            Assert.Empty(context.Set<Role>());
+            Assert.Empty(context.Set<TestModel>());
         }
 
         #endregion
@@ -194,7 +195,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             unitOfWork.Delete(model);
             unitOfWork.Commit();
 
-            Assert.Empty(context.Set<Role>());
+            Assert.Empty(context.Set<TestModel>());
         }
 
         #endregion
@@ -207,10 +208,10 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Add(model);
             context.SaveChanges();
 
-            unitOfWork.Delete<Role>(model.Id);
+            unitOfWork.Delete<TestModel>(model.Id);
             unitOfWork.Commit();
 
-            Assert.Empty(context.Set<Role>());
+            Assert.Empty(context.Set<TestModel>());
         }
 
         #endregion
