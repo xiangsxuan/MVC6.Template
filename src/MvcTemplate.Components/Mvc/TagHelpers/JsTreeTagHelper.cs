@@ -22,7 +22,7 @@ namespace MvcTemplate.Components.Mvc
             output.Content.AppendHtml(JsTreeFor(tree));
         }
 
-        private void Add(TagBuilder root, IList<JsTreeNode> nodes)
+        private void Add(TagBuilder root, List<JsTreeNode> nodes)
         {
             TagBuilder branch = new TagBuilder("ul");
             foreach (JsTreeNode node in nodes)

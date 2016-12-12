@@ -5,8 +5,8 @@ namespace MvcTemplate.Components.Extensions
 {
     public class JsTree
     {
-        public IList<JsTreeNode> Nodes { get; set; }
-        public IList<Int32> SelectedIds { get; set; }
+        public List<JsTreeNode> Nodes { get; set; }
+        public List<Int32> SelectedIds { get; set; }
 
         public JsTree()
         {

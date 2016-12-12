@@ -7,7 +7,7 @@ namespace MvcTemplate.Components.Extensions
     {
         public Int32? Id { get; set; }
         public String Title { get; set; }
-        public IList<JsTreeNode> Nodes { get; set; }
+        public List<JsTreeNode> Nodes { get; set; }
 
         public JsTreeNode(Int32? id, String title)
         {
