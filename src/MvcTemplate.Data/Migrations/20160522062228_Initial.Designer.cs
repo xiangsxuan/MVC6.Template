@@ -58,6 +58,33 @@ namespace MvcTemplate.Data.Migrations
                     b.ToTable("Account");
                 });
 
+            modelBuilder.Entity("MvcTemplate.Objects.AuditLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AccountId");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(16);
+
+                    b.Property<string>("Changes")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<int>("EntityId");
+
+                    b.Property<string>("EntityName")
+                        .IsRequired()
+                        .HasMaxLength(64);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AuditLog");
+                });
+
             modelBuilder.Entity("MvcTemplate.Objects.Permission", b =>
                 {
                     b.Property<int>("Id");

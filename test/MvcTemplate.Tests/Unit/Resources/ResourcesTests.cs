@@ -16,7 +16,7 @@ namespace MvcTemplate.Tests.Unit.Resources
     {
         static ResourcesTests()
         {
-            using (Configuration configuration = new Configuration(new Context(ConfigurationFactory.Create())))
+            using (Configuration configuration = new Configuration(new Context(ConfigurationFactory.Create()), new Context(ConfigurationFactory.Create())))
                 configuration.UpdateDatabase();
         }
 

@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers;
 using MvcTemplate.Data.Core;
+using MvcTemplate.Data.Logging;
 using MvcTemplate.Data.Migrations;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
@@ -70,14 +72,19 @@ namespace MvcTemplate.Web
             services.AddSession();
             services.AddSingleton(Config);
 
+            services.AddTransient<Configuration>();
             services.AddTransient<DbContext, Context>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddSingleton<ILogger, Logger>();
+            services.AddTransient<IAuditLogger>(provider =>
+                new AuditLogger(provider.GetService<DbContext>(),
+                provider.GetRequiredService<IHttpContextAccessor>().HttpContext?.User?.Id()));
 
             services.AddSingleton<IHasher, BCrypter>();
             services.AddSingleton<IMailClient, SmtpMailClient>();
 
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IValidationAttributeAdapterProvider, ValidationAdapterProvider>();
 
             services.AddSingleton<ILanguages, Languages>();
@@ -154,7 +161,7 @@ namespace MvcTemplate.Web
 
         public void UpdateDatabase(IApplicationBuilder app)
         {
-            using (Configuration configuration = new Configuration(app.ApplicationServices.GetService<DbContext>()))
+            using (Configuration configuration = app.ApplicationServices.GetService<Configuration>())
                 configuration.UpdateDatabase();
         }
     }

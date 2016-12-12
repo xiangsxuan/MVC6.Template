@@ -10,13 +10,31 @@ namespace MvcTemplate.Tests.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AuditLog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AccountId = table.Column<int>(nullable: true),
+                    Action = table.Column<string>(maxLength: 16, nullable: false),
+                    EntityId = table.Column<int>(nullable: false),
+                    EntityName = table.Column<string>(maxLength: 64, nullable: false),
+                    Changes = table.Column<string>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditLog", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Permission",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false),
-                    Action = table.Column<string>(maxLength: 64, nullable: false),
                     Area = table.Column<string>(maxLength: 64, nullable: true),
                     Controller = table.Column<string>(maxLength: 64, nullable: false),
+                    Action = table.Column<string>(maxLength: 64, nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -30,8 +48,8 @@ namespace MvcTemplate.Tests.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    Title = table.Column<string>(maxLength: 128, nullable: false)
+                    Title = table.Column<string>(maxLength: 128, nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,8 +62,8 @@ namespace MvcTemplate.Tests.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    Title = table.Column<string>(maxLength: 128, nullable: true)
+                    Title = table.Column<string>(maxLength: 128, nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,14 +76,14 @@ namespace MvcTemplate.Tests.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreationDate = table.Column<DateTime>(nullable: false),
+                    Username = table.Column<string>(maxLength: 32, nullable: false),
+                    Passhash = table.Column<string>(maxLength: 64, nullable: false),
                     Email = table.Column<string>(maxLength: 256, nullable: false),
                     IsLocked = table.Column<bool>(nullable: false),
-                    Passhash = table.Column<string>(maxLength: 64, nullable: false),
                     RecoveryToken = table.Column<string>(maxLength: 36, nullable: true),
                     RecoveryTokenExpirationDate = table.Column<DateTime>(nullable: true),
                     RoleId = table.Column<int>(nullable: true),
-                    Username = table.Column<string>(maxLength: 32, nullable: false)
+                    CreationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,9 +102,9 @@ namespace MvcTemplate.Tests.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreationDate = table.Column<DateTime>(nullable: false),
+                    RoleId = table.Column<int>(nullable: false),
                     PermissionId = table.Column<int>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false)
+                    CreationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -143,6 +161,9 @@ namespace MvcTemplate.Tests.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Account");
+
+            migrationBuilder.DropTable(
+                name: "AuditLog");
 
             migrationBuilder.DropTable(
                 name: "RolePermission");

@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using MvcTemplate.Data.Logging;
 using MvcTemplate.Objects;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,13 @@ namespace MvcTemplate.Data.Core
 {
     public class UnitOfWork : IUnitOfWork
     {
+        private IAuditLogger Logger { get; }
         private DbContext Context { get; set; }
 
-        public UnitOfWork(DbContext context)
+        public UnitOfWork(DbContext context, IAuditLogger logger = null)
         {
             Context = context;
+            Logger = logger;
         }
 
         public TDestination GetAs<TModel, TDestination>(Int32 id) where TModel : BaseModel
@@ -68,11 +71,14 @@ namespace MvcTemplate.Data.Core
 
         public void Commit()
         {
+            Logger?.Log(Context.ChangeTracker.Entries<BaseModel>());
             Context.SaveChanges();
+            Logger?.Save();
         }
 
         public void Dispose()
         {
+            Logger?.Dispose();
             Context.Dispose();
         }
     }

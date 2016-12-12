@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MvcTemplate.Data.Core;
+using MvcTemplate.Data.Logging;
 using MvcTemplate.Objects;
 using System;
 using System.Linq;
@@ -11,9 +12,10 @@ namespace MvcTemplate.Data.Migrations
         private IUnitOfWork UnitOfWork { get; }
         private DbContext Context { get; }
 
-        public Configuration(DbContext context)
+        public Configuration(DbContext context, DbContext audit)
         {
-            UnitOfWork = new UnitOfWork(context);
+            IAuditLogger logger = new AuditLogger(audit, 0);
+            UnitOfWork = new UnitOfWork(context, logger);
             Context = context;
         }
 

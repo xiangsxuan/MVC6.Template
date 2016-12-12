@@ -16,6 +16,7 @@
 - Dependency injection.
 - Custom error pages.
 - Globalization.
+- Audit log.
 - Site map.
 - Tests.
 

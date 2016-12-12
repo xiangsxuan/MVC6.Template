@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MvcTemplate.Data.Core;
+using MvcTemplate.Data.Logging;
+using MvcTemplate.Objects;
 using MvcTemplate.Tests.Data;
 using MvcTemplate.Tests.Objects;
 using NSubstitute;
@@ -16,13 +18,15 @@ namespace MvcTemplate.Tests.Unit.Data.Core
     {
         private TestingContext context;
         private UnitOfWork unitOfWork;
+        private IAuditLogger logger;
         private TestModel model;
 
         public UnitOfWorkTests()
         {
             context = new TestingContext();
-            unitOfWork = new UnitOfWork(context);
             model = ObjectFactory.CreateTestModel();
+            logger = Substitute.For<IAuditLogger>();
+            unitOfWork = new UnitOfWork(context, logger);
 
             context.RemoveRange(context.Set<TestModel>());
             context.DropData();
@@ -228,9 +232,37 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             testingContext.Received().SaveChanges();
         }
 
+        [Fact]
+        public void Commit_Logs()
+        {
+            unitOfWork.Commit();
+
+            logger.Received().Log(Arg.Any<IEnumerable<EntityEntry<BaseModel>>>());
+            logger.Received().Save();
+        }
+
+        [Fact]
+        public void Commit_Failed_DoesNotSaveLogs()
+        {
+            unitOfWork.Insert(new TestModel { Title = new String('X', 513) });
+            Exception exception = Record.Exception(() => unitOfWork.Commit());
+
+            logger.Received().Log(Arg.Any<IEnumerable<EntityEntry<BaseModel>>>());
+            logger.DidNotReceive().Save();
+            Assert.NotNull(exception);
+        }
+
         #endregion
 
         #region Dispose()
+
+        [Fact]
+        public void Dispose_Logger()
+        {
+            unitOfWork.Dispose();
+
+            logger.Received().Dispose();
+        }
 
         [Fact]
         public void Dispose_Context()

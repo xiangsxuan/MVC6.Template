@@ -20,6 +20,12 @@ namespace MvcTemplate.Data.Core
 
         #endregion
 
+        #region System
+
+        protected DbSet<AuditLog> AuditLog { get; set; }
+
+        #endregion
+
         protected IConfiguration Config { get; }
 
         static Context()

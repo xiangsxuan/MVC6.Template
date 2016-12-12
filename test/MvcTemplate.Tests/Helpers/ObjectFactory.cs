@@ -163,7 +163,7 @@ namespace MvcTemplate.Tests
 
         #region Tests
 
-        public static TestModel CreateTestModel(Int32 id = 1)
+        public static TestModel CreateTestModel(Int32 id = 0)
         {
             return new TestModel
             {
