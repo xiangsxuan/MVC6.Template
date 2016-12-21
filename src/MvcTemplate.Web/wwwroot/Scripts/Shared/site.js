@@ -28,9 +28,13 @@
 
 // JQuery dialog overlay binding
 (function () {
-    $(document).on('click', '.ui-widget-overlay', function () {
-        $('.ui-dialog:visible .ui-dialog-titlebar-close').trigger('click');
-    });
+    window.addEventListener('mousedown', function (e) {
+        if ($(e.target || e.srcElement).hasClass('ui-widget-overlay')) {
+            $('.ui-dialog-content:visible').dialog('close');
+
+            e.stopImmediatePropagation();
+        }
+    }, true);
 }());
 
 // Globalized validation binding
