@@ -34,9 +34,9 @@ namespace MvcTemplate.Data.Core
             return Mapper.Map<TDestination>(source);
         }
 
-        public ISelect<TModel> Select<TModel>() where TModel : BaseModel
+        public IQuery<TModel> Select<TModel>() where TModel : BaseModel
         {
-            return new Select<TModel>(Context.Set<TModel>());
+            return new Query<TModel>(Context.Set<TModel>());
         }
 
         public void InsertRange<TModel>(IEnumerable<TModel> models) where TModel : BaseModel

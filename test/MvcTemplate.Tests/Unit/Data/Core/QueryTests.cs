@@ -12,15 +12,15 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Data.Core
 {
-    public class SelectTests : IDisposable
+    public class QueryTests : IDisposable
     {
         private TestingContext context;
-        private Select<TestModel> select;
+        private Query<TestModel> select;
 
-        public SelectTests()
+        public QueryTests()
         {
             context = new TestingContext();
-            select = new Select<TestModel>(context.Set<TestModel>());
+            select = new Query<TestModel>(context.Set<TestModel>());
 
             context.RemoveRange(context.Set<TestModel>());
             context.Add(ObjectFactory.CreateTestModel());
@@ -54,7 +54,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             ((IQueryable)set).Expression.Returns(Expression.Empty());
             testingContext.Set<TestModel>().Returns(set);
 
-            select = new Select<TestModel>(testingContext.Set<TestModel>());
+            select = new Query<TestModel>(testingContext.Set<TestModel>());
 
             Object actual = ((IQueryable)select).Expression;
             Object expected = ((IQueryable)set).Expression;
@@ -73,6 +73,19 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             Object actual = (select as IQueryable).Provider;
 
             Assert.Same(expected, actual);
+        }
+
+        #endregion
+
+        #region Select<TResult>(Expression<Func<TModel, TResult>> selector)
+
+        [Fact]
+        public void Select_Selects()
+        {
+            IEnumerable<Int32> expected = context.Set<TestModel>().Select(model => model.Id);
+            IEnumerable<Int32> actual = select.Select(model => model.Id);
+
+            Assert.Equal(expected, actual);
         }
 
         #endregion

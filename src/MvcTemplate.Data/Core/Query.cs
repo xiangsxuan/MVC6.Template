@@ -1,5 +1,4 @@
 ﻿using AutoMapper.QueryableExtensions;
-using MvcTemplate.Objects;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace MvcTemplate.Data.Core
 {
-    public class Select<TModel> : ISelect<TModel> where TModel : BaseModel
+    public class Query<TModel> : IQuery<TModel>
     {
         public Type ElementType => Set.ElementType;
         public Expression Expression => Set.Expression;
@@ -16,19 +15,23 @@ namespace MvcTemplate.Data.Core
 
         private IQueryable<TModel> Set { get; set; }
 
-        public Select(IQueryable<TModel> set)
+        public Query(IQueryable<TModel> set)
         {
             Set = set;
         }
 
-        public ISelect<TModel> Where(Expression<Func<TModel, Boolean>> predicate)
+        public IQuery<TResult> Select<TResult>(Expression<Func<TModel, TResult>> selector)
+        {
+            return new Query<TResult>(Set.Select(selector));
+        }
+        public IQuery<TModel> Where(Expression<Func<TModel, Boolean>> predicate)
         {
             Set = Set.Where(predicate);
 
             return this;
         }
 
-        public IQueryable<TView> To<TView>() where TView : BaseView
+        public IQueryable<TView> To<TView>()
         {
             return Set.ProjectTo<TView>();
         }
