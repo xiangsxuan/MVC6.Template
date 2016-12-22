@@ -156,7 +156,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Alert actual = controller.Alerts.Single();
 
             Assert.Equal(Messages.ProfileDeleteDisclaimer, actual.Message);
-            Assert.Equal(AlertType.Danger, actual.Type);
+            Assert.Equal(AlertType.Warning, actual.Type);
             Assert.Equal(0, actual.Timeout);
         }
 
@@ -202,7 +202,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Alert actual = controller.Alerts.Single();
 
             Assert.Equal(Messages.ProfileDeleteDisclaimer, actual.Message);
-            Assert.Equal(AlertType.Danger, actual.Type);
+            Assert.Equal(AlertType.Warning, actual.Type);
             Assert.Equal(0, actual.Timeout);
         }
 
