@@ -32,6 +32,9 @@
   background: linear-gradient(#6F93A7, #2A4E62);
   color: #FFFFFF;
 }
+.table-hover > tbody > tr:hover > td input {
+  color: #555555;
+}
 .input-group .form-control {
   z-index: 1;
 }
