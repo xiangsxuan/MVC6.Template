@@ -19,7 +19,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             ActionContext context = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
             ViewLocationExpanderContext expander = new ViewLocationExpanderContext(context, "Index", null, null, true);
-            context.RouteData.Values.Add("area", "Test");
+            context.RouteData.Values["area"] = "Test";
 
             IEnumerable<String> expected = new[] { "/Views/{2}/Shared/{0}.cshtml", "/Views/{2}/{1}/{0}.cshtml", "/Views/Shared/{0}.cshtml" };
             IEnumerable<String> actual = new ViewLocationExpander().ExpandViewLocations(expander, null);
