@@ -42,7 +42,7 @@
   background: linear-gradient(#6F93A7, #2A4E62);
   color: #FFFFFF;
 }
-.widget-header .widget-header-buttons .btn > i {
+.widget-header .widget-header-buttons .btn > i + .text {
   padding-right: 5px;
 }
 .widget-content {
