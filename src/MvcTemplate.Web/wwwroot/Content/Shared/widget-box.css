@@ -43,7 +43,7 @@
   color: #FFFFFF;
 }
 .widget-header .widget-header-buttons .btn > i + .text {
-  padding-right: 5px;
+  padding-left: 5px;
 }
 .widget-content {
   overflow-x: auto;
