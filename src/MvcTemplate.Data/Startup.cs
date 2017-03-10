@@ -14,7 +14,7 @@ namespace MvcTemplate.Data
             services.AddTransient<Context>();
             services.AddSingleton<DbContextOptions>(new DbContextOptionsBuilder<Context>().Options);
             services.AddSingleton<IConfiguration>(new ConfigurationBuilder()
-                .SetBasePath(Directory.GetParent(env.ContentRootPath).FullName)
+                .SetBasePath(Directory.GetParent(env.ContentRootPath).Parent.FullName)
                 .AddJsonFile("MvcTemplate.Web/configuration.json").Build());
         }
     }

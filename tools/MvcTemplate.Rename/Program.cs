@@ -11,7 +11,6 @@ namespace MvcTemplate.Rename
         private const String TemplateDbName = "Mvc6Template";
         private const String TemplateName = "MvcTemplate";
         private static String Project { get; set; }
-        private static String Company { get; set; }
 
         public static void Main()
         {
@@ -19,20 +18,12 @@ namespace MvcTemplate.Rename
             while ((Project = Console.ReadLine().Trim()) == "")
             { }
 
-            Console.WriteLine("Enter company name: ");
-            Company = Console.ReadLine().Trim();
-
             Int32 port = new Random().Next(1000, 19175);
 
             String[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.*", SearchOption.AllDirectories);
             Regex iisPort = new Regex("(\"(applicationUrl|launchUrl)\": .*:)\\d+(.*\")");
-            Regex authors = new Regex("^  \"authors\": \\[ \"NonFactors\" \\]");
-            Regex version = new Regex("^  \"version\": \"\\d+\\.\\d\\.\\d+\"");
-            Regex assemblyVersion = new Regex("assembly: AssemblyVersion.*");
-            Regex fileVersion = new Regex("assembly: AssemblyFileVersion.*");
-            Regex copyright = new Regex("assembly: AssemblyCopyright.*");
-            Regex company = new Regex("assembly: AssemblyCompany.*");
-            Regex newLine = new Regex("(?<!\\r)\\n");
+            Regex version = new Regex("<Version>\\d+\\.\\d+\\.\\d+</Version>");
+            Regex newLine = new Regex("\\r?\\n");
 
             Console.WriteLine();
 
@@ -47,7 +38,7 @@ namespace MvcTemplate.Rename
                     extension == ".config" ||
                     extension == ".gitignore" ||
                     extension == ".sln" ||
-                    extension == ".xproj" ||
+                    extension == ".csproj" ||
                     extension == ".json")
                 {
                     String content = File.ReadAllText(files[i]);
@@ -55,12 +46,7 @@ namespace MvcTemplate.Rename
                     content = content.Replace(TemplateDbName, Project);
                     content = newLine.Replace(content, Environment.NewLine);
                     content = iisPort.Replace(content, "${1}" + port + "${3}");
-                    content = version.Replace(content, "  \"version\": \"0.1.0\"");
-                    content = authors.Replace(content, "  \"authors\": [ \"" + Company + "\" ]");
-                    content = company.Replace(content, "assembly: AssemblyCompany(\"" + Company + "\")]");
-                    content = fileVersion.Replace(content, "assembly: AssemblyFileVersion(\"0.1.0.0\")]");
-                    content = assemblyVersion.Replace(content, "assembly: AssemblyVersion(\"0.1.0.0\")]");
-                    content = copyright.Replace(content, "assembly: AssemblyCopyright(\"Copyright © " + Company + "\")]");
+                    content = version.Replace(content, "<Version>0.1.0</Version>");
 
                     File.WriteAllText(files[i], content, Encoding.UTF8);
                 }

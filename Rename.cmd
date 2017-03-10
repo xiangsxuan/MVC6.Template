@@ -1,6 +1,9 @@
 @echo off
+cd tools/MvcTemplate.Rename
 dotnet restore
-dotnet run -p tools/MvcTemplate.Rename
+cd ../..
+dotnet run -p tools/MvcTemplate.Rename/MvcTemplate.Rename.csproj
+
 if exist tools ( rmdir /s /q tools )
 if exist CONTRIBUTING.md ( del CONTRIBUTING.md )
 if exist LICENSE.txt ( del LICENSE.txt )

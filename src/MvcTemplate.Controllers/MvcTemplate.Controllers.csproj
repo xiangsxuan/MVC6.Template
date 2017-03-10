@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version>1.1.0</Version>
+    <TargetFramework>net46</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MvcTemplate\MvcTemplate.csproj" />
+    <ProjectReference Include="..\MvcTemplate.Services\MvcTemplate.Services.csproj" />
+    <ProjectReference Include="..\MvcTemplate.Validators\MvcTemplate.Validators.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="1.1.2" />
+  </ItemGroup>
+
+</Project>

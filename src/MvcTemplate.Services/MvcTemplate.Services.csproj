@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version>1.1.0</Version>
+    <TargetFramework>net46</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MvcTemplate.Data\MvcTemplate.Data.csproj" />
+    <ProjectReference Include="..\MvcTemplate.Components\MvcTemplate.Components.csproj" />
+  </ItemGroup>
+
+</Project>
