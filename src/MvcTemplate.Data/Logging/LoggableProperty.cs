@@ -32,8 +32,8 @@ namespace MvcTemplate.Data.Logging
             if (value == null)
                 return "null";
 
-            if (value is DateTime?)
-                return "\"" + ((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss") + "\"";
+            if (value is DateTime date)
+                return "\"" + date.ToString("yyyy-MM-dd HH:mm:ss") + "\"";
 
             return JsonConvert.ToString(value);
         }

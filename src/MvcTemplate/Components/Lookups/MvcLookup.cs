@@ -63,8 +63,7 @@ namespace MvcTemplate.Components.Lookups
 
         public override IQueryable<TView> FilterById(IQueryable<TView> models)
         {
-            Int32 id;
-            if (!Int32.TryParse(Filter.Id, out id))
+            if (!Int32.TryParse(Filter.Id, out Int32 id))
                 return Enumerable.Empty<TView>().AsQueryable();
 
             return UnitOfWork.Select<TModel>().To<TView>().Where(model => model.Id == id);

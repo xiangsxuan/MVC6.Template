@@ -61,11 +61,7 @@ namespace MvcTemplate.Components.Mvc
         {
             get
             {
-                Language language;
-                if (Dictionary.TryGetValue(abbreviation ?? "", out language))
-                    return language;
-
-                return Default;
+                return Dictionary.TryGetValue(abbreviation ?? "", out Language language) ? language : Default;
             }
         }
     }
