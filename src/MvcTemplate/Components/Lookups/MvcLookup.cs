@@ -60,13 +60,5 @@ namespace MvcTemplate.Components.Lookups
         {
             return UnitOfWork.Select<TModel>().To<TView>();
         }
-
-        public override IQueryable<TView> FilterById(IQueryable<TView> models)
-        {
-            if (!Int32.TryParse(Filter.Id, out Int32 id))
-                return Enumerable.Empty<TView>().AsQueryable();
-
-            return UnitOfWork.Select<TModel>().To<TView>().Where(model => model.Id == id);
-        }
     }
 }

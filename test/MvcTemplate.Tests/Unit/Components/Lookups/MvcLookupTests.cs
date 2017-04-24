@@ -138,38 +138,5 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         }
 
         #endregion
-
-        #region FilterById(IQueryable<TView> models)
-
-        [Fact]
-        public void FilterById_NotInteger_ReturnsEmpty()
-        {
-            lookup.Filter.Id = "A";
-
-            Assert.Empty(lookup.FilterById(null));
-        }
-
-        [Fact]
-        public void FilterById_FromCurrentFilter()
-        {
-            TestingContext context = new TestingContext();
-            Role role = ObjectFactory.CreateRole();
-            context.Set<Role>().Add(role);
-            context.SaveChanges();
-
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
-            lookup = new MvcLookup<Role, RoleView>(unitOfWork);
-
-            lookup.Filter.Id = role.Id.ToString();
-
-            RoleView expected = unitOfWork.Select<Role>().To<RoleView>().Single();
-            RoleView actual = lookup.FilterById(null).Single();
-
-            Assert.Equal(expected.CreationDate, actual.CreationDate);
-            Assert.Equal(expected.Title, actual.Title);
-            Assert.Equal(expected.Id, actual.Id);
-        }
-
-        #endregion
     }
 }

@@ -97,43 +97,39 @@
         $(this).focusout();
     });
 
-    $(document).on('change', '.mvc-lookup-hidden-input', function () {
+    $(document).on('change', '.mvc-lookup-value', function () {
         var validator = $(this).parents('form').validate();
 
         if (validator) {
-            var lookup = $(this).prevAll('[data-mvc-lookup-for="' + this.id + '"]');
+            var control = $(this).closest('.mvc-lookup').find('.mvc-lookup-control');
             if (validator.element('#' + this.id)) {
-                lookup.removeClass('input-validation-error');
+                control.removeClass('input-validation-error');
             } else {
-                lookup.addClass('input-validation-error');
+                control.addClass('input-validation-error');
             }
         }
     });
     $('form').on('invalid-form', function (form, validator) {
-        var lookups = $(this).find('.mvc-lookup-input');
-        for (var i = 0; i < lookups.length; i++) {
-            var lookup = $(lookups[i]);
-            var hiddenInputId = lookup.attr('data-mvc-lookup-for');
+        var values = $(this).find('.mvc-lookup-value');
+        for (var i = 0; i < values.length; i++) {
+            var control = $(values[i]).closest('.mvc-lookup').find('.mvc-lookup-control');
 
-            if (validator.invalid[hiddenInputId]) {
-                lookup.addClass('input-validation-error');
+            if (validator.invalid[values[i].id]) {
+                control.addClass('input-validation-error');
             } else {
-                lookup.removeClass('input-validation-error');
+                control.removeClass('input-validation-error');
             }
         }
     });
-    $(document).on('ready', function () {
-        var hiddenInputs = $('.mvc-lookup-hidden-input.input-validation-error');
-        for (var i = 0; i < hiddenInputs.length; i++) {
-            var hiddenInput = $(hiddenInputs[i]);
-            hiddenInput.prevAll('[data-mvc-lookup-for="' + hiddenInputs[i].id + '"]').addClass('input-validation-error');
-        }
-    });
+    var values = $('.mvc-lookup-value.input-validation-error');
+    for (var i = 0; i < values.length; i++) {
+        $(values[i]).closest('.mvc-lookup').find('.mvc-lookup-control').addClass('input-validation-error');
+    }
 
     var currentIgnore = $.validator.defaults.ignore;
     $.validator.setDefaults({
         ignore: function () {
-            return $(this).is(currentIgnore) && !$(this).hasClass('mvc-lookup-hidden-input');
+            return $(this).is(currentIgnore) && !$(this).hasClass('mvc-lookup-value');
         }
     });
 
@@ -234,6 +230,7 @@
 (function () {
     if ($.fn.mvclookup) {
         $.fn.mvclookup.lang = window.cultures.lookup[$('html').attr('lang')];
+        $('.mvc-lookup').mvclookup();
     }
 }());
 
