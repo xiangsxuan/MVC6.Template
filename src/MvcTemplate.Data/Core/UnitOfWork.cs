@@ -25,9 +25,9 @@ namespace MvcTemplate.Data.Core
         {
             return Context.Set<TModel>().Where(model => model.Id == id).ProjectTo<TDestination>().FirstOrDefault();
         }
-        public TModel Get<TModel>(Int32 id) where TModel : BaseModel
+        public TModel Get<TModel>(Int32? id) where TModel : BaseModel
         {
-            return Context.Set<TModel>().SingleOrDefault(model => model.Id == id);
+            return id == null ? null : Context.Set<TModel>().SingleOrDefault(model => model.Id == id);
         }
         public TDestination To<TDestination>(Object source)
         {

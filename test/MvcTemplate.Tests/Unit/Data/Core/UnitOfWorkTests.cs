@@ -55,7 +55,13 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
-        #region Get<TModel>(Int32 id)
+        #region Get<TModel>(Int32? id)
+
+        [Fact]
+        public void Get_Null_ReturnsNull()
+        {
+            Assert.Null(unitOfWork.Get<TestModel>(null));
+        }
 
         [Fact]
         public void Get_ModelById()

@@ -7,7 +7,7 @@ namespace MvcTemplate.Data.Core
     public interface IUnitOfWork : IDisposable
     {
         TDestination GetAs<TModel, TDestination>(Int32 id) where TModel : BaseModel;
-        TModel Get<TModel>(Int32 id) where TModel : BaseModel;
+        TModel Get<TModel>(Int32? id) where TModel : BaseModel;
         TDestination To<TDestination>(Object source);
 
         IQuery<TModel> Select<TModel>() where TModel : BaseModel;
