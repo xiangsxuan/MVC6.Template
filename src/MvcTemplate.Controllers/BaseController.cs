@@ -72,13 +72,16 @@ namespace MvcTemplate.Controllers
         }
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            AlertsContainer current = JsonConvert.DeserializeObject<AlertsContainer>(TempData["Alerts"] as String ?? "");
-            if (current == null)
-                current = Alerts;
-            else
-                current.Merge(Alerts);
+            if (!(context.Result is JsonResult))
+            {
+                AlertsContainer current = JsonConvert.DeserializeObject<AlertsContainer>(TempData["Alerts"] as String ?? "");
+                if (current == null)
+                    current = Alerts;
+                else
+                    current.Merge(Alerts);
 
-            TempData["Alerts"] = JsonConvert.SerializeObject(current);
+                TempData["Alerts"] = JsonConvert.SerializeObject(current);
+            }
         }
 
         public virtual Boolean IsAuthorizedFor(String action, String controller, String area)

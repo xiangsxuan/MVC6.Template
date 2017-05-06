@@ -8,7 +8,8 @@
       "wwwroot/Scripts/MvcGrid/**/*.js",
       "wwwroot/Scripts/Bootstrap/*.js",
       "wwwroot/Scripts/JsTree/*.js",
-      "wwwroot/Scripts/Shared/*.js"
+      "wwwroot/Scripts/Application/Shared/Widgets/**/*.js",
+      "wwwroot/Scripts/Application/**/*.js"
     ]
   },
   {
@@ -16,7 +17,8 @@
     "inputFiles": [
       "wwwroot/Scripts/JQuery/**/*.js",
       "wwwroot/Scripts/Bootstrap/*.js",
-      "wwwroot/Scripts/Shared/*.js"
+      "wwwroot/Scripts/Application/Shared/Widgets/**/*.js",
+      "wwwroot/Scripts/Application/**/*.js"
     ]
   },
   {

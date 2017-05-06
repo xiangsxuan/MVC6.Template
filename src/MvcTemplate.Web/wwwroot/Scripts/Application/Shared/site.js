@@ -1,41 +1,9 @@
-// Header dropdown closure
+// Header navigation binding
 (function () {
     $(document).on('mouseleave', '.header-navigation .dropdown', function () {
         $(this).removeClass('open');
     });
-}());
-
-// Alert closure
-(function () {
-    $('.alerts .alert').each(function () {
-        var alert = $(this);
-
-        if (alert.data('timeout')) {
-            setTimeout(function () {
-                alert.fadeTo(300, 0).slideUp(300, function () {
-                    $(this).remove();
-                });
-            }, alert.data('timeout'));
-        }
-    });
-
-    $(document).on('click', '.alert .close', function () {
-        $(this.parentNode).fadeTo(300, 0).slideUp(300, function () {
-            $(this).remove();
-        });
-    });
-}());
-
-// JQuery dialog overlay binding
-(function () {
-    window.addEventListener('mousedown', function (e) {
-        if ($(e.target || e.srcElement).hasClass('ui-widget-overlay')) {
-            $('.ui-dialog-content:visible').dialog('close');
-
-            e.stopImmediatePropagation();
-        }
-    }, true);
-}());
+})();
 
 // Globalized validation binding
 (function () {
@@ -138,7 +106,24 @@
     Globalize.cultures.en = null;
     Globalize.addCultureInfo(lang, window.cultures.globalize[lang]);
     Globalize.culture(lang);
-}());
+})();
+
+// Widgets binding
+(function () {
+    Alerts.init();
+    Menu.init();
+})();
+
+// JQuery UI binding
+(function () {
+    window.addEventListener('mousedown', function (e) {
+        if ($(e.target || e.srcElement).hasClass('ui-widget-overlay')) {
+            $('.ui-dialog-content:visible').dialog('close');
+
+            e.stopImmediatePropagation();
+        }
+    }, true);
+})();
 
 // Datepicker binding
 (function () {
@@ -161,7 +146,7 @@
         $.timepicker.setDefaults(window.cultures.timepicker[lang]);
         $(".datetimepicker").datetimepicker(options);
     }
-}());
+})();
 
 // JsTree binding
 (function () {
@@ -208,9 +193,9 @@
             }
         }
     });
-}());
+})();
 
-// Mvc.Grid binding
+// Grid binding
 (function () {
     if ($.fn.mvcgrid) {
         $('.mvc-grid').mvcgrid();
@@ -224,7 +209,7 @@
             }
         }
     }
-}());
+})();
 
 // Lookup binding
 (function () {
@@ -232,14 +217,14 @@
         $.fn.mvclookup.lang = window.cultures.lookup[$('html').attr('lang')];
         $('.mvc-lookup').mvclookup();
     }
-}());
+})();
 
 // Read only binding
 (function () {
     $(document).on('click', 'input:checkbox[readonly],input:radio[readonly]', function () {
         return false;
     });
-}());
+})();
 
 // Input focus binding
 (function () {
@@ -254,11 +239,11 @@
             input.val(input.val());
         }
     }
-}());
+})();
 
 // Bootstrap binding
 (function () {
     $('body').tooltip({
         selector: '[data-toggle=tooltip]'
     });
-}());
+})();
