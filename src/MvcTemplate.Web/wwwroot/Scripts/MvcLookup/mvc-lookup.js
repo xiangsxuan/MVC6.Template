@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Lookup 2.0.2
+ * Mvc.Lookup 2.1.0
  * https://github.com/NonFactors/MVC6.Lookup
  *
  * Copyright © NonFactors
@@ -102,33 +102,38 @@ var MvcLookupDialog = (function () {
         },
 
         open: function () {
-            this.loader.hide();
-            this.search.val(this.filter.search);
-            this.error.hide().html(this.lang('error'));
-            this.selected = this.lookup.selected.slice();
-            this.rows.val(this.limitRows(this.filter.rows));
-            this.search.attr('placeholder', this.lang('search'));
-            this.selector.parent().css('display', this.lookup.multi ? '' : 'none');
-            this.selector.text(this.lang('select').replace('{0}', this.lookup.selected.length));
+            var dialog = this;
+            dialog.loader.hide();
+            dialog.search.val(dialog.filter.search);
+            dialog.error.hide().html(dialog.lang('error'));
+            dialog.selected = dialog.lookup.selected.slice();
+            dialog.rows.val(dialog.limitRows(dialog.filter.rows));
+            dialog.search.attr('placeholder', dialog.lang('search'));
+            dialog.selector.parent().css('display', dialog.lookup.multi ? '' : 'none');
+            dialog.selector.text(dialog.lang('select').replace('{0}', dialog.lookup.selected.length));
 
-            this.bind();
-            this.refresh();
+            dialog.bind();
+            dialog.refresh();
 
-            setTimeout(function (instance) {
-                var dialog = instance.dialog('open').parent();
+            setTimeout(function () {
+                if (dialog.loading) {
+                    dialog.loader.show();
+                }
+
+                var instance = dialog.instance.dialog('open').parent();
                 var visibleLeft = $(document).scrollLeft();
                 var visibleTop = $(document).scrollTop();
 
-                if (parseInt(dialog.css('left')) < visibleLeft) {
-                    dialog.css('left', visibleLeft);
+                if (parseInt(instance.css('left')) < visibleLeft) {
+                    instance.css('left', visibleLeft);
                 }
-                if (parseInt(dialog.css('top')) > visibleTop + 100) {
-                    dialog.css('top', visibleTop + 100);
+                if (parseInt(instance.css('top')) > visibleTop + 100) {
+                    instance.css('top', visibleTop + 100);
                 }
-                else if (parseInt(dialog.css('top')) < visibleTop) {
-                    dialog.css('top', visibleTop);
+                else if (parseInt(instance.css('top')) < visibleTop) {
+                    instance.css('top', visibleTop);
                 }
-            }, 100, this.instance);
+            }, 100);
         },
         close: function () {
             this.instance.dialog('close');
@@ -136,19 +141,22 @@ var MvcLookupDialog = (function () {
 
         refresh: function () {
             var dialog = this;
+            dialog.loading = true;
             dialog.error.fadeOut(300);
             var loading = setTimeout(function () {
                 dialog.loader.fadeIn(300);
-            }, 300, dialog);
+            }, 300);
 
             $.ajax({
                 cache: false,
                 url: dialog.lookup.url + dialog.filter.getQuery() + dialog.selected.map(function (x) { return '&selected=' + x.LookupIdKey; }).join(''),
                 success: function (data) {
+                    dialog.loading = false;
                     clearTimeout(loading);
                     dialog.render(data);
                 },
                 error: function () {
+                    dialog.loading = false;
                     clearTimeout(loading);
                     dialog.render();
                 }
@@ -459,7 +467,11 @@ var MvcLookup = (function () {
                         lookup.stopLoading();
                     },
                     select: function (e, selection) {
-                        lookup.select(lookup.selected.concat(selection.item.data), true);
+                        if (lookup.multi) {
+                            lookup.select(lookup.selected.concat(selection.item.data), true);
+                        } else {
+                            lookup.select([selection.item.data], true);
+                        }
 
                         e.preventDefault();
                     },
@@ -515,10 +527,6 @@ var MvcLookup = (function () {
             }
         },
         select: function (data, triggerChanges) {
-            if (this.readonly) {
-                return;
-            }
-
             if (this.events.select) {
                 var e = $.Event('select.mvclookup');
                 this.events.select.apply(this, [e, data, triggerChanges]);
