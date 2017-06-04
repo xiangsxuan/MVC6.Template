@@ -14,16 +14,16 @@ namespace MvcTemplate.Components.Mvc
         private IEnumerable<MvcSiteMapNode> GetNodes(XElement siteMap, MvcSiteMapNode parent)
         {
             List<MvcSiteMapNode> nodes = new List<MvcSiteMapNode>();
-            foreach (XElement siteMapNode in siteMap.Elements("siteMapNode"))
+            foreach (XElement element in siteMap.Elements("siteMapNode"))
             {
                 MvcSiteMapNode node = new MvcSiteMapNode();
 
-                node.IsMenu = (Boolean?)siteMapNode.Attribute("menu") == true;
-                node.Controller = (String)siteMapNode.Attribute("controller");
-                node.IconClass = (String)siteMapNode.Attribute("icon");
-                node.Action = (String)siteMapNode.Attribute("action");
-                node.Area = (String)siteMapNode.Attribute("area");
-                node.Children = GetNodes(siteMapNode, node);
+                node.IsMenu = (Boolean?)element.Attribute("menu") == true;
+                node.Controller = (String)element.Attribute("controller");
+                node.IconClass = (String)element.Attribute("icon");
+                node.Action = (String)element.Attribute("action");
+                node.Area = (String)element.Attribute("area");
+                node.Children = GetNodes(element, node);
                 node.Parent = parent;
 
                 nodes.Add(node);

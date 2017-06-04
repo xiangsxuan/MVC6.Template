@@ -11,7 +11,7 @@ namespace MvcTemplate.Tests.Data
     {
         #region Tests
 
-        protected DbSet<TestModel> TestModel { get; set; } 
+        protected DbSet<TestModel> TestModel { get; set; }
 
         #endregion
 

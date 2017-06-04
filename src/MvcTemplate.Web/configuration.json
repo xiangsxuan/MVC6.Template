@@ -8,7 +8,7 @@
   },
 
   "Logger": {
-    "Path": "Logs",
+    "Directory": "Logs",
     "BackupSize": 5242880
   },
 

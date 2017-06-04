@@ -122,16 +122,15 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         public void InsertRange_AddsModelsToDbSet()
         {
             IEnumerable<TestModel> models = new[] { ObjectFactory.CreateTestModel(1), ObjectFactory.CreateTestModel(2) };
+            TestingContext testingContext = Substitute.For<TestingContext>();
+            testingContext.When(sub => sub.AddRange(models)).DoNotCallBase();
+
+            unitOfWork.Dispose();
+
+            unitOfWork = new UnitOfWork(testingContext);
             unitOfWork.InsertRange(models);
 
-            IEnumerator<TestModel> actual = context.ChangeTracker.Entries<TestModel>().Select(entry => entry.Entity).GetEnumerator();
-            IEnumerator<TestModel> expected = models.GetEnumerator();
-
-            while (expected.MoveNext() | actual.MoveNext())
-            {
-                Assert.Equal(EntityState.Added, context.Entry(actual.Current).State);
-                Assert.Same(expected.Current, actual.Current);
-            }
+            testingContext.Received().AddRange(models);
         }
 
         #endregion

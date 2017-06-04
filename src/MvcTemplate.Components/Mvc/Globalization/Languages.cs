@@ -57,12 +57,6 @@ namespace MvcTemplate.Components.Mvc
             Default = Supported.Single(language => language.IsDefault);
         }
 
-        public Language this[String abbreviation]
-        {
-            get
-            {
-                return Dictionary.TryGetValue(abbreviation ?? "", out Language language) ? language : Default;
-            }
-        }
+        public Language this[String abbreviation] => Dictionary.TryGetValue(abbreviation ?? "", out Language language) ? language : Default;
     }
 }

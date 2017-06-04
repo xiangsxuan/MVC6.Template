@@ -48,14 +48,14 @@ namespace MvcTemplate.Tests.Unit.Services
 
             service.SeedPermissions(view);
 
-            IEnumerator<JsTreeNode> expected = CreatePermissions().Nodes.GetEnumerator();
-            IEnumerator<JsTreeNode> actual = view.Permissions.Nodes.GetEnumerator();
+            List<JsTreeNode> expected = CreatePermissions().Nodes;
+            List<JsTreeNode> actual = view.Permissions.Nodes;
 
-            while (expected.MoveNext() | actual.MoveNext())
+            for (Int32 i = 0; i < expected.Count || i < actual.Count; i++)
             {
-                Assert.Equal(expected.Current.Id, actual.Current.Id);
-                Assert.Equal(expected.Current.Title, actual.Current.Title);
-                Assert.Equal(expected.Current.Nodes.Count, actual.Current.Nodes.Count);
+                Assert.Equal(expected[i].Id, actual[i].Id);
+                Assert.Equal(expected[i].Title, actual[i].Title);
+                Assert.Equal(expected[i].Nodes.Count, actual[i].Nodes.Count);
             }
         }
 
@@ -66,14 +66,14 @@ namespace MvcTemplate.Tests.Unit.Services
 
             service.SeedPermissions(view);
 
-            IEnumerator<JsTreeNode> expected = CreatePermissions().Nodes.SelectMany(node => node.Nodes).GetEnumerator();
-            IEnumerator<JsTreeNode> actual = view.Permissions.Nodes.SelectMany(node => node.Nodes).GetEnumerator();
+            List<JsTreeNode> expected = CreatePermissions().Nodes.SelectMany(node => node.Nodes).ToList();
+            List<JsTreeNode> actual = view.Permissions.Nodes.SelectMany(node => node.Nodes).ToList();
 
-            while (expected.MoveNext() | actual.MoveNext())
+            for (Int32 i = 0; i < expected.Count || i < actual.Count; i++)
             {
-                Assert.Equal(expected.Current.Id, actual.Current.Id);
-                Assert.Equal(expected.Current.Title, actual.Current.Title);
-                Assert.Equal(expected.Current.Nodes.Count, actual.Current.Nodes.Count);
+                Assert.Equal(expected[i].Id, actual[i].Id);
+                Assert.Equal(expected[i].Title, actual[i].Title);
+                Assert.Equal(expected[i].Nodes.Count, actual[i].Nodes.Count);
             }
         }
 
@@ -84,14 +84,14 @@ namespace MvcTemplate.Tests.Unit.Services
 
             service.SeedPermissions(view);
 
-            IEnumerator<JsTreeNode> expected = CreatePermissions().Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
-            IEnumerator<JsTreeNode> actual = view.Permissions.Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
+            List<JsTreeNode> expected = CreatePermissions().Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).ToList();
+            List<JsTreeNode> actual = view.Permissions.Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).ToList();
 
-            while (expected.MoveNext() | actual.MoveNext())
+            for (Int32 i = 0; i < expected.Count || i < actual.Count; i++)
             {
-                Assert.Equal(expected.Current.Id, actual.Current.Id);
-                Assert.Equal(expected.Current.Title, actual.Current.Title);
-                Assert.Equal(expected.Current.Nodes.Count, actual.Current.Nodes.Count);
+                Assert.Equal(expected[i].Id, actual[i].Id);
+                Assert.Equal(expected[i].Title, actual[i].Title);
+                Assert.Equal(expected[i].Nodes.Count, actual[i].Nodes.Count);
             }
         }
 
@@ -103,7 +103,7 @@ namespace MvcTemplate.Tests.Unit.Services
             service.SeedPermissions(view);
 
             IEnumerable<JsTreeNode> nodes = view.Permissions.Nodes;
-            IEnumerable<JsTreeNode> branches = GetAllBranchNodes(nodes);
+            IEnumerable<JsTreeNode> branches = GetBranchNodes(nodes);
 
             Assert.Empty(branches.Where(branch => branch.Id != null));
         }
@@ -116,7 +116,7 @@ namespace MvcTemplate.Tests.Unit.Services
             service.SeedPermissions(view);
 
             IEnumerable<JsTreeNode> nodes = view.Permissions.Nodes;
-            IEnumerable<JsTreeNode> leafs = GetAllLeafNodes(nodes);
+            IEnumerable<JsTreeNode> leafs = GetLeafNodes(nodes);
 
             Assert.Empty(leafs.Where(leaf => leaf.Id == null));
         }
@@ -128,19 +128,19 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void GetViews_ReturnsRoleViews()
         {
-            IEnumerator<RoleView> actual = service.GetViews().GetEnumerator();
-            IEnumerator<RoleView> expected = context
+            RoleView[] actual = service.GetViews().ToArray();
+            RoleView[] expected = context
                 .Set<Role>()
                 .ProjectTo<RoleView>()
                 .OrderByDescending(view => view.Id)
-                .GetEnumerator();
+                .ToArray();
 
-            while (expected.MoveNext() | actual.MoveNext())
+            for (Int32 i = 0; i < expected.Length || i < actual.Length; i++)
             {
-                Assert.Equal(expected.Current.Permissions.SelectedIds, actual.Current.Permissions.SelectedIds);
-                Assert.Equal(expected.Current.CreationDate, actual.Current.CreationDate);
-                Assert.Equal(expected.Current.Title, actual.Current.Title);
-                Assert.Equal(expected.Current.Id, actual.Current.Id);
+                Assert.Equal(expected[i].Permissions.SelectedIds, actual[i].Permissions.SelectedIds);
+                Assert.Equal(expected[i].CreationDate, actual[i].CreationDate);
+                Assert.Equal(expected[i].Title, actual[i].Title);
+                Assert.Equal(expected[i].Id, actual[i].Id);
             }
         }
 
@@ -385,19 +385,19 @@ namespace MvcTemplate.Tests.Unit.Services
             return expectedTree;
         }
 
-        private IEnumerable<JsTreeNode> GetAllLeafNodes(IEnumerable<JsTreeNode> nodes)
+        private IEnumerable<JsTreeNode> GetLeafNodes(IEnumerable<JsTreeNode> nodes)
         {
             List<JsTreeNode> leafs = nodes.Where(node => node.Nodes.Count == 0).ToList();
             foreach (JsTreeNode branch in nodes.Where(node => node.Nodes.Count > 0))
-                leafs.AddRange(GetAllLeafNodes(branch.Nodes));
+                leafs.AddRange(GetLeafNodes(branch.Nodes));
 
             return leafs;
         }
-        private IEnumerable<JsTreeNode> GetAllBranchNodes(IEnumerable<JsTreeNode> nodes)
+        private IEnumerable<JsTreeNode> GetBranchNodes(IEnumerable<JsTreeNode> nodes)
         {
             List<JsTreeNode> branches = nodes.Where(node => node.Nodes.Count > 0).ToList();
             foreach (JsTreeNode branch in branches.ToArray())
-                branches.AddRange(GetAllBranchNodes(branch.Nodes));
+                branches.AddRange(GetBranchNodes(branch.Nodes));
 
             return branches;
         }

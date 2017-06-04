@@ -13,7 +13,7 @@ namespace MvcTemplate.Data.Core
     public class UnitOfWork : IUnitOfWork
     {
         private IAuditLogger Logger { get; }
-        private DbContext Context { get; set; }
+        private DbContext Context { get; }
 
         public UnitOfWork(DbContext context, IAuditLogger logger = null)
         {

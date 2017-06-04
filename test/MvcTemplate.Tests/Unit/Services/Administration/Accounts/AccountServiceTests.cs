@@ -9,7 +9,6 @@ using MvcTemplate.Services;
 using MvcTemplate.Tests.Data;
 using NSubstitute;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -67,21 +66,21 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void GetViews_ReturnsAccountViews()
         {
-            IEnumerator<AccountView> actual = service.GetViews().GetEnumerator();
-            IEnumerator<AccountView> expected = context
+            AccountView[] actual = service.GetViews().ToArray();
+            AccountView[] expected = context
                 .Set<Account>()
                 .ProjectTo<AccountView>()
                 .OrderByDescending(view => view.Id)
-                .GetEnumerator();
+                .ToArray();
 
-            while (expected.MoveNext() | actual.MoveNext())
+            for (Int32 i = 0; i < expected.Length || i < actual.Length; i++)
             {
-                Assert.Equal(expected.Current.CreationDate, actual.Current.CreationDate);
-                Assert.Equal(expected.Current.RoleTitle, actual.Current.RoleTitle);
-                Assert.Equal(expected.Current.IsLocked, actual.Current.IsLocked);
-                Assert.Equal(expected.Current.Username, actual.Current.Username);
-                Assert.Equal(expected.Current.Email, actual.Current.Email);
-                Assert.Equal(expected.Current.Id, actual.Current.Id);
+                Assert.Equal(expected[i].CreationDate, actual[i].CreationDate);
+                Assert.Equal(expected[i].RoleTitle, actual[i].RoleTitle);
+                Assert.Equal(expected[i].IsLocked, actual[i].IsLocked);
+                Assert.Equal(expected[i].Username, actual[i].Username);
+                Assert.Equal(expected[i].Email, actual[i].Email);
+                Assert.Equal(expected[i].Id, actual[i].Id);
             }
         }
 

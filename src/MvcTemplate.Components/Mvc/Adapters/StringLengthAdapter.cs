@@ -15,10 +15,7 @@ namespace MvcTemplate.Components.Mvc
 
         public override String GetErrorMessage(ModelValidationContextBase context)
         {
-            if (Attribute.MinimumLength == 0)
-                Attribute.ErrorMessage = Validations.StringLength;
-            else
-                Attribute.ErrorMessage = Validations.StringLengthRange;
+            Attribute.ErrorMessage = Attribute.MinimumLength == 0 ? Validations.StringLength : Validations.StringLengthRange;
 
             return GetErrorMessage(context.ModelMetadata);
         }

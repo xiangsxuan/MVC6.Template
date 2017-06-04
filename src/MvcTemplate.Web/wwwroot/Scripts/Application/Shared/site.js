@@ -32,17 +32,17 @@
     $.validator.addMethod('greater', function (value, element, param) {
         return this.optional(element) || Globalize.parseFloat(value) > parseFloat(param);
     });
-    $.validator.unobtrusive.adapters.add("greater", ["min"], function (options) {
-        options.rules["greater"] = options.params.min;
+    $.validator.unobtrusive.adapters.add('greater', ['min'], function (options) {
+        options.rules['greater'] = options.params.min;
         if (options.message) {
-            options.messages["greater"] = options.message;
+            options.messages['greater'] = options.message;
         }
     });
 
     $.validator.addMethod('integer', function (value, element) {
         return this.optional(element) || /^[+-]?\d+$/.test(value);
     });
-    $.validator.unobtrusive.adapters.addBool("integer");
+    $.validator.unobtrusive.adapters.addBool('integer');
 
     $.validator.addMethod('filesize', function (value, element, param) {
         if (this.optional(element) || !element.files)
@@ -55,10 +55,10 @@
 
         return bytes <= parseFloat(param);
     });
-    $.validator.unobtrusive.adapters.add("filesize", ["max"], function (options) {
-        options.rules["filesize"] = options.params.max;
+    $.validator.unobtrusive.adapters.add('filesize', ['max'], function (options) {
+        options.rules['filesize'] = options.params.max;
         if (options.message) {
-            options.messages["filesize"] = options.message;
+            options.messages['filesize'] = options.message;
         }
     });
     $(document).on('change', '[type="file"]', function () {
@@ -139,12 +139,12 @@
 
     if ($.fn.datepicker) {
         $.datepicker.setDefaults(window.cultures.datepicker[lang]);
-        $(".datepicker").datepicker(options);
+        $('.datepicker').datepicker(options);
     }
 
     if ($.fn.timepicker) {
         $.timepicker.setDefaults(window.cultures.timepicker[lang]);
-        $(".datetimepicker").datetimepicker(options);
+        $('.datetimepicker').datetimepicker(options);
     }
 })();
 

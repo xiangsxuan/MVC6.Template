@@ -27,7 +27,7 @@ namespace MvcTemplate.Components.Logging
 
         public void Log(String message)
         {
-            String logDirectory = Path.Combine(Config["Application:Path"], Config["Logger:Path"]);
+            String logDirectory = Path.Combine(Config["Application:Path"], Config["Logger:Directory"]);
             Int64 backupSize = Int64.Parse(Config["Logger:BackupSize"]);
             String logPath = Path.Combine(logDirectory, "Log.txt");
 
@@ -43,7 +43,7 @@ namespace MvcTemplate.Components.Logging
                 File.AppendAllText(logPath, log.ToString());
 
                 if (new FileInfo(logPath).Length >= backupSize)
-                    File.Move(logPath, Path.Combine(logDirectory, $"Log {DateTime.Now.ToString("yyyy-MM-dd HHmmss")}.txt"));
+                    File.Move(logPath, Path.Combine(logDirectory, $"Log {DateTime.Now:yyyy-MM-dd HHmmss}.txt"));
             }
         }
         public void Log(Exception exception)

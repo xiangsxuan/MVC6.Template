@@ -85,17 +85,17 @@ namespace MvcTemplate.Data.Migrations
                 UnitOfWork.Commit();
             }
 
-            Int32 adminRoleId = UnitOfWork.Select<Role>().Single(role => role.Title == "Sys_Admin").Id;
+            Int32 admin = UnitOfWork.Select<Role>().Single(role => role.Title == "Sys_Admin").Id;
             RolePermission[] currentPermissions = UnitOfWork
                 .Select<RolePermission>()
-                .Where(rolePermission => rolePermission.RoleId == adminRoleId)
+                .Where(rolePermission => rolePermission.RoleId == admin)
                 .ToArray();
 
             foreach (Permission permission in UnitOfWork.Select<Permission>())
                 if (currentPermissions.All(rolePermission => rolePermission.PermissionId != permission.Id))
                     UnitOfWork.Insert(new RolePermission
                     {
-                        RoleId = adminRoleId,
+                        RoleId = admin,
                         PermissionId = permission.Id
                     });
 

@@ -7,7 +7,6 @@ using MvcTemplate.Objects;
 using MvcTemplate.Services;
 using MvcTemplate.Tests.Data;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -61,18 +60,18 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void GetViews_Returns@(Model.ModelShortName)Views()
         {
-            IEnumerator<@Model.View> actual = service.GetViews().GetEnumerator();
-            IEnumerator<@Model.View> expected = context
+            @(Model.View)[] actual = service.GetViews().ToArray();
+            @(Model.View)[] expected = context
                 .Set<@Model.Model>()
                 .ProjectTo<@Model.View>()
                 .OrderByDescending(view => view.CreationDate)
-                .GetEnumerator();
+                .ToArray();
 
-            while (expected.MoveNext() | actual.MoveNext())
+            for (Int32 i = 0; i < expected.Length || i < actual.Length; i++)
             {
                 @foreach (PropertyInfo property in Model.AllProperties.OrderByDescending(prop => prop.Name.Length).ThenBy(prop => prop.Name))
                 {
-                @:Assert.Equal(expected.Current.@property.Name, actual.Current.@property.Name);
+                @:Assert.Equal(expected[i].@property.Name, actual[i].@property.Name);
                 }
             }
             @if (Model.Properties.Length == 0)

@@ -227,12 +227,12 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanEdit_Account_UsedUsername_ReturnsFalse()
         {
-            Account takenAccount = ObjectFactory.CreateAccount(1);
-            context.Set<Account>().Add(takenAccount);
+            Account usedAccount = ObjectFactory.CreateAccount(1);
+            context.Set<Account>().Add(usedAccount);
             context.SaveChanges();
 
             AccountEditView view = ObjectFactory.CreateAccountEditView(account.Id);
-            view.Username = takenAccount.Username.ToLower();
+            view.Username = usedAccount.Username.ToLower();
 
             Boolean canEdit = validator.CanEdit(view);
 
@@ -253,12 +253,12 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanEdit_Account_UsedEmail_ReturnsFalse()
         {
-            Account usedEmailAccount = ObjectFactory.CreateAccount(1);
-            context.Set<Account>().Add(usedEmailAccount);
+            Account usedAccount = ObjectFactory.CreateAccount(1);
+            context.Set<Account>().Add(usedAccount);
             context.SaveChanges();
 
             AccountEditView view = ObjectFactory.CreateAccountEditView(account.Id);
-            view.Email = usedEmailAccount.Email;
+            view.Email = usedAccount.Email;
 
             Boolean canEdit = validator.CanEdit(view);
 
@@ -310,12 +310,12 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanEdit_Profile_UsedUsername_ReturnsFalse()
         {
-            Account takenAccount = ObjectFactory.CreateAccount(1);
-            context.Add(takenAccount);
+            Account usedAccount = ObjectFactory.CreateAccount(1);
+            context.Add(usedAccount);
             context.SaveChanges();
 
             ProfileEditView view = ObjectFactory.CreateProfileEditView();
-            view.Username = takenAccount.Username.ToLower();
+            view.Username = usedAccount.Username.ToLower();
 
             Boolean canEdit = validator.CanEdit(view);
 
@@ -336,12 +336,12 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanEdit_Profile_UsedEmail_ReturnsFalse()
         {
-            Account usedEmailAccount = ObjectFactory.CreateAccount(1);
-            context.Add(usedEmailAccount);
+            Account usedAccount = ObjectFactory.CreateAccount(1);
+            context.Add(usedAccount);
             context.SaveChanges();
 
             ProfileEditView view = ObjectFactory.CreateProfileEditView();
-            view.Email = usedEmailAccount.Email;
+            view.Email = usedAccount.Email;
 
             Boolean canEdit = validator.CanEdit(view);
 

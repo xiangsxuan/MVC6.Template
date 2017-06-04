@@ -89,10 +89,7 @@ namespace MvcTemplate.Tests.Unit.Resources
                 IEnumerable<String> keys = new String[0];
 
                 foreach (ResourceSet set in languages.Select(language => manager.GetResourceSet(language, true, true)))
-                {
                     keys = keys.Union(set.Cast<DictionaryEntry>().Select(resource => resource.Key.ToString()));
-                    keys = keys.Distinct();
-                }
 
                 foreach (CultureInfo language in languages)
                 {

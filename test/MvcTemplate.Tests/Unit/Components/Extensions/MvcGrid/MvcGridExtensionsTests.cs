@@ -57,7 +57,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
             String actual = writer.ToString();
             String expected =
-                $"<a class=\"details-action\" href=\"/test\">" +
+                "<a class=\"details-action\" href=\"/test\">" +
                     "<i class=\"fa fa-info\"></i>" +
                 "</a>";
 
@@ -80,7 +80,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
             String actual = writer.ToString();
             String expected =
-                $"<a class=\"details-action\" href=\"/test\">" +
+                "<a class=\"details-action\" href=\"/test\">" +
                     "<i class=\"fa fa-info\"></i>" +
                 "</a>";
 

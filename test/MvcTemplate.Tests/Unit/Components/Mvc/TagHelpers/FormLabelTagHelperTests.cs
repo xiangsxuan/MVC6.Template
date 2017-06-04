@@ -24,7 +24,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             helper = new FormLabelTagHelper(options);
             metadata.DisplayName.Returns("Title");
 
-            TagHelperAttribute[] attributes = new[] { new TagHelperAttribute("for", "Test") };
+            TagHelperAttribute[] attributes = { new TagHelperAttribute("for", "Test") };
             output = new TagHelperOutput("label", new TagHelperAttributeList(attributes), (useCache, encoder) => null);
             helper.For = new ModelExpression("Total.Sum", new ModelExplorer(new EmptyModelMetadataProvider(), metadata, null));
         }

@@ -10,19 +10,19 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
     public class LoggerTests
     {
         private IConfiguration config;
+        private String logDirectory;
         private Int32 backupSize;
-        private String logPath;
         private String log;
 
         public LoggerTests()
         {
             config = ConfigurationFactory.Create();
             backupSize = Int32.Parse(config["Logger:BackupSize"]);
-            logPath = Path.Combine(config["Application:Path"], config["Logger:Path"]);
-            log = Path.Combine(config["Application:Path"], config["Logger:Path"], "Log.txt");
+            logDirectory = Path.Combine(config["Application:Path"], config["Logger:Directory"]);
+            log = Path.Combine(config["Application:Path"], config["Logger:Directory"], "Log.txt");
 
-            if (Directory.Exists(logPath))
-                Directory.Delete(logPath, true);
+            if (Directory.Exists(logDirectory))
+                Directory.Delete(logDirectory, true);
         }
 
         #region Log(String message)
@@ -49,7 +49,7 @@ namespace MvcTemplate.Tests.Unit.Components.Logging
             logger.Log(new String('T', backupSize));
 
             String expected = "Account: 2" + Environment.NewLine + "Message: " + new String('T', backupSize) + Environment.NewLine + Environment.NewLine;
-            String actual = File.ReadAllText(Path.Combine(logPath, $"Log {DateTime.Now.ToString("yyyy-MM-dd HHmmss")}.txt"));
+            String actual = File.ReadAllText(Path.Combine(logDirectory, $"Log {DateTime.Now:yyyy-MM-dd HHmmss}.txt"));
 
             Assert.True(actual.StartsWith("Time   :"));
             Assert.True(actual.EndsWith(expected));
