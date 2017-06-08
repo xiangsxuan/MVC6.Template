@@ -9,11 +9,6 @@
         @{ ILanguages languages = Context.RequestServices.GetService<ILanguages>(); }
         @if (languages.Supported.Length > 1)
         {
-            String query = ViewContext.HttpContext.Request.QueryString.ToString();
-            String action = ViewContext.RouteData.Values["action"] as String;
-            String area = ViewContext.RouteData.Values["area"] as String;
-            String id = ViewContext.RouteData.Values["id"] as String;
-
             <li class="btn dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle" aria-expanded="true">
                     <i class="fa fa-globe"></i>
@@ -24,7 +19,7 @@
                     @foreach (Language language in languages.Supported)
                     {
                         <li>
-                            <a href="@(Url.Action(action, new { language = language.IsDefault ? "" : language.Abbreviation, area = area, id = id }) + query)">
+                            <a href="@Url.Action("Index", "Home", new { area = "", language = language.IsDefault ? "" : language.Abbreviation })">
                                 <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" width="16" height="11" alt="">
                                 @language.Name
                             </a>
