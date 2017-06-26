@@ -30,7 +30,45 @@
     </environment>
 </head>
 <body class="private">
-    @Html.Partial("_Header")
+    <div class="header">
+        <ul class="header-navigation btn-group">
+            <li class="btn">
+                <a asp-route-area="" asp-controller="Profile" asp-action="Edit">
+                    <i class="fa fa-user"></i>
+                    <span class="text">@Actions.Profile</span>
+                </a>
+            </li>
+            @{ ILanguages languages = Context.RequestServices.GetService<ILanguages>(); }
+            @if (languages.Supported.Length > 1)
+            {
+                <li class="btn dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" aria-expanded="true">
+                        <i class="fa fa-globe"></i>
+                        <span class="text">@Actions.Language</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul role="menu" class="dropdown-menu">
+                        @foreach (Language language in languages.Supported)
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", "Home", new { area = "", language = language.IsDefault ? "" : language.Abbreviation })">
+                                    <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" width="16" height="11" alt="">
+                                    @language.Name
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            <li class="btn">
+                <a asp-route-area="" asp-controller="Auth" asp-action="Logout">
+                    <i class="fa fa-share"></i>
+                    <span class="text">@Actions.Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
     @Html.Partial("MvcLookup/_Dialog")
     <div class="menu">
         <div class="menu-search">
@@ -42,7 +80,28 @@
     <div class="content-container">
         <div class="separator"></div>
 
-        @Html.Partial("_Breadcrumb")
+        <div class="content-breadcrumb">
+            @{ MvcSiteMapNode[] breadcrumb = Context.RequestServices.GetRequiredService<IMvcSiteMapProvider>().GetBreadcrumb(ViewContext).ToArray(); }
+            @for (Int32 i = 0; i < breadcrumb.Length; i++)
+            {
+                MvcSiteMapNode node = breadcrumb[i];
+                if (i == breadcrumb.Length - 1)
+                {
+                    <a class="current">
+                        <i class="@node.IconClass"></i>
+                        <span class="text">@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
+                    </a>
+                }
+                else if (node.Action != null)
+                {
+                    <a asp-route-area="@node.Area" asp-controller="@node.Controller" asp-action="@node.Action">
+                        <i class="@node.IconClass"></i>
+                        <span class="text">@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
+                    </a>
+                    <span class="fa fa-angle-right"></span>
+                }
+            }
+        </div>
 
         <div class="separator"></div>
 
