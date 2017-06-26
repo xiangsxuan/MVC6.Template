@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -52,6 +53,7 @@ namespace MvcTemplate.Web
             RegisterMvc(services);
             RegisterServices(services);
             RegisterLowercaseUrls(services);
+            RegisterSecureResponse(services);
         }
 
         public void RegisterMvc(IServiceCollection services)
@@ -101,6 +103,15 @@ namespace MvcTemplate.Web
         {
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         }
+        public void RegisterSecureResponse(IServiceCollection services)
+        {
+            services.Configure<SessionOptions>(session => session.CookieName = ".Web-Session");
+            services.Configure<AntiforgeryOptions>(antiforgery =>
+            {
+                antiforgery.CookieName = ".Web-Token";
+                antiforgery.FormFieldName = "_Token_";
+            });
+        }
 
         public void RegisterServices(IApplicationBuilder app)
         {
@@ -115,9 +126,9 @@ namespace MvcTemplate.Web
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 Events = new AuthenticationEvents(),
-                CookieName = ".WebAuthentication",
                 AuthenticationScheme = "Cookies",
-                AutomaticChallenge = true
+                AutomaticChallenge = true,
+                CookieName = ".Web-Auth"
             });
 
             app.UseStaticFiles(new StaticFileOptions
