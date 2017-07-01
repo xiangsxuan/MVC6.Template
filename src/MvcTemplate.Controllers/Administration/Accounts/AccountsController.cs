@@ -28,7 +28,6 @@ namespace MvcTemplate.Controllers.Administration
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([BindExcludeId] AccountCreateView account)
         {
             if (!Validator.CanCreate(account))
@@ -52,7 +51,6 @@ namespace MvcTemplate.Controllers.Administration
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(AccountEditView account)
         {
             if (!Validator.CanEdit(account))

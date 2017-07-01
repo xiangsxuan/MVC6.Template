@@ -31,7 +31,6 @@ namespace MvcTemplate.Controllers.Administration
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([BindExcludeId] RoleView role)
         {
             if (!Validator.CanCreate(role))
@@ -59,7 +58,6 @@ namespace MvcTemplate.Controllers.Administration
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(RoleView role)
         {
             if (!Validator.CanEdit(role))
@@ -82,7 +80,6 @@ namespace MvcTemplate.Controllers.Administration
 
         [HttpPost]
         [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public RedirectToActionResult DeleteConfirmed(Int32 id)
         {
             Service.Delete(id);

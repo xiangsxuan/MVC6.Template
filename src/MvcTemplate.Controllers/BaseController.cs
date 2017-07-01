@@ -13,6 +13,7 @@ using System.Collections.Generic;
 namespace MvcTemplate.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public abstract class BaseController : Controller
     {
         public IAuthorizationProvider Authorization { get; protected set; }

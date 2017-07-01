@@ -31,7 +31,6 @@ namespace MvcTemplate.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Recover(AccountRecoveryView account)
         {
             if (Service.IsLoggedIn(User))
@@ -69,7 +68,6 @@ namespace MvcTemplate.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Reset(AccountResetView account)
         {
             if (Service.IsLoggedIn(User))
@@ -95,7 +93,6 @@ namespace MvcTemplate.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Login(AccountLoginView account, String returnUrl)
         {
             if (Service.IsLoggedIn(User))

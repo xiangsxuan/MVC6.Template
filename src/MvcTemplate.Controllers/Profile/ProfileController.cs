@@ -26,7 +26,6 @@ namespace MvcTemplate.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([BindExcludeId] ProfileEditView profile)
         {
             if (!Service.IsActive(CurrentAccountId))
@@ -55,7 +54,6 @@ namespace MvcTemplate.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed([BindExcludeId] ProfileDeleteView profile)
         {
             if (!Service.IsActive(CurrentAccountId))
