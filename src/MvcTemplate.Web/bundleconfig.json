@@ -2,7 +2,9 @@
   {
     "outputFileName": "wwwroot/Scripts/Private/bundle.min.js",
     "inputFiles": [
+      "wwwroot/Scripts/JQuery/jquery.js",
       "wwwroot/Scripts/JQuery/**/*.js",
+      "wwwroot/Scripts/JQueryUI/jquery-ui.js",
       "wwwroot/Scripts/JQueryUI/**/*.js",
       "wwwroot/Scripts/MvcLookup/**/*.js",
       "wwwroot/Scripts/MvcGrid/**/*.js",
@@ -15,6 +17,7 @@
   {
     "outputFileName": "wwwroot/Scripts/Public/bundle.min.js",
     "inputFiles": [
+      "wwwroot/Scripts/JQuery/jquery.js",
       "wwwroot/Scripts/JQuery/**/*.js",
       "wwwroot/Scripts/Bootstrap/*.js",
       "wwwroot/Scripts/Application/Shared/Widgets/**/*.js",
