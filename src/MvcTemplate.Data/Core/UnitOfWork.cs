@@ -27,7 +27,7 @@ namespace MvcTemplate.Data.Core
         }
         public TModel Get<TModel>(Int32? id) where TModel : BaseModel
         {
-            return id == null ? null : Context.Set<TModel>().SingleOrDefault(model => model.Id == id);
+            return Context.Set<TModel>().Find(id);
         }
         public TDestination To<TDestination>(Object source)
         {
