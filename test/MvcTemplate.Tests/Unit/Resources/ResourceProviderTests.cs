@@ -4,6 +4,7 @@ using MvcTemplate.Resources.Shared;
 using MvcTemplate.Tests.Objects;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Resources
@@ -176,13 +177,13 @@ namespace MvcTemplate.Tests.Unit.Resources
         #region GetPropertyTitle<TModel, TProperty>(Expression<Func<TModel, TProperty>> property)
 
         [Fact]
-        public void GetPropertyTitle_NotMemberExpression_ReturnNull()
+        public void GetPropertyTitle_NotMemberLambdaExpression_ReturnNull()
         {
             Assert.Null(ResourceProvider.GetPropertyTitle<TestView, String>(view => view.ToString()));
         }
 
         [Fact]
-        public void GetPropertyTitle_FromExpression()
+        public void GetPropertyTitle_FromLambdaExpression()
         {
             String actual = ResourceProvider.GetPropertyTitle<AccountView, String>(account => account.Username);
             String expected = MvcTemplate.Resources.Views.Administration.Accounts.AccountView.Titles.Username;
@@ -191,7 +192,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         }
 
         [Fact]
-        public void GetPropertyTitle_FromExpressionRelation()
+        public void GetPropertyTitle_FromLambdaExpressionRelation()
         {
             String actual = ResourceProvider.GetPropertyTitle<AccountEditView, Int32?>(account => account.RoleId);
             String expected = MvcTemplate.Resources.Views.Administration.Roles.RoleView.Titles.Id;
@@ -200,13 +201,13 @@ namespace MvcTemplate.Tests.Unit.Resources
         }
 
         [Fact]
-        public void GetPropertyTitle_NotFoundExpression_ReturnsNull()
+        public void GetPropertyTitle_NotFoundLambdaExpression_ReturnsNull()
         {
             Assert.Null(ResourceProvider.GetPropertyTitle<AccountView, Int32>(account => account.Id));
         }
 
         [Fact]
-        public void GetPropertyTitle_NotFoundType_ReturnsNull()
+        public void GetPropertyTitle_NotFoundLambdaType_ReturnsNull()
         {
             Assert.Null(ResourceProvider.GetPropertyTitle<BaseView, Int32>(view => view.Id));
         }
@@ -258,6 +259,56 @@ namespace MvcTemplate.Tests.Unit.Resources
         public void GetPropertyTitle_NullKey_ReturnsNull()
         {
             Assert.Null(ResourceProvider.GetPropertyTitle(typeof(RoleView), null));
+        }
+
+        #endregion
+
+        #region GetPropertyTitle(Expression property)
+
+        [Fact]
+        public void GetPropertyTitle_NotMemberExpression_ReturnNull()
+        {
+            Expression<Func<TestView, String>> lambda = (view) => view.ToString();
+
+            Assert.Null(ResourceProvider.GetPropertyTitle(lambda.Body));
+        }
+
+        [Fact]
+        public void GetPropertyTitle_FromExpression()
+        {
+            Expression<Func<AccountView, String>> lambda = (account) => account.Username;
+
+            String expected = MvcTemplate.Resources.Views.Administration.Accounts.AccountView.Titles.Username;
+            String actual = ResourceProvider.GetPropertyTitle(lambda.Body);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GetPropertyTitle_FromExpressionRelation()
+        {
+            Expression<Func<AccountEditView, Int32?>> lambda = (account) => account.RoleId;
+
+            String expected = MvcTemplate.Resources.Views.Administration.Roles.RoleView.Titles.Id;
+            String actual = ResourceProvider.GetPropertyTitle(lambda.Body);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GetPropertyTitle_NotFoundExpression_ReturnsNull()
+        {
+            Expression<Func<AccountView, Int32>> lambda = (account) => account.Id;
+
+            Assert.Null(ResourceProvider.GetPropertyTitle(lambda.Body));
+        }
+
+        [Fact]
+        public void GetPropertyTitle_NotFoundType_ReturnsNull()
+        {
+            Expression<Func<TestView, String>> lambda = (test) => test.Title;
+
+            Assert.Null(ResourceProvider.GetPropertyTitle(lambda.Body));
         }
 
         #endregion

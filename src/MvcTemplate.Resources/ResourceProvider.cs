@@ -65,13 +65,17 @@ namespace MvcTemplate.Resources
 
         public static String GetPropertyTitle<TModel, TProperty>(Expression<Func<TModel, TProperty>> property)
         {
-            MemberExpression expression = property.Body as MemberExpression;
-
-            return expression == null ? null : GetPropertyTitle(expression.Expression.Type, expression.Member.Name);
+            return GetPropertyTitle(property.Body);
         }
         public static String GetPropertyTitle(Type view, String property)
         {
             return GetPropertyTitle(view.Name, property ?? "");
+        }
+        public static String GetPropertyTitle(Expression property)
+        {
+            MemberExpression expression = property as MemberExpression;
+
+            return expression == null ? null : GetPropertyTitle(expression.Expression.Type, expression.Member.Name);
         }
 
         private static String GetPropertyTitle(String view, String property)
