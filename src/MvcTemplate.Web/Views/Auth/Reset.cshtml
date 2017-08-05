@@ -6,7 +6,7 @@
 <div class="separator"></div>
 
 <form asp-antiforgery="true">
-    <input type="password" style="display: none" /> @* Forcing browser to not remember following form inputs *@
+    <input class="hidden" type="password" /> @* Forcing browser to not remember following form inputs *@
     @Html.Partial("_AuthAlerts")
 
     <div class="auth-content">
