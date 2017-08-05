@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Lookup 2.1.0
+ * Mvc.Lookup 2.2.0
  * https://github.com/NonFactors/MVC6.Lookup
  *
  * Copyright © NonFactors
@@ -422,7 +422,7 @@ var MvcLookup = (function () {
         this.initOptions();
         this.set(options);
 
-        this.methods = { reload: this.reload };
+        this.methods = { reload: this.reload, browse: this.open };
         this.reload(false);
         this.cleanUp();
         this.bind();
@@ -494,23 +494,29 @@ var MvcLookup = (function () {
             this.resizeLookupSearch();
         },
 
+        open: function () {
+            if (!this.readonly) {
+                this.dialog.open();
+            }
+        },
         reload: function (triggerChanges) {
             var lookup = this;
             triggerChanges = triggerChanges == null ? true : triggerChanges;
-            var ids = $.grep(lookup.values.map(function (i, e) { return encodeURIComponent(e.value); }).get(), Boolean);
+            var ids = $.grep(lookup.values, function (e) { return e.value; });
 
             if (ids.length > 0) {
                 lookup.startLoading(300);
+                var encodedIds = ids.map(function (e) { return encodeURIComponent(e.value); });
 
                 $.ajax({
-                    url: lookup.url + lookup.filter.getQuery({ ids: '&ids=' + ids.join('&ids='), rows: ids.length }),
+                    url: lookup.url + lookup.filter.getQuery({ ids: '&ids=' + encodedIds.join('&ids='), rows: ids.length }),
                     cache: false,
                     success: function (data) {
                         lookup.stopLoading();
 
                         var rows = [];
                         for (var i = 0; i < ids.length; i++) {
-                            var index = lookup.indexOf(data.rows, ids[i])
+                            var index = lookup.indexOf(data.rows, ids[i].value)
                             if (index >= 0) {
                                 rows.push(data.rows[index]);
                             }
@@ -672,9 +678,7 @@ var MvcLookup = (function () {
             });
 
             lookup.browse.on('click.mvclookup', function () {
-                if (!lookup.readonly) {
-                    lookup.dialog.open();
-                }
+                lookup.open();
             });
 
             var filters = lookup.filter.additionalFilters;
@@ -686,17 +690,18 @@ var MvcLookup = (function () {
 
                     if (!e.isDefaultPrevented() && lookup.selected.length > 0) {
                         lookup.startLoading(300);
-                        var ids = $.grep(lookup.values.map(function (i, e) { return encodeURIComponent(e.value); }).get(), Boolean);
+                        var ids = $.grep(lookup.values, function (e) { return e.value; });
+                        var encodedIds = ids.map(function (e) { return encodeURIComponent(e.value); });
 
                         $.ajax({
-                            url: lookup.url + lookup.filter.getQuery({ checkIds: '&checkIds=' + ids.join('&checkIds='), rows: ids.length }),
+                            url: lookup.url + lookup.filter.getQuery({ checkIds: '&checkIds=' + encodedIds.join('&checkIds='), rows: ids.length }),
                             cache: false,
                             success: function (data) {
                                 lookup.stopLoading();
 
                                 var rows = [];
                                 for (var i = 0; i < ids.length; i++) {
-                                    var index = lookup.indexOf(data.rows, ids[i])
+                                    var index = lookup.indexOf(data.rows, ids[i].value)
                                     if (index >= 0) {
                                         rows.push(data.rows[index]);
                                     }
@@ -729,7 +734,7 @@ $.fn.mvclookup = function (options) {
         if (!$.data(group[0], 'mvc-lookup')) {
             if (typeof options == 'string') {
                 var lookup = new MvcLookup(group);
-                lookup.methods[options].apply(lookup, [].slice.apply(args, 1));
+                lookup.methods[options].apply(lookup, [].slice.call(args, 1));
             } else {
                 var lookup = new MvcLookup(group, options);
             }

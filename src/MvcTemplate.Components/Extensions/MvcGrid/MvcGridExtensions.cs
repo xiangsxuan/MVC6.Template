@@ -81,7 +81,6 @@ namespace MvcTemplate.Components.Extensions
         {
             return grid
                 .Pageable(pager => { pager.RowsPerPage = 16; })
-                .Named(typeof(T).Name.Replace("View", ""))
                 .Empty(Strings.NoDataFound)
                 .Css("table-hover")
                 .Filterable()

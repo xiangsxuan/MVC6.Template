@@ -487,7 +487,6 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             Assert.Equal("table-hover", actual.CssClasses);
             Assert.Equal(true, column.IsFilterable);
             Assert.Equal(true, column.IsSortable);
-            Assert.Equal("AllTypes", actual.Name);
             Assert.NotEmpty(actual.Columns);
         }
 
