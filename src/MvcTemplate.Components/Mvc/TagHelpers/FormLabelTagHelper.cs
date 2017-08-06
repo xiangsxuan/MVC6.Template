@@ -26,7 +26,7 @@ namespace MvcTemplate.Components.Mvc
             if (Required == true)
                 require.InnerHtml.Append("*");
 
-            if (Required == null && For.Metadata.IsRequired)
+            if (Required == null && For.Metadata.IsRequired && For.Metadata.ModelType != typeof(Boolean))
                 require.InnerHtml.Append("*");
 
             output.Attributes.SetAttribute("for", TagBuilder.CreateSanitizedId(For.Name, Options.IdAttributeDotReplacement));
