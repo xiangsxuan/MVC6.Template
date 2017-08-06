@@ -105,10 +105,10 @@ namespace MvcTemplate.Web
         }
         public void RegisterSecureResponse(IServiceCollection services)
         {
-            services.Configure<SessionOptions>(session => session.CookieName = ".Web-Session");
+            services.Configure<SessionOptions>(session => session.CookieName = Config["Cookies:Session:Name"]);
             services.Configure<AntiforgeryOptions>(antiforgery =>
             {
-                antiforgery.CookieName = ".Web-Token";
+                antiforgery.CookieName = Config["Cookies:Antiforgery:Name"];
                 antiforgery.FormFieldName = "_Token_";
             });
         }
@@ -125,10 +125,10 @@ namespace MvcTemplate.Web
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
+                CookieName = Config["Cookies:Auth:Name"],
                 Events = new AuthenticationEvents(),
                 AuthenticationScheme = "Cookies",
-                AutomaticChallenge = true,
-                CookieName = ".Web-Auth"
+                AutomaticChallenge = true
             });
 
             app.UseStaticFiles(new StaticFileOptions
