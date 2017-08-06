@@ -73,9 +73,9 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void IsSpecified_Valid()
         {
-            RoleView view = ObjectFactory.CreateRoleView();
-
-            Assert.True(validator.BaseIsSpecified(view, role => role.Id));
+            Assert.True(validator.BaseIsSpecified(ObjectFactory.CreateRoleView(), role => role.Id));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion

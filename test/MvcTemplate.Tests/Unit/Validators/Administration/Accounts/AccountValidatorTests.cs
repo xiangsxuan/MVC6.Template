@@ -51,6 +51,8 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanRecover_ValidAccount()
         {
             Assert.True(validator.CanRecover(ObjectFactory.CreateAccountRecoveryView()));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
@@ -85,6 +87,8 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanReset_ValidAccount()
         {
             Assert.True(validator.CanRecover(ObjectFactory.CreateAccountRecoveryView()));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
@@ -166,6 +170,8 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanLogin_ValidAccount()
         {
             Assert.True(validator.CanLogin(ObjectFactory.CreateAccountLoginView()));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
@@ -210,6 +216,8 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanCreate_ValidAccount()
         {
             Assert.True(validator.CanCreate(ObjectFactory.CreateAccountCreateView(1)));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
@@ -280,6 +288,8 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanEdit_ValidAccount()
         {
             Assert.True(validator.CanEdit(ObjectFactory.CreateAccountEditView(account.Id)));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
@@ -363,6 +373,8 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanEdit_ValidProfile()
         {
             Assert.True(validator.CanEdit(ObjectFactory.CreateProfileEditView()));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
@@ -394,6 +406,8 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanDelete_ValidProfile()
         {
             Assert.True(validator.CanDelete(ObjectFactory.CreateProfileDeleteView()));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
