@@ -1,4 +1,5 @@
-﻿using MvcTemplate.Objects;
+﻿using MvcTemplate.Components.Mvc;
+using MvcTemplate.Objects;
 using System;
 
 namespace MvcTemplate.Tests.Objects
@@ -36,6 +37,9 @@ namespace MvcTemplate.Tests.Objects
         public DateTime? NullableDateTimeField { get; set; }
 
         public String StringField { get; set; }
+
+        [Truncated]
+        public DateTime TruncatedDateTimeField { get; set; }
 
         public AllTypesView Child { get; set; }
     }
