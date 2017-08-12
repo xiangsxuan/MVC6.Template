@@ -10,17 +10,22 @@ namespace MvcTemplate.Rename
     {
         private const String TemplateDbName = "Mvc6Template";
         private const String TemplateName = "MvcTemplate";
+        private static String Password { get; set; }
         private static String Project { get; set; }
 
         public static void Main()
         {
+            Console.Write("Enter admin password (32 symbols max): ");
+            while ((Password = Console.ReadLine().Trim()) == "") { }
+
             Console.WriteLine("Enter root namespace name: ");
-            while ((Project = Console.ReadLine().Trim()) == "")
-            { }
+            while ((Project = Console.ReadLine().Trim()) == "") { }
 
             Int32 port = new Random().Next(1000, 19175);
+            String passhash = BCrypt.Net.BCrypt.HashPassword(Password.Length <= 32 ? Password : Password.Substring(0, 32), 13);
 
             String[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.*", SearchOption.AllDirectories);
+            Regex adminPassword = new Regex("Passhash = \"\\$2a\\$.*\", // Will be generated on project rename");
             Regex iisPort = new Regex("(\"(applicationUrl|launchUrl)\": .*:)\\d+(.*\")");
             Regex version = new Regex("<Version>\\d+\\.\\d+\\.\\d+</Version>");
             Regex newLine = new Regex("\\r?\\n");
@@ -47,6 +52,7 @@ namespace MvcTemplate.Rename
                     content = newLine.Replace(content, Environment.NewLine);
                     content = iisPort.Replace(content, "${1}" + port + "${3}");
                     content = version.Replace(content, "<Version>0.1.0</Version>");
+                    content = adminPassword.Replace(content, "Passhash = \"" + passhash + "\",");
 
                     File.WriteAllText(files[i], content, Encoding.UTF8);
                 }
@@ -55,6 +61,7 @@ namespace MvcTemplate.Rename
             Console.WriteLine();
 
             String[] directories = Directory.GetDirectories(Directory.GetCurrentDirectory(), "*" + TemplateName + "*", SearchOption.AllDirectories);
+            directories = directories.Where(directory => !directory.StartsWith(Path.Combine(Directory.GetCurrentDirectory(), "tools"))).ToArray();
             for (Int32 i = 0; i < directories.Length; i++)
             {
                 Console.CursorLeft = 0;
