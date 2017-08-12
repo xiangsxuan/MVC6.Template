@@ -224,6 +224,11 @@
     $(document).on('click', 'input:checkbox[readonly],input:radio[readonly]', function () {
         return false;
     });
+
+    var disabledWidgets = $('.widget-box.disabled');
+    disabledWidgets.find('textarea').attr('disabled', '');
+    if ($.fn.mvclookup) { disabledWidgets.find('.mvc-lookup').mvclookup({ readonly: true }); }
+    disabledWidgets.find('input:not([type="submit"]):not([type="hidden"])').attr('disabled', '');
 })();
 
 // Input focus binding
