@@ -12,9 +12,7 @@
     };
 
     $.validator.methods.number = function (value, element) {
-        var pattern = new RegExp('^(?=.*\\d+.*)[-+]?\\d*[' + Globalize.culture().numberFormat['.'] + ']?\\d*$');
-
-        return this.optional(element) || pattern.test(value);
+        return this.optional(element) || !isNaN(Globalize.parseFloat(value));
     };
 
     $.validator.methods.min = function (value, element, param) {
@@ -203,9 +201,7 @@
 
         if (MvcGridNumberFilter) {
             MvcGridNumberFilter.prototype.isValid = function (value) {
-                var pattern = new RegExp('^(?=.*\\d+.*)[-+]?\\d*[' + Globalize.culture().numberFormat['.'] + ']?\\d*$');
-
-                return value == '' || pattern.test(value);
+                return value == '' || !isNaN(Globalize.parseFloat(value));
             }
         }
     }
