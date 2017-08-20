@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -67,6 +68,12 @@ namespace MvcTemplate.Web
                 .AddViewOptions(options => options.ClientModelValidatorProviders.Add(new DateValidatorProvider()))
                 .AddMvcOptions(options => options.ModelMetadataDetailsProviders.Add(new DisplayMetadataProvider()))
                 .AddMvcOptions(options => options.ModelBinderProviders.Insert(4, new TrimmingModelBinderProvider()));
+
+            services.AddAuthentication("Cookies").AddCookie(authentication =>
+            {
+                authentication.Cookie.Name = Config["Cookies:Auth:Name"];
+                authentication.Events = new AuthenticationEvents();
+            });
         }
         public void RegisterServices(IServiceCollection services)
         {
@@ -105,10 +112,10 @@ namespace MvcTemplate.Web
         }
         public void RegisterSecureResponse(IServiceCollection services)
         {
-            services.Configure<SessionOptions>(session => session.CookieName = Config["Cookies:Session:Name"]);
+            services.Configure<SessionOptions>(session => session.Cookie.Name = Config["Cookies:Session:Name"]);
             services.Configure<AntiforgeryOptions>(antiforgery =>
             {
-                antiforgery.CookieName = Config["Cookies:Antiforgery:Name"];
+                antiforgery.Cookie.Name = Config["Cookies:Antiforgery:Name"];
                 antiforgery.FormFieldName = "_Token_";
             });
         }
@@ -123,13 +130,7 @@ namespace MvcTemplate.Web
             app.UseMiddleware<ExceptionFilterMiddleware>();
             app.UseMiddleware<SecureHeadersMiddleware>();
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                CookieName = Config["Cookies:Auth:Name"],
-                Events = new AuthenticationEvents(),
-                AuthenticationScheme = "Cookies",
-                AutomaticChallenge = true
-            });
+            app.UseAuthentication();
 
             app.UseStaticFiles(new StaticFileOptions
             {

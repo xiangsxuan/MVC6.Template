@@ -1,6 +1,7 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
@@ -339,16 +340,17 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Login(AuthenticationManager authentication, String username)
+        #region Login(HttpContext context, String username)
 
         [Fact]
         public void Login_Account()
         {
-            AuthenticationManager authentication = Substitute.For<AuthenticationManager>();
+            HttpContext context = Substitute.For<HttpContext>();
+            context.RequestServices.GetService(typeof(IAuthenticationService)).Returns(Substitute.For<IAuthenticationService>());
 
-            service.Login(authentication, account.Username.ToUpper());
+            service.Login(context, account.Username.ToUpper());
 
-            authentication.Received().SignInAsync("Cookies", Arg.Is<ClaimsPrincipal>(principal =>
+            context.Received().SignInAsync("Cookies", Arg.Is<ClaimsPrincipal>(principal =>
                 principal.Claims.Single().Subject.Name == account.Id.ToString() &&
                 principal.Claims.Single().Subject.NameClaimType == "name" &&
                 principal.Claims.Single().Subject.RoleClaimType == "role" &&
@@ -359,16 +361,17 @@ namespace MvcTemplate.Tests.Unit.Services
 
         #endregion
 
-        #region Logout(AuthenticationManager authentication)
+        #region Logout(HttpContext context)
 
         [Fact]
         public void Logout_Account()
         {
-            AuthenticationManager authentication = Substitute.For<AuthenticationManager>();
+            HttpContext context = Substitute.For<HttpContext>();
+            context.RequestServices.GetService(typeof(IAuthenticationService)).Returns(Substitute.For<IAuthenticationService>());
 
-            service.Logout(authentication);
+            service.Logout(context);
 
-            authentication.Received().SignOutAsync("Cookies");
+            context.Received().SignOutAsync("Cookies");
         }
 
         #endregion

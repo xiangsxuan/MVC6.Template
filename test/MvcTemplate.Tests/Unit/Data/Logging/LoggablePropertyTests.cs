@@ -17,7 +17,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         {
             using (TestingContext context = new TestingContext())
             {
-                TestModel model = new TestModel();
+                TestModel model = new TestModel { Id = 1 };
 
                 context.Set<TestModel>().Attach(model);
                 context.Entry(model).State = EntityState.Modified;

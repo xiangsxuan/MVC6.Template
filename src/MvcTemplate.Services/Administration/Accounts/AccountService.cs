@@ -1,4 +1,5 @@
-using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
@@ -111,16 +112,16 @@ namespace MvcTemplate.Services
             Authorization.Refresh();
         }
 
-        public void Login(AuthenticationManager authentication, String username)
+        public void Login(HttpContext context, String username)
         {
             Claim[] claims = { new Claim("name", GetAccountId(username)) };
             ClaimsIdentity identity = new ClaimsIdentity(claims, "local", "name", "role");
 
-            authentication.SignInAsync("Cookies", new ClaimsPrincipal(identity)).Wait();
+            context.SignInAsync("Cookies", new ClaimsPrincipal(identity)).Wait();
         }
-        public void Logout(AuthenticationManager authentication)
+        public void Logout(HttpContext context)
         {
-            authentication.SignOutAsync("Cookies").Wait();
+            context.SignOutAsync("Cookies").Wait();
         }
 
         private String GetAccountId(String username)

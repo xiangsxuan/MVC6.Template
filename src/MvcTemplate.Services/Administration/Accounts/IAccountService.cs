@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Http;
 using MvcTemplate.Objects;
 using System;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace MvcTemplate.Services
         void Edit(ProfileEditView view);
         void Delete(Int32 id);
 
-        void Login(AuthenticationManager authentication, String username);
-        void Logout(AuthenticationManager authentication);
+        void Login(HttpContext context, String username);
+        void Logout(HttpContext context);
     }
 }
