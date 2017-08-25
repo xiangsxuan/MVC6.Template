@@ -3,8 +3,8 @@
   <PropertyGroup>
     <Version>1.1.0</Version>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net461</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
