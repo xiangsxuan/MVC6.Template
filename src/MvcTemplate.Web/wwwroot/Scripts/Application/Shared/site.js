@@ -221,10 +221,10 @@
         return false;
     });
 
-    var disabledWidgets = $('.widget-box.disabled');
-    disabledWidgets.find('textarea').attr('disabled', '');
-    if ($.fn.mvclookup) { disabledWidgets.find('.mvc-lookup').mvclookup({ readonly: true }); }
-    disabledWidgets.find('input:not([type="submit"]):not([type="hidden"])').attr('disabled', '');
+    var widgets = $('.widget-box.readonly');
+    widgets.find('textarea').attr('readonly', 'readonly');
+    widgets.find('input:not([type="submit"])').attr('readonly', 'readonly');
+    if ($.fn.mvclookup) { widgets.find('.mvc-lookup').mvclookup({ readonly: true }); }
 })();
 
 // Input focus binding
