@@ -4,7 +4,6 @@ using MvcTemplate.Objects;
 using MvcTemplate.Resources;
 using NonFactors.Mvc.Lookup;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -60,11 +59,6 @@ namespace MvcTemplate.Components.Lookups
         public override IQueryable<TView> GetModels()
         {
             return UnitOfWork.Select<TModel>().To<TView>();
-        }
-
-        public override IQueryable<TView> FilterByIds(IQueryable<TView> models, IList<String> ids)
-        {
-            return base.FilterByIds(UnitOfWork.Select<TModel>().To<TView>(), ids);
         }
     }
 }

@@ -137,21 +137,5 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         }
 
         #endregion
-
-        #region FilterByIds(IQueryable<TView> models, IList<String> ids)
-
-        [Fact]
-        public void FilterByIds_FromUnitOfWork()
-        {
-            IUnitOfWork unitOfWork = Substitute.For<IUnitOfWork>();
-            unitOfWork.Select<Role>().To<RoleView>().Returns(new[] { new RoleView { Id = 1 }, new RoleView { Id = 2 } }.AsQueryable());
-
-            Object actual = new MvcLookup<Role, RoleView>(unitOfWork).FilterByIds(null, new[] { "1" });
-            Object expected = unitOfWork.Select<Role>().To<RoleView>().Where(role => role.Id == 1);
-
-            Assert.Equal(expected, actual);
-        }
-
-        #endregion
     }
 }
