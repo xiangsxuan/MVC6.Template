@@ -126,23 +126,32 @@
 // Datepicker binding
 (function () {
     var lang = $('html').attr('lang');
-    var options = {
-        beforeShow: function (e) {
-            return !$(e).attr('readonly');
-        },
-        onSelect: function () {
-            $(this).focusout();
-        }
-    };
 
     if ($.fn.datepicker) {
         $.datepicker.setDefaults(window.cultures.datepicker[lang]);
-        $('.datepicker').datepicker(options);
+        $('.datepicker').datepicker({
+            beforeShow: function (e) {
+                return !$(e).attr('readonly');
+            },
+            onSelect: function (value, data) {
+                $(this).focusout();
+                if (value != data.lastVal) {
+                    $(this).change();
+                }
+            }
+        });
     }
 
     if ($.fn.timepicker) {
         $.timepicker.setDefaults(window.cultures.timepicker[lang]);
-        $('.datetimepicker').datetimepicker(options);
+        $('.datetimepicker').datetimepicker({
+            beforeShow: function (e) {
+                return !$(e).attr('readonly');
+            },
+            onSelect: function (value, data) {
+                $(this).focusout();
+            }
+        });
     }
 })();
 
