@@ -240,13 +240,13 @@
 (function () {
     var invalidInput = $('.content-container .input-validation-error:visible:not([readonly],.datepicker,.datetimepicker):first');
     if (invalidInput.length > 0) {
+        invalidInput[0].setSelectionRange(invalidInput[0].value.length, invalidInput[0].value.length);
         invalidInput.focus();
-        invalidInput.val(invalidInput.val());
     } else {
         var input = $('.content-container input:text:visible:not([readonly],.datepicker,.datetimepicker):first');
         if (input.length > 0) {
+            input[0].setSelectionRange(input[0].value.length, input[0].value.length);
             input.focus();
-            input.val(input.val());
         }
     }
 })();
