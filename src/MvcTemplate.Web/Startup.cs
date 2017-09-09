@@ -39,6 +39,7 @@ namespace MvcTemplate.Web
             Config = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("configuration.json")
+                .AddJsonFile($"configuration.{env.EnvironmentName.ToLower()}.json", optional: true)
                 .AddInMemoryCollection(config)
                 .Build();
         }

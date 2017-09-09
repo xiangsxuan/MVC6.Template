@@ -43,6 +43,12 @@
   </ItemGroup>
 
   <ItemGroup>
+      <Content Update="configuration.production.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="configuration.staging.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Update="configuration.json">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
