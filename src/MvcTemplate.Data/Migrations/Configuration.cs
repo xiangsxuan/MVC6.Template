@@ -109,7 +109,7 @@ namespace MvcTemplate.Data.Migrations
                 new Account
                 {
                     Username = "admin",
-                    Passhash = "$2a$13$./uSwHXEr4P2q1aCkb8vz.iXkZkfj1x2RmSv4bsQjf9poIsQWHPRC", // Will be generated on project rename
+                    Passhash = "$2b$13$ouxA6L7QZ/eSeVZD8lawSOEwtRn/hOoRY67Pwaj/WJaZe7S4.cHJC", // Will be generated on project rename
                     Email = "admin@test.domains.com",
                     IsLocked = false,
 
