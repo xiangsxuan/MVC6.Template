@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
+using MvcTemplate.Resources.Shared;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -25,7 +27,16 @@ namespace MvcTemplate.Components.Mvc
             }
             catch
             {
-                Redirect(context, "Error", "Home", new { area = "" });
+                if (context.Request.Headers != null && context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    context.Response.StatusCode = 500;
+
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new { status = "error", data = new { message = Strings.SystemError } }));
+                }
+                else
+                {
+                    Redirect(context, "Error", "Home", new { area = "" });
+                }
             }
         }
 
