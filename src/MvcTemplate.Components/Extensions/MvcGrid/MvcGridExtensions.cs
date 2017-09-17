@@ -80,9 +80,9 @@ namespace MvcTemplate.Components.Extensions
         public static IHtmlGrid<T> ApplyDefaults<T>(this IHtmlGrid<T> grid)
         {
             return grid
+                .Css((grid.Grid.CssClasses + " table-hover").TrimStart())
                 .Pageable(pager => { pager.RowsPerPage = 16; })
                 .Empty(Strings.NoDataFound)
-                .Css("table-hover")
                 .Filterable()
                 .Sortable();
         }

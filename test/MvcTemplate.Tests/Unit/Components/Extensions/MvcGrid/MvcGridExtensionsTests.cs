@@ -474,17 +474,25 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
         #region ApplyDefaults<T>(this IHtmlGrid<T> grid)
 
-        [Fact]
-        public void ApplyDefaults_Values()
+        [Theory]
+        [InlineData("", "table-hover")]
+        [InlineData(" ", "table-hover")]
+        [InlineData(null, "table-hover")]
+        [InlineData("test", "test table-hover")]
+        [InlineData(" test", "test table-hover")]
+        [InlineData("test ", "test  table-hover")]
+        [InlineData(" test ", "test  table-hover")]
+        public void ApplyDefaults_Values(String cssClasses, String expectedClasses)
         {
             IGridColumn column = html.Grid.Columns.Add(model => model.ByteField);
+            html.Grid.CssClasses = cssClasses;
             column.IsFilterable = null;
             column.IsSortable = null;
 
             IGrid actual = html.ApplyDefaults().Grid;
 
             Assert.Equal(Strings.NoDataFound, actual.EmptyText);
-            Assert.Equal("table-hover", actual.CssClasses);
+            Assert.Equal(expectedClasses, actual.CssClasses);
             Assert.Equal(true, column.IsFilterable);
             Assert.Equal(true, column.IsSortable);
             Assert.NotEmpty(actual.Columns);
