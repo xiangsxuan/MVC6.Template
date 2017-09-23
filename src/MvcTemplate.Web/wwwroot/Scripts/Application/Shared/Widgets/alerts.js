@@ -56,6 +56,11 @@ Alerts = {
             $(this).remove();
         });
     },
+    closeAll: function () {
+        $('.alerts .alert').fadeTo(300, 0).slideUp(300, function () {
+            $(this).remove();
+        });
+    },
 
     clear: function () {
         $('.alerts .alert').remove();
