@@ -22,6 +22,9 @@ namespace MvcTemplate.Components.Mvc
             if (type == typeof(GreaterThanAttribute))
                 return new GreaterThanAdapter((GreaterThanAttribute)attribute);
 
+            if (type == typeof(AcceptFilesAttribute))
+                return new AcceptFilesAdapter((AcceptFilesAttribute)attribute);
+
             if (type == typeof(MinLengthAttribute))
                 return new MinLengthAdapter((MinLengthAttribute)attribute);
 

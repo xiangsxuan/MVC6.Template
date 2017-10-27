@@ -61,6 +61,15 @@ namespace MvcTemplate.Resources.Form {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; field only accepts ({1}) format..
+        /// </summary>
+        public static string AcceptFiles {
+            get {
+                return ResourceManager.GetString("AcceptFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; field must be a date..
         /// </summary>
         public static string Date {

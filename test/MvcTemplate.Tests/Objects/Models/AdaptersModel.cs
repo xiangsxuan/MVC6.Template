@@ -42,5 +42,8 @@ namespace MvcTemplate.Tests.Objects
 
         [StringLength(128)]
         public String StringLength { get; set; }
+
+        [AcceptFiles(".docx,.rtf")]
+        public IFormFile AcceptFiles { get; set; }
     }
 }

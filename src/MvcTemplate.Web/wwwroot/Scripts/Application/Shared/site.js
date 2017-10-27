@@ -63,6 +63,28 @@
         $(this).focusout();
     });
 
+    $.validator.addMethod('acceptfiles', function (value, element, param) {
+        if (this.optional(element))
+            return true;
+
+        var files = $.map($(element).prop('files'), function (file) { return file.name.split("\\").pop(); });
+        var params = param.split(/[,|]/);
+
+        for (var i = 0; i < files.length; i++) {
+            if (params.indexOf('.' + files[i].split('.').pop()) < 0) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+    $.validator.unobtrusive.adapters.add("acceptfiles", ["extensions"], function (options) {
+        options.rules["acceptfiles"] = options.params.extensions;
+        if (options.message) {
+            options.messages["acceptfiles"] = options.message;
+        }
+    });
+
     $(document).on('change', '.mvc-lookup-value', function () {
         var validator = $(this).parents('form').validate();
 
