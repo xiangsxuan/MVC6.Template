@@ -6,7 +6,7 @@ namespace MvcTemplate.Objects
     public abstract class BaseModel
     {
         [Key]
-        public Int32 Id
+        public virtual Int32 Id
         {
             get;
             set;
