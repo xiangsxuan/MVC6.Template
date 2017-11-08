@@ -131,8 +131,7 @@ namespace MvcTemplate.Tests
             {
                 Id = id,
 
-                Title = "Title" + id,
-                Permissions = new JsTree()
+                Title = "Title" + id
             };
         }
 
@@ -167,7 +166,7 @@ namespace MvcTemplate.Tests
         {
             return new TestModel
             {
-                Title = "Text" + id
+                Title = "Title" + id
             };
         }
 

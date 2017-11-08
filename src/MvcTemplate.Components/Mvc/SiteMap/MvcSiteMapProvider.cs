@@ -100,7 +100,7 @@ namespace MvcTemplate.Components.Mvc
             {
                 node.Children = GetAuthorizedNodes(accountId, node.Children);
 
-                if (node.IsMenu && IsAuthorizedToView(accountId, node) && !IsEmpty(node))
+                if (node.IsMenu && IsAuthorizedToView(accountId, node.Area, node.Controller, node.Action) && !IsEmpty(node))
                     authorized.Add(node);
                 else
                     authorized.AddRange(node.Children);
@@ -109,6 +109,10 @@ namespace MvcTemplate.Components.Mvc
             return authorized;
         }
 
+        private Boolean IsAuthorizedToView(Int32? accountId, String area, String controller, String action)
+        {
+            return action == null || Authorization?.IsAuthorizedFor(accountId, area, controller, action) != false;
+        }
         private IEnumerable<MvcSiteMapNode> ToList(IEnumerable<MvcSiteMapNode> nodes)
         {
             List<MvcSiteMapNode> list = new List<MvcSiteMapNode>();
@@ -119,13 +123,6 @@ namespace MvcTemplate.Components.Mvc
             }
 
             return list;
-        }
-        private Boolean IsAuthorizedToView(Int32? accountId, MvcSiteMapNode menu)
-        {
-            if (menu.Action == null) return true;
-            if (Authorization == null) return true;
-
-            return Authorization.IsAuthorizedFor(accountId, menu.Area, menu.Controller, menu.Action);
         }
         private Boolean IsEmpty(MvcSiteMapNode node)
         {

@@ -52,7 +52,7 @@ namespace MvcTemplate.Data.Logging
                 log.EntityId = entity.Id();
                 log.AccountId = AccountId;
 
-                Context.Set<AuditLog>().Add(log);
+                Context.Add(log);
             }
 
             Context.SaveChanges();

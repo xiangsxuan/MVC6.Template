@@ -24,8 +24,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
                 context.RemoveRange(context.Set<TestModel>());
                 context.DropData();
 
-                model = ObjectFactory.CreateTestModel();
-                context.Set<TestModel>().Add(model);
+                context.Add(model = ObjectFactory.CreateTestModel());
                 context.SaveChanges();
             }
 

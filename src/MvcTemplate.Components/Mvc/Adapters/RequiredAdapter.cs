@@ -21,4 +21,3 @@ namespace MvcTemplate.Components.Mvc
         }
     }
 }
-

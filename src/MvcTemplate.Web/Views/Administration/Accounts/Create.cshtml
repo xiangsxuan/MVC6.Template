@@ -11,7 +11,7 @@
                 <input class="hidden" type="password" /> @* Forcing browser to not remember following form inputs *@
                 <div class="form-group">
                     <div class="control-label col-xs-12 col-md-3 col-lg-2">
-                        <label for="Username"></label>
+                        <label asp-for="Username"></label>
                     </div>
                     <div class="control-content col-xs-12 col-md-9 col-lg-5">
                         <input asp-for="Username" class="form-control" autocomplete="off" />
@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <div class="control-label col-xs-12 col-md-3 col-lg-2">
-                        <label for="Password"></label>
+                        <label asp-for="Password"></label>
                     </div>
                     <div class="control-content col-xs-12 col-md-9 col-lg-5">
                         <input asp-for="Password" class="form-control" type="password" autocomplete="off" />
@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group">
                     <div class="control-label col-xs-12 col-md-3 col-lg-2">
-                        <label for="Email"></label>
+                        <label asp-for="Email"></label>
                     </div>
                     <div class="control-content col-xs-12 col-md-9 col-lg-5">
                         <input asp-for="Email" class="form-control" autocomplete="off" />
@@ -46,7 +46,7 @@
                 </div>
                 <div class="form-group">
                     <div class="control-label col-xs-12 col-md-3 col-lg-2">
-                        <label for="RoleId"></label>
+                        <label asp-for="RoleId"></label>
                     </div>
                     <div class="control-content col-xs-12 col-md-9 col-lg-5">
                         @Html.LookupFor(model => model.RoleId, new MvcLookup<Role, RoleView>(Url))
@@ -57,7 +57,7 @@
                 </div>
                 <div class="form-group">
                     <div class="form-actions col-xs-12 col-lg-7">
-                        <input class="btn btn-primary" type="submit" value="@Actions.Submit" />
+                        <button type="submit" class="btn btn-primary">@Actions.Submit</button>
                     </div>
                 </div>
             </form>

@@ -195,6 +195,30 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
+        #region IsAuthorizedFor(String action, String controller, String area)
+
+        [Fact]
+        public void IsAuthorizedFor_NullAuthorizationProvider_ReturnsTrue()
+        {
+            controller = Substitute.ForPartsOf<BaseController>();
+
+            Assert.Null(controller.Authorization);
+            Assert.True(controller.IsAuthorizedFor(null, null, null));
+        }
+
+        [Fact]
+        public void IsAuthorizedFor_ReturnsAuthorizationResult()
+        {
+            IAuthorizationProvider authorization = controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
+            authorization.IsAuthorizedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
+            controller.OnActionExecuting(null);
+
+            Assert.True(controller.IsAuthorizedFor("Action", "Controller", "Area"));
+            Assert.Same(authorization, controller.Authorization);
+        }
+
+        #endregion
+
         #region OnActionExecuting(ActionExecutingContext context)
 
         [Fact]
@@ -273,30 +297,6 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Object actual = controller.TempData["Alerts"];
 
             Assert.Equal(expected, actual);
-        }
-
-        #endregion
-
-        #region IsAuthorizedFor(String action, String controller, String area)
-
-        [Fact]
-        public void IsAuthorizedFor_NullAuthorizationProvider_ReturnsTrue()
-        {
-            controller = Substitute.ForPartsOf<BaseController>();
-
-            Assert.Null(controller.Authorization);
-            Assert.True(controller.IsAuthorizedFor(null, null, null));
-        }
-
-        [Fact]
-        public void IsAuthorizedFor_ReturnsAuthorizationResult()
-        {
-            IAuthorizationProvider authorization = controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
-            authorization.IsAuthorizedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
-            controller.OnActionExecuting(null);
-
-            Assert.True(controller.IsAuthorizedFor("Action", "Controller", "Area"));
-            Assert.Same(authorization, controller.Authorization);
         }
 
         #endregion

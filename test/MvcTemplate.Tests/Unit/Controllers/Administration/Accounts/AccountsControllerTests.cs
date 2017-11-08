@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using MvcTemplate.Controllers.Administration;
 using MvcTemplate.Objects;
@@ -54,7 +53,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         [Fact]
         public void Create_ReturnsEmptyView()
         {
-            ViewDataDictionary actual = controller.Create().ViewData;
+            ViewResult actual = controller.Create();
 
             Assert.Null(actual.Model);
         }

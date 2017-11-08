@@ -11,15 +11,17 @@ namespace MvcTemplate.Tests.Unit.Components.Security
 {
     public class AuthorizationProviderTests
     {
+        private TestingContext context;
         private AuthorizationProvider authorization;
 
         public AuthorizationProviderTests()
         {
+            context = new TestingContext();
             IServiceProvider services = Substitute.For<IServiceProvider>();
             services.GetService(typeof(IUnitOfWork)).Returns(info => new UnitOfWork(new TestingContext()));
-
-            using (TestingContext context = new TestingContext()) context.DropData();
             authorization = new AuthorizationProvider(Assembly.GetExecutingAssembly(), services);
+
+            context.DropData();
         }
 
         #region IsAuthorizedFor(Int32? accountId, String area, String controller, String action)
@@ -342,7 +344,8 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         public void IsAuthorizedFor_CachesAccountPermissions()
         {
             Int32 accountId = CreateAccountWithPermissionFor(null, "Authorized", "Action");
-            using (TestingContext context = new TestingContext()) context.DropData();
+
+            context.DropData();
 
             Assert.True(authorization.IsAuthorizedFor(accountId, null, "Authorized", "Action"));
         }
@@ -357,7 +360,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
             Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "Action"));
 
-            using (TestingContext context = new TestingContext()) context.DropData();
+            context.DropData();
 
             authorization.Refresh();
 

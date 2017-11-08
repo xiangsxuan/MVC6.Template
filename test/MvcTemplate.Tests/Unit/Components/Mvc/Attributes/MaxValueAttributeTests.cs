@@ -30,18 +30,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region FormatErrorMessage(String name)
 
         [Fact]
-        public void FormatErrorMessage_ForInteger()
-        {
-            attribute = new MaxValueAttribute(10);
-
-            String expected = String.Format(Validations.MaxValue, "Sum", attribute.Maximum);
-            String actual = attribute.FormatErrorMessage("Sum");
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void FormatErrorMessage_ForDouble()
+        public void FormatErrorMessage_ForName()
         {
             attribute = new MaxValueAttribute(13.44);
 

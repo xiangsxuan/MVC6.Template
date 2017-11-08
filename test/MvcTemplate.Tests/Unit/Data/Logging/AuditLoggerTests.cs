@@ -25,10 +25,10 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             TestModel model = ObjectFactory.CreateTestModel();
             TestingContext dataContext = new TestingContext();
 
-            dataContext.Set<AuditLog>().RemoveRange(dataContext.Set<AuditLog>());
+            dataContext.RemoveRange(dataContext.Set<AuditLog>());
             dataContext.DropData();
 
-            entry = dataContext.Entry<BaseModel>(dataContext.Set<TestModel>().Add(model).Entity);
+            entry = dataContext.Entry<BaseModel>(dataContext.Add(model).Entity);
             dataContext.SaveChanges();
         }
         public void Dispose()

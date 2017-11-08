@@ -13,17 +13,17 @@ namespace MvcTemplate.Components.Lookups
         where TModel : BaseModel
         where TView : BaseView
     {
-        private IUnitOfWork UnitOfWork { get; }
+        protected IUnitOfWork UnitOfWork { get; }
 
+        public MvcLookup(IUnitOfWork unitOfWork)
+        {
+            UnitOfWork = unitOfWork;
+        }
         public MvcLookup(IUrlHelper url)
         {
             String view = typeof(TView).Name.Replace("View", "");
             Url = url.Action(view, Prefix, new { area = "" });
             Title = ResourceProvider.GetLookupTitle(view);
-        }
-        public MvcLookup(IUnitOfWork unitOfWork)
-        {
-            UnitOfWork = unitOfWork;
         }
 
         public override String GetColumnHeader(PropertyInfo property)
@@ -33,7 +33,8 @@ namespace MvcTemplate.Components.Lookups
         public override String GetColumnCssClass(PropertyInfo property)
         {
             Type type = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-            if (type.IsEnum) return "text-left";
+            if (type.IsEnum)
+                return "text-left";
 
             switch (Type.GetTypeCode(type))
             {

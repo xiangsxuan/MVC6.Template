@@ -24,7 +24,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [InlineData(typeof(Boolean), true, null, "")]
         [InlineData(typeof(Boolean), true, true, "*")]
         [InlineData(typeof(Boolean), true, false, "")]
-        public void Process_Label(Type type, Boolean metadataRequired, Boolean required, String symbol)
+        public void Process_Label(Type type, Boolean metadataRequired, Boolean required, String require)
         {
             ModelMetadata metadata = Substitute.For<ModelMetadata>(ModelMetadataIdentity.ForType(type));
             IOptions<HtmlHelperOptions> options = Substitute.For<IOptions<HtmlHelperOptions>>();
@@ -40,8 +40,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             helper.Process(null, output);
 
-            Assert.Equal("Total___Sum", output.Attributes["for"].Value);
-            Assert.Equal($"Title<span class=\"require\">{symbol}</span>", output.Content.GetContent());
+            Assert.Equal("Test", output.Attributes["for"].Value);
+            Assert.Equal($"<span class=\"require\">{require}</span>", output.Content.GetContent());
         }
 
         #endregion

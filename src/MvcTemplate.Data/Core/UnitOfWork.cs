@@ -27,7 +27,7 @@ namespace MvcTemplate.Data.Core
         }
         public TModel Get<TModel>(Int32? id) where TModel : BaseModel
         {
-            return id == null ? null : Context.Set<TModel>().Find(id);
+            return id == null ? null : Context.Find<TModel>(id);
         }
         public TDestination To<TDestination>(Object source)
         {
@@ -66,13 +66,15 @@ namespace MvcTemplate.Data.Core
         }
         public void Delete<TModel>(Int32 id) where TModel : BaseModel
         {
-            Delete(Context.Set<TModel>().Single(model => model.Id == id));
+            Delete(Context.Find<TModel>(id));
         }
 
         public void Commit()
         {
             Logger?.Log(Context.ChangeTracker.Entries<BaseModel>());
+
             Context.SaveChanges();
+
             Logger?.Save();
         }
 

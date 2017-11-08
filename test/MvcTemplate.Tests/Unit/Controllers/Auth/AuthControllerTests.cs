@@ -61,7 +61,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsLoggedIn(controller.User).Returns(false);
 
-            ViewDataDictionary actual = (controller.Recover() as ViewResult).ViewData;
+            ViewResult actual = controller.Recover() as ViewResult;
 
             Assert.Null(actual.Model);
         }
@@ -196,7 +196,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanReset(Arg.Any<AccountResetView>()).Returns(true);
 
-            ViewDataDictionary actual = (controller.Reset("") as ViewResult).ViewData;
+            ViewResult actual = controller.Reset("") as ViewResult;
 
             Assert.Null(actual.Model);
         }
@@ -288,7 +288,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsLoggedIn(controller.User).Returns(false);
 
-            ViewDataDictionary actual = (controller.Login("/") as ViewResult).ViewData;
+            ViewResult actual = controller.Login("/") as ViewResult;
 
             Assert.Null(actual.Model);
         }

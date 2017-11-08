@@ -65,6 +65,11 @@ namespace MvcTemplate.Controllers
             return base.RedirectToAction(action, controller, route);
         }
 
+        public virtual Boolean IsAuthorizedFor(String action, String controller, String area)
+        {
+            return Authorization?.IsAuthorizedFor(CurrentAccountId, area, controller, action) != false;
+        }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             Authorization = HttpContext.RequestServices.GetService<IAuthorizationProvider>();
@@ -83,13 +88,6 @@ namespace MvcTemplate.Controllers
 
                 TempData["Alerts"] = JsonConvert.SerializeObject(current);
             }
-        }
-
-        public virtual Boolean IsAuthorizedFor(String action, String controller, String area)
-        {
-            if (Authorization == null) return true;
-
-            return Authorization.IsAuthorizedFor(CurrentAccountId, area, controller, action);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region GetSiteMap(ViewContext context)
 
         [Fact]
-        public void GetSiteMap_NullAuthorization_ReturnsAllMenus()
+        public void GetSiteMap_NullAuthorization_ReturnsAllNodes()
         {
             siteMap = new MvcSiteMapProvider(config, parser, null);
 
@@ -83,7 +83,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void GetSiteMap_ReturnsAuthorizedMenus()
+        public void GetSiteMap_ReturnsAuthorizedNodes()
         {
             authorizationProvider.IsAuthorizedFor(context.HttpContext.User.Id(), "Administration", "Accounts", "Index").Returns(true);
 
@@ -193,7 +193,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void GetSiteMap_RemovesEmptyMenus()
+        public void GetSiteMap_RemovesEmptyNodes()
         {
             authorizationProvider.IsAuthorizedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
             authorizationProvider.IsAuthorizedFor(context.HttpContext.User.Id(), "Administration", "Roles", "Create").Returns(false);

@@ -7,7 +7,8 @@ namespace MvcTemplate.Components.Alerts
     {
         public void Merge(AlertsContainer alerts)
         {
-            if (alerts == this) return;
+            if (alerts == this)
+                return;
 
             AddRange(alerts);
         }

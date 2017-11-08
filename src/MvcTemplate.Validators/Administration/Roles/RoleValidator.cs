@@ -17,19 +17,19 @@ namespace MvcTemplate.Validators
         public Boolean CanCreate(RoleView view)
         {
             Boolean isValid = ModelState.IsValid;
-            isValid &= IsUniqueRole(view);
+            isValid &= IsUniqueTitle(view);
 
             return isValid;
         }
         public Boolean CanEdit(RoleView view)
         {
             Boolean isValid = ModelState.IsValid;
-            isValid &= IsUniqueRole(view);
+            isValid &= IsUniqueTitle(view);
 
             return isValid;
         }
 
-        private Boolean IsUniqueRole(RoleView view)
+        private Boolean IsUniqueTitle(RoleView view)
         {
             Boolean isUnique = !UnitOfWork
                 .Select<Role>()

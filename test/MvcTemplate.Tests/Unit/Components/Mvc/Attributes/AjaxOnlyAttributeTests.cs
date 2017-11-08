@@ -13,7 +13,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region IsValidForRequest(RouteContext context, ActionDescriptor action)
 
         [Fact]
-        public void IsValidForRequest_NullHeader_ReturnsFalse()
+        public void IsValidForRequest_NullHeaders_ReturnsFalse()
         {
             RouteContext context = new RouteContext(Substitute.For<HttpContext>());
             context.HttpContext.Request.Headers.Returns(null as IHeaderDictionary);

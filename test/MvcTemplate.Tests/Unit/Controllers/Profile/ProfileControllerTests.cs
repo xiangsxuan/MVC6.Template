@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using MvcTemplate.Components.Alerts;
 using MvcTemplate.Controllers;
@@ -128,7 +127,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Object expected = RedirectToAction(controller, "Edit");
             Object actual = controller.Edit(profileEdit);
 
-            Assert.Same(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         #endregion
@@ -165,7 +164,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsActive(controller.CurrentAccountId).Returns(true);
 
-            ViewDataDictionary actual = (controller.Delete() as ViewResult).ViewData;
+            ViewResult actual = controller.Delete() as ViewResult;
 
             Assert.Null(actual.Model);
         }
@@ -212,7 +211,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service.IsActive(controller.CurrentAccountId).Returns(true);
             validator.CanDelete(profileDelete).Returns(false);
 
-            ViewDataDictionary actual = (controller.DeleteConfirmed(profileDelete) as ViewResult).ViewData;
+            ViewResult actual = controller.DeleteConfirmed(profileDelete) as ViewResult;
 
             Assert.Null(actual.Model);
         }
@@ -237,7 +236,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Object expected = RedirectToAction(controller, "Logout", "Auth");
             Object actual = controller.DeleteConfirmed(profileDelete);
 
-            Assert.Equal(expected, actual);
+            Assert.Same(expected, actual);
         }
 
         #endregion

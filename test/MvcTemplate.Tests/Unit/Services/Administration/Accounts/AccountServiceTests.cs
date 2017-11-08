@@ -146,9 +146,10 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             AccountRecoveryView view = ObjectFactory.CreateAccountRecoveryView();
             account.RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(30);
+            String oldToken = account.RecoveryToken;
             view.Email = view.Email.ToUpper();
 
-            String expectedToken = service.Recover(view);
+            account.RecoveryToken = service.Recover(view);
 
             Account actual = context.Set<Account>().AsNoTracking().Single();
             Account expected = account;
@@ -156,12 +157,12 @@ namespace MvcTemplate.Tests.Unit.Services
             Assert.InRange(actual.RecoveryTokenExpirationDate.Value.Ticks,
                 expected.RecoveryTokenExpirationDate.Value.Ticks - TimeSpan.TicksPerSecond,
                 expected.RecoveryTokenExpirationDate.Value.Ticks + TimeSpan.TicksPerSecond);
-            Assert.NotEqual(expected.RecoveryToken, actual.RecoveryToken);
+            Assert.Equal(expected.RecoveryToken, actual.RecoveryToken);
             Assert.Equal(expected.CreationDate, actual.CreationDate);
-            Assert.Equal(expectedToken, actual.RecoveryToken);
             Assert.Equal(expected.IsLocked, actual.IsLocked);
             Assert.Equal(expected.Passhash, actual.Passhash);
             Assert.Equal(expected.Username, actual.Username);
+            Assert.NotEqual(oldToken, actual.RecoveryToken);
             Assert.Equal(expected.RoleId, actual.RoleId);
             Assert.Equal(expected.Email, actual.Email);
             Assert.Equal(expected.Id, actual.Id);
@@ -384,7 +385,6 @@ namespace MvcTemplate.Tests.Unit.Services
 
             context.Add(account);
             context.SaveChanges();
-            context.DropState();
         }
 
         #endregion

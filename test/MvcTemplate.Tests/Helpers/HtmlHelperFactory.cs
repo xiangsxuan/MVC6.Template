@@ -32,4 +32,3 @@ namespace MvcTemplate.Tests
         }
     }
 }
-

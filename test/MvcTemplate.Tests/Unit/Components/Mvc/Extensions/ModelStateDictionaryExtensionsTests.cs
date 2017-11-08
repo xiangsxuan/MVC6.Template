@@ -8,39 +8,29 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 {
     public class ModelStateDictionaryExtensionsTests
     {
-        private ModelStateDictionary modelState;
-
-        public ModelStateDictionaryExtensionsTests()
-        {
-            modelState = new ModelStateDictionary();
-        }
-
         #region Errors(this ModelStateDictionary modelState)
 
         [Fact]
         public void Errors_FromModelState()
         {
-            modelState.AddModelError("Empty", "");
-            modelState.AddModelError("Error", "Error");
-            modelState.AddModelError("EmptyErrors", "");
-            modelState.AddModelError("EmptyErrors", "E");
-            modelState.SetModelValue("NoErrors", "A", "A");
+            ModelStateDictionary modelState = new ModelStateDictionary();
+            modelState.AddModelError("WhitespaceErrors", "           ");
+            modelState.AddModelError("WhitespaceErrors", "Whitespace");
             modelState.AddModelError("TwoErrors", "Error1");
             modelState.AddModelError("TwoErrors", "Error2");
-            modelState.AddModelError("WhitespaceErrors", "       ");
-            modelState.AddModelError("WhitespaceErrors", "Whitespace");
+            modelState.AddModelError("EmptyErrors", "");
+            modelState.AddModelError("EmptyErrors", "E");
+            modelState.AddModelError("Error", "Error");
+            modelState.AddModelError("Empty", "");
 
             Dictionary<String, String> actual = modelState.Errors();
-            Dictionary<String, String> expected = new Dictionary<String, String>
-            {
-                ["Empty"] = null,
-                ["Error"] = "Error",
-                ["EmptyErrors"] = "E",
-                ["TwoErrors"] = "Error1",
-                ["WhitespaceErrors"] = "       "
-            };
 
-            Assert.Equal(expected, actual);
+            Assert.Equal("           ", actual["WhitespaceErrors"]);
+            Assert.Equal("Error1", actual["TwoErrors"]);
+            Assert.Equal("E", actual["EmptyErrors"]);
+            Assert.Equal("Error", actual["Error"]);
+            Assert.Equal(5, actual.Count);
+            Assert.Null(actual["Empty"]);
         }
 
         #endregion

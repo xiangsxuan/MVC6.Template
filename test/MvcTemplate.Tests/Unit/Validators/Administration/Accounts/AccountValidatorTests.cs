@@ -71,6 +71,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanReset_ExpiredToken_ReturnsFalse()
         {
             account.RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(-5);
+            context.Update(account);
             context.SaveChanges();
 
             Boolean canReset = validator.CanReset(ObjectFactory.CreateAccountResetView());
@@ -236,7 +237,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanEdit_Account_UsedUsername_ReturnsFalse()
         {
             Account usedAccount = ObjectFactory.CreateAccount(1);
-            context.Set<Account>().Add(usedAccount);
+            context.Add(usedAccount);
             context.SaveChanges();
 
             AccountEditView view = ObjectFactory.CreateAccountEditView(account.Id);
@@ -262,7 +263,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanEdit_Account_UsedEmail_ReturnsFalse()
         {
             Account usedAccount = ObjectFactory.CreateAccount(1);
-            context.Set<Account>().Add(usedAccount);
+            context.Add(usedAccount);
             context.SaveChanges();
 
             AccountEditView view = ObjectFactory.CreateAccountEditView(account.Id);
@@ -363,7 +364,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanEdit_Profile_ToSameEmail()
         {
-            ProfileEditView view = ObjectFactory.CreateProfileEditView(1);
+            ProfileEditView view = ObjectFactory.CreateProfileEditView();
             view.Email = account.Email.ToUpper();
 
             Assert.True(validator.CanEdit(view));
@@ -417,10 +418,10 @@ namespace MvcTemplate.Tests.Unit.Validators
         private void SetUpData()
         {
             account = ObjectFactory.CreateAccount();
+            account.RoleId = account.Role.Id;
             account.IsLocked = false;
 
             context.Add(account);
-
             context.SaveChanges();
         }
 

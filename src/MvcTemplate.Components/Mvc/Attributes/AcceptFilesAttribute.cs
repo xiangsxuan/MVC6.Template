@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 
 namespace MvcTemplate.Components.Mvc
 {
@@ -41,11 +40,7 @@ namespace MvcTemplate.Components.Mvc
 
         private IEnumerable<IFormFile> ToFiles(Object value)
         {
-            IFormFile file = value as IFormFile;
-            if (file != null)
-                return new[] { file };
-
-            return value as IEnumerable<IFormFile>;
+            return value is IFormFile file ? new[] { file } : value as IEnumerable<IFormFile>;
         }
     }
 }

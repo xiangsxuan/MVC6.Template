@@ -6,11 +6,14 @@ using System;
 
 namespace MvcTemplate.Components.Mvc
 {
-    [HtmlTargetElement("label", Attributes = "for")]
+    [HtmlTargetElement("label", Attributes = "asp-for")]
     public class FormLabelTagHelper : TagHelper
     {
         public Boolean? Required { get; set; }
+
+        [HtmlAttributeName("asp-for")]
         public ModelExpression For { get; set; }
+
         private HtmlHelperOptions Options { get; }
 
         public FormLabelTagHelper(IOptions<HtmlHelperOptions> options)
@@ -29,8 +32,6 @@ namespace MvcTemplate.Components.Mvc
             if (Required == null && For.Metadata.IsRequired && For.Metadata.ModelType != typeof(Boolean))
                 require.InnerHtml.Append("*");
 
-            output.Attributes.SetAttribute("for", TagBuilder.CreateSanitizedId(For.Name, Options.IdAttributeDotReplacement));
-            output.Content.Append(For.ModelExplorer.Metadata.DisplayName);
             output.Content.AppendHtml(require);
         }
     }

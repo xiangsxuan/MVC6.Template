@@ -209,7 +209,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         [Fact]
         public void GetPropertyTitle_NotFoundLambdaType_ReturnsNull()
         {
-            Assert.Null(ResourceProvider.GetPropertyTitle<BaseView, Int32>(view => view.Id));
+            Assert.Null(ResourceProvider.GetPropertyTitle<TestView, String>(test => test.Title));
         }
 
         #endregion

@@ -341,7 +341,6 @@ namespace MvcTemplate.Tests.Unit.Services
 
             context.Add(role);
             context.SaveChanges();
-            context.DropState();
         }
 
         private JsTree CreatePermissions()

@@ -81,7 +81,8 @@ namespace MvcTemplate.Resources
         private static String GetPropertyTitle(String view, String property)
         {
             String title = GetViewTitle(view, property);
-            if (title != null) return title;
+            if (title != null)
+                return title;
 
             String[] properties = SplitCamelCase(property);
             for (Int32 skipped = 0; skipped < properties.Length; skipped++)
@@ -92,7 +93,8 @@ namespace MvcTemplate.Resources
                     String joinedProperty = String.Concat(properties.Skip(viewSize + skipped));
 
                     title = GetViewTitle(joinedView, joinedProperty);
-                    if (title != null) return title;
+                    if (title != null)
+                        return title;
                 }
             }
 
