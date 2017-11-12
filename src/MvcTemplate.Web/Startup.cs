@@ -68,6 +68,7 @@ namespace MvcTemplate.Web
                 .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
                 .AddViewOptions(options => options.ClientModelValidatorProviders.Add(new DateValidatorProvider()))
                 .AddMvcOptions(options => options.ModelMetadataDetailsProviders.Add(new DisplayMetadataProvider()))
+                .AddViewOptions(options => options.ClientModelValidatorProviders.Add(new NumberValidatorProvider()))
                 .AddMvcOptions(options => options.ModelBinderProviders.Insert(4, new TrimmingModelBinderProvider()));
 
             services.AddAuthentication("Cookies").AddCookie(authentication =>
