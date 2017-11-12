@@ -69,6 +69,8 @@ namespace MvcTemplate.Controllers.Administration
 
             Service.Edit(role);
 
+            Authorization?.Refresh();
+
             return RedirectToAction("Index");
         }
 
@@ -83,6 +85,8 @@ namespace MvcTemplate.Controllers.Administration
         public RedirectToActionResult DeleteConfirmed(Int32 id)
         {
             Service.Delete(id);
+
+            Authorization?.Refresh();
 
             return RedirectToAction("Index");
         }

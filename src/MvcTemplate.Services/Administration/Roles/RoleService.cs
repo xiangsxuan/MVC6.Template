@@ -1,5 +1,4 @@
 ﻿using MvcTemplate.Components.Extensions;
-using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
@@ -12,12 +11,9 @@ namespace MvcTemplate.Services
 {
     public class RoleService : BaseService, IRoleService
     {
-        private IAuthorizationProvider Authorization { get; }
-
-        public RoleService(IUnitOfWork unitOfWork, IAuthorizationProvider authorization)
+        public RoleService(IUnitOfWork unitOfWork)
             : base(unitOfWork)
         {
-            Authorization = authorization;
         }
 
         public virtual void SeedPermissions(RoleView view)
@@ -106,8 +102,6 @@ namespace MvcTemplate.Services
             Edit(role, view);
 
             UnitOfWork.Commit();
-
-            Authorization.Refresh();
         }
         public void Delete(Int32 id)
         {
@@ -117,8 +111,6 @@ namespace MvcTemplate.Services
             Delete(role);
 
             UnitOfWork.Commit();
-
-            Authorization.Refresh();
         }
 
         private void Edit(Role role, RoleView view)

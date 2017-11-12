@@ -19,7 +19,6 @@ namespace MvcTemplate.Tests.Unit.Services
 {
     public class AccountServiceTests : IDisposable
     {
-        private IAuthorizationProvider authorizationProvider;
         private AccountService service;
         private TestingContext context;
         private Account account;
@@ -29,13 +28,12 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             context = new TestingContext();
             hasher = Substitute.For<IHasher>();
-            authorizationProvider = Substitute.For<IAuthorizationProvider>();
             hasher.HashPassword(Arg.Any<String>()).Returns(info => info.Arg<String>() + "Hashed");
 
             context.DropData();
             SetUpData();
 
-            service = new AccountService(new UnitOfWork(context), hasher, authorizationProvider);
+            service = new AccountService(new UnitOfWork(context), hasher);
             service.CurrentAccountId = account.Id;
         }
         public void Dispose()
@@ -223,17 +221,6 @@ namespace MvcTemplate.Tests.Unit.Services
             Assert.False(actual.IsLocked);
         }
 
-        [Fact]
-        public void Create_RefreshesAuthorization()
-        {
-            AccountCreateView view = ObjectFactory.CreateAccountCreateView(1);
-            view.RoleId = null;
-
-            service.Create(view);
-
-            authorizationProvider.Received().Refresh();
-        }
-
         #endregion
 
         #region Edit(AccountEditView view)
@@ -261,17 +248,6 @@ namespace MvcTemplate.Tests.Unit.Services
             Assert.Equal(expected.RoleId, actual.RoleId);
             Assert.Equal(expected.Email, actual.Email);
             Assert.Equal(expected.Id, actual.Id);
-        }
-
-        [Fact]
-        public void Edit_RefreshesAuthorization()
-        {
-            AccountEditView view = ObjectFactory.CreateAccountEditView(account.Id);
-            view.RoleId = account.RoleId;
-
-            service.Edit(view);
-
-            authorizationProvider.Received().Refresh();
         }
 
         #endregion
@@ -329,14 +305,6 @@ namespace MvcTemplate.Tests.Unit.Services
             service.Delete(account.Id);
 
             Assert.Empty(context.Set<Account>());
-        }
-
-        [Fact]
-        public void Delete_RefreshesAuthorization()
-        {
-            service.Delete(account.Id);
-
-            authorizationProvider.Received().Refresh();
         }
 
         #endregion

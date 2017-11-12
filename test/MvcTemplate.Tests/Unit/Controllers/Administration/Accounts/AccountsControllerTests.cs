@@ -1,5 +1,9 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers.Administration;
 using MvcTemplate.Objects;
 using MvcTemplate.Services;
@@ -30,7 +34,10 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
             account = ObjectFactory.CreateAccountView();
 
             controller = Substitute.ForPartsOf<AccountsController>(validator, service);
+            controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
+            controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.ControllerContext.RouteData = new RouteData();
+            controller.Url = Substitute.For<IUrlHelper>();
         }
 
         #region Index()
@@ -87,6 +94,18 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
             controller.Create(accountCreate);
 
             service.Received().Create(accountCreate);
+        }
+
+        [Fact]
+        public void Create_RefreshesAuthorization()
+        {
+            controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            validator.CanCreate(accountCreate).Returns(true);
+            controller.OnActionExecuting(null);
+
+            controller.Create(accountCreate);
+
+            controller.Authorization.Received().Refresh();
         }
 
         [Fact]
@@ -153,6 +172,18 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
             controller.Edit(accountEdit);
 
             service.Received().Edit(accountEdit);
+        }
+
+        [Fact]
+        public void Edit_RefreshesAuthorization()
+        {
+            controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            validator.CanEdit(accountEdit).Returns(true);
+            controller.OnActionExecuting(null);
+
+            controller.Edit(accountEdit);
+
+            controller.Authorization.Received().Refresh();
         }
 
         [Fact]

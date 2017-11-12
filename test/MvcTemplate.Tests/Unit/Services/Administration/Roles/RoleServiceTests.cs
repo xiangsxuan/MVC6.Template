@@ -2,7 +2,6 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using MvcTemplate.Components.Extensions;
-using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
@@ -19,7 +18,6 @@ namespace MvcTemplate.Tests.Unit.Services
 {
     public class RoleServiceTests : IDisposable
     {
-        private IAuthorizationProvider authorizationProvider;
         private TestingContext context;
         private RoleService service;
         private Role role;
@@ -27,8 +25,7 @@ namespace MvcTemplate.Tests.Unit.Services
         public RoleServiceTests()
         {
             context = new TestingContext();
-            authorizationProvider = Substitute.For<IAuthorizationProvider>();
-            service = Substitute.ForPartsOf<RoleService>(new UnitOfWork(context), authorizationProvider);
+            service = Substitute.ForPartsOf<RoleService>(new UnitOfWork(context));
 
             context.DropData();
             SetUpData();
@@ -268,14 +265,6 @@ namespace MvcTemplate.Tests.Unit.Services
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public void Edit_RefreshesAuthorization()
-        {
-            service.Edit(ObjectFactory.CreateRoleView(role.Id));
-
-            authorizationProvider.Received().Refresh();
-        }
-
         #endregion
 
         #region Delete(Int32 id)
@@ -309,14 +298,6 @@ namespace MvcTemplate.Tests.Unit.Services
             service.Delete(role.Id);
 
             Assert.Empty(context.Set<RolePermission>());
-        }
-
-        [Fact]
-        public void Delete_RefreshesAuthorization()
-        {
-            service.Delete(role.Id);
-
-            authorizationProvider.Received().Refresh();
         }
 
         #endregion

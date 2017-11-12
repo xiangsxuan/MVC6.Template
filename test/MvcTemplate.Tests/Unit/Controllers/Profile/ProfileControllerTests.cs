@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Alerts;
+using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
@@ -30,7 +34,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
             profileEdit = ObjectFactory.CreateProfileEditView();
 
             controller = Substitute.ForPartsOf<ProfileController>(validator, service);
+            controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
+            controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.ControllerContext.RouteData = new RouteData();
+            controller.Url = Substitute.For<IUrlHelper>();
             ReturnCurrentAccountId(controller, 1);
         }
 
@@ -225,6 +232,19 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller.DeleteConfirmed(profileDelete);
 
             service.Received().Delete(controller.CurrentAccountId);
+        }
+
+        [Fact]
+        public void DeleteConfirmed_RefreshesAuthorization()
+        {
+            controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            service.IsActive(controller.CurrentAccountId).Returns(true);
+            validator.CanDelete(profileDelete).Returns(true);
+            controller.OnActionExecuting(null);
+
+            controller.DeleteConfirmed(profileDelete);
+
+            controller.Authorization.Received().Refresh();
         }
 
         [Fact]
