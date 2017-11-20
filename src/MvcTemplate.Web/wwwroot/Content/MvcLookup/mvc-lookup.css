@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Lookup 2.2.0
+ * Mvc.Lookup 2.3.1
  * https://github.com/NonFactors/MVC6.Lookup
  *
  * Copyright © NonFactors
@@ -68,6 +68,10 @@
     display: none;
 }
 
+.mvc-lookup-readonly .mvc-lookup-browse {
+    cursor: not-allowed;
+}
+
 .mvc-lookup-browseless .mvc-lookup-control {
     border-radius: 4px;
 }
@@ -109,23 +113,27 @@
         left: 45%;
     }
 
-.mvc-lookup-widget .ui-dialog-title {
-    line-height: 1.4em;
-    min-height: 1.4em;
+.mvc-lookup-widget {
+    max-width: 98%;
 }
 
-.mvc-lookup-dialog,
-.mvc-lookup-widget,
-.mvc-lookup-widget:after,
-.mvc-lookup-widget:before {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-}
-
-    .mvc-lookup-widget .mvc-lookup-dialog {
-        padding: 1em;
+    .mvc-lookup-widget .ui-dialog-title {
+        line-height: 1.4em;
+        min-height: 1.4em;
     }
+
+    .mvc-lookup-dialog,
+    .mvc-lookup-widget,
+    .mvc-lookup-widget:after,
+    .mvc-lookup-widget:before {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }
+
+        .mvc-lookup-widget .mvc-lookup-dialog {
+            padding: 1em;
+        }
 
 .mvc-lookup-dialog {
     font-size: 0.9em;
@@ -225,6 +233,7 @@
     top: calc(3px + 0.4em);
     border-radius: 50%;
     position: absolute;
+    display: none;
     right: 0.8em;
     height: 1em;
     opacity: 0;
@@ -233,6 +242,7 @@
 
 .mvc-lookup-loading + .mvc-lookup-control-loader {
     transition: opacity 1.5s linear;
+    display: block;
     opacity: 1;
 }
 
@@ -271,6 +281,10 @@
     background-color: #FFF6F6;
     border-color: #EBCCD1;
     color: #A94442;
+}
+
+.mvc-lookup-table {
+    overflow-x: auto;
 }
 
 @keyframes mvc-lookup-spin {
@@ -320,35 +334,39 @@
 
 .mvc-lookup-split td {
     background-color: #FFFFFF;
+    color: transparent;
     cursor: default;
     border: none;
 }
 
-.mvc-lookup-dialog td:not(:first-child):last-child {
+.mvc-lookup-dialog td:last-child {
     box-sizing: border-box;
     text-align: center;
     font-weight: bold;
     width: 2.5em;
 }
 
-    .mvc-lookup-dialog td:not(:first-child):last-child::after {
+    .mvc-lookup-dialog td:last-child::after {
         content: '\25CF';
     }
 
-.mvc-lookup-dialog tr:hover td:not(:first-child):last-child::after,
-.mvc-lookup-dialog .selected td:not(:first-child):last-child::after {
+.mvc-lookup-dialog .selected td:last-child::after {
     content: '\2714';
     color: #5CB85C;
 }
 
-.mvc-lookup-dialog .selected:hover td:not(:first-child):last-child::after {
-    content: '\2718';
-    color: #D65A5A;
+.mvc-lookup-dialog .mvc-lookup-empty {
+    text-align: center;
+    cursor: default;
 }
 
-.mvc-lookup-empty {
-    text-align: center;
-}
+    .mvc-lookup-dialog .mvc-lookup-empty:hover {
+        background-color: inherit;
+    }
+
+    .mvc-lookup-dialog .mvc-lookup-empty td::after {
+        content: '';
+    }
 
 .mvc-lookup-dialog ul {
     padding-top: 0.8em;

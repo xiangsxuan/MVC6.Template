@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Lookup 2.2.0
+ * Mvc.Lookup 2.3.1
  * https://github.com/NonFactors/MVC6.Lookup
  *
  * Copyright © NonFactors
@@ -71,11 +71,13 @@ var MvcLookupDialog = (function () {
         initOptions: function () {
             var dialog = this;
 
-            this.options = {
+            dialog.options = {
                 dialog: {
+                    position: { my: 'center top', at: 'center top+50px', of: window, within: window },
                     classes: { 'ui-dialog': 'mvc-lookup-widget' },
                     dialogClass: 'mvc-lookup-widget',
                     title: dialog.title,
+                    draggable: false,
                     autoOpen: false,
                     minWidth: 455,
                     width: 'auto',
@@ -120,19 +122,7 @@ var MvcLookupDialog = (function () {
                     dialog.loader.show();
                 }
 
-                var instance = dialog.instance.dialog('open').parent();
-                var visibleLeft = $(document).scrollLeft();
-                var visibleTop = $(document).scrollTop();
-
-                if (parseInt(instance.css('left')) < visibleLeft) {
-                    instance.css('left', visibleLeft);
-                }
-                if (parseInt(instance.css('top')) > visibleTop + 100) {
-                    instance.css('top', visibleTop + 100);
-                }
-                else if (parseInt(instance.css('top')) < visibleTop) {
-                    instance.css('top', visibleTop);
-                }
+                dialog.instance.dialog('open');
             }, 100);
         },
         close: function () {
@@ -173,6 +163,11 @@ var MvcLookupDialog = (function () {
                 this.renderHeader(data.columns);
                 this.renderBody(data.columns, data.rows);
                 this.renderFooter(data.filteredRows);
+
+                this.instance.parent().position({ my: 'left top', at: 'left top+50px', of: window, within: window });
+                this.instance.dialog({
+                    position: this.options.dialog.position || { my: 'center top', at: 'center top+50px', of: window, within: window }
+                });
             } else {
                 this.error.fadeIn(300);
             }
@@ -199,6 +194,9 @@ var MvcLookupDialog = (function () {
                 this.tableBody.append(empty);
             }
 
+            var hasSplit = false;
+            var hasSelection = rows.length && this.lookup.indexOf(this.selected, rows[0].LookupIdKey) >= 0;
+
             for (var i = 0; i < rows.length; i++) {
                 var tr = this.createDataRow(rows[i]);
                 var selection = document.createElement('td');
@@ -207,21 +205,23 @@ var MvcLookupDialog = (function () {
                     if (!columns[j].hidden) {
                         var td = document.createElement('td');
                         td.className = columns[j].cssClass || '';
-                        td.innerText = rows[i][columns[j].key];
+                        td.innerText = rows[i][columns[j].key] || '';
 
                         tr.appendChild(td);
                     }
                 }
 
                 tr.appendChild(selection);
-                this.tableBody.append(tr);
 
-                if (i == this.selected.length - 1) {
+                if (!hasSplit && hasSelection && this.lookup.indexOf(this.selected, rows[i].LookupIdKey) < 0) {
                     var separator = this.createEmptyRow(columns);
                     separator.className = 'mvc-lookup-split';
+                    hasSplit = true;
 
                     this.tableBody.append(separator);
                 }
+
+                this.tableBody.append(tr);
             }
         },
         renderFooter: function (filteredRows) {
@@ -297,7 +297,7 @@ var MvcLookupDialog = (function () {
         },
         createHeaderColumn: function (column) {
             var header = document.createElement('th');
-            header.innerText = column.header;
+            header.innerText = column.header || '';
             var filter = this.filter;
             var dialog = this;
 
@@ -484,10 +484,10 @@ var MvcLookup = (function () {
             this.readonly = readonly;
 
             if (readonly) {
-                this.search.autocomplete('disable').attr('readonly', 'readonly');
+                this.search.autocomplete('disable').attr({ readonly: 'readonly', tabindex: -1 });
                 this.group.addClass('mvc-lookup-readonly');
             } else {
-                this.search.autocomplete('enable').removeAttr('readonly');
+                this.search.autocomplete('enable').removeAttr('readonly').removeAttr('tabindex');
                 this.group.removeClass('mvc-lookup-readonly');
             }
 
@@ -542,6 +542,13 @@ var MvcLookup = (function () {
                 }
             }
 
+            if (triggerChanges && data.length == this.selected.length) {
+                triggerChanges = false;
+                for (var i = 0; i < data.length && !triggerChanges; i++) {
+                    triggerChanges = data[i].LookupIdKey != this.selected[i].LookupIdKey;
+                }
+            }
+
             this.selected = data;
 
             if (this.multi) {
@@ -576,7 +583,7 @@ var MvcLookup = (function () {
                 close.innerHTML = 'x';
 
                 var item = document.createElement('div');
-                item.innerText = data[i].LookupAcKey;
+                item.innerText = data[i].LookupAcKey || '';
                 item.className = 'mvc-lookup-item';
                 item.appendChild(close);
 

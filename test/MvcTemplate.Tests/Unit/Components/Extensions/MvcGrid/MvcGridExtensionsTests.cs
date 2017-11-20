@@ -493,9 +493,9 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
             Assert.Equal(Strings.NoDataFound, actual.EmptyText);
             Assert.Equal(expectedClasses, actual.CssClasses);
-            Assert.Equal(true, column.IsFilterable);
-            Assert.Equal(true, column.IsSortable);
+            Assert.True(column.IsFilterable);
             Assert.NotEmpty(actual.Columns);
+            Assert.True(column.IsSortable);
         }
 
         #endregion

@@ -15,7 +15,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region Process(TagHelperContext context, TagHelperOutput output)
 
         [Theory]
-        [InlineData(typeof(String), true, null, "")]
+        [InlineData(typeof(String), true, null, "*")]
         [InlineData(typeof(String), true, true, "*")]
         [InlineData(typeof(String), true, false, "")]
         [InlineData(typeof(String), false, null, "")]
@@ -24,7 +24,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [InlineData(typeof(Boolean), true, null, "")]
         [InlineData(typeof(Boolean), true, true, "*")]
         [InlineData(typeof(Boolean), true, false, "")]
-        public void Process_Label(Type type, Boolean metadataRequired, Boolean required, String require)
+        public void Process_Label(Type type, Boolean metadataRequired, Boolean? required, String require)
         {
             ModelMetadata metadata = Substitute.For<ModelMetadata>(ModelMetadataIdentity.ForType(type));
             IOptions<HtmlHelperOptions> options = Substitute.For<IOptions<HtmlHelperOptions>>();
