@@ -107,9 +107,10 @@ namespace MvcTemplate.Components.Security
             if (authorizeAs != null)
             {
                 type = GetControllerType(authorizeAs.Area ?? area, authorizeAs.Controller ?? controller);
-                method = GetMethod(type, authorizeAs.Action);
+                MethodInfo authorizeAsMethod = GetMethod(type, authorizeAs.Action);
 
-                return GetRequiredPermission(type, method);
+                if (authorizeAsMethod != method)
+                    return GetRequiredPermission(type, authorizeAsMethod);
             }
 
             return AllowsUnauthorized(type, method) ? null : (area + "/" + controller + "/" + action).ToLower();

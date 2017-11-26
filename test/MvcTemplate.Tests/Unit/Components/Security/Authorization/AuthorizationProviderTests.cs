@@ -165,6 +165,22 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         }
 
         [Fact]
+        public void IsAuthorizedFor_AuthorizesActionAsSelf()
+        {
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "AuthorizedAsSelf");
+
+            Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedAsSelf"));
+        }
+
+        [Fact]
+        public void IsAuthorizedFor_DoesNotAuthorizeActionAsSelf()
+        {
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Test", "Test");
+
+            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedAsSelf"));
+        }
+
+        [Fact]
         public void IsAuthorizedFor_AuthorizesActionAsOtherAction()
         {
             Int32 accountId = CreateAccountWithPermissionFor(null, "InheritedAuthorized", "InheritanceAction");

@@ -72,6 +72,13 @@ namespace MvcTemplate.Tests.Unit.Components.Security.Area
         }
 
         [HttpGet]
+        [AuthorizeAs("AuthorizedAsSelf")]
+        public ViewResult AuthorizedAsSelf()
+        {
+            return null;
+        }
+
+        [HttpGet]
         [AuthorizeAs("InheritanceAction", Controller = "InheritedAuthorized", Area = "")]
         public ViewResult AuthorizedAsOtherAction()
         {
