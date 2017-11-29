@@ -44,10 +44,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region IsValid(Object value, ValidationContext context)
+        #region GetValidationResult(Object value, ValidationContext context)
 
         [Fact]
-        public void IsValid_EqualValue()
+        public void GetValidationResult_EqualValue()
         {
             AttributesModel model = new AttributesModel();
             ValidationContext context = new ValidationContext(model);
@@ -56,7 +56,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void IsValid_NotEqualValueMessage()
+        public void GetValidationResult_NotEqualValueMessage()
         {
             AttributesModel model = new AttributesModel { Total = 10 };
             ValidationContext context = new ValidationContext(model);
