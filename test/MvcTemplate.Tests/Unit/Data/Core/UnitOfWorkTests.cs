@@ -37,7 +37,13 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Dispose();
         }
 
-        #region GetAs<TModel, TDestination>(Int32 id)
+        #region GetAs<TModel, TDestination>(Int32? id)
+
+        [Fact]
+        public void GetAs_Null_ReturnsDestinationDefault()
+        {
+            Assert.Null(unitOfWork.GetAs<TestModel, TestView>(null));
+        }
 
         [Fact]
         public void GetAs_ReturnsModelAsDestinationModelById()

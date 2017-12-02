@@ -21,9 +21,11 @@ namespace MvcTemplate.Data.Core
             Logger = logger;
         }
 
-        public TDestination GetAs<TModel, TDestination>(Int32 id) where TModel : BaseModel
+        public TDestination GetAs<TModel, TDestination>(Int32? id) where TModel : BaseModel
         {
-            return Context.Set<TModel>().Where(model => model.Id == id).ProjectTo<TDestination>().FirstOrDefault();
+            return id == null
+                ? default(TDestination)
+                : Context.Set<TModel>().Where(model => model.Id == id).ProjectTo<TDestination>().FirstOrDefault();
         }
         public TModel Get<TModel>(Int32? id) where TModel : BaseModel
         {
