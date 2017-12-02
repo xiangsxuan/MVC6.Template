@@ -181,6 +181,12 @@
 (function () {
     var trees = $('.js-tree-view');
     for (var i = 0; i < trees.length; i++) {
+        $(trees[i]).on('click.jstree', '.jstree-anchor', function (e) {
+            if ($(this).closest('.widget-box.readonly').length) {
+                e.stopImmediatePropagation();
+            }
+        });
+
         var tree = $(trees[i]).jstree({
             'core': {
                 'themes': {
