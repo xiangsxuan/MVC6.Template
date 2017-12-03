@@ -247,17 +247,17 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         [Fact]
         public void IsAuthorizedFor_AuthorizesAuthorizedController()
         {
-            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Authorized", "Action");
 
-            Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "Action"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, null, "Authorized", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeAuthorizedController()
         {
-            Int32 accountId = CreateAccountWithPermissionFor("Test", "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "Action"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, null, "Authorized", "Action"));
         }
 
         [Fact]
