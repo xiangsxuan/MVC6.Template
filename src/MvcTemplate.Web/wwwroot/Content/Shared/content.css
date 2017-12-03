@@ -77,10 +77,10 @@ body.public .public-action {
   padding: 0 5px;
 }
 .control-label {
-  padding: 8px 15px 0;
+  padding: 7px 0 0 15px;
 }
 .control-label label {
-  margin-bottom: 6px;
+  margin-bottom: 7px;
 }
 .control-label .require {
   color: #D11919;
