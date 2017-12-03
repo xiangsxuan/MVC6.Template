@@ -87,7 +87,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanReset_ValidAccount()
         {
-            Assert.True(validator.CanRecover(ObjectFactory.CreateAccountRecoveryView()));
+            Assert.True(validator.CanReset(ObjectFactory.CreateAccountResetView()));
             Assert.Empty(validator.ModelState);
             Assert.Empty(validator.Alerts);
         }
