@@ -10,8 +10,8 @@
       "wwwroot/Scripts/MvcGrid/**/*.js",
       "wwwroot/Scripts/Bootstrap/*.js",
       "wwwroot/Scripts/JsTree/*.js",
-      "wwwroot/Scripts/Application/Shared/Widgets/**/*.js",
-      "wwwroot/Scripts/Application/**/*.js"
+      "wwwroot/Scripts/Shared/Widgets/*.js",
+      "wwwroot/Scripts/Shared/*.js"
     ]
   },
   {
@@ -20,8 +20,8 @@
       "wwwroot/Scripts/JQuery/jquery.js",
       "wwwroot/Scripts/JQuery/**/*.js",
       "wwwroot/Scripts/Bootstrap/*.js",
-      "wwwroot/Scripts/Application/Shared/Widgets/**/*.js",
-      "wwwroot/Scripts/Application/**/*.js"
+      "wwwroot/Scripts/Shared/Widgets/*.js",
+      "wwwroot/Scripts/Shared/*.js"
     ]
   },
   {
@@ -33,7 +33,7 @@
       "wwwroot/Content/MvcGrid/*.css",
       "wwwroot/Content/JsTree/*.css",
       "wwwroot/Content/MvcLookup/*.css",
-      "wwwroot/Content/Shared/**/*.css"
+      "wwwroot/Content/Shared/*.css"
     ]
   },
   {
@@ -41,7 +41,8 @@
     "inputFiles": [
       "wwwroot/Content/Bootstrap/*.css",
       "wwwroot/Content/FontAwesome/*.css",
-      "wwwroot/Content/Shared/**/*.css"
+      "wwwroot/Content/Shared/*.css",
+      "wwwroot/Content/Application/**/*.css"
     ]
   }
 ]
