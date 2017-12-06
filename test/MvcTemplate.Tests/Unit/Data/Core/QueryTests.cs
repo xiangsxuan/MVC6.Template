@@ -1,5 +1,4 @@
 ﻿using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Tests.Data;
 using MvcTemplate.Tests.Objects;
@@ -92,22 +91,15 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #region Where(Expression<Func<TModel, Boolean>> predicate)
 
-        [Fact]
-        public void Where_Filters()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Where_Filters(Boolean predicate)
         {
-            IEnumerable<TestModel> actual = select.Where(model => true);
-            IEnumerable<TestModel> expected = context.Set<TestModel>();
+            IEnumerable<TestModel> expected = context.Set<TestModel>().Where(model => predicate);
+            IEnumerable<TestModel> actual = select.Where(model => predicate);
 
             Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void Where_ReturnsItself()
-        {
-            Object actual = select.Where(model => true);
-            Object expected = select;
-
-            Assert.Same(expected, actual);
         }
 
         #endregion

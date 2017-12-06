@@ -13,7 +13,7 @@ namespace MvcTemplate.Data.Core
         public Expression Expression => Set.Expression;
         public IQueryProvider Provider => Set.Provider;
 
-        private IQueryable<TModel> Set { get; set; }
+        private IQueryable<TModel> Set { get; }
 
         public Query(IQueryable<TModel> set)
         {
@@ -26,9 +26,7 @@ namespace MvcTemplate.Data.Core
         }
         public IQuery<TModel> Where(Expression<Func<TModel, Boolean>> predicate)
         {
-            Set = Set.Where(predicate);
-
-            return this;
+            return new Query<TModel>(Set.Where(predicate));
         }
 
         public IQueryable<TView> To<TView>()
