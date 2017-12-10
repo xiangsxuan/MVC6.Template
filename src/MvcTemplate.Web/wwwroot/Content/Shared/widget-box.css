@@ -95,9 +95,6 @@
   }
 }
 @media (min-width: 1200px) {
-  .widget-content .field-validation-error {
-    padding-top: 7px;
-  }
   .widget-content .control-validation {
     text-align: left;
   }
