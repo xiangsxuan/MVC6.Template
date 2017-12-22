@@ -15,6 +15,9 @@ namespace MvcTemplate.Components.Mvc
         public EqualToAttribute(String otherPropertyName)
             : base(() => Validations.EqualTo)
         {
+            if (otherPropertyName == null)
+                throw new ArgumentNullException(nameof(otherPropertyName));
+
             OtherPropertyName = otherPropertyName;
         }
 
@@ -25,9 +28,7 @@ namespace MvcTemplate.Components.Mvc
         protected override ValidationResult IsValid(Object value, ValidationContext context)
         {
             PropertyInfo other = context.ObjectType.GetProperty(OtherPropertyName);
-            Object otherValue = other.GetValue(context.ObjectInstance);
-
-            if (Equals(value, otherValue))
+            if (other != null && Equals(value, other.GetValue(context.ObjectInstance)))
                 return null;
 
             OtherPropertyDisplayName = ResourceProvider.GetPropertyTitle(context.ObjectType, OtherPropertyName) ?? OtherPropertyName;
