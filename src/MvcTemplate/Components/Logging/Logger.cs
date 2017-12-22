@@ -11,7 +11,7 @@ namespace MvcTemplate.Components.Logging
     {
         private IConfiguration Config { get; }
         private Func<Int32?> AccountId { get; }
-        private static Object LogWriting = new Object();
+        private static Object LogWriting { get; } = new Object();
 
         public Logger(IConfiguration config)
         {

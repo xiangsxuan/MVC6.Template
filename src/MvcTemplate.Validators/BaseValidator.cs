@@ -29,11 +29,10 @@ namespace MvcTemplate.Validators
 
             if (!isSpecified)
             {
-                UnaryExpression unary = property.Body as UnaryExpression;
-                if (unary == null)
-                    ModelState.AddModelError(property, String.Format(Validations.Required, ResourceProvider.GetPropertyTitle(property)));
-                else
+                if (property.Body is UnaryExpression unary)
                     ModelState.AddModelError(property, String.Format(Validations.Required, ResourceProvider.GetPropertyTitle(unary.Operand)));
+                else
+                    ModelState.AddModelError(property, String.Format(Validations.Required, ResourceProvider.GetPropertyTitle(property)));
             }
 
             return isSpecified;

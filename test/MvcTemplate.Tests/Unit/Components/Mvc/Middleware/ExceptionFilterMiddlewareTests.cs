@@ -22,7 +22,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             context.RequestServices.GetService<ILogger>().Returns(logger);
             ExceptionFilterMiddleware middleware = new ExceptionFilterMiddleware(next);
 
-            next.When(sub => sub(context)).Do(info => { throw exception; });
+            next.When(sub => sub(context)).Do(info => throw exception);
 
             Exception actual = Assert.Throws<AggregateException>(() => middleware.Invoke(context).Wait()).InnerException;
             Exception expected = exception;

@@ -10,7 +10,7 @@ namespace MvcTemplate.Components.Mvc
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class AcceptFilesAttribute : ValidationAttribute
     {
-        public String Extensions { get; private set; }
+        public String Extensions { get; }
 
         public AcceptFilesAttribute(String extensions)
             : base(() => Validations.AcceptFiles)
@@ -32,10 +32,7 @@ namespace MvcTemplate.Components.Mvc
             if (files == null)
                 return false;
 
-            if (files.Any(file => file.FileName == null))
-                return false;
-
-            return files.All(file => Extensions.Split(',').Any(extension => file.FileName.EndsWith(extension)));
+            return files.All(file => Extensions.Split(',').Any(extension => file.FileName?.EndsWith(extension) == true));
         }
 
         private IEnumerable<IFormFile> ToFiles(Object value)

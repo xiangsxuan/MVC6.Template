@@ -42,7 +42,7 @@ namespace MvcTemplate.Components.Mvc
 
         private void Redirect(HttpContext context, String action, String controller, Object values)
         {
-            RouteData route = (context.Features[typeof(IRoutingFeature)] as IRoutingFeature).RouteData;
+            RouteData route = (context.Features[typeof(IRoutingFeature)] as IRoutingFeature)?.RouteData;
             IUrlHelper url = new UrlHelper(new ActionContext(context, route, new ActionDescriptor()));
 
             context.Response.Redirect(url.Action(action, controller, values));

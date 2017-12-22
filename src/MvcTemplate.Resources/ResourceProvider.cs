@@ -73,9 +73,7 @@ namespace MvcTemplate.Resources
         }
         public static String GetPropertyTitle(Expression property)
         {
-            MemberExpression expression = property as MemberExpression;
-
-            return expression == null ? null : GetPropertyTitle(expression.Expression.Type, expression.Member.Name);
+            return property is MemberExpression expression ? GetPropertyTitle(expression.Expression.Type, expression.Member.Name) : null;
         }
 
         private static String GetPropertyTitle(String view, String property)
