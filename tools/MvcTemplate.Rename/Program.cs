@@ -25,7 +25,7 @@ namespace MvcTemplate.Rename
             String passhash = BCrypt.Net.BCrypt.HashPassword(Password.Length <= 32 ? Password : Password.Substring(0, 32), 13);
 
             String[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.*", SearchOption.AllDirectories);
-            Regex adminPassword = new Regex("Passhash = \"\\$2a\\$.*\", // Will be generated on project rename");
+            Regex adminPassword = new Regex("Passhash = \"\\$2b\\$.*\", // Will be generated on project rename");
             Regex iisPort = new Regex("(\"(applicationUrl|launchUrl)\": .*:)\\d+(.*\")");
             Regex version = new Regex("<Version>\\d+\\.\\d+\\.\\d+</Version>");
             Regex newLine = new Regex("\\r?\\n");
