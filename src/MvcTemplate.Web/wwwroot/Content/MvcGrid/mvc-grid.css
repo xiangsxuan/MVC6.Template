@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Grid 2.2.0
+ * Mvc.Grid 2.3.0
  * https://github.com/NonFactors/MVC6.Grid
  *
  * Copyright © NonFactors
@@ -93,8 +93,9 @@
     border: 1px solid #CCCCCC;
     position: absolute;
     border-radius: 4px;
-    z-index: 1000;
+    z-index: 1100;
     display: none;
+    width: 180px;
 }
 
     .mvc-grid-popup.open {

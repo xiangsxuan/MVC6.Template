@@ -8,7 +8,7 @@
             <div class="widget-header-buttons">
                 <authorize action="Create">
                     <a asp-action="Create" class="btn">
-                        <i class="fa fa-file-o"></i><span class="text">@Actions.Create</span>
+                        <i class="far fa-file"></i><span class="text">@Actions.Create</span>
                     </a>
                 </authorize>
             </div>
@@ -19,7 +19,7 @@
                 .Build(columns =>
                 {
                     columns.AddActionLink("Details", "fa fa-info");
-                    columns.AddActionLink("Edit", "fa fa-pencil");
+                    columns.AddActionLink("Edit", "fa fa-pencil-alt");
                     columns.AddActionLink("Delete", "fa fa-times");
 
                     columns.AddProperty(model => model.Title);

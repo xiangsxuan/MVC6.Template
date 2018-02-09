@@ -34,7 +34,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         [Fact]
         public void AddActionLink_Unauthorized_Empty()
         {
-            IGridColumn<AllTypesView> actual = columns.AddActionLink("Edit", "fa fa-pencil");
+            IGridColumn<AllTypesView> actual = columns.AddActionLink("Edit", "fa fa-pencil-alt");
 
             Assert.Empty(actual.ValueFor(null).ToString());
             Assert.Empty(columns);
@@ -107,7 +107,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         {
             columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(null as IAuthorizationProvider);
 
-            IGridColumn<AllTypesView> actual = columns.AddActionLink("Edit", "fa fa-pencil");
+            IGridColumn<AllTypesView> actual = columns.AddActionLink("Edit", "fa fa-pencil-alt");
 
             Assert.Equal("action-cell", actual.CssClasses);
             Assert.False(actual.IsEncoded);

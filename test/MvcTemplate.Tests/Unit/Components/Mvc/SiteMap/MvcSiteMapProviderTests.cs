@@ -53,7 +53,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Null(actual[0].Action);
             Assert.Null(actual[0].Controller);
             Assert.Equal("Administration", actual[0].Area);
-            Assert.Equal("fa fa-gears", actual[0].IconClass);
+            Assert.Equal("fa fa-cogs", actual[0].IconClass);
 
             actual = actual[0].Children.ToArray();
 
@@ -79,7 +79,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Equal("Create", actual[0].Action);
             Assert.Equal("Roles", actual[0].Controller);
             Assert.Equal("Administration", actual[0].Area);
-            Assert.Equal("fa fa-file-o", actual[0].IconClass);
+            Assert.Equal("far fa-file", actual[0].IconClass);
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Null(actual[0].Action);
             Assert.Null(actual[0].Controller);
             Assert.Equal("Administration", actual[0].Area);
-            Assert.Equal("fa fa-gears", actual[0].IconClass);
+            Assert.Equal("fa fa-cogs", actual[0].IconClass);
 
             actual = actual[0].Children.ToArray();
 
@@ -205,7 +205,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Null(actual[0].Action);
             Assert.Null(actual[0].Controller);
             Assert.Equal("Administration", actual[0].Area);
-            Assert.Equal("fa fa-gears", actual[0].IconClass);
+            Assert.Equal("fa fa-cogs", actual[0].IconClass);
 
             actual = actual[0].Children.ToArray();
 
@@ -244,7 +244,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Null(actual[1].Action);
             Assert.Null(actual[1].Area);
 
-            Assert.Equal("fa fa-pencil", actual[2].IconClass);
+            Assert.Equal("fa fa-pencil-alt", actual[2].IconClass);
             Assert.Equal("Profile", actual[2].Controller);
             Assert.Equal("Edit", actual[2].Action);
             Assert.Null(actual[2].Area);
@@ -271,17 +271,17 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
                     @"<siteMap>
                         <siteMapNode icon=""fa fa-home"" controller=""Home"" action=""Index"">
                             <siteMapNode icon=""fa fa-user"" controller=""Profile"">
-                                <siteMapNode icon=""fa fa-pencil"" controller=""Profile"" action=""Edit"" />
+                                <siteMapNode icon=""fa fa-pencil-alt"" controller=""Profile"" action=""Edit"" />
                             </siteMapNode>
-                            <siteMapNode menu=""true"" icon=""fa fa-gears"" area=""Administration"">
+                            <siteMapNode menu=""true"" icon=""fa fa-cogs"" area=""Administration"">
                                 <siteMapNode menu=""true"" icon=""fa fa-user"" area=""Administration"" controller=""Accounts"" action=""Index"">
                                     <siteMapNode icon=""fa fa-info"" area=""Administration"" controller=""Accounts"" action=""Details"">
-                                        <siteMapNode icon=""fa fa-pencil"" area=""Administration"" controller=""Accounts"" action=""Edit"" />
+                                        <siteMapNode icon=""fa fa-pencil-alt"" area=""Administration"" controller=""Accounts"" action=""Edit"" />
                                     </siteMapNode>
                                 </siteMapNode>
                                 <siteMapNode menu=""true"" icon=""fa fa-users"" area=""Administration"" controller=""Roles"">
-                                    <siteMapNode menu=""true"" icon=""fa fa-file-o"" area=""Administration"" controller=""Roles"" action=""Create"" />
-                                    <siteMapNode icon=""fa fa-pencil"" area=""Administration"" controller=""Roles"" action=""Edit"" />
+                                    <siteMapNode menu=""true"" icon=""far fa-file"" area=""Administration"" controller=""Roles"" action=""Create"" />
+                                    <siteMapNode icon=""fa fa-pencil-alt"" area=""Administration"" controller=""Roles"" action=""Edit"" />
                                 </siteMapNode>
                             </siteMapNode>
                         </siteMapNode>

@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Grid 2.2.0
+ * Mvc.Grid 2.3.0
  * https://github.com/NonFactors/MVC6.Grid
  *
  * Copyright © NonFactors
@@ -15,6 +15,7 @@ var MvcGrid = (function () {
         this.data = options.data;
         this.name = grid.attr('id') || '';
         this.rowClicked = options.rowClicked;
+        this.methods = { reload: this.reload };
         this.reloadEnded = options.reloadEnded;
         this.reloadFailed = options.reloadFailed;
         this.reloadStarted = options.reloadStarted;
@@ -182,7 +183,7 @@ var MvcGrid = (function () {
                     grid.rowClicked(this, data, e);
                 }
 
-                $(this).trigger('rowclick', [data, grid]);
+                $(this).trigger('rowclick', [data, grid, e]);
             });
         },
 
@@ -262,7 +263,11 @@ var MvcGrid = (function () {
 
                 $(window).on('resize.mvcgrid', function () {
                     if (popup.hasClass('open')) {
+                        popup.removeClass('open');
+
                         grid.setFilterPosition(column, popup);
+
+                        popup.addClass('open');
                     }
                 });
             } else {
@@ -271,20 +276,20 @@ var MvcGrid = (function () {
         },
         setFilterPosition: function (column, popup) {
             var filter = column.header.find('.mvc-grid-filter');
+            var documentWidth = $(document).width();
             var arrow = popup.find('.popup-arrow');
             var filterLeft = filter.offset().left;
             var filterTop = filter.offset().top;
             var filterHeight = filter.height();
-            var winWidth = $(window).width();
             var popupWidth = popup.width();
 
             var popupTop = filterTop + filterHeight / 2 + 14;
             var popupLeft = filterLeft - 8;
-            var arrowLeft = 15;
+            var arrowLeft = 12;
 
-            if (filterLeft + popupWidth + 5 > winWidth) {
-                popupLeft = winWidth - popupWidth - 14;
-                arrowLeft = filterLeft - popupLeft + 7;
+            if (filterLeft + popupWidth + 5 > documentWidth) {
+                popupLeft = documentWidth - popupWidth - 5;
+                arrowLeft = filterLeft - popupLeft + 4;
             }
 
             arrow.css('left', arrowLeft + 'px');
@@ -783,18 +788,52 @@ var MvcGridBooleanFilter = (function () {
 })();
 
 $.fn.mvcgrid = function (options) {
+    var args = arguments;
+
+    if (options === 'instance') {
+        var instances = [];
+
+        for (var i = 0; i < this.length; i++) {
+            var grid = $(this[i]).closest('.mvc-grid');
+            if (!grid.length)
+                continue;
+
+            var instance = grid.data('mvc-grid');
+
+            if (!instance) {
+                grid.data('mvc-grid', instance = new MvcGrid(grid, options));
+            }
+
+            instances.push(instance);
+        }
+
+        return this.length <= 1 ? instances[0] : instances;
+    }
+
     return this.each(function () {
         var grid = $(this).closest('.mvc-grid');
         if (!grid.length)
             return;
 
-        if (!$.data(grid[0], 'mvc-grid')) {
-            $.data(grid[0], 'mvc-grid', new MvcGrid(grid, options));
+        var instance = grid.data('mvc-grid');
+
+        if (!instance) {
+            if (typeof options == 'string') {
+                instance = new MvcGrid(grid);
+                instance.methods[options].apply(instance, [].slice.call(args, 1));
+            } else {
+                instance = new MvcGrid(grid, options);
+            }
+
+            $.data(grid[0], 'mvc-grid', instance);
+        } else if (typeof options == 'string') {
+            instance.methods[options].apply(instance, [].slice.call(args, 1));
         } else if (options) {
-            $.data(grid[0], 'mvc-grid').set(options);
+            instance.set(options);
         }
     });
 };
+
 $.fn.mvcgrid.lang = {
     Text: {
         Contains: 'Contains',

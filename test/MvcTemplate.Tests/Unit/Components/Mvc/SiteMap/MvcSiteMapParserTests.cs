@@ -44,9 +44,9 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             return XElement.Parse(
             @"<siteMap>
               <siteMapNode controller=""Home"" action=""Index"" menu=""false"" icon=""fa fa-home"">
-                <siteMapNode menu=""true"" area=""Administration"" icon=""fa fa-gears"">
+                <siteMapNode menu=""true"" area=""Administration"" icon=""fa fa-cogs"">
                   <siteMapNode controller=""Accounts"" action=""Index"" menu=""false"" area=""Administration"" icon=""fa fa-user"">
-                    <siteMapNode controller=""Accounts"" action=""Create"" menu=""true"" area=""Administration"" icon=""fa fa-file-o"" />
+                    <siteMapNode controller=""Accounts"" action=""Create"" menu=""true"" area=""Administration"" icon=""far fa-file"" />
                   </siteMapNode>
                 </siteMapNode>
               </siteMapNode>
@@ -67,7 +67,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
                     {
                         new MvcSiteMapNode
                         {
-                            IconClass = "fa fa-gears",
+                            IconClass = "fa fa-cogs",
                             IsMenu = true,
 
                             Area = "Administration",
@@ -87,7 +87,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
                                     {
                                         new MvcSiteMapNode
                                         {
-                                            IconClass = "fa fa-file-o",
+                                            IconClass = "far fa-file",
                                             IsMenu = true,
 
                                             Area = "Administration",
