@@ -259,8 +259,8 @@
     });
 
     var widgets = $('.widget-box.readonly');
-    widgets.find('input').attr('readonly', 'readonly');
-    widgets.find('textarea').attr('readonly', 'readonly');
+    widgets.find('input').attr({ readonly: 'readonly', tabindex: -1 });
+    widgets.find('textarea').attr({ readonly: 'readonly', tabindex: -1 });
     if ($.fn.mvclookup) { widgets.find('.mvc-lookup').mvclookup({ readonly: true }); }
 })();
 
