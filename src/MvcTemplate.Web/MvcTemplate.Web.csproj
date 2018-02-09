@@ -9,9 +9,13 @@
 
   <ItemGroup>
     <Compile Remove="Logs\**" />
+    <Compile Remove="Templates\**" />
     <Content Remove="Logs\**" />
+    <Content Remove="Templates\**" />
     <EmbeddedResource Remove="Logs\**" />
+    <EmbeddedResource Remove="Templates\**" />
     <None Remove="Logs\**" />
+    <None Remove="Templates\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,25 +40,6 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.6.362" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Templates\Module\Controllers\Controller.cshtml" />
-    <None Include="Templates\Module\Objects\Model.cshtml" />
-    <None Include="Templates\Module\Objects\View.cshtml" />
-    <None Include="Templates\Module\Services\IService.cshtml" />
-    <None Include="Templates\Module\Services\Service.cshtml" />
-    <None Include="Templates\Module\Tests\ControllerTests.cshtml" />
-    <None Include="Templates\Module\Tests\ServiceTests.cshtml" />
-    <None Include="Templates\Module\Tests\ValidatorTests.cshtml" />
-    <None Include="Templates\Module\Validators\IValidator.cshtml" />
-    <None Include="Templates\Module\Validators\Validator.cshtml" />
-    <None Include="Templates\Module\Web\Create.cshtml" />
-    <None Include="Templates\Module\Web\Delete.cshtml" />
-    <None Include="Templates\Module\Web\Details.cshtml" />
-    <None Include="Templates\Module\Web\Edit.cshtml" />
-    <None Include="Templates\Module\Web\Index.cshtml" />
-    <None Include="Templates\_ViewImports.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
