@@ -5,8 +5,8 @@
         <siteMapNode icon="fa fa-search" controller="Home" action="NotFound" />
         <siteMapNode icon="fa fa-lock" controller="Home" action="Unauthorized" />
 
-        <siteMapNode controller="Profile" action="Edit" />
-        <siteMapNode controller="Profile" action="Delete" />
+        <siteMapNode icon="fa fa-user-circle" controller="Profile" action="Edit" />
+        <siteMapNode icon="fa fa-user-times" controller="Profile" action="Delete" />
 
         <siteMapNode menu="true" icon="fa fa-cogs" area="Administration">
             <siteMapNode menu="true" icon="fa fa-user" area="Administration" controller="Accounts" action="Index">
