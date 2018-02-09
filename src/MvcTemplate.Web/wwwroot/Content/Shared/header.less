@@ -21,6 +21,7 @@
 
         > a {
             text-shadow: 0 0 @color;
+            line-height: 1.42857143;
             display: block;
             padding: 10px;
             color: @color;
@@ -34,15 +35,22 @@
             }
         }
 
+        img {
+            margin-bottom: 3px;
+        }
+
         .dropdown-menu {
             border-top-right-radius: 0;
             border-top-left-radius: 0;
             margin-top: 0;
 
             img {
-                margin-bottom: 3px;
                 margin-right: 5px;
             }
+        }
+
+        .dropdown-toggle::after {
+            vertical-align: 0.2em;
         }
     }
 }

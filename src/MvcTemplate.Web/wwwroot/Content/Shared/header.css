@@ -17,6 +17,7 @@
 }
 .header-navigation > .btn > a {
   text-shadow: 0 0 #CCCCCC;
+  line-height: 1.42857143;
   display: block;
   padding: 10px;
   color: #CCCCCC;
@@ -27,14 +28,19 @@
 .header-navigation > .btn > a .caret {
   margin-left: 5px;
 }
+.header-navigation > .btn img {
+  margin-bottom: 3px;
+}
 .header-navigation > .btn .dropdown-menu {
   border-top-right-radius: 0;
   border-top-left-radius: 0;
   margin-top: 0;
 }
 .header-navigation > .btn .dropdown-menu img {
-  margin-bottom: 3px;
   margin-right: 5px;
+}
+.header-navigation > .btn .dropdown-toggle::after {
+  vertical-align: 0.2em;
 }
 @media (max-width: 767px) {
   .header-navigation > .btn > a .fa {

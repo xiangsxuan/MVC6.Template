@@ -1,7 +1,7 @@
 ﻿@model ModuleModel
 @@model @Model.View
 
-<div class="col-xs-12">
+<div class="col">
     <div class="widget-box">
         <div class="widget-header">
             <span class="widget-header-icon fa fa-th-list"></span>
@@ -25,7 +25,7 @@
                         <input asp-for="@property.Name" class="form-control" autocomplete="off" />
                         }
                     </div>
-                    <div class="control-validation col-xs-12 col-lg-5">
+                    <div class="control-validation col">
                         <span asp-validation-for="@property.Name"></span>
                     </div>
                 </div>

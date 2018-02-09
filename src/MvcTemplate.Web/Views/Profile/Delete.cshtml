@@ -1,6 +1,6 @@
 ﻿@model ProfileDeleteView
 
-<div class="col-xs-12">
+<div class="col">
     <div class="widget-box">
         <div class="widget-header">
             <span class="widget-header-icon fa fa-th-list"></span>
@@ -15,7 +15,7 @@
         </div>
         <div class="widget-content">
             <form asp-antiforgery="true">
-                <input class="hidden" type="password" /> @* Forcing browser to not remember following form inputs *@
+                <input class="collapse" type="password" /> @* Forcing browser to not remember following form inputs *@
                 <div class="form-group">
                     <div class="control-label col-xs-12 col-md-3 col-lg-2">
                         <label asp-for="Password"></label>
@@ -23,7 +23,7 @@
                     <div class="control-content col-xs-12 col-md-9 col-lg-5">
                         <input asp-for="Password" class="form-control" type="password" autocomplete="off" />
                     </div>
-                    <div class="control-validation col-xs-12 col-lg-5">
+                    <div class="control-validation col">
                         <span asp-validation-for="Password"></span>
                     </div>
                 </div>

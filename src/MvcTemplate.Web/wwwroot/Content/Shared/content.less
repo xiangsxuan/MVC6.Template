@@ -103,6 +103,7 @@ body.public {
     min-height: 34px;
 
     label {
+        font-weight: bold;
         margin: 0;
     }
 
@@ -139,15 +140,15 @@ body.public {
 }
 
 .form-control[readonly]:focus {
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #c4c4c4;
-    border-color: #cecece;
+    box-shadow: 0 0 0 0.2rem rgba(195, 191, 192, 0.25);
+    border-color: #CECECE;
 }
 
 .input-validation-error {
     border-color: @validation-color;
 
     &:focus {
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px lighten(@validation-color, 40%);
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
         border-color: @validation-color;
     }
 }

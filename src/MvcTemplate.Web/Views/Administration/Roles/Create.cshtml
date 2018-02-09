@@ -1,6 +1,6 @@
 ﻿@model RoleView
 
-<div class="col-xs-12">
+<div class="col">
     <div class="widget-box">
         <div class="widget-header">
             <span class="widget-header-icon fa fa-th-list"></span>
@@ -15,7 +15,7 @@
                     <div class="control-content col-xs-12 col-md-9 col-lg-5">
                         <input asp-for="Title" class="form-control" autocomplete="off" />
                     </div>
-                    <div class="control-validation col-xs-12 col-lg-5">
+                    <div class="control-validation col">
                         <span asp-validation-for="Title"></span>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                     <div class="control-content col-xs-12 col-md-9 col-lg-5">
                         <div jstree-for="Permissions"></div>
                     </div>
-                    <div class="control-validation col-xs-12 col-lg-5">
+                    <div class="control-validation col">
                         <span asp-validation-for="Permissions"></span>
                     </div>
                 </div>
