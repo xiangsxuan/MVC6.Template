@@ -20,10 +20,12 @@
             <span class="input-error fa fa-exclamation-triangle"></span>
         </div>
         @{ ILanguages languages = Context.RequestServices.GetService<ILanguages>(); }
-        @if (languages.Supported.Length > 1)
-        {
-            String query = ViewContext.HttpContext.Request.QueryString.ToString();
+        @{ String returnPath = ViewContext.HttpContext.Request.Query["returnUrl"]; }
+        @{ String rootPath = Context.Request.PathBase.Value.Trim('/'); }
+        @{ returnPath = (returnPath ?? rootPath).Trim('/'); }
 
+        @if (languages.Supported.Length > 1 && returnPath == rootPath)
+        {
             <div class="input-group">
                 <div class="language-container dropdown-toggle" data-toggle="dropdown">
                     <span class="current-language">
@@ -36,7 +38,7 @@
                     @foreach (Language language in languages.Supported)
                     {
                         <li>
-                            <a class="dropdown-item" href="@(Url.Action("Login", new { language = language.IsDefault ? "" : language.Abbreviation }) + query)">
+                            <a class="dropdown-item" href="@Url.Action("Login", new { language = language.IsDefault ? "" : language.Abbreviation })">
                                 <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" width="16" height="11" alt="">
                                 @language.Name
                             </a>
