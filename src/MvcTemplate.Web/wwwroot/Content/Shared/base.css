@@ -1,20 +1,7 @@
-﻿@font-face {
-  src: url("../Fonts/PTSans.woff") format("woff");
-  font-family: 'PT Sans';
-  font-style: normal;
-  font-weight: 400;
-}
-@font-face {
-  src: url("../Fonts/PTSans-Bold.woff") format("woff");
-  font-family: "PT Sans";
-  font-style: normal;
-  font-weight: 700;
-}
-html {
+﻿html {
   font-size: 14px;
 }
 body {
-  font-family: "PT Sans", consolas;
   color: #555555;
 }
 body.private {
