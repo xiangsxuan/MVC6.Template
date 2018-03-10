@@ -1,4 +1,5 @@
 /src/MvcTemplate.Web/Logs/
+.vscode/
 .vs/
 bin/
 obj/
