@@ -15,7 +15,7 @@ namespace MvcTemplate.Rename
 
         public static void Main()
         {
-            Console.Write("Enter admin password (32 symbols max): ");
+            Console.Write("Enter new site admin user password (32 symbols max): ");
             while ((Password = Console.ReadLine().Trim()) == "") { }
 
             Console.WriteLine("Enter root namespace name: ");
