@@ -4,16 +4,16 @@ using System;
 
 namespace MvcTemplate.Components.Mvc
 {
-    public class ModelMessagesProvider
+    public static class ModelMessagesProvider
     {
-        public ModelMessagesProvider(DefaultModelBindingMessageProvider messages)
+        public static void Set(DefaultModelBindingMessageProvider messages)
         {
             messages.SetAttemptedValueIsInvalidAccessor((value, field) => String.Format(Validations.InvalidField, field));
-            messages.SetUnknownValueIsInvalidAccessor((field) => String.Format(Validations.InvalidField, field));
-            messages.SetMissingBindRequiredValueAccessor((field) => String.Format(Validations.Required, field));
-            messages.SetValueMustNotBeNullAccessor((field) => String.Format(Validations.Required, field));
-            messages.SetValueIsInvalidAccessor((value) => String.Format(Validations.InvalidValue, value));
-            messages.SetValueMustBeANumberAccessor((field) => String.Format(Validations.Numeric, field));
+            messages.SetUnknownValueIsInvalidAccessor(field => String.Format(Validations.InvalidField, field));
+            messages.SetMissingBindRequiredValueAccessor(field => String.Format(Validations.Required, field));
+            messages.SetValueMustNotBeNullAccessor(field => String.Format(Validations.Required, field));
+            messages.SetValueIsInvalidAccessor(value => String.Format(Validations.InvalidValue, value));
+            messages.SetValueMustBeANumberAccessor(field => String.Format(Validations.Numeric, field));
             messages.SetMissingKeyOrValueAccessor(() => Validations.RequiredValue);
         }
     }

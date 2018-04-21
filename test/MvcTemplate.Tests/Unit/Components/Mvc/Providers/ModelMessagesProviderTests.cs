@@ -13,10 +13,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public ModelMessagesProviderTests()
         {
             messages = new DefaultModelBindingMessageProvider();
-            new ModelMessagesProvider(messages);
+            ModelMessagesProvider.Set(messages);
         }
 
-        #region ModelMessagesProvider(ModelBindingMessageProvider messages)
+        #region Set(ModelBindingMessageProvider messages)
 
         [Fact]
         public void ModelMessagesProvider_SetsAttemptedValueIsInvalidAccessor()

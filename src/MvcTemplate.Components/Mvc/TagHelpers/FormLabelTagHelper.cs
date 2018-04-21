@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Extensions.Options;
 using System;
 
 namespace MvcTemplate.Components.Mvc
@@ -13,13 +12,6 @@ namespace MvcTemplate.Components.Mvc
 
         [HtmlAttributeName("asp-for")]
         public ModelExpression For { get; set; }
-
-        private HtmlHelperOptions Options { get; }
-
-        public FormLabelTagHelper(IOptions<HtmlHelperOptions> options)
-        {
-            Options = options.Value;
-        }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {

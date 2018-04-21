@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Extensions.Options;
 using MvcTemplate.Components.Mvc;
 using NSubstitute;
 using System;
@@ -27,10 +26,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void Process_Label(Type type, Boolean metadataRequired, Boolean? required, String require)
         {
             ModelMetadata metadata = Substitute.For<ModelMetadata>(ModelMetadataIdentity.ForType(type));
-            IOptions<HtmlHelperOptions> options = Substitute.For<IOptions<HtmlHelperOptions>>();
-            options.Value.Returns(new HtmlHelperOptions { IdAttributeDotReplacement = "___" });
             TagHelperAttribute[] attributes = { new TagHelperAttribute("for", "Test") };
-            FormLabelTagHelper helper = new FormLabelTagHelper(options);
+            FormLabelTagHelper helper = new FormLabelTagHelper();
 
             TagHelperOutput output = new TagHelperOutput("label", new TagHelperAttributeList(attributes), (useCache, encoder) => null);
             helper.For = new ModelExpression("Total.Sum", new ModelExplorer(new EmptyModelMetadataProvider(), metadata, null));

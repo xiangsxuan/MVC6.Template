@@ -389,7 +389,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
 
         private Int32 CreateAccountWithPermissionFor(String area, String controller, String action, Boolean isLocked = false)
         {
-            using (TestingContext context = new TestingContext())
+            using (TestingContext testingContext = new TestingContext())
             {
                 RolePermission rolePermission = ObjectFactory.CreateRolePermission();
                 Account account = ObjectFactory.CreateAccount();
@@ -401,8 +401,8 @@ namespace MvcTemplate.Tests.Unit.Components.Security
                 rolePermission.Permission.Action = action;
                 rolePermission.Permission.Area = area;
 
-                context.Add(account);
-                context.SaveChanges();
+                testingContext.Add(account);
+                testingContext.SaveChanges();
 
                 authorization.Refresh();
 

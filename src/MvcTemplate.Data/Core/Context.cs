@@ -39,7 +39,7 @@ namespace MvcTemplate.Data.Core
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            foreach (IEntityType entity in builder.Model.GetEntityTypes())
+            foreach (IMutableEntityType entity in builder.Model.GetEntityTypes())
                 foreach (PropertyInfo property in entity.ClrType.GetProperties())
                     if (property.GetCustomAttribute<IndexAttribute>(false) is IndexAttribute index)
                         builder.Entity(entity.ClrType).HasIndex(property.Name).IsUnique(index.IsUnique);

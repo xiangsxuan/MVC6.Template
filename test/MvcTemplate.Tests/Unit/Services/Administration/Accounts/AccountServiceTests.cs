@@ -314,12 +314,12 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Login_Account()
         {
-            HttpContext context = Substitute.For<HttpContext>();
-            context.RequestServices.GetService(typeof(IAuthenticationService)).Returns(Substitute.For<IAuthenticationService>());
+            HttpContext httpContext = Substitute.For<HttpContext>();
+            httpContext.RequestServices.GetService(typeof(IAuthenticationService)).Returns(Substitute.For<IAuthenticationService>());
 
-            service.Login(context, account.Username.ToUpper());
+            service.Login(httpContext, account.Username.ToUpper());
 
-            context.Received().SignInAsync("Cookies", Arg.Is<ClaimsPrincipal>(principal =>
+            httpContext.Received().SignInAsync("Cookies", Arg.Is<ClaimsPrincipal>(principal =>
                 principal.Claims.Single().Subject.Name == account.Id.ToString() &&
                 principal.Claims.Single().Subject.NameClaimType == "name" &&
                 principal.Claims.Single().Subject.RoleClaimType == "role" &&
@@ -335,12 +335,12 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Logout_Account()
         {
-            HttpContext context = Substitute.For<HttpContext>();
-            context.RequestServices.GetService(typeof(IAuthenticationService)).Returns(Substitute.For<IAuthenticationService>());
+            HttpContext httpContext = Substitute.For<HttpContext>();
+            httpContext.RequestServices.GetService(typeof(IAuthenticationService)).Returns(Substitute.For<IAuthenticationService>());
 
-            service.Logout(context);
+            service.Logout(httpContext);
 
-            context.Received().SignOutAsync("Cookies");
+            httpContext.Received().SignOutAsync("Cookies");
         }
 
         #endregion

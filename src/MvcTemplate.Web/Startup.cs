@@ -63,7 +63,7 @@ namespace MvcTemplate.Web
                 .AddMvc()
                 .AddMvcOptions(options => options.Filters.Add(typeof(LanguageFilter)))
                 .AddMvcOptions(options => options.Filters.Add(typeof(AuthorizationFilter)))
-                .AddMvcOptions(options => new ModelMessagesProvider(options.ModelBindingMessageProvider))
+                .AddMvcOptions(options => ModelMessagesProvider.Set(options.ModelBindingMessageProvider))
                 .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
                 .AddViewOptions(options => options.ClientModelValidatorProviders.Add(new DateValidatorProvider()))
                 .AddMvcOptions(options => options.ModelMetadataDetailsProviders.Add(new DisplayMetadataProvider()))

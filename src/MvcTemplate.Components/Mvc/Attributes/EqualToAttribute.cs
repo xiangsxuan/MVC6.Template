@@ -15,10 +15,7 @@ namespace MvcTemplate.Components.Mvc
         public EqualToAttribute(String otherPropertyName)
             : base(() => Validations.EqualTo)
         {
-            if (otherPropertyName == null)
-                throw new ArgumentNullException(nameof(otherPropertyName));
-
-            OtherPropertyName = otherPropertyName;
+            OtherPropertyName = otherPropertyName ?? throw new ArgumentNullException(nameof(otherPropertyName));
         }
 
         public override String FormatErrorMessage(String name)
