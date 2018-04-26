@@ -5,15 +5,8 @@ a:hover {
     text-decoration: none;
 }
 
-.pagination > .active > a,
-.pagination > .active > span,
-.pagination > .active > a:hover,
-.pagination > .active > span:hover,
-.pagination > .active > a:focus,
-.pagination > .active > span:focus {
-    background: linear-gradient(@active-from-color, @active-to-color);
-    color: @active-color;
-    z-index: 1;
+.table-hover > tbody > tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
 }
 
 .form-control:disabled, .form-control[readonly] {
@@ -30,23 +23,6 @@ a:hover {
         background: linear-gradient(#75a9c4, #5997b8);
         border: 1px solid #5997b8;
     }
-}
-
-.table {
-    margin-bottom: 0;
-
-    > thead > tr > th,
-    > tbody > tr > th,
-    > tfoot > tr > th {
-        vertical-align: middle;
-        border-bottom: none;
-        white-space: nowrap;
-        border-top: none;
-    }
-}
-
-.table-hover > tbody > tr:hover {
-    background-color: rgba(0, 0, 0, 0.02);
 }
 
 .input-group .form-control {
@@ -164,37 +140,79 @@ a:hover {
 }
 
 /* Mvc.Lookup */
-.mvc-lookup-dialog th {
-    text-align: center !important;
+.mvc-lookup-dialog {
+    th {
+        text-align: center !important;
+    }
+
+    tbody {
+        tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .selected:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    }
 }
 
-.mvc-lookup-input {
-    outline: none;
+.mvc-lookup-focus .mvc-lookup-control {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    border-color: #80bdff;
+
+    &.input-validation-error {
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        border-color: #DC3545;
+    }
 }
 
 /* Mvc.Grid */
 .mvc-grid {
-    overflow-x: auto;
-    width: 100%;
+    line-height: 1.5;
+
+    thead {
+        background-image: linear-gradient(@active-color, @content-background-color);
+        background-color: @active-color;
+    }
 
     th {
         text-align: center !important;
-        padding-right: 30px;
-        padding-left: 30px;
-        height: 2.65em;
+        vertical-align: middle;
+        white-space: nowrap;
+        background: none;
+    }
+
+    th,
+    td {
+        border-width: 0 0 1px 0;
+    }
+
+    th + th,
+    td + td {
+        border-left-width: 1px;
+    }
+
+    .mvc-grid-headers,
+    .mvc-grid-filters {
+        .mvc-grid-filter {
+            border-left: 1px solid #DEE2E6;
+        }
     }
 }
 
-.mvc-grid-pager ul {
-    justify-content: center;
-    margin: 8px;
+.mvc-grid-filter {
+    background: none;
 
-    span {
-        border: 1px solid #DEE2E6;
-        padding: 0.4em 0.8em;
-        position: relative;
-        margin-left: -1px;
+    &:focus,
+    &:hover {
+        background: rgba(0, 0, 0, 0.03);
     }
+}
+
+.mvc-grid-pager .active a {
+    background: linear-gradient(@active-from-color, @active-to-color);
+    border-color: #59788a;
+    color: @active-color;
 }
 
 .mvc-grid-popup .invalid {

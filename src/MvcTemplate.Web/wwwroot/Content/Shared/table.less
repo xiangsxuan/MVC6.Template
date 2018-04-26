@@ -1,29 +1,7 @@
 ﻿@import "../theme";
 
 table {
-    thead {
-        background-image: linear-gradient(@active-color, @content-background-color);
-        background-color: @active-color;
-    }
-
-    th {
-        text-align: center;
-    }
-
-    tr + tr td {
-        border-top: 1px solid #dddddd;
-    }
-
-    th + th,
-    td + td {
-        border-left: 1px solid #dddddd;
-    }
-
-    th, td {
-        border-bottom: 1px solid #dddddd;
-    }
-
-    &.table .action-cell {
+    .action-cell {
         text-align: center;
         min-width: 36px;
         padding: 7px;

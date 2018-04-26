@@ -1,40 +1,40 @@
 ﻿window.cultures = window.cultures || {};
 window.cultures.grid = window.cultures.grid || {};
 window.cultures.grid['lt'] = {
-    Text: {
-        Contains: 'Reikšmėje yra',
-        Equals: 'Lygus',
-        NotEquals: 'Nelygus',
-        StartsWith: 'Prasideda',
-        EndsWith: 'Baigiasi'
+    text: {
+        'contains': 'Reikšmėje yra',
+        'equals': 'Lygus',
+        'not-equals': 'Nelygus',
+        'starts-with': 'Prasideda',
+        'ends-with': 'Baigiasi'
     },
-    Number: {
-        Equals: 'Lygu',
-        NotEquals: 'Nelygu',
-        LessThan: 'Mažiau už',
-        GreaterThan: 'Daugiau už',
-        LessThanOrEqual: 'Mažiau arba lygu',
-        GreaterThanOrEqual: 'Daugiau arba lygu'
+    number: {
+        'equals': 'Lygu',
+        'not-equals': 'Nelygu',
+        'less-than': 'Mažiau už',
+        'greater-than': 'Daugiau už',
+        'less-than-or-equal': 'Mažiau arba lygu',
+        'greater-than-or-equal': 'Daugiau arba lygu'
     },
-    Date: {
-        Equals: 'Lygi',
-        NotEquals: 'Nelygi',
-        LessThan: 'Ankstesnė nei',
-        GreaterThan: 'Vėlesnė nei',
-        LessThanOrEqual: 'Ankstesnė arba lygi',
-        GreaterThanOrEqual: 'Vėlesnė arba lygi'
+    date: {
+        'equals': 'Lygi',
+        'not-equals': 'Nelygi',
+        'earlier-than': 'Ankstesnė nei',
+        'later-than': 'Vėlesnė nei',
+        'earlier-than-or-equal': 'Ankstesnė arba lygi',
+        'later-than-or-equal': 'Vėlesnė arba lygi'
     },
-    Boolean: {
-        Yes: 'Taip',
-        No: 'Ne'
+    enum: {
+        'equals': 'Lygi',
+        'not-equals': 'Nelygi',
     },
-    Filter: {
-        Apply: '&#10004;',
-        Remove: '&#10008;'
+    filter: {
+        'apply': '&#10004;',
+        'remove': '&#10008;'
     },
-    Operator: {
-        Select: '',
-        And: 'ir',
-        Or: 'arba'
+    operator: {
+        'select': '',
+        'and': 'ir',
+        'or': 'arba'
     }
 };

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <Version>1.1.0</Version>
     <OutputType>Exe</OutputType>
+    <GenerateFullPaths>true</GenerateFullPaths>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
   </PropertyGroup>
@@ -24,14 +25,14 @@
 
   <ItemGroup>
     <PackageReference Include="Humanizer.Core" Version="2.2.0" />
-    <PackageReference Include="NonFactors.Grid.Mvc6" Version="2.3.0" />
-    <PackageReference Include="NonFactors.Lookup.Mvc6" Version="2.4.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.1" />
+    <PackageReference Include="NonFactors.Grid.Mvc6" Version="3.0.0" />
+    <PackageReference Include="NonFactors.Lookup.Mvc6" Version="2.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.2" />
   </ItemGroup>
 
   <Target Name="PostcompileScript" AfterTargets="Build">
@@ -39,7 +40,7 @@
   </Target>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.6.362" />
+    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.6.375" />
   </ItemGroup>
 
   <ItemGroup>

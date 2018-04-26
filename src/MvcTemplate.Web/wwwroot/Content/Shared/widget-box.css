@@ -58,12 +58,12 @@
   margin: 0;
   zoom: 1;
 }
-.widget-content .form-group::before,
-.widget-content .form-group::after {
+.widget-content .form-group:before,
+.widget-content .form-group:after {
   display: table;
   content: " ";
 }
-.widget-content .form-group::after {
+.widget-content .form-group:after {
   clear: both;
 }
 .widget-content .form-group:last-child {

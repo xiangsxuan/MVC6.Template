@@ -18,26 +18,23 @@ namespace MvcTemplate.Components.Extensions
 {
     public static class MvcGridExtensions
     {
-        public static IGridColumn<T> AddActionLink<T>(this IGridColumnsOf<T> columns, String action, String iconClass) where T : class
+        public static IGridColumn<T, IHtmlContent> AddActionLink<T>(this IGridColumnsOf<T> columns, String action, String iconClass) where T : class
         {
             if (!IsAuthorizedTo(columns.Grid.ViewContext, action))
-                return new GridColumn<T, String>(columns.Grid, model => "");
+                return new GridColumn<T, IHtmlContent>(columns.Grid, model => null);
 
-            return columns
-                .Add(model => GetLink(columns.Grid.ViewContext, model, action, iconClass))
-                .Css("action-cell")
-                .Encoded(false);
+            return columns.Add(model => GetLink(columns.Grid.ViewContext, model, action, iconClass)).Css("action-cell");
         }
 
-        public static IGridColumn<T> AddDateProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
+        public static IGridColumn<T, DateTime> AddDateProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
         {
             return columns.AddProperty(expression).Formatted("{0:d}");
         }
-        public static IGridColumn<T> AddDateProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
+        public static IGridColumn<T, DateTime?> AddDateProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
         {
             return columns.AddProperty(expression).Formatted("{0:d}");
         }
-        public static IGridColumn<T> AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean>> expression)
+        public static IGridColumn<T, Boolean> AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean>> expression)
         {
             Func<T, Boolean> valueFor = expression.Compile();
 
@@ -45,7 +42,7 @@ namespace MvcTemplate.Components.Extensions
                 .AddProperty(expression)
                 .RenderedAs(model => valueFor(model) ? Strings.Yes : Strings.No);
         }
-        public static IGridColumn<T> AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean?>> expression)
+        public static IGridColumn<T, Boolean?> AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean?>> expression)
         {
             Func<T, Boolean?> valueFor = expression.Compile();
 
@@ -58,15 +55,15 @@ namespace MvcTemplate.Components.Extensions
                             : Strings.No
                         : "");
         }
-        public static IGridColumn<T> AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
+        public static IGridColumn<T, DateTime> AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
         {
             return columns.AddProperty(expression).Formatted("{0:g}");
         }
-        public static IGridColumn<T> AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
+        public static IGridColumn<T, DateTime?> AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
         {
             return columns.AddProperty(expression).Formatted("{0:g}");
         }
-        public static IGridColumn<T> AddProperty<T, TProperty>(this IGridColumnsOf<T> columns, Expression<Func<T, TProperty>> expression)
+        public static IGridColumn<T, TProperty> AddProperty<T, TProperty>(this IGridColumnsOf<T> columns, Expression<Func<T, TProperty>> expression)
         {
             return columns
                 .Add(expression)
@@ -77,9 +74,9 @@ namespace MvcTemplate.Components.Extensions
         public static IHtmlGrid<T> ApplyDefaults<T>(this IHtmlGrid<T> grid)
         {
             return grid
-                .Css((grid.Grid.CssClasses + " table-hover").TrimStart())
                 .Pageable(pager => { pager.RowsPerPage = 16; })
                 .Empty(Strings.NoDataFound)
+                .AppendCss("table-hover")
                 .Filterable()
                 .Sortable();
         }
