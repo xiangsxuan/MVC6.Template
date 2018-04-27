@@ -33,95 +33,95 @@
 </head>
 <body class="private">
     <div class="header">
-        <ul class="header-navigation btn-group">
-            <li class="btn">
-                <a asp-route-area="" asp-controller="Profile" asp-action="Edit">
-                    <i class="fa fa-user"></i>
-                    <span class="text">@Actions.Profile</span>
+        <div class="btn">
+            <a asp-route-area="" asp-controller="Profile" asp-action="Edit">
+                <span class="fa fa-user"></span>
+                <span class="text">@Actions.Profile</span>
+            </a>
+        </div>
+        @{ ILanguages languages = Context.RequestServices.GetService<ILanguages>(); }
+        @if (languages.Supported.Length > 1)
+        {
+            <div class="btn dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" aria-expanded="true">
+                    <span class="fa fa-flag"></span>
+                    <span class="text">@Actions.Language</span>
+                    <span class="caret"></span>
                 </a>
-            </li>
-            @{ ILanguages languages = Context.RequestServices.GetService<ILanguages>(); }
-            @if (languages.Supported.Length > 1)
-            {
-                <li class="btn dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" aria-expanded="true">
-                        <i class="fa fa-flag"></i>
-                        <span class="text">@Actions.Language</span>
-                        <span class="caret"></span>
-                    </a>
-                    <ul role="menu" class="dropdown-menu">
-                        @foreach (Language language in languages.Supported)
-                        {
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("Index", "Home", new { area = "", language = language.IsDefault ? "" : language.Abbreviation })">
-                                    <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" width="16" height="11" alt="">
-                                    @language.Name
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </li>
-            }
-            <li class="btn">
-                <a asp-route-area="" asp-controller="Auth" asp-action="Logout">
-                    <i class="fa fa-share"></i>
-                    <span class="text">@Actions.Logout</span>
-                </a>
-            </li>
-        </ul>
+                <div role="menu" class="dropdown-menu">
+                    @foreach (Language language in languages.Supported)
+                    {
+                        <a class="dropdown-item" href="@Url.Action("Index", "Home", new { area = "", language = language.IsDefault ? "" : language.Abbreviation })">
+                            <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" width="16" height="11" alt="">
+                            @language.Name
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+        <div class="btn">
+            <a asp-route-area="" asp-controller="Auth" asp-action="Logout">
+                <span class="fa fa-share"></span>
+                <span class="text">@Actions.Logout</span>
+            </a>
+        </div>
     </div>
 
     @Html.Partial("MvcLookup/_Dialog")
-    <div class="menu">
-        <div class="menu-search">
-            <input placeholder="@(Actions.Search)..." />
+
+    <div class="content">
+        <div class="menu">
+            <div class="menu-search">
+                <input placeholder="@(Actions.Search)..." />
+            </div>
+            @{ IMvcSiteMapProvider siteMap = Context.RequestServices.GetRequiredService<IMvcSiteMapProvider>(); }
+            @Html.Partial("_SiteMap", siteMap.GetSiteMap(ViewContext))
         </div>
-        @{ IMvcSiteMapProvider siteMap = Context.RequestServices.GetRequiredService<IMvcSiteMapProvider>(); }
-        @Html.Partial("_SiteMap", siteMap.GetSiteMap(ViewContext))
-    </div>
-    <div class="content-container">
-        <div class="separator"></div>
+        <div class="content-container">
+            <div class="separator"></div>
 
-        <div class="content-breadcrumb">
-            @{ MvcSiteMapNode[] breadcrumb = Context.RequestServices.GetRequiredService<IMvcSiteMapProvider>().GetBreadcrumb(ViewContext).ToArray(); }
-            @for (Int32 i = 0; i < breadcrumb.Length; i++)
-            {
-                MvcSiteMapNode node = breadcrumb[i];
-                if (i == breadcrumb.Length - 1)
+            <div class="content-breadcrumb">
+                @{ MvcSiteMapNode[] breadcrumb = Context.RequestServices.GetRequiredService<IMvcSiteMapProvider>().GetBreadcrumb(ViewContext).ToArray(); }
+                @for (Int32 i = 0; i < breadcrumb.Length; i++)
                 {
-                    <a class="current">
-                        <i class="@node.IconClass"></i>
-                        <span class="text">@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
-                    </a>
-                }
-                else if (node.Action != null)
-                {
-                    <a asp-route-area="@node.Area" asp-controller="@node.Controller" asp-action="@node.Action">
-                        <i class="@node.IconClass"></i>
-                        <span class="text">@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
-                    </a>
-                    <span class="fa fa-angle-right"></span>
-                }
-            }
-        </div>
-
-        <div class="separator"></div>
-
-        <div class="container-fluid">
-            <div class="content row">
-                <div class="alerts col-12">
-                    @foreach (Alert alert in JsonConvert.DeserializeObject<AlertsContainer>(TempData["Alerts"] as String))
+                    MvcSiteMapNode node = breadcrumb[i];
+                    if (i == breadcrumb.Length - 1)
                     {
-                        <div class="alert alert-@alert.Type.ToString().ToLowerInvariant()" data-timeout="@alert.Timeout">
-                            <span>@alert.Message</span><span class="close">×</span>
-                        </div>
+                        <a class="current">
+                            <span class="icon @node.IconClass"></span>
+                            <span class="text">@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
+                        </a>
                     }
-                </div>
+                    else if (node.Action != null)
+                    {
+                        <a asp-route-area="@node.Area" asp-controller="@node.Controller" asp-action="@node.Action">
+                            <span class="icon @node.IconClass"></span>
+                            <span class="text">@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
+                        </a>
+                        <span class="fa fa-angle-right"></span>
+                    }
+                }
+            </div>
 
-                @RenderBody()
+            <div class="separator"></div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="alerts col-12">
+                        @foreach (Alert alert in JsonConvert.DeserializeObject<AlertsContainer>(TempData["Alerts"] as String))
+                        {
+                            <div class="alert alert-@alert.Type.ToString().ToLowerInvariant()" data-timeout="@alert.Timeout">
+                                <span>@alert.Message</span><span class="close">×</span>
+                            </div>
+                        }
+                    </div>
+
+                    @RenderBody()
+                </div>
             </div>
         </div>
     </div>
+
     <div class="footer">
         @DateTime.Now.Year &copy; All rights reserved.
     </div>

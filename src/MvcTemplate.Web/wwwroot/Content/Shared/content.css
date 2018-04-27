@@ -37,10 +37,9 @@ body.public .public-action {
   background-image: url("../../Images/Shared/content-background.jpg");
   background-color: #F2F2F2;
   border-radius: 8px 0 0 8px;
-  margin-left: 200px;
-  margin-top: -40px;
   min-height: 870px;
   padding-top: 10px;
+  flex: 1;
 }
 .content-container::after,
 .content-container::before {
@@ -62,7 +61,7 @@ body.public .public-action {
 .content-breadcrumb > a:hover {
   color: #777777;
 }
-.content-breadcrumb > a i {
+.content-breadcrumb > a .icon {
   padding-right: 5px;
 }
 .content-breadcrumb > span {
@@ -74,7 +73,7 @@ body.public .public-action {
   font-weight: bold;
 }
 .content {
-  padding: 0 5px;
+  display: flex;
 }
 .control-label {
   padding: 7px 0 7px 15px;
@@ -121,9 +120,6 @@ body.public .public-action {
   border-color: #DC3545;
 }
 @media (max-width: 767px) {
-  .content-container {
-    margin-left: 45px;
-  }
   .content-breadcrumb .text {
     display: none;
   }

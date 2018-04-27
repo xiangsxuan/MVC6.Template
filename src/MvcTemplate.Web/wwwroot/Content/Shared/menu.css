@@ -1,10 +1,9 @@
 ﻿.menu {
-  width: 200px;
-  float: left;
+  flex: 0 0 200px;
 }
 .menu .menu-search {
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-  margin: 10px;
+  margin: 50px 10px 10px;
 }
 .menu .menu-search input {
   background-color: rgba(0, 0, 0, 0.2);
@@ -22,17 +21,32 @@
   display: none;
 }
 .menu ul a {
-  padding: 10px 0 10px 15px;
-  display: block;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  display: flex;
   color: #CCCCCC;
 }
 .menu ul a:hover {
   background: linear-gradient(#6F93A7, #2A4E62);
   color: #FFFFFF;
 }
-.menu ul a .menu-icon {
+.menu ul a .icon {
   text-align: center;
+  line-height: 1.5;
   width: 20px;
+}
+.menu ul a .text {
+  padding: 0 5px;
+  flex: 1;
+}
+.menu ul a .toggle {
+  transition: transform 0.4s ease-out 0.1s;
+  font-size: 10px;
+}
+.menu ul .open:not(.changing) > a > .toggle,
+.menu ul .changing:not(.open) > a > .toggle {
+  transform: rotate(90deg);
 }
 .menu ul li {
   position: relative;
@@ -46,21 +60,12 @@
 }
 .menu ul li ul a {
   background-color: rgba(0, 0, 0, 0.15);
-  padding: 10px 0 10px 25px;
+  justify-content: initial;
+  padding-left: 25px;
 }
 .menu ul li ul ul a {
   background-color: rgba(0, 0, 0, 0.3);
-  padding: 10px 0 10px 35px;
-}
-.menu ul .arrow {
-  transition: transform 0.4s ease-out 0.1s;
-  margin: 6px 15px 5px 5px;
-  font-size: 10px;
-  float: right;
-}
-.menu ul .open:not(.changing) > a > .arrow,
-.menu ul .changing:not(.open) > a > .arrow {
-  transform: rotate(90deg);
+  padding-left: 35px;
 }
 @media (min-width: 768px) {
   .menu > ul:not(:hover) .active > a {
@@ -72,7 +77,8 @@
 }
 @media (max-width: 767px) {
   .menu {
-    width: 45px;
+    margin-top: 10px;
+    flex: 0 0 45px;
   }
   .menu .menu-search {
     display: none;
@@ -83,16 +89,16 @@
     background-repeat: no-repeat;
     color: #FFFFFF;
   }
-  .menu > ul .menu-icon {
+  .menu > ul .icon {
     width: 10px;
   }
-  .menu > ul .arrow,
-  .menu > ul > li > a > span {
+  .menu > ul .text,
+  .menu > ul .toggle {
     display: none;
   }
   .menu > ul > li > a {
     text-align: center;
-    padding-left: 0;
+    padding: 10px 0;
   }
   .menu > ul > li ul {
     position: absolute;
@@ -103,6 +109,9 @@
   .menu > ul > li ul a {
     font-size: 10px;
     padding: 6px;
+  }
+  .menu > ul > li ul .text {
+    display: block;
   }
   .menu > ul > li ul ul {
     left: 100px;

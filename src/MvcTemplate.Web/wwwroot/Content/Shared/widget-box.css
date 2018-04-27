@@ -6,43 +6,42 @@
 }
 .widget-header {
   border-bottom: 1px solid #CDCDCD;
+  display: flex;
   height: 2.5em;
 }
-.widget-header .widget-header-icon {
+.widget-header .icon {
   border-right: 1px solid #CDCDCD;
-  padding: 0.85em;
-  height: 100%;
-  float: left;
+  padding: 0 0.85em;
+  line-height: 2.5;
 }
 .widget-header h5 {
   font-weight: bold;
-  padding: 0.75em;
+  padding: 0 0.75em;
+  line-height: 2.5;
   font-size: 1em;
   height: 100%;
-  float: left;
   margin: 0;
+  flex: 1;
 }
 .widget-header .widget-header-buttons {
-  height: 100%;
-  float: right;
+  display: flex;
 }
 .widget-header .widget-header-buttons .btn {
   border-left: 1px solid #CDCDCD;
-  border-top-style: none;
   color: #555555;
+  border-bottom: none;
+  line-height: 2.86;
   font-size: 0.85em;
+  border-top: none;
   border-radius: 0;
-  padding: 0.8em;
+  padding: 0 0.8em;
   min-width: 3em;
-  display: block;
-  height: 100%;
-  float: left;
 }
 .widget-header .widget-header-buttons .btn:hover {
   background: linear-gradient(#6F93A7, #2A4E62);
   color: #FFFFFF;
 }
-.widget-header .widget-header-buttons .btn > i + .text {
+.widget-header .widget-header-buttons .btn .text {
   padding-left: 5px;
 }
 .widget-content {
@@ -81,7 +80,7 @@
   text-align: center;
 }
 @media (max-width: 767px) {
-  .widget-header .widget-header-buttons .btn > i {
+  .widget-header .widget-header-buttons .btn > span {
     padding: 0;
   }
   .widget-header .widget-header-buttons .text {

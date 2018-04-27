@@ -11,11 +11,11 @@
 
         <li class="@menu">
             <a href="@link">
-                <i class="menu-icon @node.IconClass"></i>
-                <span>@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
+                <span class="icon @node.IconClass"></span>
+                <span class="text">@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
                 @if (node.Action == null)
                 {
-                    <i class="arrow fa fa-angle-right"></i>
+                    <span class="toggle fa fa-angle-right"></span>
                 }
             </a>
             @if (node.Children.Any())

@@ -49,10 +49,9 @@ body.public {
     background-image: @content-background-image;
     background-color: @content-background-color;
     border-radius: 8px 0 0 8px;
-    margin-left: 200px;
-    margin-top: -40px;
     min-height: 870px;
     padding-top: 10px;
+    flex: 1;
 
     &::after,
     &::before {
@@ -78,7 +77,7 @@ body.public {
             color: @active-content-link-color;
         }
 
-        i {
+        .icon {
             padding-right: 5px;
         }
     }
@@ -95,7 +94,7 @@ body.public {
 }
 
 .content {
-    padding: 0 5px;
+    display: flex;
 }
 
 .control-label {
@@ -154,10 +153,6 @@ body.public {
 }
 
 @media (max-width: 767px) {
-    .content-container {
-        margin-left: 45px;
-    }
-
     .content-breadcrumb {
         .text {
             display: none;

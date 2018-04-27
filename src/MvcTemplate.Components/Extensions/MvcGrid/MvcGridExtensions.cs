@@ -87,7 +87,7 @@ namespace MvcTemplate.Components.Extensions
             anchor.AddCssClass(action.ToLower() + "-action");
             anchor.Attributes["href"] = new UrlHelper(context).Action(action, GetRouteFor(model));
 
-            TagBuilder icon = new TagBuilder("i");
+            TagBuilder icon = new TagBuilder("span");
             icon.AddCssClass(iconClass);
 
             anchor.InnerHtml.AppendHtml(icon);

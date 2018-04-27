@@ -9,46 +9,45 @@
 
 .widget-header {
     border-bottom: @content-border;
+    display: flex;
     height: 2.5em;
 
-    .widget-header-icon {
+    .icon {
         border-right: @content-border;
-        padding: 0.85em;
-        height: 100%;
-        float: left;
+        padding: 0 0.85em;
+        line-height: 2.5;
     }
 
     h5 {
         font-weight: bold;
-        padding: 0.75em;
+        padding: 0 0.75em;
+        line-height: 2.5;
         font-size: 1em;
         height: 100%;
-        float: left;
         margin: 0;
+        flex: 1;
     }
 
     .widget-header-buttons {
-        height: 100%;
-        float: right;
+        display: flex;
 
         .btn {
             border-left: @content-border;
-            border-top-style: none;
             color: @content-color;
+            border-bottom: none;
+            line-height: 2.86;
             font-size: 0.85em;
+            border-top: none;
             border-radius: 0;
-            padding: 0.8em;
+            padding: 0 0.8em;
             min-width: 3em;
-            display: block;
-            height: 100%;
-            float: left;
 
             &:hover {
                 background: linear-gradient(@active-from-color, @active-to-color);
                 color: @active-color;
             }
 
-            > i + .text {
+            .text {
                 padding-left: 5px;
             }
         }
@@ -100,7 +99,7 @@
 
 @media (max-width: 767px) {
     .widget-header .widget-header-buttons {
-        .btn > i {
+        .btn > span {
             padding: 0;
         }
 

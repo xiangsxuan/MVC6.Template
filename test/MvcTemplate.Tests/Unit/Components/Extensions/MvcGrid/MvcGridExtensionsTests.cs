@@ -59,7 +59,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             String actual = writer.ToString();
             String expected =
                 "<a class=\"details-action\" href=\"/test\">" +
-                    "<i class=\"fa fa-info\"></i>" +
+                    "<span class=\"fa fa-info\"></span>" +
                 "</a>";
 
             Assert.Equal(expected, actual);
@@ -82,7 +82,7 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             String actual = writer.ToString();
             String expected =
                 "<a class=\"details-action\" href=\"/test\">" +
-                    "<i class=\"fa fa-info\"></i>" +
+                    "<span class=\"fa fa-info\"></span>" +
                 "</a>";
 
             Assert.Equal(expected, actual);
