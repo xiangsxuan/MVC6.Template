@@ -23,8 +23,6 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         {
             url = Substitute.For<IUrlHelper>();
             lookup = new MvcLookup<Role, RoleView>(url);
-            using (TestingContext context = new TestingContext())
-                context.DropData();
         }
 
         #region MvcLookup(IUrlHelper url)

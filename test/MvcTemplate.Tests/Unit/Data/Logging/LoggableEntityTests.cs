@@ -21,14 +21,11 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         {
             using (context = new TestingContext())
             {
-                context.RemoveRange(context.Set<TestModel>());
-                context.DropData();
-
                 context.Add(model = ObjectFactory.CreateTestModel());
                 context.SaveChanges();
             }
 
-            context = new TestingContext();
+            context = new TestingContext(context.DatabaseName);
             entry = context.Entry<BaseModel>(model);
         }
         public void Dispose()
@@ -66,7 +63,8 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         {
             context.Dispose();
             String title = model.Title;
-            context = new TestingContext();
+
+            context = new TestingContext(context.DatabaseName);
             context.Set<TestModel>().Attach(model);
 
             entry = context.Entry<BaseModel>(model);

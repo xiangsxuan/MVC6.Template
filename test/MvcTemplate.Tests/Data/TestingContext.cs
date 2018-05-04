@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MvcTemplate.Data.Core;
-using MvcTemplate.Objects;
 using MvcTemplate.Tests.Objects;
 using System;
-using System.Linq;
 
 namespace MvcTemplate.Tests.Data
 {
@@ -16,38 +13,21 @@ namespace MvcTemplate.Tests.Data
 
         #endregion
 
-        static TestingContext()
-        {
-            using (TestingContext context = new TestingContext())
-                context.Database.Migrate();
-        }
-        public TestingContext() : base(ConfigurationFactory.Create())
+        public String DatabaseName { get; }
+
+        public TestingContext()
+            : this(null)
         {
         }
-
-        public void DropData()
+        public TestingContext(String databaseName)
+            : base(ConfigurationFactory.Create())
         {
-            RemoveRange(Set<RolePermission>());
-            RemoveRange(Set<Permission>());
-            RemoveRange(Set<Account>());
-            RemoveRange(Set<Role>());
-
-            SaveChanges();
-        }
-
-        public override Int32 SaveChanges()
-        {
-            Int32 affected = base.SaveChanges();
-
-            foreach (EntityEntry entry in ChangeTracker.Entries().ToArray())
-                entry.State = EntityState.Detached;
-
-            return affected;
+            DatabaseName = databaseName ?? Guid.NewGuid().ToString();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(Config["Data:TestConnection"]);
+            builder.UseInMemoryDatabase(DatabaseName);
         }
     }
 }

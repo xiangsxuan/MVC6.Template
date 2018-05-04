@@ -20,8 +20,6 @@ namespace MvcTemplate.Tests.Unit.Validators
             context = new TestingContext();
             validator = new RoleValidator(new UnitOfWork(context));
 
-            context.DropData();
-
             context.Add(role = ObjectFactory.CreateRole());
             context.SaveChanges();
         }

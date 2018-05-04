@@ -18,10 +18,9 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         {
             context = new TestingContext();
             IServiceProvider services = Substitute.For<IServiceProvider>();
-            services.GetService(typeof(IUnitOfWork)).Returns(info => new UnitOfWork(new TestingContext()));
-            authorization = new AuthorizationProvider(Assembly.GetExecutingAssembly(), services);
+            services.GetService(typeof(IUnitOfWork)).Returns(info => new UnitOfWork(new TestingContext(context.DatabaseName)));
 
-            context.DropData();
+            authorization = new AuthorizationProvider(Assembly.GetExecutingAssembly(), services);
         }
 
         #region IsAuthorizedFor(Int32? accountId, String area, String controller, String action)
@@ -361,7 +360,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         {
             Int32 accountId = CreateAccountWithPermissionFor(null, "Authorized", "Action");
 
-            context.DropData();
+            context.Database.EnsureDeleted();
 
             Assert.True(authorization.IsAuthorizedFor(accountId, null, "Authorized", "Action"));
         }
@@ -376,7 +375,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
             Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
             Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "Action"));
 
-            context.DropData();
+            context.Database.EnsureDeleted();
 
             authorization.Refresh();
 
@@ -389,7 +388,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security
 
         private Int32 CreateAccountWithPermissionFor(String area, String controller, String action, Boolean isLocked = false)
         {
-            using (TestingContext testingContext = new TestingContext())
+            using (TestingContext testingContext = new TestingContext(context.DatabaseName))
             {
                 RolePermission rolePermission = ObjectFactory.CreateRolePermission();
                 Account account = ObjectFactory.CreateAccount();

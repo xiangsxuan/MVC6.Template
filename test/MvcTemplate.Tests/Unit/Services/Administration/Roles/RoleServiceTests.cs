@@ -27,7 +27,6 @@ namespace MvcTemplate.Tests.Unit.Services
             context = new TestingContext();
             service = Substitute.ForPartsOf<RoleService>(new UnitOfWork(context));
 
-            context.DropData();
             SetUpData();
         }
         public void Dispose()

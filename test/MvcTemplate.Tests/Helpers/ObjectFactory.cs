@@ -18,7 +18,7 @@ namespace MvcTemplate.Tests
 
                 Email = id + "@tests.com",
 
-                IsLocked = true,
+                IsLocked = false,
 
                 RecoveryToken = "Token" + id,
                 RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(5),

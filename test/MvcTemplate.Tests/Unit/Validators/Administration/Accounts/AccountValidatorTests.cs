@@ -23,12 +23,13 @@ namespace MvcTemplate.Tests.Unit.Validators
         {
             context = new TestingContext();
             hasher = Substitute.For<IHasher>();
+            account = ObjectFactory.CreateAccount();
+            validator = new AccountValidator(new UnitOfWork(context), hasher);
             hasher.VerifyPassword(Arg.Any<String>(), Arg.Any<String>()).Returns(true);
 
-            context.DropData();
-            SetUpData();
+            context.Add(account);
+            context.SaveChanges();
 
-            validator = new AccountValidator(new UnitOfWork(context), hasher);
             validator.CurrentAccountId = account.Id;
         }
         public void Dispose()
@@ -409,20 +410,6 @@ namespace MvcTemplate.Tests.Unit.Validators
             Assert.True(validator.CanDelete(ObjectFactory.CreateProfileDeleteView()));
             Assert.Empty(validator.ModelState);
             Assert.Empty(validator.Alerts);
-        }
-
-        #endregion
-
-        #region Test helpers
-
-        private void SetUpData()
-        {
-            account = ObjectFactory.CreateAccount();
-            account.RoleId = account.Role.Id;
-            account.IsLocked = false;
-
-            context.Add(account);
-            context.SaveChanges();
         }
 
         #endregion

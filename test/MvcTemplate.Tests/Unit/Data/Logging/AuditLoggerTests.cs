@@ -25,9 +25,6 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
             TestModel model = ObjectFactory.CreateTestModel();
             TestingContext dataContext = new TestingContext();
 
-            dataContext.RemoveRange(dataContext.Set<AuditLog>());
-            dataContext.DropData();
-
             entry = dataContext.Entry<BaseModel>(dataContext.Add(model).Entity);
             dataContext.SaveChanges();
         }

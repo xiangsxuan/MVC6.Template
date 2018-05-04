@@ -28,12 +28,13 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             context = new TestingContext();
             hasher = Substitute.For<IHasher>();
+            account = ObjectFactory.CreateAccount();
+            service = new AccountService(new UnitOfWork(context), hasher);
             hasher.HashPassword(Arg.Any<String>()).Returns(info => info.Arg<String>() + "Hashed");
 
-            context.DropData();
-            SetUpData();
+            context.Add(account);
+            context.SaveChanges();
 
-            service = new AccountService(new UnitOfWork(context), hasher);
             service.CurrentAccountId = account.Id;
         }
         public void Dispose()
@@ -175,24 +176,21 @@ namespace MvcTemplate.Tests.Unit.Services
         public void Reset_Account()
         {
             AccountResetView view = ObjectFactory.CreateAccountResetView();
-            account.Passhash = hasher.HashPassword(view.NewPassword);
-            account.RecoveryTokenExpirationDate = null;
-            account.RecoveryToken = null;
 
             service.Reset(view);
 
             Account actual = context.Set<Account>().AsNoTracking().Single();
             Account expected = account;
 
-            Assert.Equal(expected.RecoveryTokenExpirationDate, actual.RecoveryTokenExpirationDate);
-            Assert.Equal(expected.RecoveryToken, actual.RecoveryToken);
+            Assert.Equal(hasher.HashPassword(view.NewPassword), actual.Passhash);
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.IsLocked, actual.IsLocked);
-            Assert.Equal(expected.Passhash, actual.Passhash);
             Assert.Equal(expected.Username, actual.Username);
+            Assert.Null(actual.RecoveryTokenExpirationDate);
             Assert.Equal(expected.RoleId, actual.RoleId);
             Assert.Equal(expected.Email, actual.Email);
             Assert.Equal(expected.Id, actual.Id);
+            Assert.Null(actual.RecoveryToken);
         }
 
         #endregion
@@ -341,18 +339,6 @@ namespace MvcTemplate.Tests.Unit.Services
             service.Logout(httpContext);
 
             httpContext.Received().SignOutAsync("Cookies");
-        }
-
-        #endregion
-
-        #region Test helpers
-
-        private void SetUpData()
-        {
-            account = ObjectFactory.CreateAccount();
-
-            context.Add(account);
-            context.SaveChanges();
         }
 
         #endregion

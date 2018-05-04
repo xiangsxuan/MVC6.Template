@@ -27,9 +27,6 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             model = ObjectFactory.CreateTestModel();
             logger = Substitute.For<IAuditLogger>();
             unitOfWork = new UnitOfWork(context, logger);
-
-            context.RemoveRange(context.Set<TestModel>());
-            context.DropData();
         }
         public void Dispose()
         {
@@ -255,7 +252,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Commit_Failed_DoesNotSaveLogs()
         {
-            unitOfWork.Insert(new TestModel { Title = new String('X', 513) });
+            logger.When(sub => sub.Log(Arg.Any<IEnumerable<EntityEntry<BaseModel>>>())).Do(call => throw new Exception());
             Exception exception = Record.Exception(() => unitOfWork.Commit());
 
             logger.Received().Log(Arg.Any<IEnumerable<EntityEntry<BaseModel>>>());
