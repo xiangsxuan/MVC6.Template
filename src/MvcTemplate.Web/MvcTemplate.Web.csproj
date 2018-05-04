@@ -6,6 +6,8 @@
     <GenerateFullPaths>true</GenerateFullPaths>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
+    <DebugType Condition="'$(Configuration)'=='Debug'">full</DebugType>
+    <DebugSymbols Condition="'$(Configuration)'=='Debug'">true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
@@ -53,12 +55,12 @@
       <Content Update="configuration.json">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-    <None Update="languages.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Mvc.sitemap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+      <None Update="languages.config">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Mvc.sitemap">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
   </ItemGroup>
 
 </Project>

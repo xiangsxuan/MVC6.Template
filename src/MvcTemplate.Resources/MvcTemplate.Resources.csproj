@@ -5,6 +5,8 @@
     <GenerateFullPaths>true</GenerateFullPaths>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <DebugType Condition="'$(Configuration)'=='Debug'">full</DebugType>
+    <DebugSymbols Condition="'$(Configuration)'=='Debug'">true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
