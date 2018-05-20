@@ -25,14 +25,14 @@ namespace MvcTemplate.Tests.Unit.Controllers
         private IAccountValidator validator;
         private AuthController controller;
         private IAccountService service;
-        private IMailClient mailClient;
+        private IMailClient mail;
 
         public AuthControllerTests()
         {
-            mailClient = Substitute.For<IMailClient>();
+            mail = Substitute.For<IMailClient>();
             service = Substitute.For<IAccountService>();
             validator = Substitute.For<IAccountValidator>();
-            controller = Substitute.ForPartsOf<AuthController>(validator, service, mailClient);
+            controller = Substitute.ForPartsOf<AuthController>(validator, service, mail);
             controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
             controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.ControllerContext.RouteData = new RouteData();
@@ -119,7 +119,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             String subject = Messages.RecoveryEmailSubject;
             String email = accountRecovery.Email;
 
-            await mailClient.Received().SendAsync(email, subject, body);
+            await mail.Received().SendAsync(email, subject, body);
         }
 
         [Fact]
@@ -131,7 +131,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
             await controller.Recover(accountRecovery);
 
-            await mailClient.DidNotReceive().SendAsync(Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>());
+            await mail.DidNotReceive().SendAsync(Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>());
         }
 
         [Fact]

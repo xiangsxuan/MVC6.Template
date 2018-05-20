@@ -22,7 +22,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attributes = new Dictionary<String, String>();
             adapter = new EmailAddressAdapter(new EmailAddressAttribute());
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EmailAddress");
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AllTypesView), "StringField");
             context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
         }
 
@@ -35,7 +35,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             Assert.Equal(2, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
-            Assert.Equal(String.Format(Validations.Email, "EmailAddress"), attributes["data-val-email"]);
+            Assert.Equal(String.Format(Validations.Email, context.ModelMetadata.PropertyName), attributes["data-val-email"]);
         }
 
         #endregion
@@ -45,7 +45,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetErrorMessage_Email()
         {
-            String expected = String.Format(Validations.Email, "EmailAddress");
+            String expected = String.Format(Validations.Email, context.ModelMetadata.PropertyName);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(expected, actual);

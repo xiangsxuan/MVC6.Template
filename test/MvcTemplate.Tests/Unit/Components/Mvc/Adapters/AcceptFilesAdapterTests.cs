@@ -21,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attributes = new Dictionary<String, String>();
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
             adapter = new AcceptFilesAdapter(new AcceptFilesAttribute(".docx,.rtf"));
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "AcceptFiles");
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AllTypesView), "FileField");
             context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
         }
 
@@ -35,7 +35,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Equal(3, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
             Assert.Equal(".docx,.rtf", attributes["data-val-acceptfiles-extensions"]);
-            Assert.Equal(String.Format(Validations.AcceptFiles, "AcceptFiles", ".docx,.rtf"), attributes["data-val-acceptfiles"]);
+            Assert.Equal(String.Format(Validations.AcceptFiles, context.ModelMetadata.PropertyName, ".docx,.rtf"), attributes["data-val-acceptfiles"]);
         }
 
         #endregion
@@ -45,7 +45,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetErrorMessage_AcceptFiles()
         {
-            String expected = String.Format(Validations.AcceptFiles, "AcceptFiles", ".docx,.rtf");
+            String expected = String.Format(Validations.AcceptFiles, context.ModelMetadata.PropertyName, ".docx,.rtf");
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(expected, actual);

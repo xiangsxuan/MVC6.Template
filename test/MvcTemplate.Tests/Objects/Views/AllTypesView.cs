@@ -1,4 +1,5 @@
-﻿using MvcTemplate.Components.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using MvcTemplate.Components.Mvc;
 using MvcTemplate.Objects;
 using System;
 
@@ -37,6 +38,8 @@ namespace MvcTemplate.Tests.Objects
         public DateTime? NullableDateTimeField { get; set; }
 
         public String StringField { get; set; }
+
+        public IFormFile FileField { get; set; }
 
         [Truncated]
         public DateTime TruncatedDateTimeField { get; set; }

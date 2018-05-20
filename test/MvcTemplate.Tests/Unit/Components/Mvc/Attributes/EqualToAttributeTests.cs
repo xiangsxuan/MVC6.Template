@@ -13,7 +13,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         public EqualToAttributeTests()
         {
-            attribute = new EqualToAttribute("EqualTo");
+            attribute = new EqualToAttribute("StringField");
         }
 
         #region EqualToAttribute(String otherPropertyName)
@@ -56,7 +56,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetValidationResult_EqualValue()
         {
-            ValidationContext context = new ValidationContext(new AdaptersModel { EqualTo = "Test" });
+            ValidationContext context = new ValidationContext(new AllTypesView { StringField = "Test" });
 
             Assert.Null(attribute.GetValidationResult("Test", context));
         }
@@ -64,10 +64,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetValidationResult_Property_Error()
         {
-            ValidationContext context = new ValidationContext(new AdaptersModel());
+            ValidationContext context = new ValidationContext(new AllTypesView());
 
             String actual = attribute.GetValidationResult("Test", context).ErrorMessage;
-            String expected = String.Format(Validations.EqualTo, context.DisplayName, "EqualTo");
+            String expected = String.Format(Validations.EqualTo, context.DisplayName, attribute.OtherPropertyName);
 
             Assert.Equal(expected, actual);
         }
@@ -76,7 +76,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void GetValidationResult_NoProperty_Error()
         {
             attribute = new EqualToAttribute("Temp");
-            ValidationContext context = new ValidationContext(new AdaptersModel());
+            ValidationContext context = new ValidationContext(new AllTypesView());
 
             String actual = attribute.GetValidationResult("Test", context).ErrorMessage;
             String expected = String.Format(Validations.EqualTo, context.DisplayName, "Temp");

@@ -21,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attributes = new Dictionary<String, String>();
             adapter = new DigitsAdapter(new DigitsAttribute());
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "Digits");
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AllTypesView), "StringField");
             context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
         }
 
@@ -34,7 +34,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             Assert.Equal(2, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
-            Assert.Equal(String.Format(Validations.Digits, "Digits"), attributes["data-val-digits"]);
+            Assert.Equal(String.Format(Validations.Digits, context.ModelMetadata.PropertyName), attributes["data-val-digits"]);
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetErrorMessage_Digits()
         {
-            String expected = String.Format(Validations.Digits, "Digits");
+            String expected = String.Format(Validations.Digits, context.ModelMetadata.PropertyName);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(expected, actual);

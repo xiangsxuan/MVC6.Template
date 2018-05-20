@@ -21,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attributes = new Dictionary<String, String>();
             adapter = new FileSizeAdapter(new FileSizeAttribute(12.25));
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "FileSize");
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AllTypesView), "FileField");
             context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
         }
 
@@ -35,7 +35,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Equal(3, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
             Assert.Equal("12845056.00", attributes["data-val-filesize-max"]);
-            Assert.Equal(String.Format(Validations.FileSize, "FileSize", 12.25), attributes["data-val-filesize"]);
+            Assert.Equal(String.Format(Validations.FileSize, context.ModelMetadata.PropertyName, 12.25), attributes["data-val-filesize"]);
         }
 
         #endregion
@@ -45,7 +45,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetErrorMessage_FileSize()
         {
-            String expected = String.Format(Validations.FileSize, "FileSize", 12.25);
+            String expected = String.Format(Validations.FileSize, context.ModelMetadata.PropertyName, 12.25);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(expected, actual);

@@ -19,9 +19,9 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public EqualToAdapterTests()
         {
             attributes = new Dictionary<String, String>();
-            adapter = new EqualToAdapter(new EqualToAttribute("StringLength"));
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "EqualTo");
+            adapter = new EqualToAdapter(new EqualToAttribute("AlternateStringField"));
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AllTypesView), "StringField");
             context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
         }
 
@@ -34,8 +34,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             Assert.Equal(3, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
-            Assert.Equal("*.StringLength", attributes["data-val-equalto-other"]);
-            Assert.Equal(String.Format(Validations.EqualTo, "EqualTo", "StringLength"), attributes["data-val-equalto"]);
+            Assert.Equal("*." + adapter.Attribute.OtherPropertyName, attributes["data-val-equalto-other"]);
+            Assert.Equal(String.Format(Validations.EqualTo, context.ModelMetadata.PropertyName, adapter.Attribute.OtherPropertyName), attributes["data-val-equalto"]);
         }
 
         #endregion
@@ -45,7 +45,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetErrorMessage_EqualTo()
         {
-            String expected = String.Format(Validations.EqualTo, "EqualTo", "");
+            String expected = String.Format(Validations.EqualTo, context.ModelMetadata.PropertyName, "");
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(expected, actual);
