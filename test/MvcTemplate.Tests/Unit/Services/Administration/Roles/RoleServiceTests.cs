@@ -193,7 +193,6 @@ namespace MvcTemplate.Tests.Unit.Services
         public void Create_Role()
         {
             RoleView view = ObjectFactory.CreateRoleView(1);
-            view.Id = 0;
 
             service.Create(view);
 
@@ -209,7 +208,6 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             RoleView view = ObjectFactory.CreateRoleView(1);
             view.Permissions = CreatePermissions();
-            view.Id = 0;
 
             service.Create(view);
 

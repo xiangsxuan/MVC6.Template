@@ -166,7 +166,6 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         {
             EntityEntry<TestModel> entry = context.Entry(model);
             entry.State = initialState;
-            entry.Entity.Id = 0;
 
             unitOfWork.Update(model);
 

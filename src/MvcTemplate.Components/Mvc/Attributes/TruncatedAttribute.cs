@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace MvcTemplate.Components.Mvc
@@ -16,7 +19,9 @@ namespace MvcTemplate.Components.Mvc
 
         public async Task BindModelAsync(ModelBindingContext context)
         {
-            await new SimpleTypeModelBinder(typeof(DateTime?)).BindModelAsync(context);
+            ILoggerFactory logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>();
+
+            await new SimpleTypeModelBinder(typeof(DateTime?), logger).BindModelAsync(context);
 
             if (context.Result.IsModelSet)
                 context.Result = ModelBindingResult.Success((context.Result.Model as DateTime?)?.Date);

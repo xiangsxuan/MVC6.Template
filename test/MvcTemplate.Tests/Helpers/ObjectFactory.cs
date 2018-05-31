@@ -121,6 +121,7 @@ namespace MvcTemplate.Tests
             {
                 Title = "Title" + id,
 
+                Accounts = new List<Account>(),
                 Permissions = new List<RolePermission>()
             };
         }

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MvcTemplate.Data.Migrations
 {
@@ -15,12 +14,12 @@ namespace MvcTemplate.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: false),
                     AccountId = table.Column<int>(nullable: true),
                     Action = table.Column<string>(maxLength: 16, nullable: false),
-                    EntityId = table.Column<int>(nullable: false),
                     EntityName = table.Column<string>(maxLength: 64, nullable: false),
-                    Changes = table.Column<string>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false)
+                    EntityId = table.Column<int>(nullable: false),
+                    Changes = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,10 +31,10 @@ namespace MvcTemplate.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
                     Area = table.Column<string>(maxLength: 64, nullable: true),
                     Controller = table.Column<string>(maxLength: 64, nullable: false),
-                    Action = table.Column<string>(maxLength: 64, nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false)
+                    Action = table.Column<string>(maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,8 +47,8 @@ namespace MvcTemplate.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(maxLength: 128, nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false)
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    Title = table.Column<string>(maxLength: 128, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,14 +61,14 @@ namespace MvcTemplate.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: false),
                     Username = table.Column<string>(maxLength: 32, nullable: false),
                     Passhash = table.Column<string>(maxLength: 64, nullable: false),
                     Email = table.Column<string>(maxLength: 256, nullable: false),
                     IsLocked = table.Column<bool>(nullable: false),
                     RecoveryToken = table.Column<string>(maxLength: 36, nullable: true),
                     RecoveryTokenExpirationDate = table.Column<DateTime>(nullable: true),
-                    RoleId = table.Column<int>(nullable: true),
-                    CreationDate = table.Column<DateTime>(nullable: false)
+                    RoleId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -88,9 +87,9 @@ namespace MvcTemplate.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: false),
                     RoleId = table.Column<int>(nullable: false),
-                    PermissionId = table.Column<int>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false)
+                    PermissionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

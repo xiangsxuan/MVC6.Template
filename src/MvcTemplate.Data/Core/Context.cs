@@ -50,7 +50,7 @@ namespace MvcTemplate.Data.Core
         }
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(Config["Data:Connection"]);
+            builder.UseSqlServer(Config["Data:Connection"]).UseLazyLoadingProxies();
         }
     }
 }

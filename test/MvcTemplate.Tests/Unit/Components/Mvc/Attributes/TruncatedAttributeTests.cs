@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Tests.Objects;
 using NSubstitute;
@@ -18,8 +22,12 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             attribute = new TruncatedAttribute();
             context = new DefaultModelBindingContext();
+            context.ActionContext = new ActionContext();
             context.ModelState = new ModelStateDictionary();
             context.ValueProvider = Substitute.For<IValueProvider>();
+            context.ActionContext.HttpContext = new DefaultHttpContext();
+            context.HttpContext.RequestServices = Substitute.For<IServiceProvider>();
+            context.HttpContext.RequestServices.GetService<ILoggerFactory>().Returns(Substitute.For<ILoggerFactory>());
         }
 
         #region TruncatedAttribute()
