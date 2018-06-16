@@ -1,8 +1,6 @@
-﻿html {
-  font-size: 14px;
-}
-body {
+﻿body {
   color: #555555;
+  font-size: 0.875rem;
 }
 body.private {
   background-image: url("../../Images/Shared/background.jpg");

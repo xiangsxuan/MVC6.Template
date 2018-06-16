@@ -22,7 +22,7 @@ namespace MvcTemplate.Components.Lookups
         public MvcLookup(IUrlHelper url)
         {
             String view = typeof(TView).Name.Replace("View", "");
-            Url = url.Action(view, Prefix, new { area = "" });
+            Url = url.Action(view, "Lookup", new { area = "" });
             Title = ResourceProvider.GetLookupTitle(view);
         }
 

@@ -3,6 +3,7 @@
   display: flex;
 }
 .header .btn {
+  font-size: 0.875rem;
   min-width: 50px;
   border: none;
   padding: 0;

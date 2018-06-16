@@ -78,6 +78,7 @@ body.public .public-action {
 .control-label {
   padding: 7px 0 7px 15px;
   min-height: 34px;
+  font-size: 1rem;
 }
 .control-label label {
   font-weight: bold;
@@ -86,13 +87,13 @@ body.public .public-action {
 .control-label .require {
   color: #DC3545;
   display: inline-block;
-  min-width: 8px;
+  min-width: 0.625rem;
 }
 .control-content {
   min-height: 34px;
 }
 .control-content input[type="checkbox"] {
-  margin: 11px 0 9px;
+  margin: 13px 0 9px;
   height: 14px;
 }
 .control-content input[type="radio"] {

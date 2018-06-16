@@ -246,9 +246,12 @@
 
 // Lookup binding
 (function () {
-    if ($.fn.mvclookup) {
-        $.fn.mvclookup.lang = window.cultures.lookup[$('html').attr('lang')];
-        $('.mvc-lookup').mvclookup();
+    if (window.MvcLookup) {
+        MvcLookup.prototype.lang = window.cultures.lookup[$('html').attr('lang')];
+
+        [].forEach.call(document.getElementsByClassName('mvc-lookup'), function (element) {
+            new MvcLookup(element);
+        });
     }
 })();
 
@@ -261,7 +264,7 @@
     var widgets = $('.widget-box.readonly');
     widgets.find('input').attr({ readonly: 'readonly', tabindex: -1 });
     widgets.find('textarea').attr({ readonly: 'readonly', tabindex: -1 });
-    if ($.fn.mvclookup) { widgets.find('.mvc-lookup').mvclookup({ readonly: true }); }
+    if (window.MvcLookup) { widgets.find('.mvc-lookup').each(function (element) { new MvcLookup(element, { readonly: true }); }); }
 })();
 
 // Input focus binding

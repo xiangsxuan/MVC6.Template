@@ -26,9 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Humanizer.Core" Version="2.2.0" />
-    <PackageReference Include="NonFactors.Grid.Mvc6" Version="3.0.0" />
-    <PackageReference Include="NonFactors.Lookup.Mvc6" Version="2.5.0" />
+    <PackageReference Include="Humanizer.Core" Version="2.3.3" />
+    <PackageReference Include="NonFactors.Grid.Mvc6" Version="3.1.0" />
+    <PackageReference Include="NonFactors.Lookup.Mvc6" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.0" />
@@ -42,7 +42,7 @@
   </Target>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.6.375" />
+    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.8.391" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,7 +53,7 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Update="configuration.json">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <None Update="languages.config">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

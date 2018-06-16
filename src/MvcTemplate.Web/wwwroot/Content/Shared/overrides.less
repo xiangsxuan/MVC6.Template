@@ -25,6 +25,10 @@ a:hover {
     }
 }
 
+.form-control {
+    height: 2.375rem;
+}
+
 .input-group .form-control {
     z-index: 1;
 }
@@ -140,30 +144,25 @@ a:hover {
 }
 
 /* Mvc.Lookup */
-.mvc-lookup-dialog {
-    th {
-        text-align: center !important;
-    }
-
-    tbody {
-        tr:hover {
-            background-color: rgba(0, 0, 0, 0.02);
-        }
-
-        .selected:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-    }
+.mvc-lookup-dialog th {
+    text-align: center !important;
 }
 
+.mvc-lookup-browser:focus,
 .mvc-lookup-focus .mvc-lookup-control {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     border-color: #80bdff;
+    outline: none;
 
     &.input-validation-error {
         box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
         border-color: #DC3545;
     }
+}
+
+.mvc-lookup-browser:active {
+    border-color: #ced4da;
+    box-shadow: none;
 }
 
 /* Mvc.Grid */
