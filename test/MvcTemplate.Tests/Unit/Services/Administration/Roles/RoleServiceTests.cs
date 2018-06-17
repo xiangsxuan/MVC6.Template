@@ -2,7 +2,6 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using MvcTemplate.Components.Extensions;
-using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
@@ -19,7 +18,6 @@ namespace MvcTemplate.Tests.Unit.Services
 {
     public class RoleServiceTests : IDisposable
     {
-        private IAuthorizationProvider authorizationProvider;
         private TestingContext context;
         private RoleService service;
         private Role role;
@@ -27,10 +25,8 @@ namespace MvcTemplate.Tests.Unit.Services
         public RoleServiceTests()
         {
             context = new TestingContext();
-            authorizationProvider = Substitute.For<IAuthorizationProvider>();
-            service = Substitute.ForPartsOf<RoleService>(new UnitOfWork(context), authorizationProvider);
+            service = Substitute.ForPartsOf<RoleService>(new UnitOfWork(context));
 
-            context.DropData();
             SetUpData();
         }
         public void Dispose()
@@ -44,62 +40,66 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void SeedPermissions_FirstDepth()
         {
-            RoleView view = new RoleView();
+            RoleView view = ObjectFactory.CreateRoleView();
+
             service.SeedPermissions(view);
 
-            IEnumerator<JsTreeNode> expected = CreatePermissions().Nodes.GetEnumerator();
-            IEnumerator<JsTreeNode> actual = view.Permissions.Nodes.GetEnumerator();
+            List<JsTreeNode> expected = CreatePermissions().Nodes;
+            List<JsTreeNode> actual = view.Permissions.Nodes;
 
-            while (expected.MoveNext() | actual.MoveNext())
+            for (Int32 i = 0; i < expected.Count || i < actual.Count; i++)
             {
-                Assert.Equal(expected.Current.Id, actual.Current.Id);
-                Assert.Equal(expected.Current.Title, actual.Current.Title);
-                Assert.Equal(expected.Current.Nodes.Count, actual.Current.Nodes.Count);
+                Assert.Equal(expected[i].Id, actual[i].Id);
+                Assert.Equal(expected[i].Title, actual[i].Title);
+                Assert.Equal(expected[i].Nodes.Count, actual[i].Nodes.Count);
             }
         }
 
         [Fact]
         public void SeedPermissions_SecondDepth()
         {
-            RoleView view = new RoleView();
+            RoleView view = ObjectFactory.CreateRoleView();
+
             service.SeedPermissions(view);
 
-            IEnumerator<JsTreeNode> expected = CreatePermissions().Nodes.SelectMany(node => node.Nodes).GetEnumerator();
-            IEnumerator<JsTreeNode> actual = view.Permissions.Nodes.SelectMany(node => node.Nodes).GetEnumerator();
+            List<JsTreeNode> expected = CreatePermissions().Nodes.SelectMany(node => node.Nodes).ToList();
+            List<JsTreeNode> actual = view.Permissions.Nodes.SelectMany(node => node.Nodes).ToList();
 
-            while (expected.MoveNext() | actual.MoveNext())
+            for (Int32 i = 0; i < expected.Count || i < actual.Count; i++)
             {
-                Assert.Equal(expected.Current.Id, actual.Current.Id);
-                Assert.Equal(expected.Current.Title, actual.Current.Title);
-                Assert.Equal(expected.Current.Nodes.Count, actual.Current.Nodes.Count);
+                Assert.Equal(expected[i].Id, actual[i].Id);
+                Assert.Equal(expected[i].Title, actual[i].Title);
+                Assert.Equal(expected[i].Nodes.Count, actual[i].Nodes.Count);
             }
         }
 
         [Fact]
         public void SeedPermissions_ThirdDepth()
         {
-            RoleView view = new RoleView();
+            RoleView view = ObjectFactory.CreateRoleView();
+
             service.SeedPermissions(view);
 
-            IEnumerator<JsTreeNode> expected = CreatePermissions().Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
-            IEnumerator<JsTreeNode> actual = view.Permissions.Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).GetEnumerator();
+            List<JsTreeNode> expected = CreatePermissions().Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).ToList();
+            List<JsTreeNode> actual = view.Permissions.Nodes.SelectMany(node => node.Nodes).SelectMany(node => node.Nodes).ToList();
 
-            while (expected.MoveNext() | actual.MoveNext())
+            for (Int32 i = 0; i < expected.Count || i < actual.Count; i++)
             {
-                Assert.Equal(expected.Current.Id, actual.Current.Id);
-                Assert.Equal(expected.Current.Title, actual.Current.Title);
-                Assert.Equal(expected.Current.Nodes.Count, actual.Current.Nodes.Count);
+                Assert.Equal(expected[i].Id, actual[i].Id);
+                Assert.Equal(expected[i].Title, actual[i].Title);
+                Assert.Equal(expected[i].Nodes.Count, actual[i].Nodes.Count);
             }
         }
 
         [Fact]
         public void SeedPermissions_BranchesWithoutId()
         {
-            RoleView view = new RoleView();
+            RoleView view = ObjectFactory.CreateRoleView();
+
             service.SeedPermissions(view);
 
             IEnumerable<JsTreeNode> nodes = view.Permissions.Nodes;
-            IEnumerable<JsTreeNode> branches = GetAllBranchNodes(nodes);
+            IEnumerable<JsTreeNode> branches = GetBranchNodes(nodes);
 
             Assert.Empty(branches.Where(branch => branch.Id != null));
         }
@@ -107,11 +107,12 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void SeedPermissions_LeafsWithId()
         {
-            RoleView view = new RoleView();
+            RoleView view = ObjectFactory.CreateRoleView();
+
             service.SeedPermissions(view);
 
             IEnumerable<JsTreeNode> nodes = view.Permissions.Nodes;
-            IEnumerable<JsTreeNode> leafs = GetAllLeafNodes(nodes);
+            IEnumerable<JsTreeNode> leafs = GetLeafNodes(nodes);
 
             Assert.Empty(leafs.Where(leaf => leaf.Id == null));
         }
@@ -123,19 +124,19 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void GetViews_ReturnsRoleViews()
         {
-            IEnumerator<RoleView> actual = service.GetViews().GetEnumerator();
-            IEnumerator<RoleView> expected = context
+            RoleView[] actual = service.GetViews().ToArray();
+            RoleView[] expected = context
                 .Set<Role>()
                 .ProjectTo<RoleView>()
                 .OrderByDescending(view => view.Id)
-                .GetEnumerator();
+                .ToArray();
 
-            while (expected.MoveNext() | actual.MoveNext())
+            for (Int32 i = 0; i < expected.Length || i < actual.Length; i++)
             {
-                Assert.Equal(expected.Current.Permissions.SelectedIds, actual.Current.Permissions.SelectedIds);
-                Assert.Equal(expected.Current.CreationDate, actual.Current.CreationDate);
-                Assert.Equal(expected.Current.Title, actual.Current.Title);
-                Assert.Equal(expected.Current.Id, actual.Current.Id);
+                Assert.Equal(expected[i].Permissions.SelectedIds, actual[i].Permissions.SelectedIds);
+                Assert.Equal(expected[i].CreationDate, actual[i].CreationDate);
+                Assert.Equal(expected[i].Title, actual[i].Title);
+                Assert.Equal(expected[i].Id, actual[i].Id);
             }
         }
 
@@ -191,8 +192,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Create_Role()
         {
-            RoleView view = ObjectFactory.CreateRoleView(2);
-            view.Id = 0;
+            RoleView view = ObjectFactory.CreateRoleView(1);
 
             service.Create(view);
 
@@ -206,9 +206,8 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Create_RolePermissions()
         {
-            RoleView view = ObjectFactory.CreateRoleView(2);
+            RoleView view = ObjectFactory.CreateRoleView(1);
             view.Permissions = CreatePermissions();
-            view.Id = 0;
 
             service.Create(view);
 
@@ -230,13 +229,13 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_Role()
         {
-            RoleView view = Mapper.Map<RoleView>(role);
+            RoleView view = ObjectFactory.CreateRoleView(role.Id);
             view.Title = role.Title += "Test";
 
             service.Edit(view);
 
             Role actual = context.Set<Role>().AsNoTracking().Single();
-            RoleView expected = view;
+            Role expected = role;
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Title, actual.Title);
@@ -246,7 +245,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_RolePermissions()
         {
-            Permission permission = ObjectFactory.CreatePermission(100);
+            Permission permission = ObjectFactory.CreatePermission();
             context.Add(permission);
             context.SaveChanges();
 
@@ -261,14 +260,6 @@ namespace MvcTemplate.Tests.Unit.Services
             IEnumerable<Int32> expected = view.Permissions.SelectedIds.OrderBy(permissionId => permissionId);
 
             Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void Edit_RefreshesAuthorization()
-        {
-            service.Edit(ObjectFactory.CreateRoleView(role.Id));
-
-            authorizationProvider.Received().Refresh();
         }
 
         #endregion
@@ -306,14 +297,6 @@ namespace MvcTemplate.Tests.Unit.Services
             Assert.Empty(context.Set<RolePermission>());
         }
 
-        [Fact]
-        public void Delete_RefreshesAuthorization()
-        {
-            service.Delete(role.Id);
-
-            authorizationProvider.Received().Refresh();
-        }
-
         #endregion
 
         #region Test helpers
@@ -336,7 +319,6 @@ namespace MvcTemplate.Tests.Unit.Services
 
             context.Add(role);
             context.SaveChanges();
-            context.DropState();
         }
 
         private JsTree CreatePermissions()
@@ -380,19 +362,19 @@ namespace MvcTemplate.Tests.Unit.Services
             return expectedTree;
         }
 
-        private IEnumerable<JsTreeNode> GetAllLeafNodes(IEnumerable<JsTreeNode> nodes)
+        private IEnumerable<JsTreeNode> GetLeafNodes(IEnumerable<JsTreeNode> nodes)
         {
             List<JsTreeNode> leafs = nodes.Where(node => node.Nodes.Count == 0).ToList();
             foreach (JsTreeNode branch in nodes.Where(node => node.Nodes.Count > 0))
-                leafs.AddRange(GetAllLeafNodes(branch.Nodes));
+                leafs.AddRange(GetLeafNodes(branch.Nodes));
 
             return leafs;
         }
-        private IEnumerable<JsTreeNode> GetAllBranchNodes(IEnumerable<JsTreeNode> nodes)
+        private IEnumerable<JsTreeNode> GetBranchNodes(IEnumerable<JsTreeNode> nodes)
         {
             List<JsTreeNode> branches = nodes.Where(node => node.Nodes.Count > 0).ToList();
             foreach (JsTreeNode branch in branches.ToArray())
-                branches.AddRange(GetAllBranchNodes(branch.Nodes));
+                branches.AddRange(GetBranchNodes(branch.Nodes));
 
             return branches;
         }

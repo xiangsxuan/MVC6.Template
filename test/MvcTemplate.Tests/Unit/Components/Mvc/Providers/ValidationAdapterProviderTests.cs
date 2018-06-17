@@ -40,6 +40,12 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc.Providers
         }
 
         [Fact]
+        public void GetAttributeAdapter_AcceptFiles()
+        {
+            Assert.IsType<AcceptFilesAdapter>(provider.GetAttributeAdapter(new AcceptFilesAttribute(".docx"), null));
+        }
+
+        [Fact]
         public void GetAttributeAdapter_MinLength()
         {
             Assert.IsType<MinLengthAdapter>(provider.GetAttributeAdapter(new MinLengthAttribute(45), null));

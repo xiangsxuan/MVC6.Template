@@ -10,9 +10,6 @@ namespace MvcTemplate.Components.Mvc
     {
         public override Boolean IsValidForRequest(RouteContext context, ActionDescriptor action)
         {
-            if (context.HttpContext.Request.Headers == null)
-                return false;
-
             return context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
     }

@@ -19,10 +19,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
             MinLengthAdapter adapter = new MinLengthAdapter(new MinLengthAttribute(128));
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "MinLength");
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AllTypesView), "StringField");
             ModelValidationContextBase context = new ModelValidationContextBase(new ActionContext(), metadata, provider);
 
-            String expected = String.Format(Validations.MinLength, "MinLength", 128);
+            String expected = String.Format(Validations.MinLength, context.ModelMetadata.PropertyName, 128);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(Validations.MinLength, adapter.Attribute.ErrorMessage);

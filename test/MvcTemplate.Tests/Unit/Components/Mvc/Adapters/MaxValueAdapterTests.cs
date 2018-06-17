@@ -21,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attributes = new Dictionary<String, String>();
             adapter = new MaxValueAdapter(new MaxValueAttribute(128));
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "MaxValue");
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AllTypesView), "Int32Field");
             context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
         }
 
@@ -35,7 +35,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Equal(3, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
             Assert.Equal("128", attributes["data-val-range-max"]);
-            Assert.Equal(String.Format(Validations.MaxValue, "MaxValue", 128), attributes["data-val-range"]);
+            Assert.Equal(String.Format(Validations.MaxValue, context.ModelMetadata.PropertyName, 128), attributes["data-val-range"]);
         }
 
         #endregion
@@ -45,7 +45,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetErrorMessage_MaxValue()
         {
-            String expected = String.Format(Validations.MaxValue, "MaxValue", 128);
+            String expected = String.Format(Validations.MaxValue, context.ModelMetadata.PropertyName, 128);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(expected, actual);

@@ -150,9 +150,6 @@
   <data name="AuthRecover" xml:space="preserve">
     <value>Recover</value>
   </data>
-  <data name="AuthRegister" xml:space="preserve">
-    <value>Register</value>
-  </data>
   <data name="AuthReset" xml:space="preserve">
     <value>Reset</value>
   </data>

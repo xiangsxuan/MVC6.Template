@@ -10,26 +10,25 @@ namespace MvcTemplate.Rename
     {
         private const String TemplateDbName = "Mvc6Template";
         private const String TemplateName = "MvcTemplate";
+        private static String Password { get; set; }
         private static String Project { get; set; }
-        private static String Company { get; set; }
 
         public static void Main()
         {
-            Console.WriteLine("Enter root namespace name: ");
-            while ((Project = Console.ReadLine().Trim()) == "")
-            { }
+            Console.Write("Enter new site admin user password (32 symbols max): ");
+            while ((Password = Console.ReadLine().Trim()) == "") { }
 
-            Console.WriteLine("Enter company name: ");
-            Company = Console.ReadLine().Trim();
+            Console.WriteLine("Enter root namespace name: ");
+            while ((Project = Console.ReadLine().Trim()) == "") { }
+
+            Int32 port = new Random().Next(1000, 19175);
+            String passhash = BCrypt.Net.BCrypt.HashPassword(Password.Length <= 32 ? Password : Password.Substring(0, 32), 13);
 
             String[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.*", SearchOption.AllDirectories);
-            Regex authors = new Regex("^  \"authors\": \\[ \"NonFactors\" \\]");
-            Regex version = new Regex("^  \"version\": \"\\d+\\.\\d\\.\\d+\"");
-            Regex assemblyVersion = new Regex("assembly: AssemblyVersion.*");
-            Regex fileVersion = new Regex("assembly: AssemblyFileVersion.*");
-            Regex copyright = new Regex("assembly: AssemblyCopyright.*");
-            Regex company = new Regex("assembly: AssemblyCompany.*");
-            Regex newLine = new Regex("(?<!\\r)\\n");
+            Regex adminPassword = new Regex("Passhash = \"\\$2b\\$.*\", // Will be generated on project rename");
+            Regex iisPort = new Regex("(\"(applicationUrl|launchUrl)\": .*:)\\d+(.*\")");
+            Regex version = new Regex("<Version>\\d+\\.\\d+\\.\\d+</Version>");
+            Regex newLine = new Regex("\\r?\\n");
 
             Console.WriteLine();
 
@@ -44,19 +43,16 @@ namespace MvcTemplate.Rename
                     extension == ".config" ||
                     extension == ".gitignore" ||
                     extension == ".sln" ||
-                    extension == ".xproj" ||
+                    extension == ".csproj" ||
                     extension == ".json")
                 {
                     String content = File.ReadAllText(files[i]);
                     content = content.Replace(TemplateName, Project);
                     content = content.Replace(TemplateDbName, Project);
                     content = newLine.Replace(content, Environment.NewLine);
-                    content = version.Replace(content, "  \"version\": \"0.1.0\"");
-                    content = authors.Replace(content, "  \"authors\": [ \"" + Company + "\" ]");
-                    content = company.Replace(content, "assembly: AssemblyCompany(\"" + Company + "\")]");
-                    content = fileVersion.Replace(content, "assembly: AssemblyFileVersion(\"0.1.0.0\")]");
-                    content = assemblyVersion.Replace(content, "assembly: AssemblyVersion(\"0.1.0.0\")]");
-                    content = copyright.Replace(content, "assembly: AssemblyCopyright(\"Copyright © " + Company + "\")]");
+                    content = iisPort.Replace(content, "${1}" + port + "${3}");
+                    content = version.Replace(content, "<Version>0.1.0</Version>");
+                    content = adminPassword.Replace(content, "Passhash = \"" + passhash + "\",");
 
                     File.WriteAllText(files[i], content, Encoding.UTF8);
                 }
@@ -65,6 +61,7 @@ namespace MvcTemplate.Rename
             Console.WriteLine();
 
             String[] directories = Directory.GetDirectories(Directory.GetCurrentDirectory(), "*" + TemplateName + "*", SearchOption.AllDirectories);
+            directories = directories.Where(directory => !directory.StartsWith(Path.Combine(Directory.GetCurrentDirectory(), "tools"))).ToArray();
             for (Int32 i = 0; i < directories.Length; i++)
             {
                 Console.CursorLeft = 0;
@@ -88,21 +85,6 @@ namespace MvcTemplate.Rename
             }
 
             Console.WriteLine();
-
-            if (Directory.Exists("tools"))
-                Directory.Delete("tools", true);
-
-            if (File.Exists("CONTRIBUTING.md"))
-                File.Delete("CONTRIBUTING.md");
-
-            if (File.Exists("LICENSE.txt"))
-                File.Delete("LICENSE.txt");
-
-            if (File.Exists("README.md"))
-                File.WriteAllText("README.MD", "");
-
-            if (File.Exists($"{TemplateName}.Rename.cmd"))
-                File.Delete($"{TemplateName}.Rename.cmd");
         }
     }
 }

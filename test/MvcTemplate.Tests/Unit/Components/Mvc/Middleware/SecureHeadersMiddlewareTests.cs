@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using MvcTemplate.Components.Mvc;
-using NSubstitute;
 using System.Threading.Tasks;
 using Xunit;
 

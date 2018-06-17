@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Alerts;
+using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
@@ -31,7 +34,10 @@ namespace MvcTemplate.Tests.Unit.Controllers
             profileEdit = ObjectFactory.CreateProfileEditView();
 
             controller = Substitute.ForPartsOf<ProfileController>(validator, service);
+            controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
+            controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.ControllerContext.RouteData = new RouteData();
+            controller.Url = Substitute.For<IUrlHelper>();
             ReturnCurrentAccountId(controller, 1);
         }
 
@@ -128,7 +134,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Object expected = RedirectToAction(controller, "Edit");
             Object actual = controller.Edit(profileEdit);
 
-            Assert.Same(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         #endregion
@@ -156,7 +162,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Alert actual = controller.Alerts.Single();
 
             Assert.Equal(Messages.ProfileDeleteDisclaimer, actual.Message);
-            Assert.Equal(AlertType.Danger, actual.Type);
+            Assert.Equal(AlertType.Warning, actual.Type);
             Assert.Equal(0, actual.Timeout);
         }
 
@@ -165,7 +171,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsActive(controller.CurrentAccountId).Returns(true);
 
-            ViewDataDictionary actual = (controller.Delete() as ViewResult).ViewData;
+            ViewResult actual = controller.Delete() as ViewResult;
 
             Assert.Null(actual.Model);
         }
@@ -202,7 +208,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Alert actual = controller.Alerts.Single();
 
             Assert.Equal(Messages.ProfileDeleteDisclaimer, actual.Message);
-            Assert.Equal(AlertType.Danger, actual.Type);
+            Assert.Equal(AlertType.Warning, actual.Type);
             Assert.Equal(0, actual.Timeout);
         }
 
@@ -212,7 +218,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             service.IsActive(controller.CurrentAccountId).Returns(true);
             validator.CanDelete(profileDelete).Returns(false);
 
-            ViewDataDictionary actual = (controller.DeleteConfirmed(profileDelete) as ViewResult).ViewData;
+            ViewResult actual = controller.DeleteConfirmed(profileDelete) as ViewResult;
 
             Assert.Null(actual.Model);
         }
@@ -229,6 +235,19 @@ namespace MvcTemplate.Tests.Unit.Controllers
         }
 
         [Fact]
+        public void DeleteConfirmed_RefreshesAuthorization()
+        {
+            controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            service.IsActive(controller.CurrentAccountId).Returns(true);
+            validator.CanDelete(profileDelete).Returns(true);
+            controller.OnActionExecuting(null);
+
+            controller.DeleteConfirmed(profileDelete);
+
+            controller.Authorization.Received().Refresh();
+        }
+
+        [Fact]
         public void DeleteConfirmed_RedirectsToAuthLogout()
         {
             service.IsActive(controller.CurrentAccountId).Returns(true);
@@ -237,7 +256,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Object expected = RedirectToAction(controller, "Logout", "Auth");
             Object actual = controller.DeleteConfirmed(profileDelete);
 
-            Assert.Equal(expected, actual);
+            Assert.Same(expected, actual);
         }
 
         #endregion

@@ -12,20 +12,21 @@
         <div class="input-group">
             <span class="fa fa-user"></span>
             <input asp-for="Username" placeholder="@Titles.Username" autocomplete="off" />
-            <span class="input-error fa fa-warning"></span>
+            <span class="input-error fa fa-exclamation-triangle"></span>
         </div>
         <div class="input-group">
             <span class="fa fa-lock"></span>
             <input asp-for="Password" type="password" placeholder="@Titles.Password" autocomplete="off" />
-            <span class="input-error fa fa-warning"></span>
+            <span class="input-error fa fa-exclamation-triangle"></span>
         </div>
         @{ ILanguages languages = Context.RequestServices.GetService<ILanguages>(); }
-        @if (languages.Supported.Length > 1)
-        {
-            String query = ViewContext.HttpContext.Request.QueryString.ToString();
+        @{ String returnPath = ViewContext.HttpContext.Request.Query["returnUrl"]; }
+        @{ String rootPath = Context.Request.PathBase.Value.Trim('/'); }
+        @{ returnPath = (returnPath ?? rootPath).Trim('/'); }
 
+        @if (languages.Supported.Length > 1 && returnPath == rootPath)
+        {
             <div class="input-group">
-                <span class="fa fa-globe"></span>
                 <div class="language-container dropdown-toggle" data-toggle="dropdown">
                     <span class="current-language">
                         <img src="@Url.Content($"~/Images/Flags/{languages.Current.Abbreviation}.gif")" width="16" height="11" alt="">
@@ -37,7 +38,7 @@
                     @foreach (Language language in languages.Supported)
                     {
                         <li>
-                            <a href="@(Url.Action("Login", new { language = language.IsDefault ? "" : language.Abbreviation }) + query)">
+                            <a class="dropdown-item" href="@Url.Action("Login", new { language = language.IsDefault ? "" : language.Abbreviation })">
                                 <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" width="16" height="11" alt="">
                                 @language.Name
                             </a>
@@ -47,11 +48,10 @@
             </div>
         }
     </div>
-    <input class="btn btn-primary" type="submit" value="@Actions.Login" />
+    <button type="submit" class="btn btn-primary">@Actions.Login</button>
 </form>
 
 <div class="separator"></div>
 <div class="auth-actions">
-    <a asp-action="Register" class="text fa fa-edit" data-toggle="tooltip" data-original-title="@Texts.CreateNewAccount" data-placement="bottom"></a>
-    <a asp-action="Recover" class="text fa fa-unlock-alt" data-toggle="tooltip" data-original-title="@Texts.LostPassword" data-placement="bottom"></a>
+    <a asp-action="Recover" class="text fa fa-unlock" data-toggle="tooltip" data-original-title="@Texts.LostPassword" data-placement="bottom"></a>
 </div>

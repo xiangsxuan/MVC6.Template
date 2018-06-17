@@ -19,10 +19,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
             RangeAdapter adapter = new RangeAdapter(new RangeAttribute(4, 128));
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "Range");
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AllTypesView), "Int32Field");
             ModelValidationContextBase context = new ModelValidationContextBase(new ActionContext(), metadata, provider);
 
-            String expected = String.Format(Validations.Range, "Range", 4, 128);
+            String expected = String.Format(Validations.Range, context.ModelMetadata.PropertyName, 4, 128);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(Validations.Range, adapter.Attribute.ErrorMessage);

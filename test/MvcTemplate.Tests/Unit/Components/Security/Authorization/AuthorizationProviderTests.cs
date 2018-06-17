@@ -11,14 +11,15 @@ namespace MvcTemplate.Tests.Unit.Components.Security
 {
     public class AuthorizationProviderTests
     {
+        private TestingContext context;
         private AuthorizationProvider authorization;
 
         public AuthorizationProviderTests()
         {
+            context = new TestingContext();
             IServiceProvider services = Substitute.For<IServiceProvider>();
-            services.GetService(typeof(IUnitOfWork)).Returns(info => new UnitOfWork(new TestingContext()));
+            services.GetService(typeof(IUnitOfWork)).Returns(info => new UnitOfWork(new TestingContext(context.DatabaseName)));
 
-            using (TestingContext context = new TestingContext()) context.DropData();
             authorization = new AuthorizationProvider(Assembly.GetExecutingAssembly(), services);
         }
 
@@ -27,17 +28,17 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         [Fact]
         public void IsAuthorizedFor_AuthorizesControllerByIgnoringCase()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, "Area", "AUTHORIZED", "Action"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "AUTHORIZED", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeControllerByIgnoringCase()
         {
-            Account account = CreateAccountWithPermissionFor("Test", "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor("Test", "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "Area", "AUTHORIZED", "Action"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "AUTHORIZED", "Action"));
         }
 
         [Theory]
@@ -45,9 +46,9 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         [InlineData(null)]
         public void IsAuthorizedFor_AuthorizesControllerWithoutArea(String area)
         {
-            Account account = CreateAccountWithPermissionFor(null, "Authorized", "Action");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Authorized", "Action");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, area, "Authorized", "Action"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, area, "Authorized", "Action"));
         }
 
         [Theory]
@@ -55,57 +56,57 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         [InlineData(null)]
         public void IsAuthorizedFor_DoesNotAuthorizeControllerWithoutArea(String area)
         {
-            Account account = CreateAccountWithPermissionFor(null, "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, area, "Authorized", "Action"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, area, "Authorized", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesControllerWithArea()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeControllerWithArea()
         {
-            Account account = CreateAccountWithPermissionFor("Test", "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor("Test", "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesGetAction()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "AuthorizedGetAction");
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "AuthorizedGetAction");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedGetAction"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedGetAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeGetAction()
         {
-            Account account = CreateAccountWithPermissionFor("Test", "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor("Test", "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedGetAction"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedGetAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesNamedGetAction()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "AuthorizedNamedGetAction");
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "AuthorizedNamedGetAction");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedNamedGetAction"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedNamedGetAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeNamedGetAction()
         {
-            Account account = CreateAccountWithPermissionFor("Test", "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor("Test", "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedNamedGetAction"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedNamedGetAction"));
         }
 
         [Fact]
@@ -117,191 +118,207 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         [Fact]
         public void IsAuthorizedFor_AuthorizesNonGetAction()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "AuthorizedPostAction");
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "AuthorizedPostAction");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedPostAction"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedPostAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeNonGetAction()
         {
-            Account account = CreateAccountWithPermissionFor("Test", "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor("Test", "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedPostAction"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedPostAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesNamedNonGetAction()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "AuthorizedNamedPostAction");
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "AuthorizedNamedPostAction");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedNamedPostAction"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedNamedPostAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeNamedNonGetAction()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedNamedPostAction"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedNamedPostAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesActionAsAction()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsAction"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedAsAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeActionAsAction()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Authorized", "Action");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Authorized", "Action");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsAction"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedAsAction"));
+        }
+
+        [Fact]
+        public void IsAuthorizedFor_AuthorizesActionAsSelf()
+        {
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "AuthorizedAsSelf");
+
+            Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedAsSelf"));
+        }
+
+        [Fact]
+        public void IsAuthorizedFor_DoesNotAuthorizeActionAsSelf()
+        {
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Test", "Test");
+
+            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedAsSelf"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesActionAsOtherAction()
         {
-            Account account = CreateAccountWithPermissionFor(null, "InheritedAuthorized", "InheritanceAction");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "InheritedAuthorized", "InheritanceAction");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsOtherAction"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedAsOtherAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeActionAsOtherAction()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "AuthorizedAsOtherAction");
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "AuthorizedAsOtherAction");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "AuthorizedAsOtherAction"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "AuthorizedAsOtherAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesEmptyAreaAsNull()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Authorized", "Action");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Authorized", "Action");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, "", "Authorized", "Action"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, "", "Authorized", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeEmptyAreaAsNull()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "", "Authorized", "Action"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, "", "Authorized", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesAuthorizedAction()
         {
-            Account account = CreateAccountWithPermissionFor(null, "AllowAnonymous", "AuthorizedAction");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "AllowAnonymous", "AuthorizedAction");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, null, "AllowAnonymous", "AuthorizedAction"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, null, "AllowAnonymous", "AuthorizedAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeAuthorizedAction()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, null, "AllowAnonymous", "AuthorizedAction"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, null, "AllowAnonymous", "AuthorizedAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesAllowAnonymousAction()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, null, "Authorized", "AllowAnonymousAction"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, null, "Authorized", "AllowAnonymousAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesAllowUnauthorizedAction()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, null, "Authorized", "AllowUnauthorizedAction"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, null, "Authorized", "AllowUnauthorizedAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesAuthorizedController()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Authorized", "Action");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, null, "Authorized", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeAuthorizedController()
         {
-            Account account = CreateAccountWithPermissionFor("Test", "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, null, "Authorized", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesAllowAnonymousController()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, null, "AllowAnonymous", "Action"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, null, "AllowAnonymous", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesAllowUnauthorizedController()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, null, "AllowUnauthorized", "Action"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, null, "AllowUnauthorized", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesInheritedAuthorizedController()
         {
-            Account account = CreateAccountWithPermissionFor(null, "InheritedAuthorized", "InheritanceAction");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "InheritedAuthorized", "InheritanceAction");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, null, "InheritedAuthorized", "InheritanceAction"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, null, "InheritedAuthorized", "InheritanceAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeInheritedAuthorizedController()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, null, "InheritedAuthorized", "InheritanceAction"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, null, "InheritedAuthorized", "InheritanceAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesInheritedAllowAnonymousController()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, null, "InheritedAllowAnonymous", "InheritanceAction"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, null, "InheritedAllowAnonymous", "InheritanceAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesInheritedAllowUnauthorizedController()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, null, "InheritedAllowUnauthorized", "InheritanceAction"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, null, "InheritedAllowUnauthorized", "InheritanceAction"));
         }
 
         [Fact]
         public void IsAuthorizedFor_AuthorizesNotAttributedController()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, null, "NotAttributed", "Action"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, null, "NotAttributed", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeNotExistingAccount()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
+            CreateAccountWithPermissionFor("Area", "Authorized", "Action");
 
             Assert.False(authorization.IsAuthorizedFor(0, "Area", "Authorized", "Action"));
         }
@@ -309,15 +326,15 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeLockedAccount()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "Action", isLocked: true);
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "Action", isLocked: true);
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "Action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeNullAccount()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Authorized", "Action");
+            CreateAccountWithPermissionFor(null, "Authorized", "Action");
 
             Assert.False(authorization.IsAuthorizedFor(null, null, "Authorized", "Action"));
         }
@@ -325,26 +342,27 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         [Fact]
         public void IsAuthorizedFor_AuthorizesByIgnoringCase()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, "area", "authorized", "action"));
+            Assert.True(authorization.IsAuthorizedFor(accountId, "area", "authorized", "action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_DoesNotAuthorizeByIgnoringCase()
         {
-            Account account = CreateAccountWithPermissionFor("Test", "Test", "Test");
+            Int32 accountId = CreateAccountWithPermissionFor("Test", "Test", "Test");
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "area", "authorized", "action"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, "area", "authorized", "action"));
         }
 
         [Fact]
         public void IsAuthorizedFor_CachesAccountPermissions()
         {
-            Account account = CreateAccountWithPermissionFor(null, "Authorized", "Action");
-            using (TestingContext context = new TestingContext()) context.DropData();
+            Int32 accountId = CreateAccountWithPermissionFor(null, "Authorized", "Action");
 
-            Assert.True(authorization.IsAuthorizedFor(account.Id, null, "Authorized", "Action"));
+            context.Database.EnsureDeleted();
+
+            Assert.True(authorization.IsAuthorizedFor(accountId, null, "Authorized", "Action"));
         }
 
         #endregion
@@ -354,23 +372,23 @@ namespace MvcTemplate.Tests.Unit.Components.Security
         [Fact]
         public void Refresh_Permissions()
         {
-            Account account = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
-            Assert.True(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
+            Int32 accountId = CreateAccountWithPermissionFor("Area", "Authorized", "Action");
+            Assert.True(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "Action"));
 
-            using (TestingContext context = new TestingContext()) context.DropData();
+            context.Database.EnsureDeleted();
 
             authorization.Refresh();
 
-            Assert.False(authorization.IsAuthorizedFor(account.Id, "Area", "Authorized", "Action"));
+            Assert.False(authorization.IsAuthorizedFor(accountId, "Area", "Authorized", "Action"));
         }
 
         #endregion
 
         #region Test helpers
 
-        private Account CreateAccountWithPermissionFor(String area, String controller, String action, Boolean isLocked = false)
+        private Int32 CreateAccountWithPermissionFor(String area, String controller, String action, Boolean isLocked = false)
         {
-            using (TestingContext context = new TestingContext())
+            using (TestingContext testingContext = new TestingContext(context.DatabaseName))
             {
                 RolePermission rolePermission = ObjectFactory.CreateRolePermission();
                 Account account = ObjectFactory.CreateAccount();
@@ -382,12 +400,12 @@ namespace MvcTemplate.Tests.Unit.Components.Security
                 rolePermission.Permission.Action = action;
                 rolePermission.Permission.Area = area;
 
-                context.Add(account);
-                context.SaveChanges();
+                testingContext.Add(account);
+                testingContext.SaveChanges();
 
                 authorization.Refresh();
 
-                return account;
+                return account.Id;
             }
         }
 

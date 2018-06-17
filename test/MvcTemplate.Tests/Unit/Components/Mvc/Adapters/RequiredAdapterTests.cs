@@ -19,10 +19,10 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
             RequiredAdapter adapter = new RequiredAdapter(new RequiredAttribute());
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "Required");
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AllTypesView), "StringField");
             ModelValidationContextBase context = new ModelValidationContextBase(new ActionContext(), metadata, provider);
 
-            String expected = String.Format(Validations.Required, "Required");
+            String expected = String.Format(Validations.Required, context.ModelMetadata.PropertyName);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(Validations.Required, adapter.Attribute.ErrorMessage);

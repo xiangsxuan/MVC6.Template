@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using MvcTemplate.Data.Logging;
 using MvcTemplate.Objects;
 using System;
 using System.Collections.Generic;
@@ -11,29 +12,33 @@ namespace MvcTemplate.Data.Core
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private DbContext Context { get; set; }
+        private IAuditLogger Logger { get; }
+        private DbContext Context { get; }
 
-        public UnitOfWork(DbContext context)
+        public UnitOfWork(DbContext context, IAuditLogger logger = null)
         {
             Context = context;
+            Logger = logger;
         }
 
-        public TDestination GetAs<TModel, TDestination>(Int32 id) where TModel : BaseModel
+        public TDestination GetAs<TModel, TDestination>(Int32? id) where TModel : BaseModel
         {
-            return Context.Set<TModel>().Where(model => model.Id == id).ProjectTo<TDestination>().FirstOrDefault();
+            return id == null
+                ? default(TDestination)
+                : Context.Set<TModel>().Where(model => model.Id == id).ProjectTo<TDestination>().FirstOrDefault();
         }
-        public TModel Get<TModel>(Int32 id) where TModel : BaseModel
+        public TModel Get<TModel>(Int32? id) where TModel : BaseModel
         {
-            return Context.Set<TModel>().SingleOrDefault(model => model.Id == id);
+            return id == null ? null : Context.Find<TModel>(id);
         }
         public TDestination To<TDestination>(Object source)
         {
             return Mapper.Map<TDestination>(source);
         }
 
-        public ISelect<TModel> Select<TModel>() where TModel : BaseModel
+        public IQuery<TModel> Select<TModel>() where TModel : BaseModel
         {
-            return new Select<TModel>(Context.Set<TModel>());
+            return new Query<TModel>(Context.Set<TModel>());
         }
 
         public void InsertRange<TModel>(IEnumerable<TModel> models) where TModel : BaseModel
@@ -63,16 +68,21 @@ namespace MvcTemplate.Data.Core
         }
         public void Delete<TModel>(Int32 id) where TModel : BaseModel
         {
-            Delete(Context.Set<TModel>().Single(model => model.Id == id));
+            Delete(Context.Find<TModel>(id));
         }
 
         public void Commit()
         {
+            Logger?.Log(Context.ChangeTracker.Entries<BaseModel>());
+
             Context.SaveChanges();
+
+            Logger?.Save();
         }
 
         public void Dispose()
         {
+            Logger?.Dispose();
             Context.Dispose();
         }
     }

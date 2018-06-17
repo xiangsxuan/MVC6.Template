@@ -23,12 +23,13 @@ namespace MvcTemplate.Tests.Unit.Validators
         {
             context = new TestingContext();
             hasher = Substitute.For<IHasher>();
+            account = ObjectFactory.CreateAccount();
+            validator = new AccountValidator(new UnitOfWork(context), hasher);
             hasher.VerifyPassword(Arg.Any<String>(), Arg.Any<String>()).Returns(true);
 
-            context.DropData();
-            SetUpData();
+            context.Add(account);
+            context.SaveChanges();
 
-            validator = new AccountValidator(new UnitOfWork(context), hasher);
             validator.CurrentAccountId = account.Id;
         }
         public void Dispose()
@@ -36,50 +37,6 @@ namespace MvcTemplate.Tests.Unit.Validators
             validator.Dispose();
             context.Dispose();
         }
-
-        #region CanRegister(AccountRegisterView view)
-
-        [Fact]
-        public void CanRegister_InvalidState_ReturnsFalse()
-        {
-            validator.ModelState.AddModelError("Test", "Test");
-
-            Assert.False(validator.CanRegister(ObjectFactory.CreateAccountRegisterView()));
-        }
-
-        [Fact]
-        public void CanRegister_UsedUsername_ReturnsFalse()
-        {
-            AccountRegisterView view = ObjectFactory.CreateAccountRegisterView(2);
-            view.Username = account.Username.ToLower();
-
-            Boolean canRegister = validator.CanRegister(view);
-
-            Assert.False(canRegister);
-            Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UniqueUsername, validator.ModelState["Username"].Errors.Single().ErrorMessage);
-        }
-
-        [Fact]
-        public void CanRegister_UsedEmail_ReturnsFalse()
-        {
-            AccountRegisterView view = ObjectFactory.CreateAccountRegisterView(2);
-            view.Email = account.Email;
-
-            Boolean canRegister = validator.CanRegister(view);
-
-            Assert.False(canRegister);
-            Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UniqueEmail, validator.ModelState["Email"].Errors.Single().ErrorMessage);
-        }
-
-        [Fact]
-        public void CanRegister_ValidAccount()
-        {
-            Assert.True(validator.CanRegister(ObjectFactory.CreateAccountRegisterView(2)));
-        }
-
-        #endregion
 
         #region CanRecover(AccountRecoveryView view)
 
@@ -95,6 +52,8 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanRecover_ValidAccount()
         {
             Assert.True(validator.CanRecover(ObjectFactory.CreateAccountRecoveryView()));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
@@ -113,6 +72,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanReset_ExpiredToken_ReturnsFalse()
         {
             account.RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(-5);
+            context.Update(account);
             context.SaveChanges();
 
             Boolean canReset = validator.CanReset(ObjectFactory.CreateAccountResetView());
@@ -128,7 +88,9 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanReset_ValidAccount()
         {
-            Assert.True(validator.CanRecover(ObjectFactory.CreateAccountRecoveryView()));
+            Assert.True(validator.CanReset(ObjectFactory.CreateAccountResetView()));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
@@ -210,6 +172,8 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanLogin_ValidAccount()
         {
             Assert.True(validator.CanLogin(ObjectFactory.CreateAccountLoginView()));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
@@ -221,13 +185,13 @@ namespace MvcTemplate.Tests.Unit.Validators
         {
             validator.ModelState.AddModelError("Test", "Test");
 
-            Assert.False(validator.CanCreate(ObjectFactory.CreateAccountCreateView()));
+            Assert.False(validator.CanCreate(ObjectFactory.CreateAccountCreateView(1)));
         }
 
         [Fact]
         public void CanCreate_UsedUsername_ReturnsFalse()
         {
-            AccountCreateView view = ObjectFactory.CreateAccountCreateView(2);
+            AccountCreateView view = ObjectFactory.CreateAccountCreateView(1);
             view.Username = account.Username.ToLower();
 
             Boolean canCreate = validator.CanCreate(view);
@@ -240,7 +204,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanCreate_UsedEmail_ReturnsFalse()
         {
-            AccountCreateView view = ObjectFactory.CreateAccountCreateView(2);
+            AccountCreateView view = ObjectFactory.CreateAccountCreateView(1);
             view.Email = account.Email.ToUpper();
 
             Boolean canCreate = validator.CanCreate(view);
@@ -253,7 +217,9 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanCreate_ValidAccount()
         {
-            Assert.True(validator.CanCreate(ObjectFactory.CreateAccountCreateView(2)));
+            Assert.True(validator.CanCreate(ObjectFactory.CreateAccountCreateView(1)));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
@@ -261,17 +227,71 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region CanEdit(AccountEditView view)
 
         [Fact]
-        public void CanEdit_InvalidAccountState_ReturnsFalse()
+        public void CanEdit_Account_InvalidState_ReturnsFalse()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
-            Assert.False(validator.CanEdit(ObjectFactory.CreateAccountEditView()));
+            Assert.False(validator.CanEdit(ObjectFactory.CreateAccountEditView(account.Id)));
+        }
+
+        [Fact]
+        public void CanEdit_Account_UsedUsername_ReturnsFalse()
+        {
+            Account usedAccount = ObjectFactory.CreateAccount(1);
+            context.Add(usedAccount);
+            context.SaveChanges();
+
+            AccountEditView view = ObjectFactory.CreateAccountEditView(account.Id);
+            view.Username = usedAccount.Username.ToLower();
+
+            Boolean canEdit = validator.CanEdit(view);
+
+            Assert.False(canEdit);
+            Assert.Single(validator.ModelState);
+            Assert.Equal(Validations.UniqueUsername, validator.ModelState["Username"].Errors.Single().ErrorMessage);
+        }
+
+        [Fact]
+        public void CanEdit_Account_ToSameUsername()
+        {
+            AccountEditView view = ObjectFactory.CreateAccountEditView(account.Id);
+            view.Username = account.Username.ToUpper();
+
+            Assert.True(validator.CanEdit(view));
+        }
+
+        [Fact]
+        public void CanEdit_Account_UsedEmail_ReturnsFalse()
+        {
+            Account usedAccount = ObjectFactory.CreateAccount(1);
+            context.Add(usedAccount);
+            context.SaveChanges();
+
+            AccountEditView view = ObjectFactory.CreateAccountEditView(account.Id);
+            view.Email = usedAccount.Email;
+
+            Boolean canEdit = validator.CanEdit(view);
+
+            Assert.False(canEdit);
+            Assert.Single(validator.ModelState);
+            Assert.Equal(Validations.UniqueEmail, validator.ModelState["Email"].Errors.Single().ErrorMessage);
+        }
+
+        [Fact]
+        public void CanEdit_Account_ToSameEmail()
+        {
+            AccountEditView view = ObjectFactory.CreateAccountEditView(account.Id);
+            view.Email = account.Email.ToUpper();
+
+            Assert.True(validator.CanEdit(view));
         }
 
         [Fact]
         public void CanEdit_ValidAccount()
         {
-            Assert.True(validator.CanEdit(ObjectFactory.CreateAccountEditView()));
+            Assert.True(validator.CanEdit(ObjectFactory.CreateAccountEditView(account.Id)));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
@@ -279,7 +299,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         #region CanEdit(ProfileEditView view)
 
         [Fact]
-        public void CanEdit_InvalidProfileState_ReturnsFalse()
+        public void CanEdit_Profile_InvalidState_ReturnsFalse()
         {
             validator.ModelState.AddModelError("Test", "Test");
 
@@ -287,9 +307,9 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_IncorrectPassword_ReturnsFalse()
+        public void CanEdit_Profile_IncorrectPassword_ReturnsFalse()
         {
-            ProfileEditView view = ObjectFactory.CreateProfileEditView(1577);
+            ProfileEditView view = ObjectFactory.CreateProfileEditView();
             hasher.VerifyPassword(view.Password, Arg.Any<String>()).Returns(false);
 
             Boolean canEdit = validator.CanEdit(view);
@@ -300,14 +320,14 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_UsedUsername_ReturnsFalse()
+        public void CanEdit_Profile_UsedUsername_ReturnsFalse()
         {
-            Account takenAccount = ObjectFactory.CreateAccount(2);
-            context.Add(takenAccount);
+            Account usedAccount = ObjectFactory.CreateAccount(1);
+            context.Add(usedAccount);
             context.SaveChanges();
 
             ProfileEditView view = ObjectFactory.CreateProfileEditView();
-            view.Username = takenAccount.Username.ToLower();
+            view.Username = usedAccount.Username.ToLower();
 
             Boolean canEdit = validator.CanEdit(view);
 
@@ -317,23 +337,23 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_ToSameUsername()
+        public void CanEdit_Profile_ToSameUsername()
         {
-            ProfileEditView view = ObjectFactory.CreateProfileEditView(2);
+            ProfileEditView view = ObjectFactory.CreateProfileEditView();
             view.Username = account.Username.ToUpper();
 
             Assert.True(validator.CanEdit(view));
         }
 
         [Fact]
-        public void CanEdit_UsedEmail_ReturnsFalse()
+        public void CanEdit_Profile_UsedEmail_ReturnsFalse()
         {
-            Account usedEmailAccount = ObjectFactory.CreateAccount(2);
-            context.Add(usedEmailAccount);
+            Account usedAccount = ObjectFactory.CreateAccount(1);
+            context.Add(usedAccount);
             context.SaveChanges();
 
             ProfileEditView view = ObjectFactory.CreateProfileEditView();
-            view.Email = usedEmailAccount.Email;
+            view.Email = usedAccount.Email;
 
             Boolean canEdit = validator.CanEdit(view);
 
@@ -343,9 +363,9 @@ namespace MvcTemplate.Tests.Unit.Validators
         }
 
         [Fact]
-        public void CanEdit_ToSameEmail()
+        public void CanEdit_Profile_ToSameEmail()
         {
-            ProfileEditView view = ObjectFactory.CreateProfileEditView(2);
+            ProfileEditView view = ObjectFactory.CreateProfileEditView();
             view.Email = account.Email.ToUpper();
 
             Assert.True(validator.CanEdit(view));
@@ -354,7 +374,9 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanEdit_ValidProfile()
         {
-            Assert.True(validator.CanEdit(ObjectFactory.CreateProfileEditView(1457)));
+            Assert.True(validator.CanEdit(ObjectFactory.CreateProfileEditView()));
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion
@@ -386,20 +408,8 @@ namespace MvcTemplate.Tests.Unit.Validators
         public void CanDelete_ValidProfile()
         {
             Assert.True(validator.CanDelete(ObjectFactory.CreateProfileDeleteView()));
-        }
-
-        #endregion
-
-        #region Test helpers
-
-        private void SetUpData()
-        {
-            account = ObjectFactory.CreateAccount();
-            account.IsLocked = false;
-
-            context.Add(account);
-
-            context.SaveChanges();
+            Assert.Empty(validator.ModelState);
+            Assert.Empty(validator.Alerts);
         }
 
         #endregion

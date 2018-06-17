@@ -9,20 +9,22 @@
     <title>@(ViewBag.Title ?? ResourceProvider.GetPageTitle(ViewContext.RouteData.Values))</title>
 
     <environment names="Development">
-        <link href="/Content/Bootstrap/bootstrap.css" rel="stylesheet">
-        <link href="/Content/FontAwesome/font-awesome.css" rel="stylesheet">
-        <link href="/Content/Shared/alerts.css" rel="stylesheet">
-        <link href="/Content/Shared/base.css" rel="stylesheet">
-        <link href="/Content/Shared/content.css" rel="stylesheet">
-        <link href="/Content/Shared/header.css" rel="stylesheet">
-        <link href="/Content/Shared/menu.css" rel="stylesheet">
-        <link href="/Content/Shared/overrides.css" rel="stylesheet">
-        <link href="/Content/Shared/table.css" rel="stylesheet">
-        <link href="/Content/Shared/widget-box.css" rel="stylesheet">
-        <link href="/Content/Shared/auth/auth.css" rel="stylesheet">
+        <link href="~/Content/Bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="~/Content/FontAwesome/fa-solid.css" rel="stylesheet">
+        <link href="~/Content/FontAwesome/fa-regular.css" rel="stylesheet">
+        <link href="~/Content/FontAwesome/fontawesome.css" rel="stylesheet">
+        <link href="~/Content/Shared/alerts.css" rel="stylesheet">
+        <link href="~/Content/Shared/base.css" rel="stylesheet">
+        <link href="~/Content/Shared/content.css" rel="stylesheet">
+        <link href="~/Content/Shared/header.css" rel="stylesheet">
+        <link href="~/Content/Shared/menu.css" rel="stylesheet">
+        <link href="~/Content/Shared/overrides.css" rel="stylesheet">
+        <link href="~/Content/Shared/table.css" rel="stylesheet">
+        <link href="~/Content/Shared/widget-box.css" rel="stylesheet">
+        <link href="~/Content/Application/Auth/shared.css" rel="stylesheet">
     </environment>
     <environment names="Staging,Production">
-        <link href="~/content/public/bundle.min.css" rel="stylesheet">
+        <link asp-append-version="true" href="~/content/public/bundle.min.css" rel="stylesheet">
     </environment>
 </head>
 <body class="public">
@@ -31,18 +33,19 @@
     </div>
 
     <environment names="Development">
-        <script src="/Scripts/JQuery/jquery.js"></script>
-        <script src="/Scripts/JQuery/jquery.validate.js"></script>
-        <script src="/Scripts/JQuery/jquery.validate.unobtrusive.js"></script>
-        <script src="/Scripts/JQuery/jquery.globalize.js"></script>
-        <script src="/Scripts/JQuery/Cultures/globalize.en.js"></script>
-        <script src="/Scripts/JQuery/Cultures/globalize.lt.js"></script>
-        <script src="/Scripts/Bootstrap/bootstrap.js"></script>
-        <script src="/Scripts/Bootstrap/bootstrap.no-conflict.js"></script>
-        <script src="/Scripts/Shared/site.js"></script>
+        <script src="~/Scripts/JQuery/jquery.js"></script>
+        <script src="~/Scripts/JQuery/jquery.validate.js"></script>
+        <script src="~/Scripts/JQuery/jquery.validate.unobtrusive.js"></script>
+        <script src="~/Scripts/JQuery/jquery.globalize.js"></script>
+        <script src="~/Scripts/JQuery/Cultures/globalize.en.js"></script>
+        <script src="~/Scripts/JQuery/Cultures/globalize.lt.js"></script>
+        <script src="~/Scripts/Bootstrap/bootstrap.bundle.js"></script>
+        <script src="~/Scripts/Shared/Widgets/alerts.js"></script>
+        <script src="~/Scripts/Shared/Widgets/menu.js"></script>
+        <script src="~/Scripts/Shared/site.js"></script>
     </environment>
     <environment names="Staging,Production">
-        <link href="~/scripts/public/bundle.min.js" rel="stylesheet">
+        <script asp-append-version="true" src="~/scripts/public/bundle.min.js"></script>
     </environment>
 </body>
 </html>

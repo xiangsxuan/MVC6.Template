@@ -1,0 +1,43 @@
+﻿{
+  "Cookies": {
+    "Antiforgery": {
+      "Name": ".Web-Token"
+    },
+    "Auth": {
+      "Name": ".Web-Auth"
+    },
+    "Session": {
+      "Name": ".Web-Session"
+    }
+  },
+
+  "Application": {
+    "Path": "bin"
+  },
+
+  "Data": {
+    "TestConnection": "Server=(localdb)\\mssqllocaldb;Database=Mvc6TemplateTest;Trusted_Connection=True;MultipleActiveResultSets=True",
+    "Connection": "Server=(localdb)\\mssqllocaldb;Database=Mvc6Template;Trusted_Connection=True;MultipleActiveResultSets=True"
+  },
+
+  "Languages": {
+    "Path": "languages.config"
+  },
+
+  "Logger": {
+    "Directory": "Logs",
+    "BackupSize": 128
+  },
+
+  "Mail": {
+    "Port": 587,
+    "EnableSsl": true,
+    "Host": "smtp.gmail.com",
+    "Sender": "MVC.Template@gmail.com",
+    "Password": "ChangeIt"
+  },
+
+  "SiteMap": {
+    "Path": "Mvc.sitemap"
+  }
+}

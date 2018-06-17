@@ -1,4 +1,5 @@
 ﻿using MvcTemplate.Components.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using Xunit;
@@ -12,24 +13,24 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetNodes_ReturnsAllSiteMapNodes()
         {
-            IEnumerator<MvcSiteMapNode> actual = ToEnumerable(new MvcSiteMapParser().GetNodeTree(CreateSiteMap())).GetEnumerator();
-            IEnumerator<MvcSiteMapNode> expected = ToEnumerable(GetExpectedNodeTree()).GetEnumerator();
+            List<MvcSiteMapNode> actual = ToList(new MvcSiteMapParser().GetNodeTree(CreateSiteMap()));
+            List<MvcSiteMapNode> expected = ToList(GetExpectedNodeTree());
 
-            while (expected.MoveNext() | actual.MoveNext())
+            for (Int32 i = 0; i < expected.Count || i < actual.Count; i++)
             {
-                Assert.Equal(expected.Current.Controller, actual.Current.Controller);
-                Assert.Equal(expected.Current.IconClass, actual.Current.IconClass);
-                Assert.Equal(expected.Current.IsMenu, actual.Current.IsMenu);
-                Assert.Equal(expected.Current.Action, actual.Current.Action);
-                Assert.Equal(expected.Current.Area, actual.Current.Area);
+                Assert.Equal(expected[i].Controller, actual[i].Controller);
+                Assert.Equal(expected[i].IconClass, actual[i].IconClass);
+                Assert.Equal(expected[i].IsMenu, actual[i].IsMenu);
+                Assert.Equal(expected[i].Action, actual[i].Action);
+                Assert.Equal(expected[i].Area, actual[i].Area);
 
-                if (expected.Current.Parent != null || actual.Current.Parent != null)
+                if (expected[i].Parent != null || actual[i].Parent != null)
                 {
-                    Assert.Equal(expected.Current.Parent.Controller, actual.Current.Parent.Controller);
-                    Assert.Equal(expected.Current.Parent.IconClass, actual.Current.Parent.IconClass);
-                    Assert.Equal(expected.Current.Parent.IsMenu, actual.Current.Parent.IsMenu);
-                    Assert.Equal(expected.Current.Parent.Action, actual.Current.Parent.Action);
-                    Assert.Equal(expected.Current.Parent.Area, actual.Current.Parent.Area);
+                    Assert.Equal(expected[i].Parent.Controller, actual[i].Parent.Controller);
+                    Assert.Equal(expected[i].Parent.IconClass, actual[i].Parent.IconClass);
+                    Assert.Equal(expected[i].Parent.IsMenu, actual[i].Parent.IsMenu);
+                    Assert.Equal(expected[i].Parent.Action, actual[i].Parent.Action);
+                    Assert.Equal(expected[i].Parent.Area, actual[i].Parent.Area);
                 }
             }
         }
@@ -43,15 +44,15 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             return XElement.Parse(
             @"<siteMap>
               <siteMapNode controller=""Home"" action=""Index"" menu=""false"" icon=""fa fa-home"">
-                <siteMapNode menu=""true"" area=""Administration"" icon=""fa fa-gears"">
+                <siteMapNode menu=""true"" area=""Administration"" icon=""fa fa-cogs"">
                   <siteMapNode controller=""Accounts"" action=""Index"" menu=""false"" area=""Administration"" icon=""fa fa-user"">
-                    <siteMapNode controller=""Accounts"" action=""Create"" menu=""true"" area=""Administration"" icon=""fa fa-file-o"" />
+                    <siteMapNode controller=""Accounts"" action=""Create"" menu=""true"" area=""Administration"" icon=""far fa-file"" />
                   </siteMapNode>
                 </siteMapNode>
               </siteMapNode>
             </siteMap>");
         }
-        private IEnumerable<MvcSiteMapNode> GetExpectedNodeTree()
+        private MvcSiteMapNode[] GetExpectedNodeTree()
         {
             MvcSiteMapNode[] map =
             {
@@ -62,16 +63,16 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
                     Controller = "Home",
                     Action = "Index",
 
-                    Children = new List<MvcSiteMapNode>
+                    Children = new[]
                     {
                         new MvcSiteMapNode
                         {
-                            IconClass = "fa fa-gears",
+                            IconClass = "fa fa-cogs",
                             IsMenu = true,
 
                             Area = "Administration",
 
-                            Children = new List<MvcSiteMapNode>
+                            Children = new[]
                             {
                                 new MvcSiteMapNode
                                 {
@@ -82,18 +83,18 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
                                     Controller = "Accounts",
                                     Action = "Index",
 
-                                    Children = new List<MvcSiteMapNode>
+                                    Children = new[]
                                     {
                                         new MvcSiteMapNode
                                         {
-                                            IconClass = "fa fa-file-o",
+                                            IconClass = "far fa-file",
                                             IsMenu = true,
 
                                             Area = "Administration",
                                             Controller = "Accounts",
                                             Action = "Create",
 
-                                            Children = new List<MvcSiteMapNode>()
+                                            Children = new MvcSiteMapNode[0]
                                         }
                                     }
                                 }
@@ -123,14 +124,13 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             return map;
         }
-
-        private IEnumerable<MvcSiteMapNode> ToEnumerable(IEnumerable<MvcSiteMapNode> nodes)
+        private List<MvcSiteMapNode> ToList(IEnumerable<MvcSiteMapNode> nodes)
         {
             List<MvcSiteMapNode> list = new List<MvcSiteMapNode>();
             foreach (MvcSiteMapNode node in nodes)
             {
                 list.Add(node);
-                list.AddRange(ToEnumerable(node.Children));
+                list.AddRange(ToList(node.Children));
             }
 
             return list;

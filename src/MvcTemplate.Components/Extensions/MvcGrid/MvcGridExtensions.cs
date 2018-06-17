@@ -18,37 +18,31 @@ namespace MvcTemplate.Components.Extensions
 {
     public static class MvcGridExtensions
     {
-        public static IGridColumn<T> AddActionLink<T>(this IGridColumnsOf<T> columns, String action, String iconClass) where T : class
+        public static IGridColumn<T, IHtmlContent> AddActionLink<T>(this IGridColumnsOf<T> columns, String action, String iconClass) where T : class
         {
             if (!IsAuthorizedTo(columns.Grid.ViewContext, action))
-                return new GridColumn<T, String>(columns.Grid, model => "");
+                return new GridColumn<T, IHtmlContent>(columns.Grid, model => null);
 
-            return columns
-                .Add(model => GetLink(columns.Grid.ViewContext, model, action, iconClass))
-                .Css("action-cell")
-                .Encoded(false);
+            return columns.Add(model => GetLink(columns.Grid.ViewContext, model, action, iconClass)).Css("action-cell");
         }
 
-        public static IGridColumn<T> AddDateProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
+        public static IGridColumn<T, DateTime> AddDateProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
         {
             return columns.AddProperty(expression).Formatted("{0:d}");
         }
-        public static IGridColumn<T> AddDateProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
+        public static IGridColumn<T, DateTime?> AddDateProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
         {
             return columns.AddProperty(expression).Formatted("{0:d}");
         }
-        public static IGridColumn<T> AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean>> expression)
+        public static IGridColumn<T, Boolean> AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean>> expression)
         {
             Func<T, Boolean> valueFor = expression.Compile();
 
             return columns
                 .AddProperty(expression)
-                .RenderedAs(model =>
-                    valueFor(model)
-                        ? Strings.Yes
-                        : Strings.No);
+                .RenderedAs(model => valueFor(model) ? Strings.Yes : Strings.No);
         }
-        public static IGridColumn<T> AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean?>> expression)
+        public static IGridColumn<T, Boolean?> AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean?>> expression)
         {
             Func<T, Boolean?> valueFor = expression.Compile();
 
@@ -61,15 +55,15 @@ namespace MvcTemplate.Components.Extensions
                             : Strings.No
                         : "");
         }
-        public static IGridColumn<T> AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
+        public static IGridColumn<T, DateTime> AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
         {
             return columns.AddProperty(expression).Formatted("{0:g}");
         }
-        public static IGridColumn<T> AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
+        public static IGridColumn<T, DateTime?> AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
         {
             return columns.AddProperty(expression).Formatted("{0:g}");
         }
-        public static IGridColumn<T> AddProperty<T, TProperty>(this IGridColumnsOf<T> columns, Expression<Func<T, TProperty>> expression)
+        public static IGridColumn<T, TProperty> AddProperty<T, TProperty>(this IGridColumnsOf<T> columns, Expression<Func<T, TProperty>> expression)
         {
             return columns
                 .Add(expression)
@@ -81,9 +75,8 @@ namespace MvcTemplate.Components.Extensions
         {
             return grid
                 .Pageable(pager => { pager.RowsPerPage = 16; })
-                .Named(typeof(T).Name.Replace("View", ""))
                 .Empty(Strings.NoDataFound)
-                .Css("table-hover")
+                .AppendCss("table-hover")
                 .Filterable()
                 .Sortable();
         }
@@ -94,7 +87,7 @@ namespace MvcTemplate.Components.Extensions
             anchor.AddCssClass(action.ToLower() + "-action");
             anchor.Attributes["href"] = new UrlHelper(context).Action(action, GetRouteFor(model));
 
-            TagBuilder icon = new TagBuilder("i");
+            TagBuilder icon = new TagBuilder("span");
             icon.AddCssClass(iconClass);
 
             anchor.InnerHtml.AppendHtml(icon);
@@ -122,15 +115,13 @@ namespace MvcTemplate.Components.Extensions
             if (key == null)
                 throw new Exception(typeof(T).Name + " type does not have a key property.");
 
-            IDictionary<String, Object> route = new Dictionary<String, Object>();
-            route.Add(key.Name, key.GetValue(model));
-
-            return route;
+            return new Dictionary<String, Object> { [key.Name] = key.GetValue(model) };
         }
         private static String GetCssClassFor<TProperty>()
         {
             Type type = Nullable.GetUnderlyingType(typeof(TProperty)) ?? typeof(TProperty);
-            if (type.IsEnum) return "text-left";
+            if (type.IsEnum)
+                return "text-left";
 
             switch (Type.GetTypeCode(type))
             {

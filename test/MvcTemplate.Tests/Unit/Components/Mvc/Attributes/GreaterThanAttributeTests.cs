@@ -30,18 +30,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region FormatErrorMessage(String name)
 
         [Fact]
-        public void FormatErrorMessage_ForInteger()
-        {
-            attribute = new GreaterThanAttribute(10);
-
-            String expected = String.Format(Validations.GreaterThan, "Sum", attribute.Minimum);
-            String actual = attribute.FormatErrorMessage("Sum");
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void FormatErrorMessage_ForDouble()
+        public void FormatErrorMessage_ForName()
         {
             attribute = new GreaterThanAttribute(12.56);
 

@@ -31,6 +31,7 @@ namespace MvcTemplate.Components.Mvc
         {
             get;
         }
+
         private Dictionary<String, Language> Dictionary
         {
             get;
@@ -39,10 +40,9 @@ namespace MvcTemplate.Components.Mvc
         public Languages(IConfiguration config)
         {
             String path = Path.Combine(config["Application:Path"], config["Languages:Path"]);
-            IEnumerable<XElement> languages = XElement.Load(path).Elements("language");
             Dictionary = new Dictionary<String, Language>();
 
-            foreach (XElement lang in languages)
+            foreach (XElement lang in XElement.Load(path).Elements("language"))
             {
                 Language language = new Language();
                 language.Culture = new CultureInfo((String)lang.Attribute("culture"));
@@ -57,16 +57,6 @@ namespace MvcTemplate.Components.Mvc
             Default = Supported.Single(language => language.IsDefault);
         }
 
-        public Language this[String abbreviation]
-        {
-            get
-            {
-                Language language;
-                if (Dictionary.TryGetValue(abbreviation ?? "", out language))
-                    return language;
-
-                return Default;
-            }
-        }
+        public Language this[String abbreviation] => Dictionary.TryGetValue(abbreviation ?? "", out Language language) ? language : Default;
     }
 }

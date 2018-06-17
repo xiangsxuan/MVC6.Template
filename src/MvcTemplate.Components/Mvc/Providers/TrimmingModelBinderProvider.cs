@@ -7,10 +7,7 @@ namespace MvcTemplate.Components.Mvc
     {
         public IModelBinder GetBinder(ModelBinderProviderContext context)
         {
-            if (context.Metadata.ModelType == typeof(String))
-                return new TrimmingModelBinder();
-
-            return null;
+            return context.Metadata.ModelType == typeof(String) ? new TrimmingModelBinder() : null;
         }
     }
 }

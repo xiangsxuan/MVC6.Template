@@ -23,8 +23,6 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         {
             url = Substitute.For<IUrlHelper>();
             lookup = new MvcLookup<Role, RoleView>(url);
-            using (TestingContext context = new TestingContext())
-                context.DropData();
         }
 
         #region MvcLookup(IUrlHelper url)
@@ -71,9 +69,8 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
             PropertyInfo property = typeof(AllTypesView).GetProperty("Child");
 
             String actual = lookup.GetColumnHeader(property);
-            String expected = "";
 
-            Assert.Equal(expected, actual);
+            Assert.Empty(actual);
         }
 
         #endregion
@@ -93,6 +90,7 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         [InlineData("SingleField", "text-right")]
         [InlineData("DoubleField", "text-right")]
         [InlineData("DecimalField", "text-right")]
+        [InlineData("BooleanField", "text-center")]
         [InlineData("DateTimeField", "text-center")]
 
         [InlineData("NullableEnumField", "text-left")]
@@ -107,6 +105,7 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         [InlineData("NullableSingleField", "text-right")]
         [InlineData("NullableDoubleField", "text-right")]
         [InlineData("NullableDecimalField", "text-right")]
+        [InlineData("NullableBooleanField", "text-center")]
         [InlineData("NullableDateTimeField", "text-center")]
 
         [InlineData("StringField", "text-left")]
@@ -135,39 +134,6 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
             Object expected = unitOfWork.Select<Role>().To<RoleView>();
 
             Assert.Same(expected, actual);
-        }
-
-        #endregion
-
-        #region FilterById(IQueryable<TView> models)
-
-        [Fact]
-        public void FilterById_NotInteger_ReturnsEmpty()
-        {
-            lookup.Filter.Id = "A";
-
-            Assert.Empty(lookup.FilterById(null));
-        }
-
-        [Fact]
-        public void FilterById_FromCurrentFilter()
-        {
-            TestingContext context = new TestingContext();
-            Role role = ObjectFactory.CreateRole();
-            context.Set<Role>().Add(role);
-            context.SaveChanges();
-
-            IUnitOfWork unitOfWork = new UnitOfWork(context);
-            lookup = new MvcLookup<Role, RoleView>(unitOfWork);
-
-            lookup.Filter.Id = role.Id.ToString();
-
-            RoleView expected = unitOfWork.Select<Role>().To<RoleView>().Single();
-            RoleView actual = lookup.FilterById(null).Single();
-
-            Assert.Equal(expected.CreationDate, actual.CreationDate);
-            Assert.Equal(expected.Title, actual.Title);
-            Assert.Equal(expected.Id, actual.Id);
         }
 
         #endregion

@@ -1,21 +1,18 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Data.Core;
-using System.IO;
 
 namespace MvcTemplate.Data
 {
     public class Startup
     {
-        public void ConfigureServices(IServiceCollection services, IHostingEnvironment env)
+        public void Configure()
+        {
+        }
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<Context>();
             services.AddSingleton<DbContextOptions>(new DbContextOptionsBuilder<Context>().Options);
-            services.AddSingleton<IConfiguration>(new ConfigurationBuilder()
-                .SetBasePath(Directory.GetParent(env.ContentRootPath).FullName)
-                .AddJsonFile("MvcTemplate.Web/configuration.json").Build());
         }
     }
 }

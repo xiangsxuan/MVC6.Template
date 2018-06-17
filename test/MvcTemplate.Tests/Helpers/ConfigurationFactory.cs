@@ -11,7 +11,7 @@ namespace MvcTemplate.Tests
         {
             Config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("configuration.json")
+                .AddJsonFile("test-configuration.json")
                 .Build();
         }
         public static IConfiguration Create()

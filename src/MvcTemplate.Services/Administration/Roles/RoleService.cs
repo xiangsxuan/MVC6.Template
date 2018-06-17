@@ -1,5 +1,4 @@
 ﻿using MvcTemplate.Components.Extensions;
-using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
@@ -12,12 +11,9 @@ namespace MvcTemplate.Services
 {
     public class RoleService : BaseService, IRoleService
     {
-        private IAuthorizationProvider Authorization { get; }
-
-        public RoleService(IUnitOfWork unitOfWork, IAuthorizationProvider authorization)
+        public RoleService(IUnitOfWork unitOfWork)
             : base(unitOfWork)
         {
-            Authorization = authorization;
         }
 
         public virtual void SeedPermissions(RoleView view)
@@ -25,11 +21,10 @@ namespace MvcTemplate.Services
             JsTreeNode root = new JsTreeNode(Titles.All);
             view.Permissions.Nodes.Add(root);
 
-            IEnumerable<Permission> permissions = GetAllPermissions();
-            foreach (IGrouping<String, Permission> area in permissions.GroupBy(permission => permission.Area))
+            foreach (IGrouping<String, Permission> area in GetAllPermissions().GroupBy(permission => permission.Area))
             {
                 JsTreeNode areaNode = new JsTreeNode(area.Key);
-                foreach (IGrouping<String, Permission> controller in area.GroupBy(permission => permission.Controller).OrderBy(permission => permission.Key))
+                foreach (IGrouping<String, Permission> controller in area.GroupBy(permission => permission.Controller))
                 {
                     JsTreeNode controllerNode = new JsTreeNode(controller.Key);
                     foreach (Permission permission in controller)
@@ -44,22 +39,6 @@ namespace MvcTemplate.Services
                 if (areaNode.Title != null)
                     root.Nodes.Add(areaNode);
             }
-        }
-        private IEnumerable<Permission> GetAllPermissions()
-        {
-            return UnitOfWork
-                .Select<Permission>()
-                .ToArray()
-                .Select(permission => new Permission
-                {
-                    Id = permission.Id,
-                    Area = ResourceProvider.GetPermissionAreaTitle(permission.Area),
-                    Controller = ResourceProvider.GetPermissionControllerTitle(permission.Area, permission.Controller),
-                    Action = ResourceProvider.GetPermissionActionTitle(permission.Area, permission.Controller, permission.Action)
-                })
-                .OrderBy(permission => permission.Area ?? permission.Controller)
-                .ThenBy(permission => permission.Controller)
-                .ThenBy(permission => permission.Action);
         }
 
         public IQueryable<RoleView> GetViews()
@@ -101,71 +80,44 @@ namespace MvcTemplate.Services
         }
         public void Edit(RoleView view)
         {
+            List<Int32> permissions = view.Permissions.SelectedIds.ToList();
             Role role = UnitOfWork.Get<Role>(view.Id);
-            EditPermissions(role, view);
-            Edit(role, view);
-
-            UnitOfWork.Commit();
-
-            Authorization.Refresh();
-        }
-        public void Delete(Int32 id)
-        {
-            Role role = UnitOfWork.Get<Role>(id);
-            RemoveFromAccounts(role);
-            DeletePermissions(role);
-            Delete(role);
-
-            UnitOfWork.Commit();
-
-            Authorization.Refresh();
-        }
-
-        private void Edit(Role role, RoleView view)
-        {
             role.Title = view.Title;
 
-            UnitOfWork.Update(role);
-        }
-        private void EditPermissions(Role role, RoleView view)
-        {
-            List<Int32> permissions = view.Permissions.SelectedIds.ToList();
-            RolePermission[] rolePermissions = UnitOfWork.Select<RolePermission>()
-                .Where(rolePermission => rolePermission.RoleId == role.Id).ToArray();
-
-            foreach (RolePermission rolePermission in rolePermissions)
+            foreach (RolePermission rolePermission in role.Permissions.ToArray())
                 if (!permissions.Remove(rolePermission.PermissionId))
                     UnitOfWork.Delete(rolePermission);
 
             foreach (Int32 permissionId in permissions)
-                UnitOfWork.Insert(new RolePermission
-                {
-                    RoleId = role.Id,
-                    PermissionId = permissionId
-                });
-        }
+                UnitOfWork.Insert(new RolePermission { RoleId = role.Id, PermissionId = permissionId });
 
-        private void Delete(Role role)
+            UnitOfWork.Commit();
+        }
+        public void Delete(Int32 id)
         {
+            Role role = UnitOfWork.Get<Role>(id);
+            role.Accounts.ForEach(account => account.RoleId = null);
+
+            UnitOfWork.DeleteRange(role.Permissions);
             UnitOfWork.Delete(role);
+            UnitOfWork.Commit();
         }
-        private void DeletePermissions(Role role)
-        {
-            IQueryable<RolePermission> permissions = UnitOfWork
-                .Select<RolePermission>()
-                .Where(rolePermission => rolePermission.RoleId == role.Id);
 
-            foreach (RolePermission permission in permissions)
-                UnitOfWork.Delete(permission);
-        }
-        private void RemoveFromAccounts(Role role)
+        private IEnumerable<Permission> GetAllPermissions()
         {
-            foreach (Account account in UnitOfWork.Select<Account>().Where(account => account.RoleId == role.Id))
-            {
-                account.RoleId = null;
-
-                UnitOfWork.Update(account);
-            }
+            return UnitOfWork
+                .Select<Permission>()
+                .ToArray()
+                .Select(permission => new Permission
+                {
+                    Id = permission.Id,
+                    Area = ResourceProvider.GetPermissionAreaTitle(permission.Area),
+                    Controller = ResourceProvider.GetPermissionControllerTitle(permission.Area, permission.Controller),
+                    Action = ResourceProvider.GetPermissionActionTitle(permission.Area, permission.Controller, permission.Action)
+                })
+                .OrderBy(permission => permission.Area ?? permission.Controller)
+                .ThenBy(permission => permission.Controller)
+                .ThenBy(permission => permission.Action);
         }
     }
 }

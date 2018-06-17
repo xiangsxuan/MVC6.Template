@@ -1,7 +1,7 @@
 ﻿[
   {
-    "outputFile": "wwwroot/Content/Shared/Auth/auth.css",
-    "inputFile": "wwwroot/Content/Shared/Auth/auth.less"
+    "outputFile": "wwwroot/Content/Application/Auth/shared.css",
+    "inputFile": "wwwroot/Content/Application/Auth/shared.less"
   },
   {
     "outputFile": "wwwroot/Content/Shared/alerts.css",

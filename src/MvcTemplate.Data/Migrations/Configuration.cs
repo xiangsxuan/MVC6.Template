@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MvcTemplate.Data.Core;
+using MvcTemplate.Data.Logging;
 using MvcTemplate.Objects;
 using System;
 using System.Linq;
@@ -11,9 +12,10 @@ namespace MvcTemplate.Data.Migrations
         private IUnitOfWork UnitOfWork { get; }
         private DbContext Context { get; }
 
-        public Configuration(DbContext context)
+        public Configuration(DbContext context, DbContext audit)
         {
-            UnitOfWork = new UnitOfWork(context);
+            IAuditLogger logger = new AuditLogger(audit, 0);
+            UnitOfWork = new UnitOfWork(context, logger);
             Context = context;
         }
 
@@ -48,7 +50,7 @@ namespace MvcTemplate.Data.Migrations
             Permission[] currentPermissions = UnitOfWork.Select<Permission>().ToArray();
             foreach (Permission permission in currentPermissions)
             {
-                if (!permissions.Any(perm => perm.Id == permission.Id))
+                if (permissions.All(perm => perm.Id != permission.Id))
                 {
                     UnitOfWork.DeleteRange(UnitOfWork.Select<RolePermission>().Where(role => role.PermissionId == permission.Id));
                     UnitOfWork.Delete(permission);
@@ -83,17 +85,17 @@ namespace MvcTemplate.Data.Migrations
                 UnitOfWork.Commit();
             }
 
-            Int32 adminRoleId = UnitOfWork.Select<Role>().Single(role => role.Title == "Sys_Admin").Id;
+            Int32 admin = UnitOfWork.Select<Role>().Single(role => role.Title == "Sys_Admin").Id;
             RolePermission[] currentPermissions = UnitOfWork
                 .Select<RolePermission>()
-                .Where(rolePermission => rolePermission.RoleId == adminRoleId)
+                .Where(rolePermission => rolePermission.RoleId == admin)
                 .ToArray();
 
             foreach (Permission permission in UnitOfWork.Select<Permission>())
-                if (!currentPermissions.Any(rolePermission => rolePermission.PermissionId == permission.Id))
+                if (currentPermissions.All(rolePermission => rolePermission.PermissionId != permission.Id))
                     UnitOfWork.Insert(new RolePermission
                     {
-                        RoleId = adminRoleId,
+                        RoleId = admin,
                         PermissionId = permission.Id
                     });
 
@@ -107,8 +109,8 @@ namespace MvcTemplate.Data.Migrations
                 new Account
                 {
                     Username = "admin",
-                    Passhash = "$2a$13$yTgLCqGqgH.oHmfboFCjyuVUy5SJ2nlyckPFEZRJQrMTZWN.f1Afq", // Admin123?
-                    Email = "admin@admins.com",
+                    Passhash = "$2b$13$ouxA6L7QZ/eSeVZD8lawSOEwtRn/hOoRY67Pwaj/WJaZe7S4.cHJC", // Will be generated on project rename
+                    Email = "admin@test.domains.com",
                     IsLocked = false,
 
                     RoleId = UnitOfWork.Select<Role>().Single(role => role.Title == "Sys_Admin").Id

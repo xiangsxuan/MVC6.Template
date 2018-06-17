@@ -30,14 +30,13 @@ namespace MvcTemplate.Components.Mvc
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = null;
-            if (Authorization == null) return;
 
             Int32? accountId = ViewContext.HttpContext.User.Id();
             String area = Area ?? ViewContext.RouteData.Values["area"] as String;
             String action = Action ?? ViewContext.RouteData.Values["action"] as String;
             String controller = Controller ?? ViewContext.RouteData.Values["controller"] as String;
 
-            if (!Authorization.IsAuthorizedFor(accountId, area, controller, action))
+            if (Authorization?.IsAuthorizedFor(accountId, area, controller, action) == false)
                 output.SuppressOutput();
         }
     }

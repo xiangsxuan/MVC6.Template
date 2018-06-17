@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Mail;
-using MvcTemplate.Components.Mvc;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
 using MvcTemplate.Services;
@@ -24,32 +22,6 @@ namespace MvcTemplate.Controllers
         }
 
         [HttpGet]
-        public ActionResult Register()
-        {
-            if (Service.IsLoggedIn(User))
-                return RedirectToDefault();
-
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register([BindExcludeId] AccountRegisterView account)
-        {
-            if (Service.IsLoggedIn(User))
-                return RedirectToDefault();
-
-            if (!Validator.CanRegister(account))
-                return View(account);
-
-            Service.Register(account);
-
-            Alerts.Add(AlertType.Success, Messages.SuccessfulRegistration);
-
-            return RedirectToAction("Login");
-        }
-
-        [HttpGet]
         public ActionResult Recover()
         {
             if (Service.IsLoggedIn(User))
@@ -59,7 +31,6 @@ namespace MvcTemplate.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Recover(AccountRecoveryView account)
         {
             if (Service.IsLoggedIn(User))
@@ -79,7 +50,7 @@ namespace MvcTemplate.Controllers
                     String.Format(Messages.RecoveryEmailBody, url));
             }
 
-            Alerts.Add(AlertType.Info, Messages.RecoveryInformation, 0);
+            Alerts.AddInfo(Messages.RecoveryInformation);
 
             return RedirectToAction("Login");
         }
@@ -90,17 +61,13 @@ namespace MvcTemplate.Controllers
             if (Service.IsLoggedIn(User))
                 return RedirectToDefault();
 
-            AccountResetView account = new AccountResetView();
-            account.Token = token;
-
-            if (!Validator.CanReset(account))
+            if (!Validator.CanReset(new AccountResetView { Token = token }))
                 return RedirectToAction("Recover");
 
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Reset(AccountResetView account)
         {
             if (Service.IsLoggedIn(User))
@@ -111,7 +78,7 @@ namespace MvcTemplate.Controllers
 
             Service.Reset(account);
 
-            Alerts.Add(AlertType.Success, Messages.SuccessfulReset);
+            Alerts.AddSuccess(Messages.SuccessfulReset, 4000);
 
             return RedirectToAction("Login");
         }
@@ -126,7 +93,6 @@ namespace MvcTemplate.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Login(AccountLoginView account, String returnUrl)
         {
             if (Service.IsLoggedIn(User))
@@ -135,7 +101,7 @@ namespace MvcTemplate.Controllers
             if (!Validator.CanLogin(account))
                 return View(account);
 
-            Service.Login(HttpContext.Authentication, account.Username);
+            Service.Login(HttpContext, account.Username);
 
             return RedirectToLocal(returnUrl);
         }
@@ -143,7 +109,7 @@ namespace MvcTemplate.Controllers
         [HttpGet]
         public RedirectToActionResult Logout()
         {
-            Service.Logout(HttpContext.Authentication);
+            Service.Logout(HttpContext);
 
             return RedirectToAction("Login");
         }

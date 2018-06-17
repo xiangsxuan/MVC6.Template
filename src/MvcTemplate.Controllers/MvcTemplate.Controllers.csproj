@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version>1.1.0</Version>
+    <GenerateFullPaths>true</GenerateFullPaths>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <DebugType Condition="'$(Configuration)'=='Debug'">full</DebugType>
+    <DebugSymbols Condition="'$(Configuration)'=='Debug'">true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MvcTemplate\MvcTemplate.csproj" />
+    <ProjectReference Include="..\MvcTemplate.Services\MvcTemplate.Services.csproj" />
+    <ProjectReference Include="..\MvcTemplate.Validators\MvcTemplate.Validators.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.1.0" />
+  </ItemGroup>
+
+</Project>

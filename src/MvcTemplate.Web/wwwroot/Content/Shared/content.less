@@ -49,10 +49,9 @@ body.public {
     background-image: @content-background-image;
     background-color: @content-background-color;
     border-radius: 8px 0 0 8px;
-    margin-left: 200px;
-    margin-top: -40px;
     min-height: 870px;
     padding-top: 10px;
+    flex: 1;
 
     &::after,
     &::before {
@@ -78,7 +77,7 @@ body.public {
             color: @active-content-link-color;
         }
 
-        i {
+        .icon {
             padding-right: 5px;
         }
     }
@@ -95,56 +94,66 @@ body.public {
 }
 
 .content {
-    padding: 0 5px;
+    display: flex;
 }
 
 .control-label {
-    padding: 8px 15px 0;
+    padding: 7px 0 7px 15px;
+    min-height: 34px;
+    font-size: 1rem;
 
     label {
-        margin-bottom: 6px;
+        font-weight: bold;
+        margin: 0;
     }
 
     .require {
         color: @validation-color;
         display: inline-block;
-        min-width: 8px;
+        min-width: 0.625rem;
     }
 }
 
 .control-content {
+    min-height: 34px;
+
     input[type="checkbox"] {
-        margin: 12px 0 9px 1px;
+        margin: 13px 0 9px;
+        height: 14px;
+    }
+
+    input[type="radio"] {
+        margin: 11px 0;
+        height: 12px;
+        width: 12px;
+    }
+}
+
+.control-validation {
+    color: @validation-color;
+    min-height: 0;
+
+    .field-validation-error {
+        display: inline-table;
+        padding-top: 7px;
     }
 }
 
 .form-control[readonly]:focus {
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #c4c4c4;
-    border-color: #cecece;
+    box-shadow: 0 0 0 0.2rem rgba(195, 191, 192, 0.25);
+    border-color: #CECECE;
 }
 
 .input-validation-error {
     border-color: @validation-color;
 
     &:focus {
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px lighten(@validation-color, 40%);
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
         border-color: @validation-color;
     }
 }
 
-.field-validation-error {
-    color: @validation-color;
-    vertical-align: middle;
-    display: inline-table;
-    padding-top: 11px;
-    height: 34px;
-}
-
 @media (max-width: 767px) {
-    .content-container {
-        margin-left: 45px;
-    }
-
     .content-breadcrumb {
         .text {
             display: none;
@@ -153,6 +162,14 @@ body.public {
         > a {
             padding-left: 4px;
             padding-right: 0;
+        }
+    }
+}
+
+@media (max-width: 1199px) {
+    .control-validation {
+        .field-validation-error {
+            padding-top: 10px;
         }
     }
 }

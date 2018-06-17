@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version>1.1.0</Version>
+    <GenerateFullPaths>true</GenerateFullPaths>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <DebugType Condition="'$(Configuration)'=='Debug'">full</DebugType>
+    <DebugSymbols Condition="'$(Configuration)'=='Debug'">true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MvcTemplate.Data\MvcTemplate.Data.csproj" />
+    <ProjectReference Include="..\MvcTemplate.Components\MvcTemplate.Components.csproj" />
+  </ItemGroup>
+
+</Project>

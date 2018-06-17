@@ -6,11 +6,11 @@ namespace MvcTemplate.Data.Core
 {
     public interface IUnitOfWork : IDisposable
     {
-        TDestination GetAs<TModel, TDestination>(Int32 id) where TModel : BaseModel;
-        TModel Get<TModel>(Int32 id) where TModel : BaseModel;
+        TDestination GetAs<TModel, TDestination>(Int32? id) where TModel : BaseModel;
+        TModel Get<TModel>(Int32? id) where TModel : BaseModel;
         TDestination To<TDestination>(Object source);
 
-        ISelect<TModel> Select<TModel>() where TModel : BaseModel;
+        IQuery<TModel> Select<TModel>() where TModel : BaseModel;
 
         void InsertRange<TModel>(IEnumerable<TModel> models) where TModel : BaseModel;
         void Insert<TModel>(TModel model) where TModel : BaseModel;

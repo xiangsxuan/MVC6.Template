@@ -21,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             attributes = new Dictionary<String, String>();
             adapter = new IntegerAdapter(new IntegerAttribute());
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "Integer");
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AllTypesView), "StringField");
             context = new ClientModelValidationContext(new ActionContext(), metadata, provider, attributes);
         }
 
@@ -34,7 +34,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             Assert.Equal(2, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
-            Assert.Equal(String.Format(Validations.Integer, "Integer"), attributes["data-val-integer"]);
+            Assert.Equal(String.Format(Validations.Integer, context.ModelMetadata.PropertyName), attributes["data-val-integer"]);
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetErrorMessage_Integer()
         {
-            String expected = String.Format(Validations.Integer, "Integer");
+            String expected = String.Format(Validations.Integer, context.ModelMetadata.PropertyName);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(expected, actual);

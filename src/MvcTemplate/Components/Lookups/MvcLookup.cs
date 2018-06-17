@@ -13,17 +13,17 @@ namespace MvcTemplate.Components.Lookups
         where TModel : BaseModel
         where TView : BaseView
     {
-        private IUnitOfWork UnitOfWork { get; }
+        protected IUnitOfWork UnitOfWork { get; }
 
-        public MvcLookup(IUrlHelper url)
-        {
-            String view = typeof(TView).Name.Replace("View", "");
-            Url = url.Action(view, Prefix, new { area = "" });
-            Title = ResourceProvider.GetLookupTitle(view);
-        }
         public MvcLookup(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
+        }
+        public MvcLookup(IUrlHelper url)
+        {
+            String view = typeof(TView).Name.Replace("View", "");
+            Url = url.Action(view, "Lookup", new { area = "" });
+            Title = ResourceProvider.GetLookupTitle(view);
         }
 
         public override String GetColumnHeader(PropertyInfo property)
@@ -33,7 +33,8 @@ namespace MvcTemplate.Components.Lookups
         public override String GetColumnCssClass(PropertyInfo property)
         {
             Type type = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-            if (type.IsEnum) return "text-left";
+            if (type.IsEnum)
+                return "text-left";
 
             switch (Type.GetTypeCode(type))
             {
@@ -49,6 +50,7 @@ namespace MvcTemplate.Components.Lookups
                 case TypeCode.Double:
                 case TypeCode.Decimal:
                     return "text-right";
+                case TypeCode.Boolean:
                 case TypeCode.DateTime:
                     return "text-center";
                 default:
@@ -59,15 +61,6 @@ namespace MvcTemplate.Components.Lookups
         public override IQueryable<TView> GetModels()
         {
             return UnitOfWork.Select<TModel>().To<TView>();
-        }
-
-        public override IQueryable<TView> FilterById(IQueryable<TView> models)
-        {
-            Int32 id;
-            if (!Int32.TryParse(Filter.Id, out id))
-                return Enumerable.Empty<TView>().AsQueryable();
-
-            return UnitOfWork.Select<TModel>().Where(model => model.Id == id).To<TView>();
         }
     }
 }

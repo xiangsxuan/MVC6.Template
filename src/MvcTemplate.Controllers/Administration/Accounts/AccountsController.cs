@@ -28,13 +28,14 @@ namespace MvcTemplate.Controllers.Administration
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([BindExcludeId] AccountCreateView account)
         {
             if (!Validator.CanCreate(account))
                 return View(account);
 
             Service.Create(account);
+
+            Authorization?.Refresh();
 
             return RedirectToAction("Index");
         }
@@ -52,13 +53,14 @@ namespace MvcTemplate.Controllers.Administration
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(AccountEditView account)
         {
             if (!Validator.CanEdit(account))
                 return View(account);
 
             Service.Edit(account);
+
+            Authorization?.Refresh();
 
             return RedirectToAction("Index");
         }

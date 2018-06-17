@@ -1,20 +1,23 @@
 ﻿using MvcTemplate.Data.Core;
-using MvcTemplate.Validators;
+using MvcTemplate.Objects;
+using MvcTemplate.Resources;
+using MvcTemplate.Resources.Form;
 using NSubstitute;
 using System;
+using System.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Services
+namespace MvcTemplate.Tests.Unit.Validators
 {
     public class BaseValidatorTests : IDisposable
     {
-        private BaseValidator validator;
+        private BaseValidatorProxy validator;
         private IUnitOfWork unitOfWork;
 
         public BaseValidatorTests()
         {
             unitOfWork = Substitute.For<IUnitOfWork>();
-            validator = Substitute.ForPartsOf<BaseValidator>(unitOfWork);
+            validator = new BaseValidatorProxy(unitOfWork);
         }
         public void Dispose()
         {
@@ -32,6 +35,46 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void BaseValidator_CreatesEmptyAlerts()
         {
+            Assert.Empty(validator.Alerts);
+        }
+
+        #endregion
+
+        #region IsSpecified<TView>(TView view, Expression<Func<TView, Object>> property)
+
+        [Fact]
+        public void IsSpecified_Null_ReturnsFalse()
+        {
+            RoleView view = new RoleView();
+
+            Boolean isSpecified = validator.BaseIsSpecified(view, role => role.Title);
+            String message = String.Format(Validations.Required, ResourceProvider.GetPropertyTitle<RoleView, String>(role => role.Title));
+
+            Assert.False(isSpecified);
+            Assert.Empty(validator.Alerts);
+            Assert.Single(validator.ModelState);
+            Assert.Equal(message, validator.ModelState["Title"].Errors.Single().ErrorMessage);
+        }
+
+        [Fact]
+        public void IsSpecified_NullValue_ReturnsFalse()
+        {
+            AccountEditView view = new AccountEditView();
+
+            Boolean isSpecified = validator.BaseIsSpecified(view, account => account.RoleId);
+            String message = String.Format(Validations.Required, ResourceProvider.GetPropertyTitle<AccountEditView, Int32?>(account => account.RoleId));
+
+            Assert.False(isSpecified);
+            Assert.Empty(validator.Alerts);
+            Assert.Single(validator.ModelState);
+            Assert.Equal(message, validator.ModelState["RoleId"].Errors.Single().ErrorMessage);
+        }
+
+        [Fact]
+        public void IsSpecified_Valid()
+        {
+            Assert.True(validator.BaseIsSpecified(ObjectFactory.CreateRoleView(), role => role.Id));
+            Assert.Empty(validator.ModelState);
             Assert.Empty(validator.Alerts);
         }
 

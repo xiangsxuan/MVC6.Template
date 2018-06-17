@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
+﻿using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using MvcTemplate.Resources;
 using System;

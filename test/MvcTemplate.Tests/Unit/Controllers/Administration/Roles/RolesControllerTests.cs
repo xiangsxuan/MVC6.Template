@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers.Administration;
 using MvcTemplate.Objects;
 using MvcTemplate.Services;
@@ -26,7 +30,10 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
             role = ObjectFactory.CreateRoleView();
 
             controller = Substitute.ForPartsOf<RolesController>(validator, service);
+            controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
+            controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.ControllerContext.RouteData = new RouteData();
+            controller.Url = Substitute.For<IUrlHelper>();
         }
 
         #region Index()
@@ -181,6 +188,18 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
+        public void Edit_RefreshesAuthorization()
+        {
+            controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            validator.CanEdit(role).Returns(true);
+            controller.OnActionExecuting(null);
+
+            controller.Edit(role);
+
+            controller.Authorization.Received().Refresh();
+        }
+
+        [Fact]
         public void Edit_RedirectsToIndex()
         {
             validator.CanEdit(role).Returns(true);
@@ -219,7 +238,18 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         }
 
         [Fact]
-        public void Delete_RedirectsToIndex()
+        public void DeleteConfirmed_RefreshesAuthorization()
+        {
+            controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            controller.OnActionExecuting(null);
+
+            controller.DeleteConfirmed(role.Id);
+
+            controller.Authorization.Received().Refresh();
+        }
+
+        [Fact]
+        public void DeleteConfirmed_RedirectsToIndex()
         {
             Object expected = RedirectToAction(controller, "Index");
             Object actual = controller.DeleteConfirmed(role.Id);

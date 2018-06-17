@@ -13,6 +13,7 @@ using System.Collections.Generic;
 namespace MvcTemplate.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public abstract class BaseController : Controller
     {
         public IAuthorizationProvider Authorization { get; protected set; }
@@ -64,6 +65,11 @@ namespace MvcTemplate.Controllers
             return base.RedirectToAction(action, controller, route);
         }
 
+        public virtual Boolean IsAuthorizedFor(String action, String controller, String area)
+        {
+            return Authorization?.IsAuthorizedFor(CurrentAccountId, area, controller, action) != false;
+        }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             Authorization = HttpContext.RequestServices.GetService<IAuthorizationProvider>();
@@ -72,20 +78,16 @@ namespace MvcTemplate.Controllers
         }
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            AlertsContainer current = JsonConvert.DeserializeObject<AlertsContainer>(TempData["Alerts"] as String ?? "");
-            if (current == null)
-                current = Alerts;
-            else
-                current.Merge(Alerts);
+            if (!(context.Result is JsonResult))
+            {
+                AlertsContainer current = JsonConvert.DeserializeObject<AlertsContainer>(TempData["Alerts"] as String ?? "");
+                if (current == null)
+                    current = Alerts;
+                else
+                    current.Merge(Alerts);
 
-            TempData["Alerts"] = JsonConvert.SerializeObject(current);
-        }
-
-        public virtual Boolean IsAuthorizedFor(String action, String controller, String area)
-        {
-            if (Authorization == null) return true;
-
-            return Authorization.IsAuthorizedFor(CurrentAccountId, area, controller, action);
+                TempData["Alerts"] = JsonConvert.SerializeObject(current);
+            }
         }
     }
 }

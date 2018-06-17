@@ -12,6 +12,7 @@ namespace MvcTemplate.Objects
         [Index(IsUnique = true)]
         public String Title { get; set; }
 
-        public virtual IList<RolePermission> Permissions { get; set; }
+        public virtual List<Account> Accounts { get; set; }
+        public virtual List<RolePermission> Permissions { get; set; }
     }
 }

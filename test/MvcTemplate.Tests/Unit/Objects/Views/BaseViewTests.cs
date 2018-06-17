@@ -1,4 +1,5 @@
 ﻿using MvcTemplate.Objects;
+using NSubstitute;
 using System;
 using Xunit;
 
@@ -10,7 +11,7 @@ namespace MvcTemplate.Tests.Unit.Objects
 
         public BaseViewTests()
         {
-            view = new AccountView();
+            view = Substitute.For<BaseView>();
         }
 
         #region CreationDate

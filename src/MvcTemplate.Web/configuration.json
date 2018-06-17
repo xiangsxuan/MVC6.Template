@@ -1,4 +1,16 @@
 ﻿{
+  "Cookies": {
+    "Antiforgery": {
+      "Name": ".Web-Token"
+    },
+    "Auth": {
+      "Name": ".Web-Auth"
+    },
+    "Session": {
+      "Name": ".Web-Session"
+    }
+  },
+
   "Data": {
     "Connection": "Server=(localdb)\\mssqllocaldb;Database=Mvc6Template;Trusted_Connection=True;MultipleActiveResultSets=True"
   },
@@ -8,7 +20,7 @@
   },
 
   "Logger": {
-    "Path": "Logs",
+    "Directory": "Logs",
     "BackupSize": 5242880
   },
 

@@ -19,7 +19,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             adapter = new StringLengthAdapter(new StringLengthAttribute(128));
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
-            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AdaptersModel), "StringLength");
+            ModelMetadata metadata = provider.GetMetadataForProperty(typeof(AllTypesView), "StringField");
 
             context = new ModelValidationContextBase(new ActionContext(), metadata, provider);
         }
@@ -31,7 +31,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             adapter.Attribute.MinimumLength = 0;
 
-            String expected = String.Format(Validations.StringLength, "StringLength", 128);
+            String expected = String.Format(Validations.StringLength, context.ModelMetadata.PropertyName, 128);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(Validations.StringLength, adapter.Attribute.ErrorMessage);
@@ -43,7 +43,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             adapter.Attribute.MinimumLength = 4;
 
-            String expected = String.Format(Validations.StringLengthRange, "StringLength", 128, 4);
+            String expected = String.Format(Validations.StringLengthRange, context.ModelMetadata.PropertyName, 128, 4);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(Validations.StringLengthRange, adapter.Attribute.ErrorMessage);

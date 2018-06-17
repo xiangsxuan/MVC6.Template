@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +11,7 @@ using MvcTemplate.Controllers;
 using Newtonsoft.Json;
 using NSubstitute;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Controllers
@@ -17,6 +20,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
     {
         private BaseController controller;
         private String controllerName;
+        private ActionContext action;
         private String areaName;
 
         public BaseControllerTests()
@@ -28,6 +32,8 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
             controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+
+            action = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
 
             controllerName = controller.RouteData.Values["controller"] as String;
             areaName = controller.RouteData.Values["area"] as String;
@@ -189,6 +195,30 @@ namespace MvcTemplate.Tests.Unit.Controllers
 
         #endregion
 
+        #region IsAuthorizedFor(String action, String controller, String area)
+
+        [Fact]
+        public void IsAuthorizedFor_NullAuthorizationProvider_ReturnsTrue()
+        {
+            controller = Substitute.ForPartsOf<BaseController>();
+
+            Assert.Null(controller.Authorization);
+            Assert.True(controller.IsAuthorizedFor(null, null, null));
+        }
+
+        [Fact]
+        public void IsAuthorizedFor_ReturnsAuthorizationResult()
+        {
+            IAuthorizationProvider authorization = controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
+            authorization.IsAuthorizedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
+            controller.OnActionExecuting(null);
+
+            Assert.True(controller.IsAuthorizedFor("Action", "Controller", "Area"));
+            Assert.Same(authorization, controller.Authorization);
+        }
+
+        #endregion
+
         #region OnActionExecuting(ActionExecutingContext context)
 
         [Fact]
@@ -225,12 +255,24 @@ namespace MvcTemplate.Tests.Unit.Controllers
         #region OnActionExecuted(ActionExecutedContext context)
 
         [Fact]
+        public void OnActionExecuted_JsonResult_NoAlerts()
+        {
+            controller.Alerts.AddError("Test");
+            controller.TempData["Alerts"] = null;
+            JsonResult result = new JsonResult("Value");
+
+            controller.OnActionExecuted(new ActionExecutedContext(action, new List<IFilterMetadata>(), null) { Result = result });
+
+            Assert.Null(controller.TempData["Alerts"]);
+        }
+
+        [Fact]
         public void OnActionExecuted_NullTempDataAlerts_SetsTempDataAlerts()
         {
-            controller.TempData["Alerts"] = null;
             controller.Alerts.AddError("Test");
+            controller.TempData["Alerts"] = null;
 
-            controller.OnActionExecuted(null);
+            controller.OnActionExecuted(new ActionExecutedContext(action, new List<IFilterMetadata>(), null));
 
             Object expected = JsonConvert.SerializeObject(controller.Alerts);
             Object actual = controller.TempData["Alerts"];
@@ -249,36 +291,12 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller.Alerts.AddError("Test2");
             alerts.AddError("Test2");
 
-            controller.OnActionExecuted(null);
+            controller.OnActionExecuted(new ActionExecutedContext(action, new List<IFilterMetadata>(), null));
 
             Object expected = JsonConvert.SerializeObject(alerts);
             Object actual = controller.TempData["Alerts"];
 
             Assert.Equal(expected, actual);
-        }
-
-        #endregion
-
-        #region IsAuthorizedFor(String action, String controller, String area)
-
-        [Fact]
-        public void IsAuthorizedFor_NullAuthorizationProvider_ReturnsTrue()
-        {
-            controller = Substitute.ForPartsOf<BaseController>();
-
-            Assert.Null(controller.Authorization);
-            Assert.True(controller.IsAuthorizedFor(null, null, null));
-        }
-
-        [Fact]
-        public void IsAuthorizedFor_ReturnsAuthorizationResult()
-        {
-            IAuthorizationProvider authorization = controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
-            authorization.IsAuthorizedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
-            controller.OnActionExecuting(null);
-
-            Assert.True(controller.IsAuthorizedFor("Action", "Controller", "Area"));
-            Assert.Same(authorization, controller.Authorization);
         }
 
         #endregion

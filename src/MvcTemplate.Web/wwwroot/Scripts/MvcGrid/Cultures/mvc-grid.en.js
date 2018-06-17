@@ -1,40 +1,44 @@
 ﻿window.cultures = window.cultures || {};
 window.cultures.grid = window.cultures.grid || {};
 window.cultures.grid['en'] = {
-    Text: {
-        Contains: 'Contains',
-        Equals: 'Equals',
-        NotEquals: 'Not equals',
-        StartsWith: 'Starts with',
-        EndsWith: 'Ends with'
+    text: {
+        'contains': 'Contains',
+        'equals': 'Equals',
+        'not-equals': 'Not equals',
+        'starts-with': 'Starts with',
+        'ends-with': 'Ends with'
     },
-    Number: {
-        Equals: 'Equals',
-        NotEquals: 'Not equals',
-        LessThan: 'Less than',
-        GreaterThan: 'Greater than',
-        LessThanOrEqual: 'Less than or equal',
-        GreaterThanOrEqual: 'Greater than or equal'
+    number: {
+        'equals': 'Equals',
+        'not-equals': 'Not equals',
+        'less-than': 'Less than',
+        'greater-than': 'Greater than',
+        'less-than-or-equal': 'Less than or equal',
+        'greater-than-or-equal': 'Greater than or equal'
     },
-    Date: {
-        Equals: 'Equals',
-        NotEquals: 'Not equals',
-        LessThan: 'Is before',
-        GreaterThan: 'Is after',
-        LessThanOrEqual: 'Is before or equal',
-        GreaterThanOrEqual: 'Is after or equal'
+    date: {
+        'equals': 'Equals',
+        'not-equals': 'Not equals',
+        'earlier-than': 'Earlier than',
+        'later-than': 'Later than',
+        'earlier-than-or-equal': 'Earlier than or equal',
+        'later-than-or-equal': 'Later than or equal'
     },
-    Boolean: {
-        Yes: 'Yes',
-        No: 'No'
+    enum: {
+        'equals': 'Equals',
+        'not-equals': 'Not equals'
     },
-    Filter: {
-        Apply: '&#10004;',
-        Remove: '&#10008;'
+    boolean: {
+        'equals': 'Equals',
+        'not-equals': 'Not equals'
     },
-    Operator: {
-        Select: '',
-        And: 'and',
-        Or: 'or'
+    filter: {
+        'apply': '&#10004;',
+        'remove': '&#10008;'
+    },
+    operator: {
+        'select': '',
+        'and': 'and',
+        'or': 'or'
     }
 };

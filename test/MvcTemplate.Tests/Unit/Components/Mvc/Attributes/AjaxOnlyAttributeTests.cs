@@ -12,15 +12,6 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
     {
         #region IsValidForRequest(RouteContext context, ActionDescriptor action)
 
-        [Fact]
-        public void IsValidForRequest_NullHeader_ReturnsFalse()
-        {
-            RouteContext context = new RouteContext(Substitute.For<HttpContext>());
-            context.HttpContext.Request.Headers.Returns(null as IHeaderDictionary);
-
-            Assert.False(new AjaxOnlyAttribute().IsValidForRequest(context, null));
-        }
-
         [Theory]
         [InlineData("", false)]
         [InlineData("XMLHttpRequest", true)]

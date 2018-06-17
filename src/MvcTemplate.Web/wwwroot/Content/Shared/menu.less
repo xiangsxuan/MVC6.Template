@@ -1,12 +1,11 @@
 ﻿@import "../theme";
 
 .menu {
-    width: 200px;
-    float: left;
+    flex: 0 0 200px;
 
     .menu-search {
         border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-        margin: 10px;
+        margin: 50px 10px 10px;
 
         input {
             background-color: rgba(0, 0, 0, 0.2);
@@ -27,8 +26,10 @@
         }
 
         a {
-            padding: 10px 0 10px 15px;
-            display: block;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 15px;
+            display: flex;
             color: @color;
 
             &:hover {
@@ -36,10 +37,26 @@
                 color: @active-color;
             }
 
-            .menu-icon {
+            .icon {
                 text-align: center;
+                line-height: 1.5;
                 width: 20px;
             }
+
+            .text {
+                padding: 0 5px;
+                flex: 1;
+            }
+
+            .toggle {
+                transition: transform 0.4s ease-out 0.1s;
+                font-size: 10px;
+            }
+        }
+
+        .open:not(.changing) > a > .toggle,
+        .changing:not(.open) > a > .toggle {
+            transform: rotate(90deg);
         }
 
         li {
@@ -55,26 +72,15 @@
 
                 a {
                     background-color: rgba(0, 0, 0, 0.15);
-                    padding: 10px 0 10px 25px;
+                    justify-content:initial;
+                    padding-left: 25px;
                 }
 
                 ul a {
                     background-color: rgba(0, 0, 0, 0.3);
-                    padding: 10px 0 10px 35px;
+                    padding-left: 35px;
                 }
             }
-        }
-
-        .arrow {
-            transition: transform 0.4s ease-out 0.1s;
-            margin: 6px 15px 5px 5px;
-            font-size: 10px;
-            float: right;
-        }
-
-        .open:not(.changing) > a > .arrow,
-        .changing:not(.open) > a > .arrow {
-            transform: rotate(90deg);
         }
     }
 }
@@ -90,7 +96,8 @@
 
 @media (max-width: 767px) {
     .menu {
-        width: 45px;
+        margin-top: 10px;
+        flex: 0 0 45px;
 
         .menu-search {
             display: none;
@@ -104,19 +111,19 @@
                 color: @active-color;
             }
 
-            .menu-icon {
+            .icon {
                 width: 10px;
             }
 
-            .arrow,
-            > li > a > span {
+            .text,
+            .toggle {
                 display: none;
             }
 
             > li {
                 > a {
                     text-align: center;
-                    padding-left: 0;
+                    padding: 10px 0;
                 }
 
                 ul {
@@ -128,6 +135,10 @@
                     a {
                         font-size: 10px;
                         padding: 6px;
+                    }
+
+                    .text {
+                        display: block;
                     }
 
                     ul {

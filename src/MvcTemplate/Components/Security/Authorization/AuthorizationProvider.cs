@@ -12,8 +12,8 @@ namespace MvcTemplate.Components.Security
 {
     public class AuthorizationProvider : IAuthorizationProvider
     {
-        private IEnumerable<Type> Controllers { get; }
         private IServiceProvider Services { get; }
+        private IEnumerable<Type> Controllers { get; }
         private Dictionary<String, String> Required { get; }
         private Dictionary<Int32, HashSet<String>> Permissions { get; set; }
 
@@ -45,10 +45,7 @@ namespace MvcTemplate.Components.Security
             if (!Required.ContainsKey(permission))
                 return true;
 
-            if (!Permissions.ContainsKey(accountId ?? 0))
-                return false;
-
-            return Permissions[accountId.Value].Contains(Required[permission]);
+            return Permissions.ContainsKey(accountId ?? 0) && Permissions[accountId.Value].Contains(Required[permission]);
         }
 
         public void Refresh()
@@ -78,16 +75,9 @@ namespace MvcTemplate.Components.Security
         private IEnumerable<MethodInfo> GetValidMethods(Type controller)
         {
             return controller
-                    .GetMethods(
-                        BindingFlags.DeclaredOnly |
-                        BindingFlags.InvokeMethod |
-                        BindingFlags.Instance |
-                        BindingFlags.Public)
-                    .Where(method =>
-                        !method.IsDefined(typeof(NonActionAttribute)) &&
-                        !method.IsSpecialName)
-                    .OrderByDescending(method =>
-                        method.IsDefined(typeof(HttpGetAttribute), false));
+                .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.Public)
+                .Where(method => !method.IsSpecialName && !method.IsDefined(typeof(NonActionAttribute)))
+                .OrderByDescending(method => method.IsDefined(typeof(HttpGetAttribute), false));
         }
         private IEnumerable<Type> GetValid(Assembly controllers)
         {
@@ -102,7 +92,7 @@ namespace MvcTemplate.Components.Security
 
         private String GetRequiredPermission(Type type, MethodInfo method)
         {
-            AuthorizeAsAttribute authorizeAs = GetAuthorizeAs(method);
+            AuthorizeAsAttribute authorizeAs = method.GetCustomAttribute<AuthorizeAsAttribute>(false);
             String controller = GetController(type);
             String action = GetAction(method);
             String area = GetArea(type);
@@ -110,21 +100,17 @@ namespace MvcTemplate.Components.Security
             if (authorizeAs != null)
             {
                 type = GetControllerType(authorizeAs.Area ?? area, authorizeAs.Controller ?? controller);
-                method = GetMethod(type, authorizeAs.Action);
+                MethodInfo authorizeAsMethod = GetMethod(type, authorizeAs.Action);
 
-                return GetRequiredPermission(type, method);
+                if (authorizeAsMethod != method)
+                    return GetRequiredPermission(type, authorizeAsMethod);
             }
 
-            if (AllowsUnauthorized(type, method)) return null;
-
-            return (area + "/" + controller + "/" + action).ToLower();
+            return AllowsUnauthorized(type, method) ? null : (area + "/" + controller + "/" + action).ToLower();
         }
         private String GetAction(MethodInfo method)
         {
-            if (method.IsDefined(typeof(ActionNameAttribute), false))
-                return method.GetCustomAttribute<ActionNameAttribute>(false).Name;
-
-            return method.Name;
+            return method.GetCustomAttribute<ActionNameAttribute>(false)?.Name ?? method.Name;
         }
         private String GetController(Type type)
         {
@@ -132,23 +118,30 @@ namespace MvcTemplate.Components.Security
         }
         private String GetArea(Type type)
         {
-            if (!type.IsDefined(typeof(AreaAttribute), false))
-                return null;
-
-            return type.GetCustomAttribute<AreaAttribute>(false).RouteValue;
+            return type.GetCustomAttribute<AreaAttribute>(false)?.RouteValue;
         }
 
         private Boolean AllowsUnauthorized(Type controller, MethodInfo method)
         {
-            if (method.IsDefined(typeof(AuthorizeAttribute), false)) return false;
-            if (method.IsDefined(typeof(AllowAnonymousAttribute), false)) return true;
-            if (method.IsDefined(typeof(AllowUnauthorizedAttribute), false)) return true;
+            if (method.IsDefined(typeof(AuthorizeAttribute), false))
+                return false;
+
+            if (method.IsDefined(typeof(AllowAnonymousAttribute), false))
+                return true;
+
+            if (method.IsDefined(typeof(AllowUnauthorizedAttribute), false))
+                return true;
 
             while (controller != typeof(Controller))
             {
-                if (controller.IsDefined(typeof(AuthorizeAttribute), false)) return false;
-                if (controller.IsDefined(typeof(AllowAnonymousAttribute), false)) return true;
-                if (controller.IsDefined(typeof(AllowUnauthorizedAttribute), false)) return true;
+                if (controller.IsDefined(typeof(AuthorizeAttribute), false))
+                    return false;
+
+                if (controller.IsDefined(typeof(AllowAnonymousAttribute), false))
+                    return true;
+
+                if (controller.IsDefined(typeof(AllowUnauthorizedAttribute), false))
+                    return true;
 
                 controller = controller.BaseType;
             }
@@ -170,29 +163,15 @@ namespace MvcTemplate.Components.Security
 
             return controllers.Single();
         }
-        private AuthorizeAsAttribute GetAuthorizeAs(MemberInfo action)
-        {
-            if (!action.IsDefined(typeof(AuthorizeAsAttribute), false))
-                return null;
-
-            return action.GetCustomAttribute<AuthorizeAsAttribute>(false);
-        }
         private MethodInfo GetMethod(Type controller, String action)
         {
             return controller
                 .GetMethods()
                 .Where(method =>
-                    (
-                        !method.IsDefined(typeof(ActionNameAttribute), false) &&
-                        method.Name.ToLowerInvariant() == action.ToLowerInvariant()
-                    )
-                    ||
-                    (
-                        method.IsDefined(typeof(ActionNameAttribute), false) &&
-                        method.GetCustomAttribute<ActionNameAttribute>(false).Name.ToLowerInvariant() == action.ToLowerInvariant()
-                    ))
-                .OrderByDescending(method =>
-                    method.IsDefined(typeof(HttpGetAttribute), false))
+                    method.IsDefined(typeof(ActionNameAttribute), false)
+                        ? method.GetCustomAttribute<ActionNameAttribute>(false).Name.ToLowerInvariant() == action.ToLowerInvariant()
+                        : method.Name.ToLowerInvariant() == action.ToLowerInvariant())
+                .OrderByDescending(method => method.IsDefined(typeof(HttpGetAttribute), false))
                 .First();
         }
     }

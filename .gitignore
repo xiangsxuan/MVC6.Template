@@ -1,10 +1,8 @@
 /src/MvcTemplate.Web/Logs/
-wwwroot/lib/
-/artifacts/
+.vscode/
 .vs/
 bin/
 obj/
 
-project.lock.json
 *.user
 *.suo

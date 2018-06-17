@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using MvcTemplate.Controllers;
 using MvcTemplate.Services;
 using NSubstitute;
@@ -31,7 +30,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Object expected = RedirectToAction(controller, "Logout", "Auth");
             Object actual = controller.Index();
 
-            Assert.Equal(expected, actual);
+            Assert.Same(expected, actual);
         }
 
         [Fact]
@@ -39,7 +38,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsActive(controller.CurrentAccountId).Returns(true);
 
-            ViewDataDictionary actual = (controller.Index() as ViewResult).ViewData;
+            ViewResult actual = controller.Index() as ViewResult;
 
             Assert.Null(actual.Model);
         }
@@ -51,7 +50,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void Error_ReturnsEmptyView()
         {
-            ViewDataDictionary actual = controller.Error().ViewData;
+            ViewResult actual = controller.Error();
 
             Assert.Null(actual.Model);
         }
@@ -63,7 +62,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void NotFound_ReturnsEmptyView()
         {
-            ViewDataDictionary actual = controller.NotFound().ViewData;
+            ViewResult actual = controller.NotFound();
 
             Assert.Null(actual.Model);
         }
@@ -80,7 +79,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             Object expected = RedirectToAction(controller, "Logout", "Auth");
             Object actual = controller.Unauthorized();
 
-            Assert.Equal(expected, actual);
+            Assert.Same(expected, actual);
         }
 
         [Fact]
@@ -88,7 +87,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         {
             service.IsActive(controller.CurrentAccountId).Returns(true);
 
-            ViewDataDictionary actual = (controller.Unauthorized() as ViewResult).ViewData;
+            ViewResult actual = controller.Unauthorized() as ViewResult;
 
             Assert.Null(actual.Model);
         }

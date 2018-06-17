@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +15,7 @@ using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers;
 using MvcTemplate.Data.Core;
+using MvcTemplate.Data.Logging;
 using MvcTemplate.Data.Migrations;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
@@ -33,8 +36,9 @@ namespace MvcTemplate.Web
             config.Add("Application:Env", env.EnvironmentName);
 
             Config = new ConfigurationBuilder()
-                .AddJsonFile("configuration.json")
                 .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("configuration.json")
+                .AddJsonFile($"configuration.{env.EnvironmentName.ToLower()}.json", optional: true)
                 .AddInMemoryCollection(config)
                 .Build();
         }
@@ -50,6 +54,7 @@ namespace MvcTemplate.Web
             RegisterMvc(services);
             RegisterServices(services);
             RegisterLowercaseUrls(services);
+            RegisterSecureResponse(services);
         }
 
         public void RegisterMvc(IServiceCollection services)
@@ -58,11 +63,18 @@ namespace MvcTemplate.Web
                 .AddMvc()
                 .AddMvcOptions(options => options.Filters.Add(typeof(LanguageFilter)))
                 .AddMvcOptions(options => options.Filters.Add(typeof(AuthorizationFilter)))
-                .AddMvcOptions(options => new ModelMessagesProvider(options.ModelBindingMessageProvider))
+                .AddMvcOptions(options => ModelMessagesProvider.Set(options.ModelBindingMessageProvider))
                 .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
                 .AddViewOptions(options => options.ClientModelValidatorProviders.Add(new DateValidatorProvider()))
                 .AddMvcOptions(options => options.ModelMetadataDetailsProviders.Add(new DisplayMetadataProvider()))
+                .AddViewOptions(options => options.ClientModelValidatorProviders.Add(new NumberValidatorProvider()))
                 .AddMvcOptions(options => options.ModelBinderProviders.Insert(4, new TrimmingModelBinderProvider()));
+
+            services.AddAuthentication("Cookies").AddCookie(authentication =>
+            {
+                authentication.Cookie.Name = Config["Cookies:Auth:Name"];
+                authentication.Events = new AuthenticationEvents();
+            });
         }
         public void RegisterServices(IServiceCollection services)
         {
@@ -70,14 +82,19 @@ namespace MvcTemplate.Web
             services.AddSession();
             services.AddSingleton(Config);
 
+            services.AddTransient<Configuration>();
             services.AddTransient<DbContext, Context>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddSingleton<ILogger, Logger>();
+            services.AddTransient<IAuditLogger>(provider =>
+                new AuditLogger(provider.GetService<DbContext>(),
+                provider.GetRequiredService<IHttpContextAccessor>().HttpContext?.User?.Id()));
 
             services.AddSingleton<IHasher, BCrypter>();
             services.AddSingleton<IMailClient, SmtpMailClient>();
 
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IValidationAttributeAdapterProvider, ValidationAdapterProvider>();
 
             services.AddSingleton<ILanguages, Languages>();
@@ -94,6 +111,15 @@ namespace MvcTemplate.Web
         {
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         }
+        public void RegisterSecureResponse(IServiceCollection services)
+        {
+            services.Configure<SessionOptions>(session => session.Cookie.Name = Config["Cookies:Session:Name"]);
+            services.Configure<AntiforgeryOptions>(antiforgery =>
+            {
+                antiforgery.Cookie.Name = Config["Cookies:Antiforgery:Name"];
+                antiforgery.FormFieldName = "_Token_";
+            });
+        }
 
         public void RegisterServices(IApplicationBuilder app)
         {
@@ -105,13 +131,7 @@ namespace MvcTemplate.Web
             app.UseMiddleware<ExceptionFilterMiddleware>();
             app.UseMiddleware<SecureHeadersMiddleware>();
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                Events = new AuthenticationEvents(),
-                CookieName = ".WebAuthentication",
-                AuthenticationScheme = "Cookies",
-                AutomaticChallenge = true
-            });
+            app.UseAuthentication();
 
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -156,7 +176,7 @@ namespace MvcTemplate.Web
 
         public void UpdateDatabase(IApplicationBuilder app)
         {
-            using (Configuration configuration = new Configuration(app.ApplicationServices.GetService<DbContext>()))
+            using (Configuration configuration = app.ApplicationServices.GetService<Configuration>())
                 configuration.UpdateDatabase();
         }
     }

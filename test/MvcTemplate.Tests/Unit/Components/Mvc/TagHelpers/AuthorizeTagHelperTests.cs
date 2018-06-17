@@ -26,6 +26,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         public void Process_NullAuthorizationProvider_RemovedWrappingTag()
         {
             helper = new AuthorizeTagHelper(null);
+            helper.ViewContext = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
+            helper.ViewContext.HttpContext.User.Identity.Name.Returns("1");
 
             output.PostContent.SetContent("PostContent");
             output.PostElement.SetContent("PostElement");

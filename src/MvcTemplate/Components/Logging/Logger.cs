@@ -11,7 +11,7 @@ namespace MvcTemplate.Components.Logging
     {
         private IConfiguration Config { get; }
         private Func<Int32?> AccountId { get; }
-        private static Object LogWriting = new Object();
+        private static Object LogWriting { get; } = new Object();
 
         public Logger(IConfiguration config)
         {
@@ -27,9 +27,9 @@ namespace MvcTemplate.Components.Logging
 
         public void Log(String message)
         {
-            String logDirectory = Path.Combine(Config["Application:Path"], Config["Logger:Path"]);
+            String logDirectory = Path.Combine(Config["Application:Path"], Config["Logger:Directory"]);
             Int64 backupSize = Int64.Parse(Config["Logger:BackupSize"]);
-            String logPath = Path.Combine(logDirectory, "Log.txt");
+            String path = Path.Combine(logDirectory, "Log.txt");
 
             StringBuilder log = new StringBuilder();
             log.AppendLine("Time   : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -40,10 +40,10 @@ namespace MvcTemplate.Components.Logging
             lock (LogWriting)
             {
                 Directory.CreateDirectory(logDirectory);
-                File.AppendAllText(logPath, log.ToString());
+                File.AppendAllText(path, log.ToString());
 
-                if (new FileInfo(logPath).Length >= backupSize)
-                    File.Move(logPath, Path.Combine(logDirectory, $"Log {DateTime.Now.ToString("yyyy-MM-dd HHmmss")}.txt"));
+                if (new FileInfo(path).Length >= backupSize)
+                    File.Move(path, Path.Combine(logDirectory, $"Log {DateTime.Now:yyyy-MM-dd HHmmss}.txt"));
             }
         }
         public void Log(Exception exception)

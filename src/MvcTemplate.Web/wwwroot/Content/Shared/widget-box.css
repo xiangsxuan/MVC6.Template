@@ -4,43 +4,45 @@
   border: 1px solid #CDCDCD;
   margin-bottom: 15px;
 }
-.widget-title {
+.widget-header {
   border-bottom: 1px solid #CDCDCD;
-  height: 35px;
+  display: flex;
+  height: 2.5em;
 }
-.widget-title .widget-title-icon {
+.widget-header .icon {
   border-right: 1px solid #CDCDCD;
-  padding: 11px 11px 8px;
-  line-height: 1.1;
-  float: left;
+  padding: 0 0.85em;
+  line-height: 2.5;
 }
-.widget-title h5 {
-  padding: 10px 11px 9px;
+.widget-header h5 {
   font-weight: bold;
-  float: left;
+  padding: 0 0.75em;
+  line-height: 2.5;
+  font-size: 1em;
+  height: 100%;
   margin: 0;
+  flex: 1;
 }
-.widget-title .widget-title-buttons {
-  float: right;
+.widget-header .widget-header-buttons {
+  display: flex;
 }
-.widget-title .widget-title-buttons .btn {
+.widget-header .widget-header-buttons .btn {
   border-left: 1px solid #CDCDCD;
-  border-top-style: none;
   color: #555555;
-  padding: 9px 10px 8px;
+  border-bottom: none;
+  line-height: 2.86;
+  font-size: 0.85em;
+  border-top: none;
   border-radius: 0;
-  min-height: 35px;
-  min-width: 40px;
-  font-size: 12px;
-  display: block;
-  float: left;
+  padding: 0 0.8em;
+  min-width: 3em;
 }
-.widget-title .widget-title-buttons .btn:hover {
+.widget-header .widget-header-buttons .btn:hover {
   background: linear-gradient(#6F93A7, #2A4E62);
   color: #FFFFFF;
 }
-.widget-title .widget-title-buttons .btn > i {
-  padding-right: 5px;
+.widget-header .widget-header-buttons .btn .text {
+  padding-left: 5px;
 }
 .widget-content {
   overflow-x: auto;
@@ -49,6 +51,8 @@
 .widget-content .form-group {
   border-bottom: 1px solid #EEEEEE;
   border-top: 1px solid #FFFFFF;
+  flex-wrap: wrap;
+  display: flex;
   padding: 10px;
   margin: 0;
   zoom: 1;
@@ -76,10 +80,10 @@
   text-align: center;
 }
 @media (max-width: 767px) {
-  .widget-title .widget-title-buttons .btn > i {
+  .widget-header .widget-header-buttons .btn > span {
     padding: 0;
   }
-  .widget-title .widget-title-buttons .text {
+  .widget-header .widget-header-buttons .text {
     display: none;
   }
 }
@@ -92,9 +96,6 @@
   }
 }
 @media (min-width: 1200px) {
-  .widget-content .field-validation-error {
-    padding-top: 7px;
-  }
   .widget-content .control-validation {
     text-align: left;
   }

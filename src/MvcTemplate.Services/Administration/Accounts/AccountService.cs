@@ -1,4 +1,5 @@
-using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
@@ -12,13 +13,11 @@ namespace MvcTemplate.Services
     public class AccountService : BaseService, IAccountService
     {
         private IHasher Hasher { get; }
-        private IAuthorizationProvider Authorization { get; }
 
-        public AccountService(IUnitOfWork unitOfWork, IHasher hasher, IAuthorizationProvider authorization)
+        public AccountService(IUnitOfWork unitOfWork, IHasher hasher)
             : base(unitOfWork)
         {
             Hasher = hasher;
-            Authorization = authorization;
         }
 
         public TView Get<TView>(Int32 id) where TView : BaseView
@@ -45,7 +44,8 @@ namespace MvcTemplate.Services
         public String Recover(AccountRecoveryView view)
         {
             Account account = UnitOfWork.Select<Account>().SingleOrDefault(model => model.Email.ToLower() == view.Email.ToLower());
-            if (account == null) return null;
+            if (account == null)
+                return null;
 
             account.RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(30);
             account.RecoveryToken = Guid.NewGuid().ToString();
@@ -54,15 +54,6 @@ namespace MvcTemplate.Services
             UnitOfWork.Commit();
 
             return account.RecoveryToken;
-        }
-        public void Register(AccountRegisterView view)
-        {
-            Account account = UnitOfWork.To<Account>(view);
-            account.Passhash = Hasher.HashPassword(view.Password);
-            account.Email = view.Email.ToLower();
-
-            UnitOfWork.Insert(account);
-            UnitOfWork.Commit();
         }
         public void Reset(AccountResetView view)
         {
@@ -83,19 +74,17 @@ namespace MvcTemplate.Services
 
             UnitOfWork.Insert(account);
             UnitOfWork.Commit();
-
-            Authorization.Refresh();
         }
         public void Edit(AccountEditView view)
         {
             Account account = UnitOfWork.Get<Account>(view.Id);
+            account.Email = view.Email.ToLower();
+            account.Username = view.Username;
             account.IsLocked = view.IsLocked;
             account.RoleId = view.RoleId;
 
             UnitOfWork.Update(account);
             UnitOfWork.Commit();
-
-            Authorization.Refresh();
         }
 
         public void Edit(ProfileEditView view)
@@ -114,20 +103,18 @@ namespace MvcTemplate.Services
         {
             UnitOfWork.Delete<Account>(id);
             UnitOfWork.Commit();
-
-            Authorization.Refresh();
         }
 
-        public void Login(AuthenticationManager authentication, String username)
+        public void Login(HttpContext context, String username)
         {
             Claim[] claims = { new Claim("name", GetAccountId(username)) };
             ClaimsIdentity identity = new ClaimsIdentity(claims, "local", "name", "role");
 
-            authentication.SignInAsync("Cookies", new ClaimsPrincipal(identity)).Wait();
+            context.SignInAsync("Cookies", new ClaimsPrincipal(identity)).Wait();
         }
-        public void Logout(AuthenticationManager authentication)
+        public void Logout(HttpContext context)
         {
-            authentication.SignOutAsync("Cookies").Wait();
+            context.SignOutAsync("Cookies").Wait();
         }
 
         private String GetAccountId(String username)

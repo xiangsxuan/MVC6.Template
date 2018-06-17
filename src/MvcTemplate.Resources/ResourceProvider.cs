@@ -65,31 +65,34 @@ namespace MvcTemplate.Resources
 
         public static String GetPropertyTitle<TModel, TProperty>(Expression<Func<TModel, TProperty>> property)
         {
-            MemberExpression expression = property.Body as MemberExpression;
-            if (expression == null) return null;
-
-            return GetPropertyTitle(expression.Member.DeclaringType, expression.Member.Name);
+            return GetPropertyTitle(property.Body);
         }
         public static String GetPropertyTitle(Type view, String property)
         {
             return GetPropertyTitle(view.Name, property ?? "");
         }
+        public static String GetPropertyTitle(Expression property)
+        {
+            return property is MemberExpression expression ? GetPropertyTitle(expression.Expression.Type, expression.Member.Name) : null;
+        }
 
         private static String GetPropertyTitle(String view, String property)
         {
             String title = GetViewTitle(view, property);
-            if (title != null) return title;
+            if (title != null)
+                return title;
 
-            String[] camelCasedProperties = SplitCamelCase(property);
-            for (Int32 skippedProperties = 0; skippedProperties < camelCasedProperties.Length; skippedProperties++)
+            String[] properties = SplitCamelCase(property);
+            for (Int32 skipped = 0; skipped < properties.Length; skipped++)
             {
-                for (Int32 viewSize = 1; viewSize < camelCasedProperties.Length - skippedProperties; viewSize++)
+                for (Int32 viewSize = 1; viewSize < properties.Length - skipped; viewSize++)
                 {
-                    String joinedView = String.Concat(camelCasedProperties.Skip(skippedProperties).Take(viewSize)) + "View";
-                    String joinedProperty = String.Concat(camelCasedProperties.Skip(viewSize + skippedProperties));
+                    String joinedView = String.Concat(properties.Skip(skipped).Take(viewSize)) + "View";
+                    String joinedProperty = String.Concat(properties.Skip(viewSize + skipped));
 
                     title = GetViewTitle(joinedView, joinedProperty);
-                    if (title != null) return title;
+                    if (title != null)
+                        return title;
                 }
             }
 
@@ -97,15 +100,11 @@ namespace MvcTemplate.Resources
         }
         private static String GetViewTitle(String type, String key)
         {
-            if (!ViewTitles.ContainsKey(type)) return null;
-
-            return ViewTitles[type].GetString(key);
+            return ViewTitles.ContainsKey(type) ? ViewTitles[type].GetString(key) : null;
         }
         private static String GetResource(String type, String key)
         {
-            if (!Resources.ContainsKey(type)) return null;
-
-            return Resources[type].GetString(key);
+            return Resources.ContainsKey(type) ? Resources[type].GetString(key) : null;
         }
         private static String[] SplitCamelCase(String value)
         {

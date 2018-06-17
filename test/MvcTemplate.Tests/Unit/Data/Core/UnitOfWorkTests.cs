@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MvcTemplate.Data.Core;
+using MvcTemplate.Data.Logging;
 using MvcTemplate.Objects;
 using MvcTemplate.Tests.Data;
+using MvcTemplate.Tests.Objects;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -16,15 +18,15 @@ namespace MvcTemplate.Tests.Unit.Data.Core
     {
         private TestingContext context;
         private UnitOfWork unitOfWork;
-        private Role model;
+        private IAuditLogger logger;
+        private TestModel model;
 
         public UnitOfWorkTests()
         {
             context = new TestingContext();
-            model = ObjectFactory.CreateRole();
-            unitOfWork = new UnitOfWork(context);
-
-            context.DropData();
+            model = ObjectFactory.CreateTestModel();
+            logger = Substitute.For<IAuditLogger>();
+            unitOfWork = new UnitOfWork(context, logger);
         }
         public void Dispose()
         {
@@ -32,7 +34,13 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Dispose();
         }
 
-        #region GetAs<TModel, TDestination>(Int32 id)
+        #region GetAs<TModel, TDestination>(Int32? id)
+
+        [Fact]
+        public void GetAs_Null_ReturnsDestinationDefault()
+        {
+            Assert.Null(unitOfWork.GetAs<TestModel, TestView>(null));
+        }
 
         [Fact]
         public void GetAs_ReturnsModelAsDestinationModelById()
@@ -40,8 +48,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Add(model);
             context.SaveChanges();
 
-            RoleView expected = Mapper.Map<RoleView>(model);
-            RoleView actual = unitOfWork.GetAs<Role, RoleView>(model.Id);
+            TestView expected = Mapper.Map<TestView>(model);
+            TestView actual = unitOfWork.GetAs<TestModel, TestView>(model.Id);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Title, actual.Title);
@@ -50,7 +58,13 @@ namespace MvcTemplate.Tests.Unit.Data.Core
 
         #endregion
 
-        #region Get<TModel>(Int32 id)
+        #region Get<TModel>(Int32? id)
+
+        [Fact]
+        public void Get_Null_ReturnsNull()
+        {
+            Assert.Null(unitOfWork.Get<TestModel>(null));
+        }
 
         [Fact]
         public void Get_ModelById()
@@ -58,8 +72,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Add(model);
             context.SaveChanges();
 
-            Role expected = context.Set<Role>().AsNoTracking().Single();
-            Role actual = unitOfWork.Get<Role>(model.Id);
+            TestModel expected = context.Set<TestModel>().AsNoTracking().Single();
+            TestModel actual = unitOfWork.Get<TestModel>(model.Id);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Title, actual.Title);
@@ -69,7 +83,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Get_NotFound_ReturnsNull()
         {
-            Assert.Null(unitOfWork.Get<Role>(0));
+            Assert.Null(unitOfWork.Get<TestModel>(0));
         }
 
         #endregion
@@ -79,8 +93,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void To_ConvertsSourceToDestination()
         {
-            RoleView actual = unitOfWork.To<RoleView>(model);
-            RoleView expected = Mapper.Map<RoleView>(model);
+            TestView actual = unitOfWork.To<TestView>(model);
+            TestView expected = Mapper.Map<TestView>(model);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
             Assert.Equal(expected.Title, actual.Title);
@@ -97,8 +111,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Add(model);
             context.SaveChanges();
 
-            IEnumerable<Role> actual = unitOfWork.Select<Role>();
-            IEnumerable<Role> expected = context.Set<Role>();
+            IEnumerable<TestModel> actual = unitOfWork.Select<TestModel>();
+            IEnumerable<TestModel> expected = context.Set<TestModel>();
 
             Assert.Equal(expected, actual);
         }
@@ -110,17 +124,16 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void InsertRange_AddsModelsToDbSet()
         {
-            IEnumerable<Role> models = new[] { ObjectFactory.CreateRole(1), ObjectFactory.CreateRole(2) };
+            IEnumerable<TestModel> models = new[] { ObjectFactory.CreateTestModel(1), ObjectFactory.CreateTestModel(2) };
+            TestingContext testingContext = Substitute.For<TestingContext>();
+            testingContext.When(sub => sub.AddRange(models)).DoNotCallBase();
+
+            unitOfWork.Dispose();
+
+            unitOfWork = new UnitOfWork(testingContext);
             unitOfWork.InsertRange(models);
 
-            IEnumerator<Role> actual = context.ChangeTracker.Entries<Role>().Select(entry => entry.Entity).GetEnumerator();
-            IEnumerator<Role> expected = models.GetEnumerator();
-
-            while (expected.MoveNext() | actual.MoveNext())
-            {
-                Assert.Equal(EntityState.Added, context.Entry(actual.Current).State);
-                Assert.Same(expected.Current, actual.Current);
-            }
+            testingContext.Received().AddRange(models);
         }
 
         #endregion
@@ -132,7 +145,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         {
             unitOfWork.Insert(model);
 
-            Object actual = context.ChangeTracker.Entries<Role>().Single().Entity;
+            Object actual = context.ChangeTracker.Entries<TestModel>().Single().Entity;
             Object expected = model;
 
             Assert.Equal(EntityState.Added, context.Entry(model).State);
@@ -151,13 +164,12 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [InlineData(EntityState.Unchanged, EntityState.Unchanged)]
         public void Update_Entry(EntityState initialState, EntityState state)
         {
-            EntityEntry<Role> entry = context.Entry(model);
+            EntityEntry<TestModel> entry = context.Entry(model);
             entry.State = initialState;
-            entry.Entity.Id = 0;
 
             unitOfWork.Update(model);
 
-            EntityEntry<Role> actual = entry;
+            EntityEntry<TestModel> actual = entry;
 
             Assert.Equal(state, actual.State);
             Assert.False(actual.Property(prop => prop.CreationDate).IsModified);
@@ -170,16 +182,15 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void DeleteRange_Models()
         {
-            IEnumerable<Role> models = new[] { ObjectFactory.CreateRole(1), ObjectFactory.CreateRole(2) };
-            foreach (Role model in models)
-                context.Add(model);
+            IEnumerable<TestModel> models = new[] { ObjectFactory.CreateTestModel(1), ObjectFactory.CreateTestModel(2) };
 
+            context.AddRange(models);
             context.SaveChanges();
 
             unitOfWork.DeleteRange(models);
             unitOfWork.Commit();
 
-            Assert.Empty(context.Set<Role>());
+            Assert.Empty(context.Set<TestModel>());
         }
 
         #endregion
@@ -195,7 +206,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             unitOfWork.Delete(model);
             unitOfWork.Commit();
 
-            Assert.Empty(context.Set<Role>());
+            Assert.Empty(context.Set<TestModel>());
         }
 
         #endregion
@@ -208,10 +219,10 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             context.Add(model);
             context.SaveChanges();
 
-            unitOfWork.Delete<Role>(model.Id);
+            unitOfWork.Delete<TestModel>(model.Id);
             unitOfWork.Commit();
 
-            Assert.Empty(context.Set<Role>());
+            Assert.Empty(context.Set<TestModel>());
         }
 
         #endregion
@@ -221,12 +232,31 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void Commit_SavesChanges()
         {
-            TestingContext context = Substitute.For<TestingContext>();
-            UnitOfWork unitOfWork = new UnitOfWork(context);
+            TestingContext testingContext = Substitute.For<TestingContext>();
 
+            new UnitOfWork(testingContext).Commit();
+
+            testingContext.Received().SaveChanges();
+        }
+
+        [Fact]
+        public void Commit_Logs()
+        {
             unitOfWork.Commit();
 
-            context.Received().SaveChanges();
+            logger.Received().Log(Arg.Any<IEnumerable<EntityEntry<BaseModel>>>());
+            logger.Received().Save();
+        }
+
+        [Fact]
+        public void Commit_Failed_DoesNotSaveLogs()
+        {
+            logger.When(sub => sub.Log(Arg.Any<IEnumerable<EntityEntry<BaseModel>>>())).Do(call => throw new Exception());
+            Exception exception = Record.Exception(() => unitOfWork.Commit());
+
+            logger.Received().Log(Arg.Any<IEnumerable<EntityEntry<BaseModel>>>());
+            logger.DidNotReceive().Save();
+            Assert.NotNull(exception);
         }
 
         #endregion
@@ -234,14 +264,21 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         #region Dispose()
 
         [Fact]
-        public void Dispose_Context()
+        public void Dispose_Logger()
         {
-            TestingContext context = Substitute.For<TestingContext>();
-            UnitOfWork unitOfWork = new UnitOfWork(context);
-
             unitOfWork.Dispose();
 
-            context.Received().Dispose();
+            logger.Received().Dispose();
+        }
+
+        [Fact]
+        public void Dispose_Context()
+        {
+            TestingContext testingContext = Substitute.For<TestingContext>();
+
+            new UnitOfWork(testingContext).Dispose();
+
+            testingContext.Received().Dispose();
         }
 
         [Fact]

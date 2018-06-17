@@ -1,37 +1,9 @@
-// Header dropdown closure
+// Header navigation binding
 (function () {
     $(document).on('mouseleave', '.header-navigation .dropdown', function () {
         $(this).removeClass('open');
     });
-}());
-
-// Alert closure
-(function () {
-    $('.alerts .alert').each(function () {
-        var alert = $(this);
-
-        if (alert.data('timeout')) {
-            setTimeout(function () {
-                alert.fadeTo(300, 0).slideUp(300, function () {
-                    $(this).remove();
-                });
-            }, alert.data('timeout'));
-        }
-    });
-
-    $(document).on('click', '.alert .close', function () {
-        $(this.parentNode).fadeTo(300, 0).slideUp(300, function () {
-            $(this).remove();
-        });
-    });
-}());
-
-// JQuery dialog overlay binding
-(function () {
-    $(document).on('click', '.ui-widget-overlay', function () {
-        $('.ui-dialog:visible .ui-dialog-titlebar-close').trigger('click');
-    });
-}());
+})();
 
 // Globalized validation binding
 (function () {
@@ -40,9 +12,7 @@
     };
 
     $.validator.methods.number = function (value, element) {
-        var pattern = new RegExp('^(?=.*\\d+.*)[-+]?\\d*[' + Globalize.culture().numberFormat['.'] + ']?\\d*$');
-
-        return this.optional(element) || pattern.test(value);
+        return this.optional(element) || !isNaN(Globalize.parseFloat(value));
     };
 
     $.validator.methods.min = function (value, element, param) {
@@ -60,17 +30,17 @@
     $.validator.addMethod('greater', function (value, element, param) {
         return this.optional(element) || Globalize.parseFloat(value) > parseFloat(param);
     });
-    $.validator.unobtrusive.adapters.add("greater", ["min"], function (options) {
-        options.rules["greater"] = options.params.min;
+    $.validator.unobtrusive.adapters.add('greater', ['min'], function (options) {
+        options.rules['greater'] = options.params.min;
         if (options.message) {
-            options.messages["greater"] = options.message;
+            options.messages['greater'] = options.message;
         }
     });
 
     $.validator.addMethod('integer', function (value, element) {
         return this.optional(element) || /^[+-]?\d+$/.test(value);
     });
-    $.validator.unobtrusive.adapters.addBool("integer");
+    $.validator.unobtrusive.adapters.addBool('integer');
 
     $.validator.addMethod('filesize', function (value, element, param) {
         if (this.optional(element) || !element.files)
@@ -83,53 +53,71 @@
 
         return bytes <= parseFloat(param);
     });
-    $.validator.unobtrusive.adapters.add("filesize", ["max"], function (options) {
-        options.rules["filesize"] = options.params.max;
+    $.validator.unobtrusive.adapters.add('filesize', ['max'], function (options) {
+        options.rules['filesize'] = options.params.max;
         if (options.message) {
-            options.messages["filesize"] = options.message;
+            options.messages['filesize'] = options.message;
         }
     });
     $(document).on('change', '[type="file"]', function () {
         $(this).focusout();
     });
 
-    $(document).on('change', '.mvc-lookup-hidden-input', function () {
+    $.validator.addMethod('acceptfiles', function (value, element, param) {
+        if (this.optional(element))
+            return true;
+
+        var files = $.map($(element).prop('files'), function (file) { return file.name.split('\\').pop(); });
+        var params = param.split(/[,|]/);
+
+        for (var i = 0; i < files.length; i++) {
+            if (params.indexOf('.' + files[i].split('.').pop()) < 0) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+    $.validator.unobtrusive.adapters.add('acceptfiles', ['extensions'], function (options) {
+        options.rules['acceptfiles'] = options.params.extensions;
+        if (options.message) {
+            options.messages['acceptfiles'] = options.message;
+        }
+    });
+
+    $(document).on('change', '.mvc-lookup-value', function () {
         var validator = $(this).parents('form').validate();
 
-        if (validator) {
-            var lookup = $(this).prevAll('[data-mvc-lookup-for="' + this.id + '"]');
+        if (validator && this.id) {
+            var control = $(this).closest('.mvc-lookup').find('.mvc-lookup-control');
             if (validator.element('#' + this.id)) {
-                lookup.removeClass('input-validation-error');
+                control.removeClass('input-validation-error');
             } else {
-                lookup.addClass('input-validation-error');
+                control.addClass('input-validation-error');
             }
         }
     });
     $('form').on('invalid-form', function (form, validator) {
-        var lookups = $(this).find('.mvc-lookup-input');
-        for (var i = 0; i < lookups.length; i++) {
-            var lookup = $(lookups[i]);
-            var hiddenInputId = lookup.attr('data-mvc-lookup-for');
+        var values = $(this).find('.mvc-lookup-value');
+        for (var i = 0; i < values.length; i++) {
+            var control = $(values[i]).closest('.mvc-lookup').find('.mvc-lookup-control');
 
-            if (validator.invalid[hiddenInputId]) {
-                lookup.addClass('input-validation-error');
+            if (validator.invalid[values[i].id]) {
+                control.addClass('input-validation-error');
             } else {
-                lookup.removeClass('input-validation-error');
+                control.removeClass('input-validation-error');
             }
         }
     });
-    $(document).on('ready', function () {
-        var hiddenInputs = $('.mvc-lookup-hidden-input.input-validation-error');
-        for (var i = 0; i < hiddenInputs.length; i++) {
-            var hiddenInput = $(hiddenInputs[i]);
-            hiddenInput.prevAll('[data-mvc-lookup-for="' + hiddenInputs[i].id + '"]').addClass('input-validation-error');
-        }
-    });
+    var values = $('.mvc-lookup-value.input-validation-error');
+    for (var i = 0; i < values.length; i++) {
+        $(values[i]).closest('.mvc-lookup').find('.mvc-lookup-control').addClass('input-validation-error');
+    }
 
     var currentIgnore = $.validator.defaults.ignore;
     $.validator.setDefaults({
         ignore: function () {
-            return $(this).is(currentIgnore) && !$(this).hasClass('mvc-lookup-hidden-input');
+            return $(this).is(currentIgnore) && !$(this).hasClass('mvc-lookup-value');
         }
     });
 
@@ -138,35 +126,67 @@
     Globalize.cultures.en = null;
     Globalize.addCultureInfo(lang, window.cultures.globalize[lang]);
     Globalize.culture(lang);
-}());
+})();
+
+// Widgets binding
+(function () {
+    Alerts.init();
+    Menu.init();
+})();
+
+// JQuery UI binding
+(function () {
+    window.addEventListener('mousedown', function (e) {
+        if ($(e.target || e.srcElement).hasClass('ui-widget-overlay')) {
+            $('.ui-dialog-content:visible').dialog('close');
+
+            e.stopImmediatePropagation();
+        }
+    }, true);
+})();
 
 // Datepicker binding
 (function () {
     var lang = $('html').attr('lang');
-    var options = {
-        beforeShow: function (e) {
-            return !$(e).attr('readonly');
-        },
-        onSelect: function () {
-            $(this).focusout();
-        }
-    };
 
     if ($.fn.datepicker) {
         $.datepicker.setDefaults(window.cultures.datepicker[lang]);
-        $(".datepicker").datepicker(options);
+        $('.datepicker').datepicker({
+            beforeShow: function (e) {
+                return !$(e).attr('readonly');
+            },
+            onSelect: function (value, data) {
+                $(this).focusout();
+                if (value != data.lastVal) {
+                    $(this).change();
+                }
+            }
+        });
     }
 
     if ($.fn.timepicker) {
         $.timepicker.setDefaults(window.cultures.timepicker[lang]);
-        $(".datetimepicker").datetimepicker(options);
+        $('.datetimepicker').datetimepicker({
+            beforeShow: function (e) {
+                return !$(e).attr('readonly');
+            },
+            onSelect: function () {
+                $(this).focusout();
+            }
+        });
     }
-}());
+})();
 
 // JsTree binding
 (function () {
     var trees = $('.js-tree-view');
     for (var i = 0; i < trees.length; i++) {
+        $(trees[i]).on('click.jstree', '.jstree-anchor', function (e) {
+            if ($(this).closest('.widget-box.readonly').length) {
+                e.stopImmediatePropagation();
+            }
+        });
+
         var tree = $(trees[i]).jstree({
             'core': {
                 'themes': {
@@ -187,7 +207,7 @@
                 data.instance.select_node(selected[j].value, false, true);
             }
 
-            data.instance.open_node($.makeArray(tree.find('> ul > li')), null, null);
+            data.instance.open_node($.makeArray(data.instance.element.find('> ul > li')), null, null);
             data.instance.element.show();
         });
     }
@@ -208,9 +228,9 @@
             }
         }
     });
-}());
+})();
 
-// Mvc.Grid binding
+// Grid binding
 (function () {
     if ($.fn.mvcgrid) {
         $('.mvc-grid').mvcgrid();
@@ -218,44 +238,53 @@
 
         if (MvcGridNumberFilter) {
             MvcGridNumberFilter.prototype.isValid = function (value) {
-                var pattern = new RegExp('^(?=.*\\d+.*)[-+]?\\d*[' + Globalize.culture().numberFormat['.'] + ']?\\d*$');
-
-                return value == '' || pattern.test(value);
+                return value == '' || !isNaN(Globalize.parseFloat(value));
             }
         }
     }
-}());
+})();
 
 // Lookup binding
 (function () {
-    if ($.fn.mvclookup) {
-        $.fn.mvclookup.lang = window.cultures.lookup[$('html').attr('lang')];
+    if (window.MvcLookup) {
+        MvcLookup.prototype.lang = window.cultures.lookup[$('html').attr('lang')];
+
+        [].forEach.call(document.getElementsByClassName('mvc-lookup'), function (element) {
+            new MvcLookup(element);
+        });
     }
-}());
+})();
 
 // Read only binding
 (function () {
     $(document).on('click', 'input:checkbox[readonly],input:radio[readonly]', function () {
         return false;
     });
-}());
+
+    var widgets = $('.widget-box.readonly');
+    widgets.find('input').attr({ readonly: 'readonly', tabindex: -1 });
+    widgets.find('textarea').attr({ readonly: 'readonly', tabindex: -1 });
+    if (window.MvcLookup) { widgets.find('.mvc-lookup').each(function (element) { new MvcLookup(element, { readonly: true }); }); }
+})();
 
 // Input focus binding
 (function () {
     var invalidInput = $('.content-container .input-validation-error:visible:not([readonly],.datepicker,.datetimepicker):first');
     if (invalidInput.length > 0) {
+        invalidInput[0].setSelectionRange(invalidInput[0].value.length, invalidInput[0].value.length);
         invalidInput.focus();
-        invalidInput.val(invalidInput.val());
     } else {
         var input = $('.content-container input:text:visible:not([readonly],.datepicker,.datetimepicker):first');
         if (input.length > 0) {
+            input[0].setSelectionRange(input[0].value.length, input[0].value.length);
             input.focus();
-            input.val(input.val());
         }
     }
-}());
+})();
 
 // Bootstrap binding
 (function () {
-    $('[data-toggle=tooltip]').tooltip();
-}());
+    $('body').tooltip({
+        selector: '[data-toggle=tooltip]'
+    });
+})();

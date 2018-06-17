@@ -16,7 +16,7 @@ namespace MvcTemplate.Tests.Unit.Resources
     {
         static ResourcesTests()
         {
-            using (Configuration configuration = new Configuration(new Context(ConfigurationFactory.Create())))
+            using (Configuration configuration = new Configuration(new Context(ConfigurationFactory.Create()), new Context(ConfigurationFactory.Create())))
                 configuration.UpdateDatabase();
         }
 
@@ -85,14 +85,11 @@ namespace MvcTemplate.Tests.Unit.Resources
 
             foreach (Type type in types)
             {
-                ResourceManager manager = new ResourceManager(type);
                 IEnumerable<String> keys = new String[0];
+                ResourceManager manager = new ResourceManager(type);
 
                 foreach (ResourceSet set in languages.Select(language => manager.GetResourceSet(language, true, true)))
-                {
                     keys = keys.Union(set.Cast<DictionaryEntry>().Select(resource => resource.Key.ToString()));
-                    keys = keys.Distinct();
-                }
 
                 foreach (CultureInfo language in languages)
                 {

@@ -150,9 +150,6 @@
   <data name="AuthRecover" xml:space="preserve">
     <value>Atkūrimas</value>
   </data>
-  <data name="AuthRegister" xml:space="preserve">
-    <value>Registracija</value>
-  </data>
   <data name="AuthReset" xml:space="preserve">
     <value>Atkūrimas</value>
   </data>

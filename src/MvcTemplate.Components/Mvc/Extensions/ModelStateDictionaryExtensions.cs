@@ -1,0 +1,22 @@
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MvcTemplate.Components.Mvc
+{
+    public static class ModelStateDictionaryExtensions
+    {
+        public static Dictionary<String, String> Errors(this ModelStateDictionary modelState)
+        {
+            return modelState
+                .Where(state => state.Value.Errors.Count > 0)
+                .ToDictionary(
+                    pair => pair.Key,
+                    pair => pair.Value.Errors
+                        .Select(value => value.ErrorMessage)
+                        .FirstOrDefault(error => !String.IsNullOrEmpty(error))
+            );
+        }
+    }
+}

@@ -26,7 +26,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
                     method.Name == postMethod &&
                     method.IsDefined(typeof(HttpPostAttribute), false));
 
-            Assert.NotNull(methodInfo.GetParameters()[0].IsDefined(typeof(BindExcludeIdAttribute), false));
+            Assert.True(methodInfo.GetParameters()[0].IsDefined(typeof(BindExcludeIdAttribute), false));
         }
 
         protected RedirectToActionResult NotEmptyView(BaseController controller, Object model)

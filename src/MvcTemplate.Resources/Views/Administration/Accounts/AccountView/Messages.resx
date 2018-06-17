@@ -132,9 +132,6 @@
   <data name="RecoveryInformation" xml:space="preserve">
     <value>Account recovery information was send to your email</value>
   </data>
-  <data name="SuccessfulRegistration" xml:space="preserve">
-    <value>Your account has been created</value>
-  </data>
   <data name="SuccessfulReset" xml:space="preserve">
     <value>Your account password has been changed successfully</value>
   </data>

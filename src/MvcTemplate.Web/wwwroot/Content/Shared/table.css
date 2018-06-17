@@ -1,27 +1,13 @@
-﻿table thead {
-  background-image: linear-gradient(#FFFFFF, #F2F2F2);
-  background-color: #FFFFFF;
-}
-table th {
+﻿table .action-cell {
   text-align: center;
-}
-table tr + tr td {
-  border-top: 1px solid #dddddd;
-}
-table th + th,
-table td + td {
-  border-left: 1px solid #dddddd;
-}
-table td {
-  border-bottom: 1px solid #dddddd;
-}
-table .action-cell {
-  text-align: center;
+  min-width: 36px;
+  padding: 7px;
   width: 36px;
 }
 table .action-cell + .action-cell {
   border-left: none;
   padding-left: 0;
+  min-width: 28px;
   width: 28px;
 }
 table .action-cell .details-action {
@@ -38,8 +24,8 @@ table .action-cell a {
   display: inline-block;
   color: #FFFFFF;
   border-radius: 4px;
-  line-height: 1.8;
-  font-size: 11px;
+  line-height: 2.2;
+  font-size: 9px;
   height: 20px;
   width: 20px;
 }

@@ -1,4 +1,5 @@
-﻿using MvcTemplate.Objects;
+using MvcTemplate.Objects;
+using MvcTemplate.Tests.Objects;
 using System;
 using System.Collections.Generic;
 
@@ -17,7 +18,7 @@ namespace MvcTemplate.Tests
 
                 Email = id + "@tests.com",
 
-                IsLocked = true,
+                IsLocked = false,
 
                 RecoveryToken = "Token" + id,
                 RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(5),
@@ -82,16 +83,6 @@ namespace MvcTemplate.Tests
                 NewPassword = "NewPassword" + id
             };
         }
-        public static AccountRegisterView CreateAccountRegisterView(Int32 id = 0)
-        {
-            return new AccountRegisterView
-            {
-                Username = "Username" + id,
-                Password = "Password" + id,
-
-                Email = id + "@tests.com"
-            };
-        }
         public static AccountRecoveryView CreateAccountRecoveryView(Int32 id = 0)
         {
             return new AccountRecoveryView
@@ -130,6 +121,7 @@ namespace MvcTemplate.Tests
             {
                 Title = "Title" + id,
 
+                Accounts = new List<Account>(),
                 Permissions = new List<RolePermission>()
             };
         }
@@ -163,6 +155,18 @@ namespace MvcTemplate.Tests
 
                 PermissionId = id,
                 Permission = CreatePermission(id)
+            };
+        }
+
+        #endregion
+
+        #region Tests
+
+        public static TestModel CreateTestModel(Int32 id = 0)
+        {
+            return new TestModel
+            {
+                Title = "Title" + id
             };
         }
 

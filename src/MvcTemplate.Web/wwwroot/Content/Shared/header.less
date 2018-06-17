@@ -1,15 +1,12 @@
 ﻿@import "../theme";
 
 .header {
-    min-height: 80px;
-}
+    justify-content: flex-end;
+    display: flex;
 
-.header-navigation {
-    float: right;
-    padding: 0;
-
-    > .btn {
-        min-width: 40px;
+    .btn {
+        font-size: 0.875rem;
+        min-width: 50px;
         border: none;
         padding: 0;
 
@@ -21,6 +18,7 @@
 
         > a {
             text-shadow: 0 0 @color;
+            line-height: 1.42857143;
             display: block;
             padding: 10px;
             color: @color;
@@ -34,22 +32,29 @@
             }
         }
 
+        img {
+            margin-bottom: 3px;
+        }
+
         .dropdown-menu {
             border-top-right-radius: 0;
             border-top-left-radius: 0;
             margin-top: 0;
 
             img {
-                margin-bottom: 3px;
                 margin-right: 5px;
             }
+        }
+
+        .dropdown-toggle::after {
+            vertical-align: 0.2em;
         }
     }
 }
 
 @media (max-width: 767px) {
     .header-navigation {
-        > .btn > a .fa {
+        .btn > a .fa {
             margin: 0;
         }
 

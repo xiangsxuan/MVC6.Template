@@ -13,10 +13,17 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         public EqualToAttributeTests()
         {
-            attribute = new EqualToAttribute("Total");
+            attribute = new EqualToAttribute("StringField");
         }
 
         #region EqualToAttribute(String otherPropertyName)
+
+        [Fact]
+        public void EqualToAttribute_NullProperty_Throws()
+        {
+            ArgumentNullException exception = Assert.Throws<ArgumentNullException>(() => new EqualToAttribute(null));
+            Assert.Equal("otherPropertyName", exception.ParamName);
+        }
 
         [Fact]
         public void EqualToAttribute_SetsOtherPropertyName()
@@ -36,33 +43,43 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         {
             attribute.OtherPropertyDisplayName = "Other";
 
-            String expected = String.Format(Validations.EqualTo, "Sum", attribute.OtherPropertyDisplayName);
-            String actual = attribute.FormatErrorMessage("Sum");
+            String actual = attribute.FormatErrorMessage("EqualTo");
+            String expected = String.Format(Validations.EqualTo, "EqualTo", attribute.OtherPropertyDisplayName);
 
             Assert.Equal(expected, actual);
         }
 
         #endregion
 
-        #region IsValid(Object value, ValidationContext context)
+        #region GetValidationResult(Object value, ValidationContext context)
 
         [Fact]
-        public void IsValid_EqualValue()
+        public void GetValidationResult_EqualValue()
         {
-            AttributesModel model = new AttributesModel();
-            ValidationContext context = new ValidationContext(model);
+            ValidationContext context = new ValidationContext(new AllTypesView { StringField = "Test" });
 
-            Assert.Null(attribute.GetValidationResult(model.Sum, context));
+            Assert.Null(attribute.GetValidationResult("Test", context));
         }
 
         [Fact]
-        public void IsValid_NotEqualValueMessage()
+        public void GetValidationResult_Property_Error()
         {
-            AttributesModel model = new AttributesModel { Total = 10 };
-            ValidationContext context = new ValidationContext(model);
+            ValidationContext context = new ValidationContext(new AllTypesView());
 
-            String expected = String.Format(Validations.EqualTo, context.DisplayName, "Total");
-            String actual = attribute.GetValidationResult(model.Sum, context).ErrorMessage;
+            String actual = attribute.GetValidationResult("Test", context).ErrorMessage;
+            String expected = String.Format(Validations.EqualTo, context.DisplayName, attribute.OtherPropertyName);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GetValidationResult_NoProperty_Error()
+        {
+            attribute = new EqualToAttribute("Temp");
+            ValidationContext context = new ValidationContext(new AllTypesView());
+
+            String actual = attribute.GetValidationResult("Test", context).ErrorMessage;
+            String expected = String.Format(Validations.EqualTo, context.DisplayName, "Temp");
 
             Assert.Equal(expected, actual);
         }

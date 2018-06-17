@@ -1,20 +1,20 @@
 ﻿@model ModuleModel
 @@model @Model.View
 
-<div class="col-xs-12">
-    <div class="widget-box">
-        <div class="widget-title">
-            <span class="widget-title-icon fa fa-th-list"></span>
-            <h5>@@Headers.@Model.HeaderTitle</h5>
-            <div class="widget-title-buttons">
+<div class="col">
+    <div class="widget-box readonly">
+        <div class="widget-header">
+            <span class="icon fa fa-th-list"></span>
+            <h5>@@Headers.@Model.Model</h5>
+            <div class="widget-header-buttons">
                 <authorize action="Details">
                     <a asp-action="Details" asp-route-id="@@Model.Id" class="btn">
-                        <i class="fa fa-info"></i><span class="text">@@Actions.Details</span>
+                        <span class="fa fa-info"></span><span class="text">@@Actions.Details</span>
                     </a>
                 </authorize>
                 <authorize action="Edit">
                     <a asp-action="Edit" asp-route-id="@@Model.Id" class="btn">
-                        <i class="fa fa-pencil"></i><span class="text">@@Actions.Edit</span>
+                        <span class="fa fa-pencil-alt"></span><span class="text">@@Actions.Edit</span>
                     </a>
                 </authorize>
             </div>
@@ -23,10 +23,10 @@
             @foreach (PropertyInfo property in Model.Properties)
             {
             <div class="form-group">
-                <div class="control-label col-sm-12 col-md-3 col-lg-2">
+                <div class="control-label col-xs-12 col-md-3 col-lg-2">
                     <label for="@property.Name"></label>
                 </div>
-                <div class="control-content col-sm-12 col-md-9 col-lg-5">
+                <div class="control-content col-xs-12 col-md-9 col-lg-5">
                     @if (typeof(DateTime?).IsAssignableFrom(property.PropertyType))
                     {
                     <input asp-for="@property.Name" class="form-control" asp-format="{0:d}" autocomplete="off" />
@@ -40,7 +40,7 @@
             }
             <form asp-antiforgery="true">
                 <div class="form-group">
-                    <div class="form-actions col-sm-12 col-lg-7">
+                    <div class="form-actions col-xs-12 col-lg-7">
                         <input class="btn btn-primary" type="submit" value="@@Actions.Submit" />
                     </div>
                 </div>

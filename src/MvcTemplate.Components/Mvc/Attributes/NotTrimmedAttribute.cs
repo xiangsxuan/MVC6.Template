@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -14,9 +16,11 @@ namespace MvcTemplate.Components.Mvc
             BinderType = GetType();
         }
 
-        public Task BindModelAsync(ModelBindingContext context)
+        public async Task BindModelAsync(ModelBindingContext context)
         {
-            return new SimpleTypeModelBinder(typeof(String)).BindModelAsync(context);
+            ILoggerFactory logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>();
+
+            await new SimpleTypeModelBinder(typeof(String), logger).BindModelAsync(context);
         }
     }
 }

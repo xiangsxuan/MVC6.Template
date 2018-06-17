@@ -42,18 +42,18 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region GetSiteMap(ViewContext context)
 
         [Fact]
-        public void GetSiteMap_NullAuthorization_ReturnsAllMenus()
+        public void GetSiteMap_NullAuthorization_ReturnsAllNodes()
         {
             siteMap = new MvcSiteMapProvider(config, parser, null);
 
             MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
 
-            Assert.Equal(1, actual.Length);
+            Assert.Single(actual);
 
             Assert.Null(actual[0].Action);
             Assert.Null(actual[0].Controller);
             Assert.Equal("Administration", actual[0].Area);
-            Assert.Equal("fa fa-gears", actual[0].IconClass);
+            Assert.Equal("fa fa-cogs", actual[0].IconClass);
 
             actual = actual[0].Children.ToArray();
 
@@ -73,32 +73,32 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             actual = actual[1].Children.ToArray();
 
-            Assert.Equal(1, actual.Length);
+            Assert.Single(actual);
             Assert.Empty(actual[0].Children);
 
             Assert.Equal("Create", actual[0].Action);
             Assert.Equal("Roles", actual[0].Controller);
             Assert.Equal("Administration", actual[0].Area);
-            Assert.Equal("fa fa-file-o", actual[0].IconClass);
+            Assert.Equal("far fa-file", actual[0].IconClass);
         }
 
         [Fact]
-        public void GetSiteMap_ReturnsAuthorizedMenus()
+        public void GetSiteMap_ReturnsAuthorizedNodes()
         {
             authorizationProvider.IsAuthorizedFor(context.HttpContext.User.Id(), "Administration", "Accounts", "Index").Returns(true);
 
             MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
 
-            Assert.Equal(1, actual.Length);
+            Assert.Single(actual);
 
             Assert.Null(actual[0].Action);
             Assert.Null(actual[0].Controller);
             Assert.Equal("Administration", actual[0].Area);
-            Assert.Equal("fa fa-gears", actual[0].IconClass);
+            Assert.Equal("fa fa-cogs", actual[0].IconClass);
 
             actual = actual[0].Children.ToArray();
 
-            Assert.Equal(1, actual.Length);
+            Assert.Single(actual);
 
             Assert.Empty(actual[0].Children);
 
@@ -119,7 +119,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
 
-            Assert.Equal(1, actual.Length);
+            Assert.Single(actual);
             Assert.False(actual[0].IsActive);
 
             actual = actual[0].Children.ToArray();
@@ -133,7 +133,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             Assert.Empty(actual[0].Children);
             Assert.True(actual[0].IsActive);
-            Assert.Equal(1, actual.Length);
+            Assert.Single(actual);
         }
 
         [Fact]
@@ -147,7 +147,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
 
-            Assert.Equal(1, actual.Length);
+            Assert.Single(actual);
             Assert.False(actual[0].IsActive);
 
             actual = actual[0].Children.ToArray();
@@ -159,7 +159,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             actual = actual[1].Children.ToArray();
 
-            Assert.Equal(1, actual.Length);
+            Assert.Single(actual);
             Assert.False(actual[0].IsActive);
             Assert.Empty(actual[0].Children);
         }
@@ -175,7 +175,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
 
-            Assert.Equal(1, actual.Length);
+            Assert.Single(actual);
             Assert.True(actual[0].HasActiveChildren);
 
             actual = actual[0].Children.ToArray();
@@ -187,29 +187,29 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             actual = actual[1].Children.ToArray();
 
-            Assert.Equal(1, actual.Length);
+            Assert.Single(actual);
             Assert.Empty(actual[0].Children);
             Assert.False(actual[0].HasActiveChildren);
         }
 
         [Fact]
-        public void GetSiteMap_RemovesEmptyMenus()
+        public void GetSiteMap_RemovesEmptyNodes()
         {
             authorizationProvider.IsAuthorizedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
             authorizationProvider.IsAuthorizedFor(context.HttpContext.User.Id(), "Administration", "Roles", "Create").Returns(false);
 
             MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
 
-            Assert.Equal(1, actual.Length);
+            Assert.Single(actual);
 
             Assert.Null(actual[0].Action);
             Assert.Null(actual[0].Controller);
             Assert.Equal("Administration", actual[0].Area);
-            Assert.Equal("fa fa-gears", actual[0].IconClass);
+            Assert.Equal("fa fa-cogs", actual[0].IconClass);
 
             actual = actual[0].Children.ToArray();
 
-            Assert.Equal(1, actual.Length);
+            Assert.Single(actual);
 
             Assert.Empty(actual[0].Children);
 
@@ -244,7 +244,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Null(actual[1].Action);
             Assert.Null(actual[1].Area);
 
-            Assert.Equal("fa fa-pencil", actual[2].IconClass);
+            Assert.Equal("fa fa-pencil-alt", actual[2].IconClass);
             Assert.Equal("Profile", actual[2].Controller);
             Assert.Equal("Edit", actual[2].Action);
             Assert.Null(actual[2].Area);
@@ -271,17 +271,17 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
                     @"<siteMap>
                         <siteMapNode icon=""fa fa-home"" controller=""Home"" action=""Index"">
                             <siteMapNode icon=""fa fa-user"" controller=""Profile"">
-                                <siteMapNode icon=""fa fa-pencil"" controller=""Profile"" action=""Edit"" />
+                                <siteMapNode icon=""fa fa-pencil-alt"" controller=""Profile"" action=""Edit"" />
                             </siteMapNode>
-                            <siteMapNode menu=""true"" icon=""fa fa-gears"" area=""Administration"">
+                            <siteMapNode menu=""true"" icon=""fa fa-cogs"" area=""Administration"">
                                 <siteMapNode menu=""true"" icon=""fa fa-user"" area=""Administration"" controller=""Accounts"" action=""Index"">
                                     <siteMapNode icon=""fa fa-info"" area=""Administration"" controller=""Accounts"" action=""Details"">
-                                        <siteMapNode icon=""fa fa-pencil"" area=""Administration"" controller=""Accounts"" action=""Edit"" />
+                                        <siteMapNode icon=""fa fa-pencil-alt"" area=""Administration"" controller=""Accounts"" action=""Edit"" />
                                     </siteMapNode>
                                 </siteMapNode>
                                 <siteMapNode menu=""true"" icon=""fa fa-users"" area=""Administration"" controller=""Roles"">
-                                    <siteMapNode menu=""true"" icon=""fa fa-file-o"" area=""Administration"" controller=""Roles"" action=""Create"" />
-                                    <siteMapNode icon=""fa fa-pencil"" area=""Administration"" controller=""Roles"" action=""Edit"" />
+                                    <siteMapNode menu=""true"" icon=""far fa-file"" area=""Administration"" controller=""Roles"" action=""Create"" />
+                                    <siteMapNode icon=""fa fa-pencil-alt"" area=""Administration"" controller=""Roles"" action=""Edit"" />
                                 </siteMapNode>
                             </siteMapNode>
                         </siteMapNode>
