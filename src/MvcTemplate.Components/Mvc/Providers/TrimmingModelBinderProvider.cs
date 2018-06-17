@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using NonFactors.Mvc.Lookup;
 using System;
 
 namespace MvcTemplate.Components.Mvc
@@ -7,6 +8,9 @@ namespace MvcTemplate.Components.Mvc
     {
         public IModelBinder GetBinder(ModelBinderProviderContext context)
         {
+            if (context.Metadata.ContainerType == typeof(LookupFilter))
+                return null;
+
             return context.Metadata.ModelType == typeof(String) ? new TrimmingModelBinder() : null;
         }
     }

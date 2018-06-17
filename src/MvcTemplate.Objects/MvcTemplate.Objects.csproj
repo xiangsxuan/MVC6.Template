@@ -13,8 +13,4 @@
     <ProjectReference Include="..\MvcTemplate.Components\MvcTemplate.Components.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="NonFactors.Lookup.Core.Mvc6" Version="3.0.0" />
-  </ItemGroup>
-
 </Project>

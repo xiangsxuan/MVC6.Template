@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MvcTemplate.Components.Mvc;
+using NonFactors.Mvc.Lookup;
 using NSubstitute;
 using System;
 using Xunit;
@@ -11,10 +12,21 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         #region GetBinder(ModelBinderProviderContext context)
 
         [Fact]
+        public void GetBinder_ForLookupFilterReturnsNull()
+        {
+            IModelMetadataProvider provider = new EmptyModelMetadataProvider();
+            ModelBinderProviderContext context = Substitute.For<ModelBinderProviderContext>();
+
+            context.Metadata.Returns(provider.GetMetadataForProperty(typeof(LookupFilter), "Search"));
+
+            Assert.Null(new TrimmingModelBinderProvider().GetBinder(context));
+        }
+
+        [Fact]
         public void GetBinder_ForString()
         {
-            ModelBinderProviderContext context = Substitute.For<ModelBinderProviderContext>();
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
+            ModelBinderProviderContext context = Substitute.For<ModelBinderProviderContext>();
 
             context.Metadata.Returns(provider.GetMetadataForType(typeof(String)));
 
@@ -24,8 +36,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void GetBinder_ForNotStringReturnsNull()
         {
-            ModelBinderProviderContext context = Substitute.For<ModelBinderProviderContext>();
             IModelMetadataProvider provider = new EmptyModelMetadataProvider();
+            ModelBinderProviderContext context = Substitute.For<ModelBinderProviderContext>();
 
             context.Metadata.Returns(provider.GetMetadataForType(typeof(DateTime)));
 
