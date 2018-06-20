@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -61,6 +62,7 @@ namespace MvcTemplate.Web
         {
             services
                 .AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Latest)
                 .AddMvcOptions(options => options.Filters.Add(typeof(LanguageFilter)))
                 .AddMvcOptions(options => options.Filters.Add(typeof(AuthorizationFilter)))
                 .AddMvcOptions(options => ModelMessagesProvider.Set(options.ModelBindingMessageProvider))
