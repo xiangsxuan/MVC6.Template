@@ -1,25 +1,7 @@
 Menu = {
     init: function () {
         $('.menu-search > input').on('input', function () {
-            var search = this.value.toLowerCase();
-            var menus = $('.menu li');
-
-            for (var i = 0; i < menus.length; i++) {
-                var menu = $(menus[i]);
-                if (menu.text().toLowerCase().indexOf(search) >= 0) {
-                    if (menu.hasClass('submenu')) {
-                        if (menu.find('li:not(.submenu)').text().toLowerCase().indexOf(search) >= 0) {
-                            menu.show(500);
-                        } else {
-                            menu.hide(500);
-                        }
-                    } else {
-                        menu.show(500);
-                    }
-                } else {
-                    menu.hide(500);
-                }
-            }
+            filter(this);
         });
 
         $('.menu').on('mouseleave', '.menu > ul', function () {
@@ -57,10 +39,32 @@ Menu = {
             }
         });
 
+        function filter(input) {
+            var search = input.value.toLowerCase();
+            var menus = $('.menu li');
+
+            for (var i = 0; i < menus.length; i++) {
+                var menu = $(menus[i]);
+                if (menu.text().toLowerCase().indexOf(search) >= 0) {
+                    if (menu.hasClass('submenu')) {
+                        if (menu.find('li:not(.submenu)').text().toLowerCase().indexOf(search) >= 0) {
+                            menu.show(500);
+                        } else {
+                            menu.hide(500);
+                        }
+                    } else {
+                        menu.show(500);
+                    }
+                } else {
+                    menu.hide(500);
+                }
+            }
+        }
+
         $(window).on('resize', function () {
             if ($('.menu').width() < 100) {
                 $('.menu .open').removeClass('open').children('ul').hide();
-                $('.menu-search > input').val('').keyup();
+                filter($('.menu-search > input').val('')[0]);
             }
         });
 
