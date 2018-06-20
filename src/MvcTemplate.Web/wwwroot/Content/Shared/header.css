@@ -10,15 +10,15 @@
 }
 .header .btn.open > a,
 .header .btn:hover > a {
-  background: linear-gradient(#6F93A7, #2A4E62);
-  color: #FFFFFF;
+  background: linear-gradient(#6f93a7, #2a4e62);
+  color: #ffffff;
 }
 .header .btn > a {
-  text-shadow: 0 0 #CCCCCC;
+  text-shadow: 0 0 #cccccc;
   line-height: 1.42857143;
   display: block;
+  color: #cccccc;
   padding: 10px;
-  color: #CCCCCC;
 }
 .header .btn > a .fa {
   margin-right: 5px;
@@ -41,14 +41,14 @@
   vertical-align: 0.2em;
 }
 @media (max-width: 767px) {
-  .header-navigation .btn > a .fa {
+  .header .btn > a .fa {
     margin: 0;
   }
-  .header-navigation .dropdown-menu {
+  .header .dropdown-menu {
     left: -120px;
   }
-  .header-navigation .text,
-  .header-navigation .caret {
+  .header .text,
+  .header .caret {
     display: none;
   }
 }

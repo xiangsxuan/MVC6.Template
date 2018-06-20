@@ -1,6 +1,4 @@
-﻿@import "../theme";
-
-body.public {
+﻿body.public {
     .content-container {
         text-align: center;
         margin: 50px auto;
@@ -46,11 +44,11 @@ body.public {
 }
 
 .content-container {
-    background-image: @content-background-image;
-    background-color: @content-background-color;
+    background-image: url("../../images/shared/content-background.jpg");
     border-radius: 8px 0 0 8px;
-    min-height: 870px;
+    background-color: #f2f2f2;
     padding-top: 10px;
+    min-height: 870px;
     flex: 1;
 
     &::after,
@@ -69,12 +67,12 @@ body.public {
     cursor: default;
 
     > a {
-        color: @content-link-color;
         display: inline-block;
+        color: #999999;
         padding: 8px;
 
         &:hover {
-            color: @active-content-link-color;
+            color: #777777;
         }
 
         .icon {
@@ -83,13 +81,24 @@ body.public {
     }
 
     > span {
-        color: @active-content-link-color;
+        color: #777777;
     }
 
     .current,
     .current:hover {
-        color: @content-color;
         font-weight: bold;
+        color: #555555;
+    }
+
+    @media (max-width: 767px) {
+        .text {
+            display: none;
+        }
+
+        > a {
+            padding-left: 4px;
+            padding-right: 0;
+        }
     }
 }
 
@@ -108,9 +117,9 @@ body.public {
     }
 
     .require {
-        color: @validation-color;
         display: inline-block;
         min-width: 0.625rem;
+        color: #dc3545;
     }
 }
 
@@ -130,46 +139,29 @@ body.public {
 }
 
 .control-validation {
-    color: @validation-color;
+    color: #dc3545;
     min-height: 0;
 
     .field-validation-error {
         display: inline-table;
         padding-top: 7px;
+
+        @media (max-width: 1199px) {
+            padding-top: 10px;
+        }
     }
 }
 
 .form-control[readonly]:focus {
     box-shadow: 0 0 0 0.2rem rgba(195, 191, 192, 0.25);
-    border-color: #CECECE;
+    border-color: #cecece;
 }
 
 .input-validation-error {
-    border-color: @validation-color;
+    border-color: #dc3545;
 
     &:focus {
         box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-        border-color: @validation-color;
-    }
-}
-
-@media (max-width: 767px) {
-    .content-breadcrumb {
-        .text {
-            display: none;
-        }
-
-        > a {
-            padding-left: 4px;
-            padding-right: 0;
-        }
-    }
-}
-
-@media (max-width: 1199px) {
-    .control-validation {
-        .field-validation-error {
-            padding-top: 10px;
-        }
+        border-color: #dc3545;
     }
 }

@@ -1,6 +1,4 @@
-﻿@import "../theme";
-
-.menu {
+﻿.menu {
     flex: 0 0 200px;
 
     .menu-search {
@@ -12,7 +10,7 @@
             border-radius: 4px;
             border-style: none;
             text-align: center;
-            color: @color;
+            color: #cccccc;
             padding: 3px;
             width: 100%;
         }
@@ -29,12 +27,12 @@
             justify-content: center;
             align-items: center;
             padding: 10px 15px;
+            color: #cccccc;
             display: flex;
-            color: @color;
 
             &:hover {
-                background: linear-gradient(@active-from-color, @active-to-color);
-                color: @active-color;
+                background: linear-gradient(#6f93a7, #2a4e62);
+                color: #ffffff;
             }
 
             .icon {
@@ -67,12 +65,12 @@
                 z-index: 2;
 
                 li {
-                    background-image: @background-image;
+                    background-image: url("../../images/shared/background.jpg");
                 }
 
                 a {
                     background-color: rgba(0, 0, 0, 0.15);
-                    justify-content:initial;
+                    justify-content: initial;
                     padding-left: 25px;
                 }
 
@@ -83,19 +81,17 @@
             }
         }
     }
-}
 
-@media (min-width: 768px) {
-    .menu > ul:not(:hover) .active > a {
-        background-image: url("../../Images/Shared/menu-active.png"), linear-gradient(@active-from-color, @active-to-color);
-        background-position: right center;
-        background-repeat: no-repeat;
-        color: @active-color;
+    @media (min-width: 768px) {
+        > ul:not(:hover) .active > a {
+            background-image: url("../../images/shared/menu-active.png"), linear-gradient(#6f93a7, #2a4e62);
+            background-position: right center;
+            background-repeat: no-repeat;
+            color: #ffffff;
+        }
     }
-}
 
-@media (max-width: 767px) {
-    .menu {
+    @media (max-width: 767px) {
         margin-top: 10px;
         flex: 0 0 45px;
 
@@ -105,10 +101,10 @@
 
         > ul {
             &:not(:hover) > .has-active > a {
-                background-image: url("../../Images/Shared/menu-active.png"), linear-gradient(@active-from-color, @active-to-color);
+                background-image: url("../../images/shared/menu-active.png"), linear-gradient(#6f93a7, #2a4e62);
                 background-position: right center;
                 background-repeat: no-repeat;
-                color: @active-color;
+                color: #ffffff;
             }
 
             .icon {

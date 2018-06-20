@@ -1,6 +1,4 @@
-﻿@import "../theme";
-
-.header {
+﻿.header {
     justify-content: flex-end;
     display: flex;
 
@@ -12,16 +10,16 @@
 
         &.open > a,
         &:hover > a {
-            background: linear-gradient(@active-from-color, @active-to-color);
-            color: @active-color;
+            background: linear-gradient(#6f93a7, #2a4e62);
+            color: #ffffff;
         }
 
         > a {
-            text-shadow: 0 0 @color;
+            text-shadow: 0 0 #cccccc;
             line-height: 1.42857143;
             display: block;
+            color: #cccccc;
             padding: 10px;
-            color: @color;
 
             .fa {
                 margin-right: 5px;
@@ -50,10 +48,8 @@
             vertical-align: 0.2em;
         }
     }
-}
 
-@media (max-width: 767px) {
-    .header-navigation {
+    @media (max-width: 767px) {
         .btn > a .fa {
             margin: 0;
         }

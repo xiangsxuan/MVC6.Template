@@ -34,11 +34,11 @@ body.public .public-action {
   margin-top: 10px;
 }
 .content-container {
-  background-image: url("../../Images/Shared/content-background.jpg");
-  background-color: #F2F2F2;
+  background-image: url("../../images/shared/content-background.jpg");
   border-radius: 8px 0 0 8px;
-  min-height: 870px;
+  background-color: #f2f2f2;
   padding-top: 10px;
+  min-height: 870px;
   flex: 1;
 }
 .content-container::after,
@@ -54,8 +54,8 @@ body.public .public-action {
   cursor: default;
 }
 .content-breadcrumb > a {
-  color: #999999;
   display: inline-block;
+  color: #999999;
   padding: 8px;
 }
 .content-breadcrumb > a:hover {
@@ -69,8 +69,17 @@ body.public .public-action {
 }
 .content-breadcrumb .current,
 .content-breadcrumb .current:hover {
-  color: #555555;
   font-weight: bold;
+  color: #555555;
+}
+@media (max-width: 767px) {
+  .content-breadcrumb .text {
+    display: none;
+  }
+  .content-breadcrumb > a {
+    padding-left: 4px;
+    padding-right: 0;
+  }
 }
 .content {
   display: flex;
@@ -85,9 +94,9 @@ body.public .public-action {
   margin: 0;
 }
 .control-label .require {
-  color: #DC3545;
   display: inline-block;
   min-width: 0.625rem;
+  color: #dc3545;
 }
 .control-content {
   min-height: 34px;
@@ -102,35 +111,26 @@ body.public .public-action {
   width: 12px;
 }
 .control-validation {
-  color: #DC3545;
+  color: #dc3545;
   min-height: 0;
 }
 .control-validation .field-validation-error {
   display: inline-table;
   padding-top: 7px;
 }
-.form-control[readonly]:focus {
-  box-shadow: 0 0 0 0.2rem rgba(195, 191, 192, 0.25);
-  border-color: #CECECE;
-}
-.input-validation-error {
-  border-color: #DC3545;
-}
-.input-validation-error:focus {
-  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-  border-color: #DC3545;
-}
-@media (max-width: 767px) {
-  .content-breadcrumb .text {
-    display: none;
-  }
-  .content-breadcrumb > a {
-    padding-left: 4px;
-    padding-right: 0;
-  }
-}
 @media (max-width: 1199px) {
   .control-validation .field-validation-error {
     padding-top: 10px;
   }
+}
+.form-control[readonly]:focus {
+  box-shadow: 0 0 0 0.2rem rgba(195, 191, 192, 0.25);
+  border-color: #cecece;
+}
+.input-validation-error {
+  border-color: #dc3545;
+}
+.input-validation-error:focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+  border-color: #dc3545;
 }

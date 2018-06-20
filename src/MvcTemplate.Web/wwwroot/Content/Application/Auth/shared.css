@@ -1,6 +1,6 @@
 ﻿.auth-content {
   box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px inset, rgba(255, 255, 255, 0.4) 0 1px 0;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   margin-bottom: 20px;
   border-radius: 4px;
 }
@@ -38,14 +38,14 @@
 }
 .auth-content .input-group input:-webkit-autofill,
 .auth-content .input-group input:-webkit-autofill:focus {
-  box-shadow: 0 50px #FFFFFF inset;
+  box-shadow: 0 50px #ffffff inset;
 }
 .auth-content .input-group input:focus {
   box-shadow: none;
   outline: none;
 }
 .auth-content .input-group .input-error {
-  color: #DC3545;
+  color: #dc3545;
   display: none;
   right: 13px;
 }

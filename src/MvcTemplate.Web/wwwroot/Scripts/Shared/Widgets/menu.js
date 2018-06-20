@@ -1,6 +1,6 @@
 Menu = {
     init: function () {
-        $('.menu-search > input').on('keyup', function () {
+        $('.menu-search > input').on('input', function () {
             var search = this.value.toLowerCase();
             var menus = $('.menu li');
 

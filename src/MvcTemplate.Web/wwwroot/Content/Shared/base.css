@@ -3,19 +3,19 @@
   font-size: 0.875rem;
 }
 body.private {
-  background-image: url("../../Images/Shared/background.jpg");
-  background-color: #31353C;
+  background-image: url("../../images/shared/background.jpg");
+  background-color: #31353c;
 }
 body.public {
-  background-image: url("../../Images/Shared/content-background.jpg");
-  background-color: #F2F2F2;
+  background-image: url("../../images/shared/content-background.jpg");
+  background-color: #f2f2f2;
 }
 .separator {
-  border-bottom: 2px solid #F5F5F5;
-  border-top: 2px solid #DDDDDD;
+  border-bottom: 2px solid #f5f5f5;
+  border-top: 2px solid #dddddd;
 }
 .footer {
   text-align: center;
   padding-top: 20px;
-  color: #CCCCCC;
+  color: #cccccc;
 }

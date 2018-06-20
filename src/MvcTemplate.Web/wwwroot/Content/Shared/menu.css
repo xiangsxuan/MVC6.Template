@@ -10,7 +10,7 @@
   border-radius: 4px;
   border-style: none;
   text-align: center;
-  color: #CCCCCC;
+  color: #cccccc;
   padding: 3px;
   width: 100%;
 }
@@ -24,12 +24,12 @@
   justify-content: center;
   align-items: center;
   padding: 10px 15px;
+  color: #cccccc;
   display: flex;
-  color: #CCCCCC;
 }
 .menu ul a:hover {
-  background: linear-gradient(#6F93A7, #2A4E62);
-  color: #FFFFFF;
+  background: linear-gradient(#6f93a7, #2a4e62);
+  color: #ffffff;
 }
 .menu ul a .icon {
   text-align: center;
@@ -56,7 +56,7 @@
   z-index: 2;
 }
 .menu ul li ul li {
-  background-image: url("../../Images/Shared/background.jpg");
+  background-image: url("../../images/shared/background.jpg");
 }
 .menu ul li ul a {
   background-color: rgba(0, 0, 0, 0.15);
@@ -69,10 +69,10 @@
 }
 @media (min-width: 768px) {
   .menu > ul:not(:hover) .active > a {
-    background-image: url("../../Images/Shared/menu-active.png"), linear-gradient(#6F93A7, #2A4E62);
+    background-image: url("../../images/shared/menu-active.png"), linear-gradient(#6f93a7, #2a4e62);
     background-position: right center;
     background-repeat: no-repeat;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 }
 @media (max-width: 767px) {
@@ -84,10 +84,10 @@
     display: none;
   }
   .menu > ul:not(:hover) > .has-active > a {
-    background-image: url("../../Images/Shared/menu-active.png"), linear-gradient(#6F93A7, #2A4E62);
+    background-image: url("../../images/shared/menu-active.png"), linear-gradient(#6f93a7, #2a4e62);
     background-position: right center;
     background-repeat: no-repeat;
-    color: #FFFFFF;
+    color: #ffffff;
   }
   .menu > ul .icon {
     width: 10px;

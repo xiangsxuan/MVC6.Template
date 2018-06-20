@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace MvcTemplate.Components.Mvc

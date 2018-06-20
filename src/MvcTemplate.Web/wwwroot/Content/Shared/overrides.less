@@ -1,8 +1,13 @@
-﻿@import "../theme";
-
-/* Bootstrap */
+﻿/* bootstrap */
 a:hover {
     text-decoration: none;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa;
 }
 
 .table-hover > tbody > tr:hover {
@@ -10,7 +15,7 @@ a:hover {
 }
 
 .form-control:disabled, .form-control[readonly] {
-    background-color: #EEEEEE;
+    background-color: #eeeeee;
 }
 
 .btn-primary:not(:disabled):not(.disabled) {
@@ -37,14 +42,14 @@ a:hover {
     width: auto;
 }
 
-/* JQuery-UI Datepicker */
+/* jquery-ui datepicker */
 .ui-datepicker {
     padding: 0;
 
     .ui-widget-header {
-        background: linear-gradient(@active-from-color, @active-to-color);
+        background: linear-gradient(#6f93a7, #2a4e62);
         border-radius: 3px 3px 0 0;
-        color: @active-color;
+        color: #ffffff;
         border: none;
 
         .ui-state-hover {
@@ -54,12 +59,12 @@ a:hover {
         }
 
         .ui-datepicker-prev span {
-            background-image: url(../../Images/JQueryUI/ui-icons_ffffff_256x240.png);
+            background-image: url(../../images/jqueryui/ui-icons_ffffff_256x240.png);
             background-position: -96px -16px;
         }
 
         .ui-datepicker-next span {
-            background-image: url(../../Images/JQueryUI/ui-icons_ffffff_256x240.png);
+            background-image: url(../../images/jqueryui/ui-icons_ffffff_256x240.png);
             background-position: -32px -16px;
         }
     }
@@ -89,22 +94,22 @@ a:hover {
             }
 
             .ui-state-default {
-                text-align: center;
                 border-radius: 5px;
+                text-align: center;
                 background: none;
                 border: none;
             }
 
             .ui-state-highlight {
-                background: linear-gradient(lighten(@active-from-color, 40%), lighten(@active-to-color, 65%));
+                background: linear-gradient(lighten(#6f93a7, 40%), lighten(#2a4e62, 65%));
             }
 
             .ui-state-active,
             .ui-state-hover {
-                background: linear-gradient(@active-from-color, @active-to-color);
-                text-shadow: 1px 0 0 @content-color;
-                color: @active-color;
+                background: linear-gradient(#6f93a7, #2a4e62);
+                text-shadow: 1px 0 0 #555555;
                 cursor: pointer;
+                color: #ffffff;
             }
         }
     }
@@ -143,7 +148,7 @@ a:hover {
     }
 }
 
-/* Mvc.Lookup */
+/* mvc.lookup */
 .mvc-lookup-dialog th {
     text-align: center !important;
 }
@@ -156,7 +161,7 @@ a:hover {
 
     &.input-validation-error {
         box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-        border-color: #DC3545;
+        border-color: #dc3545;
     }
 }
 
@@ -165,13 +170,13 @@ a:hover {
     box-shadow: none;
 }
 
-/* Mvc.Grid */
+/* mvc.grid */
 .mvc-grid {
     line-height: 1.5;
 
     thead {
-        background-image: linear-gradient(@active-color, @content-background-color);
-        background-color: @active-color;
+        background-image: linear-gradient(#ffffff, #f2f2f2);
+        background-color: #ffffff;
     }
 
     th {
@@ -194,7 +199,7 @@ a:hover {
     .mvc-grid-headers,
     .mvc-grid-filters {
         .mvc-grid-filter {
-            border-left: 1px solid #DEE2E6;
+            border-left: 1px solid #dee2e6;
         }
     }
 }
@@ -209,17 +214,17 @@ a:hover {
 }
 
 .mvc-grid-pager .active a {
-    background: linear-gradient(@active-from-color, @active-to-color);
+    background: linear-gradient(#6f93a7, #2a4e62);
     border-color: #59788a;
-    color: @active-color;
+    color: #ffffff;
 }
 
 .mvc-grid-popup .invalid {
-    outline-color: @validation-color;
-    border-color: @validation-color;
+    outline-color: #dc3545;
+    border-color: #dc3545;
 }
 
-/* JsTree */
+/* jstree */
 .js-tree-view {
     padding: 7px 0 3px;
     display: none;
