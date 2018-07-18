@@ -41,10 +41,3 @@
         }
     }
 })();
-
-// Bootstrap binding
-(function () {
-    $('body').tooltip({
-        selector: '[data-toggle=tooltip]'
-    });
-})();
