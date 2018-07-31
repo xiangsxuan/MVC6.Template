@@ -8,8 +8,8 @@
       "wwwroot/Scripts/JQueryUI/**/*.js",
       "wwwroot/Scripts/MvcLookup/**/*.js",
       "wwwroot/Scripts/MvcGrid/**/*.js",
+      "wwwroot/Scripts/MvcTree/*.js",
       "wwwroot/Scripts/Bootstrap/*.js",
-      "wwwroot/Scripts/JsTree/*.js",
       "wwwroot/Scripts/Shared/Widgets/*.js",
       "wwwroot/Scripts/Shared/*.js"
     ]
@@ -31,7 +31,7 @@
       "wwwroot/Content/Bootstrap/*.css",
       "wwwroot/Content/FontAwesome/*.css",
       "wwwroot/Content/MvcGrid/*.css",
-      "wwwroot/Content/JsTree/*.css",
+      "wwwroot/Content/MvcTree/*.css",
       "wwwroot/Content/MvcLookup/*.css",
       "wwwroot/Content/Shared/*.css"
     ]

@@ -3,14 +3,14 @@ using Xunit;
 
 namespace MvcTemplate.Tests.Unit.Components.Extensions
 {
-    public class JsTreeTests
+    public class MvcTreeTests
     {
-        #region JsTree()
+        #region MvcTree()
 
         [Fact]
-        public void JsTree_CreatesEmpty()
+        public void MvcTree_CreatesEmpty()
         {
-            JsTree actual = new JsTree();
+            MvcTree actual = new MvcTree();
 
             Assert.Empty(actual.Nodes);
             Assert.Empty(actual.SelectedIds);

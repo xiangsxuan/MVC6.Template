@@ -4,10 +4,10 @@
     Validator.init();
     Alerts.init();
     Header.init();
-    JsTree.init();
     Lookup.init();
     Menu.init();
     Grid.init();
+    Tree.init();
 })();
 
 // Read only binding

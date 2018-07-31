@@ -18,26 +18,26 @@ namespace MvcTemplate.Services
 
         public virtual void SeedPermissions(RoleView view)
         {
-            JsTreeNode root = new JsTreeNode(Titles.All);
+            MvcTreeNode root = new MvcTreeNode(Titles.All);
             view.Permissions.Nodes.Add(root);
 
             foreach (IGrouping<String, Permission> area in GetAllPermissions().GroupBy(permission => permission.Area))
             {
-                JsTreeNode areaNode = new JsTreeNode(area.Key);
+                MvcTreeNode areaNode = new MvcTreeNode(area.Key);
                 foreach (IGrouping<String, Permission> controller in area.GroupBy(permission => permission.Controller))
                 {
-                    JsTreeNode controllerNode = new JsTreeNode(controller.Key);
+                    MvcTreeNode controllerNode = new MvcTreeNode(controller.Key);
                     foreach (Permission permission in controller)
-                        controllerNode.Nodes.Add(new JsTreeNode(permission.Id, permission.Action));
+                        controllerNode.Children.Add(new MvcTreeNode(permission.Id, permission.Action));
 
                     if (areaNode.Title == null)
-                        root.Nodes.Add(controllerNode);
+                        root.Children.Add(controllerNode);
                     else
-                        areaNode.Nodes.Add(controllerNode);
+                        areaNode.Children.Add(controllerNode);
                 }
 
                 if (areaNode.Title != null)
-                    root.Nodes.Add(areaNode);
+                    root.Children.Add(areaNode);
             }
         }
 
@@ -53,11 +53,10 @@ namespace MvcTemplate.Services
             RoleView role = UnitOfWork.GetAs<Role, RoleView>(id);
             if (role != null)
             {
-                role.Permissions.SelectedIds = UnitOfWork
+                role.Permissions.SelectedIds = new HashSet<Int32>(UnitOfWork
                     .Select<RolePermission>()
                     .Where(rolePermission => rolePermission.RoleId == role.Id)
-                    .Select(rolePermission => rolePermission.PermissionId)
-                    .ToList();
+                    .Select(rolePermission => rolePermission.PermissionId));
 
                 SeedPermissions(role);
             }

@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace MvcTemplate.Components.Extensions
 {
-    public class JsTreeNode
+    public class MvcTreeNode
     {
         public Int32? Id { get; set; }
         public String Title { get; set; }
-        public List<JsTreeNode> Nodes { get; set; }
+        public List<MvcTreeNode> Children { get; set; }
 
-        public JsTreeNode(Int32? id, String title)
+        public MvcTreeNode(Int32? id, String title)
         {
             Id = id;
             Title = title;
-            Nodes = new List<JsTreeNode>();
+            Children = new List<MvcTreeNode>();
         }
-        public JsTreeNode(String title)
+        public MvcTreeNode(String title)
             : this(null, title)
         {
         }
