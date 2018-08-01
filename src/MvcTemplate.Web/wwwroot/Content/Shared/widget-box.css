@@ -84,6 +84,9 @@
 .widget-content .control-label {
   text-align: left;
 }
+.widget-content .form-actions {
+  text-align: center;
+}
 @media (min-width: 992px) {
   .widget-content .control-label {
     text-align: right;
@@ -91,15 +94,12 @@
   .widget-content .control-validation {
     text-align: center;
   }
+  .widget-content .form-actions {
+    text-align: right;
+  }
 }
 @media (min-width: 1200px) {
   .widget-content .control-validation {
     text-align: left;
   }
-  .widget-content .form-actions {
-    text-align: right;
-  }
-}
-.widget-content .form-actions {
-  text-align: center;
 }
