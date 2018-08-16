@@ -30,6 +30,7 @@ namespace MvcTemplate.Components.Mvc
                 if (context.Request.Headers != null && context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 {
                     context.Response.StatusCode = 500;
+                    context.Response.ContentType = "application/json; charset=utf-8";
 
                     await context.Response.WriteAsync(JsonConvert.SerializeObject(new { status = "error", data = new { message = Strings.SystemError } }));
                 }
