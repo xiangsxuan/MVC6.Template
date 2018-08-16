@@ -8,10 +8,10 @@ namespace MvcTemplate.Web
         public static void Main()
         {
             new WebHostBuilder()
+                .UseKestrel(options => options.AddServerHeader = false)
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
                 .UseIISIntegration()
-                .UseKestrel()
                 .Build()
                 .Run();
         }
