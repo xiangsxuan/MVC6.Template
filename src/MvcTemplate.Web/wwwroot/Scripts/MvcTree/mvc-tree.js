@@ -49,7 +49,7 @@ var MvcTree = (function () {
             });
 
             var parent = branch.parentElement.parentElement;
-            while (parent.tagName == "LI") {
+            while (parent.tagName == 'LI') {
                 tree.update(parent);
 
                 parent = parent.parentElement.parentElement;
@@ -64,7 +64,7 @@ var MvcTree = (function () {
             });
 
             var parent = branch.parentElement.parentElement;
-            while (parent.tagName == "LI") {
+            while (parent.tagName == 'LI') {
                 tree.update(parent);
 
                 parent = parent.parentElement.parentElement;
@@ -72,7 +72,7 @@ var MvcTree = (function () {
         },
 
         update: function (branch, recursive) {
-            if (branch.lastElementChild.tagName == "UL") {
+            if (branch.lastElementChild.tagName == 'UL') {
                 var tree = this;
                 var checked = 0;
                 var unchecked = 0;
