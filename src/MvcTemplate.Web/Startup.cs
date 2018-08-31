@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MvcTemplate.Components.Extensions;
 using MvcTemplate.Components.Logging;
 using MvcTemplate.Components.Mail;
@@ -43,8 +44,9 @@ namespace MvcTemplate.Web
                 .AddInMemoryCollection(config)
                 .Build();
         }
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, ILoggerFactory factory)
         {
+            RegisterLogging(factory);
             RegisterServices(app);
             RegisterMvc(app);
 
@@ -88,7 +90,6 @@ namespace MvcTemplate.Web
             services.AddTransient<DbContext, Context>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            services.AddSingleton<ILogger, Logger>();
             services.AddTransient<IAuditLogger>(provider =>
                 new AuditLogger(provider.GetService<DbContext>(),
                 provider.GetRequiredService<IHttpContextAccessor>().HttpContext?.User?.Id()));
@@ -130,7 +131,6 @@ namespace MvcTemplate.Web
             else
                 app.UseMiddleware<ErrorPagesMiddleware>();
 
-            app.UseMiddleware<ExceptionFilterMiddleware>();
             app.UseMiddleware<SecureHeadersMiddleware>();
 
             app.UseAuthentication();
@@ -143,6 +143,13 @@ namespace MvcTemplate.Web
                 }
             });
             app.UseSession();
+        }
+        public void RegisterLogging(ILoggerFactory factory)
+        {
+            if (Config["Application:Env"] != EnvironmentName.Development)
+                factory.AddProvider(new FileLoggerProvider(Config));
+            else
+                factory.AddConsole();
         }
         public void RegisterMvc(IApplicationBuilder app)
         {

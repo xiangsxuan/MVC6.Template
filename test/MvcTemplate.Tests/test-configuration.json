@@ -24,9 +24,19 @@
     "Path": "languages.config"
   },
 
-  "Logger": {
-    "Directory": "Logs",
-    "BackupSize": 128
+  "Logging": {
+    "Console": {
+      "LogLevel": {
+        "Default": "Debug"
+      }
+    },
+    "File": {
+      "Path": "Logs/Log.txt",
+      "RollSize": 128,
+      "LogLevel": {
+        "Default": "Error"
+      }
+    }
   },
 
   "Mail": {
