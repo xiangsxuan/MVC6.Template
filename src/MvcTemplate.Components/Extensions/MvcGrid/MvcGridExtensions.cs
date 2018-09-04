@@ -40,6 +40,7 @@ namespace MvcTemplate.Components.Extensions
 
             return columns
                 .AddProperty(expression)
+                .MultiFilterable(false)
                 .RenderedAs(model => valueFor(model) ? Strings.Yes : Strings.No);
         }
         public static IGridColumn<T, Boolean?> AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean?>> expression)
@@ -48,6 +49,7 @@ namespace MvcTemplate.Components.Extensions
 
             return columns
                 .AddProperty(expression)
+                .MultiFilterable(false)
                 .RenderedAs(model =>
                     valueFor(model) != null
                         ? valueFor(model) == true
