@@ -24,6 +24,7 @@
                     columns.AddProperty(model => model.Username);
                     columns.AddProperty(model => model.Email);
                     columns.AddProperty(model => model.RoleTitle);
+                    columns.AddBooleanProperty(model => model.IsLocked);
                 })
                 .ApplyDefaults()
             )
