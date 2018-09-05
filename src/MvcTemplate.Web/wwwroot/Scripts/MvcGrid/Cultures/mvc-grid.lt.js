@@ -25,8 +25,12 @@ window.cultures.grid['lt'] = {
         'later-than-or-equal': 'Vėlesnė arba lygi'
     },
     enum: {
-        'equals': 'Lygi',
-        'not-equals': 'Nelygi',
+        'equals': 'Lygu',
+        'not-equals': 'Nelygu'
+    },
+    boolean: {
+        'equals': 'Lygu',
+        'not-equals': 'Nelygu'
     },
     filter: {
         'apply': '&#10004;',

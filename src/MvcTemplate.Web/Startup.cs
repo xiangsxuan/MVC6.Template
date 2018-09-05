@@ -19,6 +19,7 @@ using MvcTemplate.Controllers;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Data.Logging;
 using MvcTemplate.Data.Migrations;
+using MvcTemplate.Resources.Shared;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
 using NonFactors.Mvc.Grid;
@@ -82,7 +83,6 @@ namespace MvcTemplate.Web
         }
         public void RegisterServices(IServiceCollection services)
         {
-            services.AddMvcGrid();
             services.AddSession();
             services.AddSingleton(Config);
 
@@ -99,6 +99,12 @@ namespace MvcTemplate.Web
 
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IValidationAttributeAdapterProvider, ValidationAdapterProvider>();
+
+            services.AddMvcGrid(filters =>
+            {
+                filters.BooleanFalseOptionText = () => Strings.No;
+                filters.BooleanTrueOptionText = () => Strings.Yes;
+            });
 
             services.AddSingleton<ILanguages, Languages>();
             services.AddSingleton<IAuthorizationProvider>(provider =>
