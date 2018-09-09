@@ -51,15 +51,19 @@ namespace MvcTemplate.Web.Templates
             {
                 foreach (GennyScaffoldingResult result in results.Select(x => x.Value))
                     foreach (String error in result.Errors)
-                        Logger.Write($"    {error}");
+                        Logger.WriteLine($"    {error}");
 
-                Logger.Write("Scaffolding failed! Rolling back...");
+                Logger.WriteLine("");
+                Logger.WriteLine("Scaffolding failed! Rolling back...", ConsoleColor.Red);
             }
             else
             {
+                Logger.WriteLine("");
+
                 TryWrite(results);
 
-                Logger.Write("Scaffolded successfully!");
+                Logger.WriteLine("");
+                Logger.WriteLine("Scaffolded successfully!", ConsoleColor.Green);
             }
         }
 

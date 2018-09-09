@@ -6,19 +6,16 @@
     <GenerateFullPaths>true</GenerateFullPaths>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <DebugType Condition="'$(Configuration)'=='Debug'">full</DebugType>
     <DebugSymbols Condition="'$(Configuration)'=='Debug'">true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Logs\**" />
-    <Compile Remove="Templates\**" />
-    <Content Remove="Logs\**" />
-    <Content Remove="Templates\**" />
-    <EmbeddedResource Remove="Logs\**" />
-    <EmbeddedResource Remove="Templates\**" />
     <None Remove="Logs\**" />
-    <None Remove="Templates\**" />
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Genny" Version="2.1.0" />
     <PackageReference Include="Humanizer.Core" Version="2.4.2" />
     <PackageReference Include="NonFactors.Grid.Mvc6" Version="3.1.0" />
     <PackageReference Include="NonFactors.Lookup.Mvc6" Version="3.0.0" />
@@ -43,6 +41,7 @@
   </Target>
 
   <ItemGroup>
+    <DotNetCliToolReference Include="Genny" Version="2.1.0" />
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.8.391" />
   </ItemGroup>
 
