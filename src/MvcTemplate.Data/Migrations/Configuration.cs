@@ -14,8 +14,7 @@ namespace MvcTemplate.Data.Migrations
 
         public Configuration(DbContext context, DbContext audit)
         {
-            IAuditLogger logger = new AuditLogger(audit, 0);
-            UnitOfWork = new UnitOfWork(context, logger);
+            UnitOfWork = new UnitOfWork(context, audit == null ? null : new AuditLogger(audit, 0));
             Context = context;
         }
 
@@ -23,6 +22,10 @@ namespace MvcTemplate.Data.Migrations
         {
             Context.Database.Migrate();
 
+            SeedData();
+        }
+        public void SeedData()
+        {
             SeedPermissions();
             SeedRoles();
 
