@@ -16,13 +16,13 @@ namespace MvcTemplate.Tests.Data
         public String DatabaseName { get; }
 
         public TestingContext()
-            : this(null)
+            : this(Guid.NewGuid().ToString())
         {
         }
         public TestingContext(String databaseName)
             : base(ConfigurationFactory.Create())
         {
-            DatabaseName = databaseName ?? Guid.NewGuid().ToString();
+            DatabaseName = databaseName;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)

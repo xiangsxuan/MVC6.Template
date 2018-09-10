@@ -1,6 +1,6 @@
-﻿using MvcTemplate.Data.Core;
-using MvcTemplate.Data.Migrations;
+﻿using MvcTemplate.Data.Migrations;
 using MvcTemplate.Objects;
+using MvcTemplate.Tests.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +10,19 @@ namespace MvcTemplate.Tests.Unit.Data.Migrations
 {
     public class InitialDataTests : IDisposable
     {
-        private Context context;
+        private Configuration configuration;
+        private TestingContext context;
 
-        static InitialDataTests()
-        {
-            using (Configuration configuration = new Configuration(new Context(ConfigurationFactory.Create()), new Context(ConfigurationFactory.Create())))
-                configuration.UpdateDatabase();
-        }
         public InitialDataTests()
         {
-            context = new Context(ConfigurationFactory.Create());
+            context = new TestingContext();
+            configuration = new Configuration(context, null);
+            configuration.SeedData();
         }
         public void Dispose()
         {
             context.Dispose();
+            configuration.Dispose();
         }
 
         #region Roles
