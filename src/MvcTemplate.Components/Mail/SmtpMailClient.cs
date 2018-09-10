@@ -9,7 +9,7 @@ namespace MvcTemplate.Components.Mail
 {
     public class SmtpMailClient : IMailClient
     {
-        private IConfigurationSection Config { get; }
+        private IConfiguration Config { get; }
 
         public SmtpMailClient(IConfiguration config)
         {

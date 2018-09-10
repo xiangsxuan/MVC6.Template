@@ -26,7 +26,7 @@
       }
     },
     "File": {
-      "Path": "Logs/Log.txt",
+      "Path": "Logs/log.txt",
       "RollSize": 5242880,
       "LogLevel": {
         "Default": "Error"
@@ -43,6 +43,6 @@
   },
 
   "SiteMap": {
-    "Path": "Mvc.sitemap"
+    "Path": "mvc.sitemap"
   }
 }

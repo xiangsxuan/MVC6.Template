@@ -1,5 +1,4 @@
-﻿using MvcTemplate.Data.Core;
-using MvcTemplate.Data.Migrations;
+﻿using MvcTemplate.Data.Migrations;
 using MvcTemplate.Objects;
 using MvcTemplate.Tests.Data;
 using System;
@@ -84,7 +83,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         {
             ResourceManager manager = MvcTemplate.Resources.Shared.Pages.ResourceManager;
             IEnumerable<String> sitemap = XDocument
-                .Load("Mvc.sitemap")
+                .Load("../../../../../src/MvcTemplate.Web/mvc.sitemap")
                 .Descendants("siteMapNode")
                 .Where(node => node.Attribute("action") != null)
                 .Select(node => node.Attribute("area")?.Value + node.Attribute("controller")?.Value + node.Attribute("action")?.Value);
@@ -98,7 +97,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         {
             ResourceManager manager = MvcTemplate.Resources.SiteMap.Titles.ResourceManager;
             IEnumerable<String> sitemap = XDocument
-                .Load("Mvc.sitemap")
+                .Load("../../../../../src/MvcTemplate.Web/mvc.sitemap")
                 .Descendants("siteMapNode")
                 .Select(node => node.Attribute("area")?.Value + node.Attribute("controller")?.Value + node.Attribute("action")?.Value);
 
@@ -110,7 +109,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         public void Resources_HasEquivalents()
         {
             IEnumerable<CultureInfo> languages = XDocument
-                .Load("languages.config")
+                .Load("../../../../../src/MvcTemplate.Web/languages.config")
                 .Descendants("language")
                 .Select(language => new CultureInfo(language.Attribute("culture").Value));
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System.IO;
+using System;
+using System.Collections.Generic;
 
 namespace MvcTemplate.Tests
 {
@@ -9,10 +10,13 @@ namespace MvcTemplate.Tests
 
         static ConfigurationFactory()
         {
-            Config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("test-configuration.json")
-                .Build();
+            Dictionary<String, String> config = new Dictionary<String, String>();
+            config.Add("Languages:Path", "languages.config");
+            config.Add("SiteMap:Path", "mvc.sitemap");
+            config.Add("Application:Path", "data");
+            config.Add("Application:Env", "Test");
+
+            Config = new ConfigurationBuilder().AddInMemoryCollection(config).Build();
         }
         public static IConfiguration Create()
         {
