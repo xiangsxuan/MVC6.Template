@@ -39,6 +39,7 @@ body.public .public-action {
   background-color: #f2f2f2;
   padding-top: 10px;
   min-height: 870px;
+  width: 200px;
   flex: 1;
 }
 .content-container::after,
