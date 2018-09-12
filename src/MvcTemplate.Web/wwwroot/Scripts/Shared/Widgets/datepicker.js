@@ -21,7 +21,7 @@ DatePicker = {
         if ($.fn.timepicker) {
             $.timepicker.setDefaults(window.cultures.timepicker[lang]);
             $('.datetimepicker').datetimepicker({
-                beforeShow: function (e) {
+                beforeShow: function (element) {
                     return !element.readOnly;
                 },
                 onSelect: function () {
