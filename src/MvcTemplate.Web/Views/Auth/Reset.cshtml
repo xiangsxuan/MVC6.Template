@@ -7,7 +7,7 @@
 
 <form asp-antiforgery="true">
     <input class="collapse" type="password" /> @* Forcing browser to not remember following form inputs *@
-    @Html.Partial("_AuthAlerts")
+    <partial name="_AuthAlerts" />
 
     <div class="auth-content">
         <div class="input-group">

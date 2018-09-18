@@ -20,7 +20,7 @@
             </a>
             @if (node.Children.Any())
             {
-                @Html.Partial("_SiteMap", node.Children)
+                <partial name="_SiteMap" model="@node.Children" />
             }
         </li>
     }
