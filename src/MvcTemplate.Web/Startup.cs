@@ -161,29 +161,11 @@ namespace MvcTemplate.Web
         {
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    "DefaultMultilingualArea",
-                    "{language}/{area:exists}/{controller}/{action}/{id?}",
-                    new { controller = "Home", action = "Index" },
-                    new { id = "[0-9]*" });
-
-                routes.MapRoute(
-                    "DefaultArea",
-                    "{area:exists}/{controller}/{action}/{id?}",
-                    new { controller = "Home", action = "Index" },
-                    new { id = "[0-9]*" });
-
-                routes.MapRoute(
-                    "DefaultMultilingual",
-                    "{language}/{controller}/{action}/{id?}",
-                    new { controller = "Home", action = "Index" },
-                    new { id = "[0-9]*" });
-
-                routes.MapRoute(
-                    "Default",
-                    "{controller}/{action}/{id?}",
-                    new { controller = "Home", action = "Index" },
-                    new { id = "[0-9]*" });
+                routes.MapRoute("MultiArea", "{language}/{area:exists}/{controller}/{action=Index}/{id:int?}");
+                routes.MapRoute("DefaultArea", "{area:exists}/{controller}/{action=Index}/{id:int?}");
+                routes.MapRoute("Multi", "{language}/{controller}/{action=Index}/{id:int?}");
+                routes.MapRoute("Default", "{controller}/{action=Index}/{id:int?}");
+                routes.MapRoute("Home", "{controller=Home}/{action=Index}");
             });
         }
 
