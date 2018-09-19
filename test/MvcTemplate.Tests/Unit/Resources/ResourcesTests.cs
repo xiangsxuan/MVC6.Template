@@ -27,6 +27,7 @@ namespace MvcTemplate.Tests.Unit.Resources
 
                 String[] areas = context
                     .Set<Permission>()
+                    .Where(permission => permission.Area != null)
                     .Select(permission => permission.Area)
                     .Distinct()
                     .ToArray();
