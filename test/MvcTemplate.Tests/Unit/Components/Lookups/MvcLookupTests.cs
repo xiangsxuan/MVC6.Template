@@ -56,8 +56,8 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         [Fact]
         public void GetColumnHeader_ReturnsPropertyTitle()
         {
-            String actual = lookup.GetColumnHeader(typeof(RoleView).GetProperty("Title"));
             String expected = ResourceProvider.GetPropertyTitle(typeof(RoleView), "Title");
+            String actual = lookup.GetColumnHeader(typeof(RoleView).GetProperty("Title"));
 
             Assert.Equal(expected, actual);
         }
