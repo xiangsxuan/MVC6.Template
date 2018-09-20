@@ -21,7 +21,7 @@
     widgets.find('textarea').attr({ readonly: 'readonly', tabindex: -1 });
 
     if (window.MvcLookup) {
-        widgets.find('.mvc-lookup').each(function (element) {
+        widgets.find('.mvc-lookup').each(function (i, element) {
             new MvcLookup(element, { readonly: true });
         });
     }
