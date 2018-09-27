@@ -18,7 +18,7 @@ namespace MvcTemplate.Data.Mapping
         {
             Configuration = configuration;
             configuration.ValidateInlineMaps = false;
-            Configuration.AddConditionalObjectMapper().Conventions.Add(pair => true);
+            Configuration.AddConditionalObjectMapper().Conventions.Add(pair => pair.SourceType.Namespace != "Castle.Proxies");
         }
 
         private void Map()
