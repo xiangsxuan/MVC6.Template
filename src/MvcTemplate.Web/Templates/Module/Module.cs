@@ -67,6 +67,14 @@ namespace MvcTemplate.Web.Templates
             }
         }
 
+        public override void ShowHelp()
+        {
+            Logger.WriteLine("Parameters:");
+            Logger.WriteLine("    1 - Scaffolded model.");
+            Logger.WriteLine("    2 - Scaffolded controller.");
+            Logger.WriteLine("    3 - Scaffolded area (optional).");
+        }
+
         private GennyScaffoldingResult Scaffold(String path)
         {
             return Scaffolder.Scaffold("Templates/Module/" + path, new ModuleModel(Model, Controller, Area));
