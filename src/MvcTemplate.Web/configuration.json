@@ -6,6 +6,9 @@
     "Auth": {
       "Name": ".Web-Auth"
     },
+    "TempData": {
+      "Name": ".Web-Temp"
+    },
     "Session": {
       "Name": ".Web-Session"
     }

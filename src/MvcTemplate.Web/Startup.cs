@@ -122,6 +122,7 @@ namespace MvcTemplate.Web
         }
         public void RegisterSecureResponse(IServiceCollection services)
         {
+            services.Configure<CookieTempDataProviderOptions>(provider => provider.Cookie.Name = Config["Cookies:TempData:Name"]);
             services.Configure<SessionOptions>(session => session.Cookie.Name = Config["Cookies:Session:Name"]);
             services.Configure<AntiforgeryOptions>(antiforgery =>
             {
