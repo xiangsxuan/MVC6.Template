@@ -35,6 +35,10 @@
                     {
                     <input asp-for="@property.Name" />
                     }
+                    else if (Model.Relations[property] != null)
+                    {
+                    @:@@Html.LookupFor(model => model.@property.Name, new MvcLookup<@Model.Relations[property], @(Model.Relations[property])View>(Url))
+                    }
                     else
                     {
                     <input asp-for="@property.Name" class="form-control" autocomplete="off" />

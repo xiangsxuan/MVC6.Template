@@ -33,7 +33,7 @@
                         {
                     @:columns.AddBooleanProperty(model => model.@property.Name);
                         }
-                        else
+                        else if (Model.Relations[property] == null)
                         {
                     @:columns.AddProperty(model => model.@property.Name);
                         }

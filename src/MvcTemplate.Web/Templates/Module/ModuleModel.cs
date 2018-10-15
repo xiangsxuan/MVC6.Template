@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using MvcTemplate.Objects;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -33,6 +34,7 @@ namespace MvcTemplate.Web.Templates
 
         public PropertyInfo[] Properties { get; set; }
         public PropertyInfo[] AllProperties { get; set; }
+        public Dictionary<PropertyInfo, String> Relations { get; set; }
 
         public ModuleModel(String model, String controller, String area)
         {
@@ -58,16 +60,18 @@ namespace MvcTemplate.Web.Templates
 
             Area = area;
 
-            AllProperties = typeof(BaseModel)
-                .Assembly
-                .GetTypes()
-                .SingleOrDefault(type => type.Name.Equals(Model, StringComparison.OrdinalIgnoreCase))?
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance) ?? typeof(BaseModel).GetProperties();
-            Properties = typeof(BaseModel)
-                .Assembly
-                .GetTypes()
-                .SingleOrDefault(type => type.Name.Equals(Model, StringComparison.OrdinalIgnoreCase))?
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly) ?? new PropertyInfo[0];
+            Type type = typeof(BaseModel).Assembly.GetType("MvcTemplate.Objects." + model);
+            PropertyInfo[] modelProperties = type?.GetProperties() ?? typeof(BaseModel).GetProperties();
+
+            AllProperties = modelProperties.Where(property => property.PropertyType.Namespace == "System").ToArray();
+            Properties = AllProperties.Where(property => property.DeclaringType.Name == model).ToArray();
+            Relations = Properties
+                .ToDictionary(
+                    property => property,
+                    property => modelProperties.SingleOrDefault(relation =>
+                        property.Name.EndsWith("Id") &&
+                        relation.PropertyType.Namespace == "MvcTemplate.Objects" &&
+                        relation.Name == property.Name.Remove(property.Name.Length - 2))?.PropertyType.Name);
         }
     }
 }
