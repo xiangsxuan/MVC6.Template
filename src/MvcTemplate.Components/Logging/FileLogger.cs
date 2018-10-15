@@ -25,7 +25,7 @@ namespace MvcTemplate.Components.Logging
             String extension = Path.GetExtension(path);
             LogDirectory = Path.GetDirectoryName(path);
 
-            RollingFileFormat = $"{file}-{{0:yyyyMMdd-HHmmss}}-{extension}";
+            RollingFileFormat = $"{file}-{{0:yyyyMMdd-HHmmss}}{extension}";
             AccountId = () => accessor.HttpContext?.User.Id();
             RollSize = rollSize;
             Level = logLevel;
