@@ -28,11 +28,10 @@ namespace MvcTemplate.Tests.Unit.Services
         {
             context = new TestingContext();
             hasher = Substitute.For<IHasher>();
-            account = ObjectFactory.CreateAccount();
             service = new AccountService(new UnitOfWork(context), hasher);
             hasher.HashPassword(Arg.Any<String>()).Returns(info => info.Arg<String>() + "Hashed");
 
-            context.Add(account);
+            context.Add(account = ObjectFactory.CreateAccount());
             context.SaveChanges();
 
             service.CurrentAccountId = account.Id;

@@ -18,7 +18,7 @@
                     <div class="control-content col-md-9 col-lg-5">
                         @if (typeof(DateTime?).IsAssignableFrom(property.PropertyType))
                         {
-                        <input asp-for="@property.Name" class="form-control datepicker" asp-format="{0:d}" autocomplete="off" />
+                        <input asp-for="@property.Name" type="text" class="form-control datepicker" asp-format="{0:d}" autocomplete="off" />
                         }
                         else if (typeof(Boolean?).IsAssignableFrom(property.PropertyType))
                         {

@@ -19,8 +19,8 @@ namespace MvcTemplate.Tests.Unit.Validators
             context = new TestingContext();
             validator = new @(Model.Validator)(new UnitOfWork(context));
 
-            context.DropData();
-            SetUpData();
+            context.Set<@Model.Model>().Add(@Model.ModelVarName = ObjectFactory.Create@(Model.Model)());
+            context.SaveChanges();
         }
         public void Dispose()
         {
@@ -64,18 +64,6 @@ namespace MvcTemplate.Tests.Unit.Validators
             Assert.True(validator.CanEdit(ObjectFactory.Create@(Model.View)(@(Model.ModelVarName).Id)));
             Assert.Empty(validator.ModelState);
             Assert.Empty(validator.Alerts);
-        }
-
-        #endregion
-
-        #region Test helpers
-
-        private void SetUpData()
-        {
-            @Model.ModelVarName = ObjectFactory.Create@(Model.Model)();
-
-            context.Set<@Model.Model>().Add(@Model.ModelVarName);
-            context.SaveChanges();
         }
 
         #endregion

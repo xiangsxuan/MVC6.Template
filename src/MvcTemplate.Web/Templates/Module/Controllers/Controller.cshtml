@@ -32,7 +32,6 @@ namespace @Model.ControllerNamespace
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([BindExcludeId] @Model.View @Model.ModelVarName)
         {
             if (!Validator.CanCreate(@Model.ModelVarName))
@@ -56,7 +55,6 @@ namespace @Model.ControllerNamespace
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(@Model.View @Model.ModelVarName)
         {
             if (!Validator.CanEdit(@Model.ModelVarName))
@@ -75,7 +73,6 @@ namespace @Model.ControllerNamespace
 
         [HttpPost]
         [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public RedirectToActionResult DeleteConfirmed(Int32 id)
         {
             Service.Delete(id);

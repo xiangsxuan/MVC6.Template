@@ -23,11 +23,10 @@ namespace MvcTemplate.Tests.Unit.Validators
         {
             context = new TestingContext();
             hasher = Substitute.For<IHasher>();
-            account = ObjectFactory.CreateAccount();
             validator = new AccountValidator(new UnitOfWork(context), hasher);
             hasher.VerifyPassword(Arg.Any<String>(), Arg.Any<String>()).Returns(true);
 
-            context.Add(account);
+            context.Add(account = ObjectFactory.CreateAccount());
             context.SaveChanges();
 
             validator.CurrentAccountId = account.Id;

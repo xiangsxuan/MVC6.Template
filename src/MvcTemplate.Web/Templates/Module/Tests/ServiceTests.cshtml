@@ -23,8 +23,8 @@ namespace MvcTemplate.Tests.Unit.Services
             context = new TestingContext();
             service = new @(Model.Service)(new UnitOfWork(context));
 
-            context.DropData();
-            SetUpData();
+            context.Set<@Model.Model>().Add(@Model.ModelVarName = ObjectFactory.Create@(Model.Model)());
+            context.SaveChanges();
         }
         public void Dispose()
         {
@@ -69,10 +69,10 @@ namespace MvcTemplate.Tests.Unit.Services
 
             for (Int32 i = 0; i < expected.Length || i < actual.Length; i++)
             {
-                @foreach (PropertyInfo property in Model.AllProperties.OrderByDescending(prop => prop.Name.Length).ThenBy(prop => prop.Name))
-                {
+@foreach (PropertyInfo property in Model.AllProperties.OrderByDescending(prop => prop.Name.Length).ThenBy(prop => prop.Name))
+{
                 @:Assert.Equal(expected[i].@property.Name, actual[i].@property.Name);
-                }
+}
             }
             @if (Model.Properties.Length == 0)
             {
@@ -146,19 +146,6 @@ namespace MvcTemplate.Tests.Unit.Services
             service.Delete(@(Model.ModelVarName).Id);
 
             Assert.Empty(context.Set<@Model.Model>());
-        }
-
-        #endregion
-
-        #region Test helpers
-
-        private void SetUpData()
-        {
-            @Model.ModelVarName = ObjectFactory.Create@(Model.Model)();
-
-            context.Set<@Model.Model>().Add(@Model.ModelVarName);
-            context.SaveChanges();
-            context.DropState();
         }
 
         #endregion
