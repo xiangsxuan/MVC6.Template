@@ -18,7 +18,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             IHeaderDictionary actual = context.Response.Headers;
 
-            Assert.Equal("script-src 'self'; style-src 'self' 'unsafe-inline'", actual["Content-Security-Policy"]);
+            Assert.Equal("script-src 'self'; style-src 'self'; object-src 'none'", actual["Content-Security-Policy"]);
             Assert.Equal("1; mode=block", actual["X-XSS-Protection"]);
             Assert.Equal("nosniff", actual["X-Content-Type-Options"]);
             Assert.Equal("deny", actual["X-Frame-Options"]);
