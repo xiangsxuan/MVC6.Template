@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Objects;
 using MvcTemplate.Services;

@@ -60,8 +60,8 @@ namespace MvcTemplate.Web.Templates
 
             Area = area;
 
-            Type type = typeof(BaseModel).Assembly.GetType("MvcTemplate.Objects." + model);
-            PropertyInfo[] modelProperties = type?.GetProperties() ?? typeof(BaseModel).GetProperties();
+            Type type = typeof(BaseModel).Assembly.GetType("MvcTemplate.Objects." + model) ?? typeof(BaseModel);
+            PropertyInfo[] modelProperties = type.GetProperties();
 
             AllProperties = modelProperties.Where(property => property.PropertyType.Namespace == "System").ToArray();
             Properties = AllProperties.Where(property => property.DeclaringType.Name == model).ToArray();
@@ -70,7 +70,7 @@ namespace MvcTemplate.Web.Templates
                     property => property,
                     property => modelProperties.SingleOrDefault(relation =>
                         property.Name.EndsWith("Id") &&
-                        relation.PropertyType.Namespace == "MvcTemplate.Objects" &&
+                        relation.PropertyType.Assembly == type.Assembly &&
                         relation.Name == property.Name.Remove(property.Name.Length - 2))?.PropertyType.Name);
         }
     }
