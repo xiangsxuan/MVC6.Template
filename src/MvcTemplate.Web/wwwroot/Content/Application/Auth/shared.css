@@ -15,6 +15,7 @@
 }
 .auth-content .input-group .fa {
   position: absolute;
+  z-index: 5;
   top: 13px;
 }
 .auth-content .input-group .fa.fa-user {
@@ -33,6 +34,7 @@
 .auth-content .input-group input {
   border-style: none;
   padding-left: 25px;
+  font-size: inherit;
   height: 30px;
   width: 100%;
 }

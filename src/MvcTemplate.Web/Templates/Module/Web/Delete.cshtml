@@ -29,11 +29,7 @@
                 <div class="control-content col-md-9 col-lg-5">
                     @if (typeof(DateTime?).IsAssignableFrom(property.PropertyType))
                     {
-                    <input asp-for="@property.Name" type="text" class="form-control" asp-format="{0:d}" autocomplete="off" />
-                    }
-                    else if (typeof(Boolean?).IsAssignableFrom(property.PropertyType))
-                    {
-                    <input asp-for="@property.Name" />
+                    <input asp-for="@property.Name" type="text" class="datepicker" asp-format="{0:d}" />
                     }
                     else if (Model.Relations[property] != null)
                     {
@@ -41,7 +37,7 @@
                     }
                     else
                     {
-                    <input asp-for="@property.Name" class="form-control" autocomplete="off" />
+                    <input asp-for="@property.Name" />
                     }
                 </div>
             </div>
