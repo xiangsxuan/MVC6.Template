@@ -40,9 +40,10 @@ namespace MvcTemplate.Web
 
             Config = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
+                .AddEnvironmentVariables("ASPNETCORE_")
+                .AddInMemoryCollection(config)
                 .AddJsonFile("configuration.json")
                 .AddJsonFile($"configuration.{env.EnvironmentName.ToLower()}.json", optional: true)
-                .AddInMemoryCollection(config)
                 .Build();
         }
         public void Configure(IApplicationBuilder app, ILoggerFactory factory)
@@ -140,6 +141,7 @@ namespace MvcTemplate.Web
 
             app.UseMiddleware<SecureHeadersMiddleware>();
 
+            app.UseHttpsRedirection();
             app.UseAuthentication();
 
             app.UseStaticFiles(new StaticFileOptions

@@ -22,12 +22,15 @@ namespace MvcTemplate.Rename
             while ((Project = Console.ReadLine().Trim()) == "") { }
 
             Int32 port = new Random().Next(1000, 19175);
+            Int32 sslPort = new Random().Next(44300, 44400);
             String passhash = BCrypt.Net.BCrypt.HashPassword(Password.Length <= 32 ? Password : Password.Substring(0, 32), 13);
 
             String[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.*", SearchOption.AllDirectories);
             Regex adminPassword = new Regex("Passhash = \"\\$2b\\$.*\", // Will be generated on project rename");
-            Regex iisPort = new Regex("(\"(applicationUrl|launchUrl)\": .*:)\\d+(.*\")");
+            Regex aspNetSslConfig = new Regex("(\"ASPNETCORE_HTTPS_PORT\": )\"\\d+\"");
+            Regex applicationUrl = new Regex("(\"applicationUrl\": .*:)\\d+(.*\")");
             Regex version = new Regex("<Version>\\d+\\.\\d+\\.\\d+</Version>");
+            Regex sslConfig = new Regex("(\"sslPort\": )\\d+");
             Regex newLine = new Regex("\\r?\\n");
 
             Console.WriteLine();
@@ -49,9 +52,11 @@ namespace MvcTemplate.Rename
                     String content = File.ReadAllText(files[i]);
                     content = content.Replace(TemplateName, Project);
                     content = content.Replace(TemplateDbName, Project);
+                    content = sslConfig.Replace(content, "${1}" + sslPort);
                     content = newLine.Replace(content, Environment.NewLine);
-                    content = iisPort.Replace(content, "${1}" + port + "${3}");
                     content = version.Replace(content, "<Version>0.1.0</Version>");
+                    content = applicationUrl.Replace(content, "${1}" + port + "${2}");
+                    content = aspNetSslConfig.Replace(content, "${1}\"" + sslPort + "\"");
                     content = adminPassword.Replace(content, "Passhash = \"" + passhash + "\",");
 
                     File.WriteAllText(files[i], content, Encoding.UTF8);
