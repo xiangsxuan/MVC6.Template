@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Lookup 3.0.0
+ * Mvc.Lookup 3.1.1
  * https://github.com/NonFactors/MVC6.Lookup
  *
  * Copyright © NonFactors
@@ -195,7 +195,7 @@ var MvcLookupDialog = (function () {
             var hasSelection = rows.length && this.lookup.indexOf(this.selected, rows[0].Id) >= 0;
 
             for (var i = 0; i < rows.length; i++) {
-                var row = this.createDataRow(rows[i]);
+                var dataRow = this.createDataRow(rows[i]);
                 var selection = document.createElement('td');
 
                 for (var j = 0; j < columns.length; j++) {
@@ -204,26 +204,26 @@ var MvcLookupDialog = (function () {
                         data.className = columns[j].cssClass || '';
                         data.innerText = rows[i][columns[j].key] || '';
 
-                        row.appendChild(data);
+                        dataRow.appendChild(data);
                     }
                 }
 
-                row.appendChild(selection);
+                dataRow.appendChild(selection);
 
                 if (!hasSplit && hasSelection && this.lookup.indexOf(this.selected, rows[i].Id) < 0) {
                     var separator = document.createElement('tr');
-                    var empty = document.createElement('td');
+                    var content = document.createElement('td');
 
                     separator.className = 'mvc-lookup-split';
-                    empty.colSpan = columns.length + 1;
+                    content.colSpan = columns.length + 1;
 
                     this.tableBody.appendChild(separator);
-                    separator.appendChild(empty);
+                    separator.appendChild(content);
 
                     hasSplit = true;
                 }
 
-                this.tableBody.appendChild(row);
+                this.tableBody.appendChild(dataRow);
             }
         },
         renderFooter: function (filteredRows) {
@@ -267,11 +267,9 @@ var MvcLookupDialog = (function () {
 
             page.innerHTML = text;
             page.addEventListener('click', function () {
-                if (filter.page != value) {
-                    filter.page = dialog.limitPage(value);
+                filter.page = dialog.limitPage(value);
 
-                    dialog.refresh();
-                }
+                dialog.refresh();
             });
 
             dialog.pager.appendChild(page);
@@ -390,20 +388,25 @@ var MvcLookupDialog = (function () {
 }());
 var MvcLookupOverlay = (function () {
     function MvcLookupOverlay(dialog) {
-        this.element = this.getClosestOverlay(dialog.element);
+        this.element = this.findOverlay(dialog.element);
         this.dialog = dialog;
 
         this.bind();
     }
 
     MvcLookupOverlay.prototype = {
-        getClosestOverlay: function (element) {
+        findOverlay: function (element) {
             var overlay = element;
-            while (overlay.parentNode && !overlay.classList.contains('mvc-lookup-overlay')) {
-                overlay = overlay.parentNode;
+
+            if (!overlay) {
+                throw new Error('Lookup dialog element was not found.');
             }
 
-            if (overlay == document) {
+            while (overlay && !overlay.classList.contains('mvc-lookup-overlay')) {
+                overlay = overlay.parentElement;
+            }
+
+            if (!overlay) {
                 throw new Error('Lookup dialog has to be inside a mvc-lookup-overlay.');
             }
 
@@ -416,7 +419,7 @@ var MvcLookupOverlay = (function () {
                 var scrollWidth = window.innerWidth - document.body.clientWidth;
                 var paddingRight = parseFloat(getComputedStyle(document.body).paddingRight);
 
-                document.body.style.paddingRight = (paddingRight + scrollWidth) + 'px';
+                document.body.style.paddingRight = paddingRight + scrollWidth + 'px';
             }
 
             document.body.classList.add('mvc-lookup-open');
@@ -430,11 +433,17 @@ var MvcLookupOverlay = (function () {
 
         bind: function () {
             this.element.addEventListener('click', this.onClick);
+            document.addEventListener('keydown', this.onKeyDown);
         },
         onClick: function (e) {
             var targetClasses = (e.target || e.srcElement).classList;
 
             if (targetClasses.contains('mvc-lookup-overlay') || targetClasses.contains('mvc-lookup-wrapper')) {
+                MvcLookupDialog.prototype.current.close();
+            }
+        },
+        onKeyDown: function (e) {
+            if (e.which == 27 && MvcLookupDialog.prototype.current) {
                 MvcLookupDialog.prototype.current.close();
             }
         }
@@ -494,7 +503,7 @@ var MvcLookupAutocomplete = (function () {
             }, autocomplete.lookup.options.searchDelay);
         },
         previous: function () {
-            if (!this.element.parentNode) {
+            if (!this.element.parentElement) {
                 this.search(this.lookup.search.value);
 
                 return;
@@ -502,7 +511,7 @@ var MvcLookupAutocomplete = (function () {
 
             if (this.activeItem) {
                 this.activeItem.classList.remove('active');
-                this.activeItem = this.activeItem.previousSibling;
+                this.activeItem = this.activeItem.previousElementSibling;
             } else {
                 this.activeItem = this.element.lastElementChild;
             }
@@ -512,7 +521,7 @@ var MvcLookupAutocomplete = (function () {
             }
         },
         next: function () {
-            if (!this.element.parentNode) {
+            if (!this.element.parentElement) {
                 this.search(this.lookup.search.value);
 
                 return;
@@ -520,7 +529,7 @@ var MvcLookupAutocomplete = (function () {
 
             if (this.activeItem) {
                 this.activeItem.classList.remove('active');
-                this.activeItem = this.activeItem.nextSibling
+                this.activeItem = this.activeItem.nextElementSibling;
             } else {
                 this.activeItem = this.element.firstElementChild;
             }
@@ -532,8 +541,8 @@ var MvcLookupAutocomplete = (function () {
         show: function () {
             var search = this.lookup.search.getBoundingClientRect();
 
-            this.element.style.left = (search.left + window.pageXOffset) + 'px';
-            this.element.style.top = (search.top + search.height + window.pageYOffset) + 'px';
+            this.element.style.left = search.left + window.pageXOffset + 'px';
+            this.element.style.top = search.top + search.height + window.pageYOffset + 'px';
 
             document.body.appendChild(this.element);
         },
@@ -541,7 +550,7 @@ var MvcLookupAutocomplete = (function () {
             this.activeItem = null;
             this.element.innerHTML = '';
 
-            if (this.element.parentNode) {
+            if (this.element.parentElement) {
                 document.body.removeChild(this.element);
             }
         },
@@ -581,7 +590,7 @@ var MvcLookupAutocomplete = (function () {
 var MvcLookup = (function () {
     function MvcLookup(element, options) {
         var lookup = this;
-        var group = lookup.closestGroup(element);
+        var group = lookup.findLookup(element);
         if (group.dataset.id) {
             return lookup.instances[parseInt(group.dataset.id)].set(options || {});
         }
@@ -624,17 +633,22 @@ var MvcLookup = (function () {
             error: 'Error while retrieving records'
         },
 
-        closestGroup: function (element) {
-            var group = element;
-            while (group.parentNode && !group.classList.contains('mvc-lookup')) {
-                group = group.parentNode;
+        findLookup: function (element) {
+            var lookup = element;
+
+            if (!lookup) {
+                throw new Error('Lookup element was not specified.');
             }
 
-            if (group == document) {
+            while (lookup && !lookup.classList.contains('mvc-lookup')) {
+                lookup = lookup.parentElement;
+            }
+
+            if (!lookup) {
                 throw new Error('Lookup can only be created from within mvc-lookup structure.');
             }
 
-            return group;
+            return lookup;
         },
 
         extend: function () {
@@ -743,9 +757,9 @@ var MvcLookup = (function () {
 
             if (lookup.multi) {
                 lookup.search.value = '';
-                lookup.valueContainer.innerHTML = '';;
+                lookup.valueContainer.innerHTML = '';
                 lookup.items.forEach(function (item) {
-                    item.parentNode.removeChild(item);
+                    item.parentElement.removeChild(item);
                 });
 
                 lookup.items = lookup.createSelectedItems(data);
@@ -768,10 +782,9 @@ var MvcLookup = (function () {
             }
 
             if (triggerChanges) {
-                if (typeof (Event) === 'function') {
-                    var change = new Event('change');
-                } else {
-                    var change = document.createEvent('Event');
+                var change = new Event('change');
+                if (typeof Event !== 'function') {
+                    change = document.createEvent('Event');
                     change.initEvent('change', true, true);
                 }
 
@@ -854,7 +867,7 @@ var MvcLookup = (function () {
                 if (200 <= lookup.request.status && lookup.request.status < 400) {
                     lookup.stopLoading();
 
-                    success(JSON.parse(lookup.request.responseText))
+                    success(JSON.parse(lookup.request.responseText));
                 } else {
                     lookup.request.onerror();
                 }
@@ -977,10 +990,11 @@ var MvcLookup = (function () {
 
                     lookup.autocomplete.next();
                 } else if (e.which == 13 && lookup.autocomplete.activeItem) {
-                    if (typeof (Event) === 'function') {
-                        var click = new Event('click');
-                    } else {
-                        var click = document.createEvent('Event');
+                    e.preventDefault();
+
+                    var click = new Event('click');
+                    if (typeof Event !== 'function') {
+                        click = document.createEvent('Event');
                         click.initEvent('click', true, true);
                     }
 
