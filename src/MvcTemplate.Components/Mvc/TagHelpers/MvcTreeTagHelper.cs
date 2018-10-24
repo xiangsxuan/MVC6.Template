@@ -10,6 +10,9 @@ namespace MvcTemplate.Components.Mvc
     [HtmlTargetElement("div", Attributes = "mvc-tree-for")]
     public class MvcTreeTagHelper : TagHelper
     {
+        [HtmlAttributeName("readonly")]
+        public Boolean Readonly { get; set; }
+
         [HtmlAttributeName("hide-depth")]
         public Int32? HideDepth { get; set; }
 
@@ -18,13 +21,17 @@ namespace MvcTemplate.Components.Mvc
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
+            String treeClasses = "mvc-tree";
             MvcTree tree = For.Model as MvcTree;
+
+            if (Readonly)
+                treeClasses += " mvc-tree-readonly";
 
             output.Content.AppendHtml(IdsFor(tree));
             output.Content.AppendHtml(ViewFor(tree));
 
             output.Attributes.SetAttribute("data-for", For.Name + ".SelectedIds");
-            output.Attributes.SetAttribute("class", (output.Attributes["class"]?.Value + " mvc-tree").Trim());
+            output.Attributes.SetAttribute("class", (treeClasses + " " + output.Attributes["class"]?.Value).Trim());
         }
 
         private TagBuilder IdsFor(MvcTree model)

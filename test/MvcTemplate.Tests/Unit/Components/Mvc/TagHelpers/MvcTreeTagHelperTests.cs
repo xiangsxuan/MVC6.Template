@@ -43,25 +43,33 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public void Process_AddsMvcTreeClassAttribute()
+        [Theory]
+        [InlineData(false, "mvc-tree")]
+        [InlineData(true, "mvc-tree mvc-tree-readonly")]
+        public void Process_AddsClasses(Boolean isReadonly, String classes)
         {
+            helper.Readonly = isReadonly;
+
             helper.Process(null, output);
 
-            Object expected = "mvc-tree";
+            Object expected = classes;
             Object actual = output.Attributes["class"].Value;
 
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public void Process_AppendsMvcTreeClassAttribute()
+        [Theory]
+        [InlineData(false, "mvc-tree test")]
+        [InlineData(true, "mvc-tree mvc-tree-readonly test")]
+        public void Process_AppendsClasses(Boolean isReadonly, String classes)
         {
-            output.Attributes.SetAttribute("class", "test");
+            output.Attributes.Add("class", "test");
+
+            helper.Readonly = isReadonly;
 
             helper.Process(null, output);
 
-            Object expected = "test mvc-tree";
+            Object expected = classes;
             Object actual = output.Attributes["class"].Value;
 
             Assert.Equal(expected, actual);
