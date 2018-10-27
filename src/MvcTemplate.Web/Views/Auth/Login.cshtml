@@ -1,5 +1,4 @@
 ﻿@using Texts = MvcTemplate.Resources.Views.Administration.Accounts.AccountView.Texts
-@using MvcTemplate.Resources.Views.Auth.AccountLoginView
 
 @model AccountLoginView
 
@@ -12,12 +11,12 @@
     <div class="auth-content">
         <div class="input-group">
             <span class="fa fa-user"></span>
-            <input asp-for="Username" placeholder="@Titles.Username" />
+            <input asp-for="Username" asp-placeholder />
             <span class="input-error fa fa-exclamation-triangle"></span>
         </div>
         <div class="input-group">
             <span class="fa fa-lock"></span>
-            <input asp-for="Password" type="password" placeholder="@Titles.Password" />
+            <input asp-for="Password" asp-placeholder type="password"  />
             <span class="input-error fa fa-exclamation-triangle"></span>
         </div>
         @{ ILanguages languages = Context.RequestServices.GetService<ILanguages>(); }

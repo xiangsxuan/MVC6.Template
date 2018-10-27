@@ -1,6 +1,4 @@
-﻿@using MvcTemplate.Resources.Views.Auth.AccountResetView
-
-@model AccountResetView
+﻿@model AccountResetView
 
 <div class="title text">@Pages.AuthReset</div>
 <div class="separator"></div>
@@ -12,7 +10,7 @@
     <div class="auth-content">
         <div class="input-group">
             <span class="fa fa-lock"></span>
-            <input asp-for="NewPassword" type="password" placeholder="@Titles.NewPassword" />
+            <input asp-for="NewPassword" asp-placeholder type="password" />
             <span class="input-error fa fa-exclamation-triangle"></span>
         </div>
     </div>

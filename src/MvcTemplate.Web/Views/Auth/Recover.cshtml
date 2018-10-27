@@ -1,5 +1,4 @@
 ﻿@using Texts = MvcTemplate.Resources.Views.Administration.Accounts.AccountView.Texts
-@using MvcTemplate.Resources.Views.Auth.AccountRecoveryView
 
 @model AccountRecoveryView
 
@@ -12,7 +11,7 @@
     <div class="auth-content">
         <div class="input-group">
             <span class="fa fa-envelope"></span>
-            <input asp-for="Email" placeholder="@Titles.Email" />
+            <input asp-for="Email" asp-placeholder />
             <span class="input-error fa fa-exclamation-triangle"></span>
         </div>
     </div>
