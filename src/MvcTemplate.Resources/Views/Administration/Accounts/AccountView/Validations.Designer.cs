@@ -97,7 +97,7 @@ namespace MvcTemplate.Resources.Views.Administration.Accounts.AccountView {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to E-mail address is already being used..
+        ///   Looks up a localized string similar to Email address is already being used..
         /// </summary>
         public static string UniqueEmail {
             get {

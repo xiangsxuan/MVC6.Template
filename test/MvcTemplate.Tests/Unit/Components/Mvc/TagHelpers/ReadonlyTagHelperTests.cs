@@ -43,6 +43,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             Assert.Empty(output.Attributes);
             Assert.Empty(output.Content.GetContent());
         }
+
         #endregion
     }
 }

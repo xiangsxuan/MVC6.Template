@@ -49,9 +49,9 @@ namespace MvcTemplate.Web.Templates
 
             if (results.Any(result => result.Value.Errors.Any()))
             {
-                foreach (GennyScaffoldingResult result in results.Select(x => x.Value))
-                    foreach (String error in result.Errors)
-                        Logger.WriteLine($"    {error}");
+                Dictionary<String, GennyScaffoldingResult> errors = new Dictionary<String, GennyScaffoldingResult>(results.Where(x => x.Value.Errors.Any()));
+
+                Write(errors);
 
                 Logger.WriteLine("");
                 Logger.WriteLine("Scaffolding failed! Rolling back...", ConsoleColor.Red);

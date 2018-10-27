@@ -61,7 +61,7 @@ namespace MvcTemplate.Resources.Views.Auth.AccountRecoveryView {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to E-mail address.
+        ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string Email {
             get {

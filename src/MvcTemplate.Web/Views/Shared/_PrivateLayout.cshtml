@@ -34,7 +34,7 @@
 <body class="private">
     <div class="header">
         <div class="btn">
-            <a asp-route-area="" asp-controller="Profile" asp-action="Edit">
+            <a asp-action="Edit" asp-controller="Profile" asp-route-area="">
                 <span class="fa fa-user"></span>
                 <span class="text">@Actions.Profile</span>
             </a>
@@ -60,7 +60,7 @@
             </div>
         }
         <div class="btn">
-            <a asp-route-area="" asp-controller="Auth" asp-action="Logout">
+            <a asp-action="Logout" asp-controller="Auth" asp-route-area="">
                 <span class="fa fa-share"></span>
                 <span class="text">@Actions.Logout</span>
             </a>
@@ -94,7 +94,7 @@
                     }
                     else if (node.Action != null)
                     {
-                        <a asp-route-area="@node.Area" asp-controller="@node.Controller" asp-action="@node.Action">
+                        <a asp-action="@node.Action" asp-controller="@node.Controller" asp-route-area="@node.Area">
                             <span class="icon @node.IconClass"></span>
                             <span class="text">@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
                         </a>

@@ -61,7 +61,7 @@ namespace MvcTemplate.Resources.Views.Profile.ProfileEditView {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to E-mail.
+        ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string Email {
             get {

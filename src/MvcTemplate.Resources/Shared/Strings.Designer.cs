@@ -61,6 +61,15 @@ namespace MvcTemplate.Resources.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lost password?.
+        /// </summary>
+        public static string LostPassword {
+            get {
+                return ResourceManager.GetString("LostPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         public static string No {
