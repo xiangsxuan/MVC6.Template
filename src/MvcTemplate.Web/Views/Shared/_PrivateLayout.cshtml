@@ -110,7 +110,7 @@
                     <div class="alerts col-12">
                         @foreach (Alert alert in JsonConvert.DeserializeObject<AlertsContainer>(TempData["Alerts"] as String))
                         {
-                            <div class="alert alert-@alert.Type.ToString().ToLowerInvariant()" data-timeout="@alert.Timeout">
+                            <div id="@alert.Id" class="alert alert-@alert.Type.ToString().ToLowerInvariant()" data-timeout="@alert.Timeout">
                                 <span>@alert.Message</span><span class="close">×</span>
                             </div>
                         }

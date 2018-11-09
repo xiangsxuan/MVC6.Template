@@ -12,21 +12,29 @@ Alerts = {
         alerts = [].concat(alerts);
         var container = $('.alerts');
         for (var i = 0; i < alerts.length; i++) {
+            var alert = document.getElementById(alerts[i].id) || emptyAlert();
+            alert.setAttribute('data-timeout', alerts[i].timeout || '0');
+            alert.className = 'alert alert-' + getType(alerts[i].type);
+            alert.children[0].innerText = alerts[i].message || '';
+            alert.id = alerts[i].id || '';
+
+            container.append(alert);
+
+            Alerts.bind(alert);
+        }
+
+        function emptyAlert() {
             var alert = document.createElement('div');
             var close = document.createElement('span');
             var message = document.createElement('span');
 
-            alert.setAttribute('data-timeout', alerts[i].timeout || '0');
-            alert.className = 'alert alert-' + getType(alerts[i].type);
-            message.innerText = alerts[i].message || '';
             close.innerHTML = '&#x00D7;';
             close.className = 'close';
 
-            container.append(alert);
             alert.append(message);
             alert.append(close);
 
-            Alerts.bind(alert);
+            return alert;
         }
 
         function getType(id) {
@@ -52,6 +60,10 @@ Alerts = {
         }
     },
     close: function (alert) {
+        if (typeof alert == 'string') {
+            alert = document.getElementById(alert);
+        }
+
         $(alert).fadeTo(300, 0).slideUp(300, function () {
             $(this).remove();
         });
