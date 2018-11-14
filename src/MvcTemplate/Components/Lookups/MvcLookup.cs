@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MvcTemplate.Data.Core;
+﻿using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
 using NonFactors.Mvc.Lookup;
@@ -18,12 +17,6 @@ namespace MvcTemplate.Components.Lookups
         public MvcLookup(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
-        }
-        public MvcLookup(IUrlHelper url)
-        {
-            String view = typeof(TView).Name.Replace("View", "");
-            Url = url.Action(view, "Lookup", new { area = "" });
-            Title = ResourceProvider.GetLookupTitle(view);
         }
 
         public override String GetColumnHeader(PropertyInfo property)

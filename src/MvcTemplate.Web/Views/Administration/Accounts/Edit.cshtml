@@ -55,7 +55,7 @@
                         <label asp-for="RoleId"></label>
                     </div>
                     <div class="control-content col-md-9 col-lg-5">
-                        @Html.LookupFor(model => model.RoleId, new MvcLookup<Role, RoleView>(Url))
+                        <div mvc-lookup-for="RoleId" url="~/Lookup/Role" title="@Lookups.Role"></div>
                     </div>
                     <div class="control-validation col">
                         <span asp-validation-for="RoleId"></span>

@@ -33,10 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Genny" Version="2.1.0" />
+    <PackageReference Include="Genny" Version="2.2.0" />
     <PackageReference Include="Humanizer.Core" Version="2.5.1" />
-    <PackageReference Include="NonFactors.Grid.Mvc6" Version="3.1.0" />
-    <PackageReference Include="NonFactors.Lookup.Mvc6" Version="3.1.1" />
+    <PackageReference Include="NonFactors.Grid.Mvc6" Version="4.0.1" />
+    <PackageReference Include="NonFactors.Lookup.Mvc6" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.1" />
@@ -52,7 +52,7 @@
   </Target>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Genny" Version="2.1.0" />
+    <DotNetCliToolReference Include="Genny" Version="2.2.0" />
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.8.391" />
   </ItemGroup>
 

@@ -15,11 +15,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Validations.resx</DependentUpon>
     </Compile>
-    <Compile Update="Lookup\Titles.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Titles.resx</DependentUpon>
-    </Compile>
     <Compile Update="Permission\Action\Titles.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -49,6 +44,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Headers.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Shared\Lookups.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Lookups.resx</DependentUpon>
     </Compile>
     <Compile Update="Shared\Pages.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -132,10 +132,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Validations.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Lookup\Titles.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Titles.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Permission\Action\Titles.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Titles.Designer.cs</LastGenOutput>
@@ -159,6 +155,10 @@
     <EmbeddedResource Update="Shared\Headers.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Headers.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Shared\Lookups.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Lookups.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Shared\Pages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

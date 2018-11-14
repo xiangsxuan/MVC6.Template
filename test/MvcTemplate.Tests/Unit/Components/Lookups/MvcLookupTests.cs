@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
-using MvcTemplate.Components.Lookups;
+﻿using MvcTemplate.Components.Lookups;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
@@ -15,41 +13,14 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
 {
     public class MvcLookupTests
     {
+        private IUnitOfWork unitOfWork;
         private MvcLookup<Role, RoleView> lookup;
-        private IUrlHelper url;
 
         public MvcLookupTests()
         {
-            url = Substitute.For<IUrlHelper>();
-            lookup = new MvcLookup<Role, RoleView>(url);
+            unitOfWork = Substitute.For<IUnitOfWork>();
+            lookup = new MvcLookup<Role, RoleView>(unitOfWork);
         }
-
-        #region MvcLookup(IUrlHelper url)
-
-        [Fact]
-        public void MvcLookup_SetsTitle()
-        {
-            lookup = new MvcLookup<Role, RoleView>(url);
-
-            String expected = ResourceProvider.GetLookupTitle(typeof(RoleView).Name.Replace("View", ""));
-            String actual = lookup.Title;
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void MvcLookup_SetsUrl()
-        {
-            url.Action(Arg.Is<UrlActionContext>(context => context.Action == typeof(Role).Name && context.Controller == "Lookup")).Returns("Test");
-            lookup = new MvcLookup<Role, RoleView>(url);
-
-            String expected = "Test";
-            String actual = lookup.Url;
-
-            Assert.Equal(expected, actual);
-        }
-
-        #endregion
 
         #region GetColumnHeader(PropertyInfo property)
 
@@ -126,7 +97,6 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         [Fact]
         public void GetModels_FromUnitOfWork()
         {
-            IUnitOfWork unitOfWork = Substitute.For<IUnitOfWork>();
             unitOfWork.Select<Role>().To<RoleView>().Returns(new RoleView[0].AsQueryable());
 
             Object actual = new MvcLookup<Role, RoleView>(unitOfWork).GetModels();

@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Lookup 3.1.1
+ * Mvc.Lookup 3.2.0
  * https://github.com/NonFactors/MVC6.Lookup
  *
  * Copyright © NonFactors
@@ -12,12 +12,12 @@ var MvcLookupFilter = (function () {
         var data = lookup.group.dataset;
 
         this.lookup = lookup;
-        this.sort = data.sort;
-        this.order = data.order;
-        this.search = data.search;
-        this.page = parseInt(data.page);
-        this.rows = parseInt(data.rows);
-        this.additional = data.filters.split(',').filter(Boolean);
+        this.sort = data.sort || '';
+        this.order = data.order || '';
+        this.search = data.search || '';
+        this.page = parseInt(data.page) || 0;
+        this.rows = parseInt(data.rows) || 20;
+        this.additional = (data.filters || '').split(',').filter(Boolean);
     }
 
     MvcLookupFilter.prototype = {
@@ -62,11 +62,11 @@ var MvcLookupFilter = (function () {
 var MvcLookupDialog = (function () {
     function MvcLookupDialog(lookup) {
         var dialog = this;
-        var element = document.getElementById(lookup.group.dataset.dialog);
+        var element = document.getElementById(lookup.group.dataset.dialog || 'MvcLookupDialog');
 
         dialog.lookup = lookup;
         dialog.element = element;
-        dialog.title = lookup.group.dataset.title;
+        dialog.title = lookup.group.dataset.title || '';
         dialog.options = { preserveSearch: true, rows: { min: 1, max: 99 }, openDelay: 100 };
 
         dialog.overlay = new MvcLookupOverlay(this);
@@ -494,6 +494,11 @@ var MvcLookupAutocomplete = (function () {
 
                         autocomplete.element.appendChild(item);
                         autocomplete.bind(item, [data[i]]);
+
+                        if (i == 0) {
+                            autocomplete.activeItem = item;
+                            item.classList.add('active');
+                        }
                     }
 
                     if (data.length) {
@@ -509,16 +514,9 @@ var MvcLookupAutocomplete = (function () {
                 return;
             }
 
-            if (this.activeItem) {
-                this.activeItem.classList.remove('active');
-                this.activeItem = this.activeItem.previousElementSibling;
-            } else {
-                this.activeItem = this.element.lastElementChild;
-            }
-
-            if (this.activeItem) {
-                this.activeItem.classList.add('active');
-            }
+            this.activeItem.classList.remove('active');
+            this.activeItem = this.activeItem.previousElementSibling || this.element.lastElementChild;
+            this.activeItem.classList.add('active');
         },
         next: function () {
             if (!this.element.parentElement) {
@@ -527,16 +525,9 @@ var MvcLookupAutocomplete = (function () {
                 return;
             }
 
-            if (this.activeItem) {
-                this.activeItem.classList.remove('active');
-                this.activeItem = this.activeItem.nextElementSibling;
-            } else {
-                this.activeItem = this.element.firstElementChild;
-            }
-
-            if (this.activeItem) {
-                this.activeItem.classList.add('active');
-            }
+            this.activeItem.classList.remove('active');
+            this.activeItem = this.activeItem.nextElementSibling || this.element.firstElementChild;
+            this.activeItem.classList.add('active');
         },
         show: function () {
             var search = this.lookup.search.getBoundingClientRect();
@@ -601,9 +592,9 @@ var MvcLookup = (function () {
         lookup.selected = [];
         lookup.for = group.dataset.for;
         lookup.url = group.dataset.url;
-        lookup.multi = group.dataset.multi == 'true';
+        lookup.multi = group.dataset.multi == 'True';
         lookup.group.dataset.id = lookup.instances.length;
-        lookup.readonly = group.dataset.readonly == 'true';
+        lookup.readonly = group.dataset.readonly == 'True';
         lookup.options = { searchDelay: 500, loadingDelay: 300 };
 
         lookup.search = group.querySelector('.mvc-lookup-input');
@@ -669,6 +660,8 @@ var MvcLookup = (function () {
             return options;
         },
         set: function (options) {
+            this.options.loadingDelay = options.loadingDelay == null ? this.options.loadingDelay : options.loadingDelay;
+            this.options.searchDelay = options.searchDelay == null ? this.options.searchDelay : options.searchDelay;
             this.autocomplete.options = this.extend(this.autocomplete.options, options.autocomplete);
             this.setReadonly(options.readonly == null ? this.readonly : options.readonly);
             this.dialog.options = this.extend(this.dialog.options, options.dialog);
@@ -782,8 +775,10 @@ var MvcLookup = (function () {
             }
 
             if (triggerChanges) {
-                var change = new Event('change');
-                if (typeof Event !== 'function') {
+                var change = null;
+                if (typeof (Event) === 'function') {
+                    change = new Event('change');
+                } else {
                     change = document.createEvent('Event');
                     change.initEvent('change', true, true);
                 }
@@ -992,8 +987,10 @@ var MvcLookup = (function () {
                 } else if (e.which == 13 && lookup.autocomplete.activeItem) {
                     e.preventDefault();
 
-                    var click = new Event('click');
-                    if (typeof Event !== 'function') {
+                    var click = null;
+                    if (typeof (Event) === 'function') {
+                        click = new Event('click');
+                    } else {
                         click = document.createEvent('Event');
                         click.initEvent('click', true, true);
                     }

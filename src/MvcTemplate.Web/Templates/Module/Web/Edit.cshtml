@@ -34,7 +34,7 @@
                         }
                         else if (Model.Relations[property] != null)
                         {
-                        @:@@Html.LookupFor(model => model.@property.Name, new MvcLookup<@Model.Relations[property], @(Model.Relations[property])View>(Url))
+                        <div mvc-lookup-for="@property.Name" url="~/Lookup/@Model.Relations[property]" title="@@Lookups.@Model.Relations[property]"></div>
                         }
                         else
                         {
