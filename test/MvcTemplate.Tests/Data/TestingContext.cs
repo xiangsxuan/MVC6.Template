@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MvcTemplate.Data.Core;
-using MvcTemplate.Tests;
 using System;
 
 namespace MvcTemplate.Tests
@@ -20,7 +19,6 @@ namespace MvcTemplate.Tests
         {
         }
         public TestingContext(String databaseName)
-            : base(null)
         {
             DatabaseName = databaseName;
         }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Data.Mapping;
 using MvcTemplate.Objects;
@@ -26,15 +25,16 @@ namespace MvcTemplate.Data.Core
 
         #endregion
 
-        protected IConfiguration Config { get; }
-
         static Context()
         {
             ObjectMapper.MapObjects();
         }
-        public Context(IConfiguration config)
+        protected Context()
         {
-            Config = config;
+        }
+        public Context(DbContextOptions<Context> options)
+            : base(options)
+        {
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -50,7 +50,7 @@ namespace MvcTemplate.Data.Core
         }
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(Config["Data:Connection"]).UseLazyLoadingProxies();
+            builder.UseLazyLoadingProxies();
         }
     }
 }

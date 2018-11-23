@@ -97,6 +97,7 @@ namespace MvcTemplate.Web
             services.AddTransient<Configuration>();
             services.AddTransient<DbContext, Context>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddDbContext<Context>(options => options.UseSqlServer(Config["Data:Connection"]));
 
             services.AddTransient<IAuditLogger>(provider =>
                 new AuditLogger(provider.GetService<DbContext>(),

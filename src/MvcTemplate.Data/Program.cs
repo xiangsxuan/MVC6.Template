@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
 
@@ -15,10 +14,6 @@ namespace MvcTemplate.Data
         {
             return new WebHostBuilder()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseConfiguration(new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()).FullName)
-                    .AddJsonFile("MvcTemplate.Web/configuration.json")
-                    .Build())
                 .UseStartup<Startup>()
                 .UseKestrel()
                 .Build();
