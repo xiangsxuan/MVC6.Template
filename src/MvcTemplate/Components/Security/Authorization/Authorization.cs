@@ -126,7 +126,9 @@ namespace MvcTemplate.Components.Security
         private Boolean IsController(Type type)
         {
             return type.Name.EndsWith("Controller", StringComparison.OrdinalIgnoreCase) &&
+                !type.IsDefined(typeof(NonControllerAttribute)) &&
                 typeof(Controller).IsAssignableFrom(type) &&
+                !type.ContainsGenericParameters &&
                 !type.IsAbstract &&
                 type.IsPublic;
         }
