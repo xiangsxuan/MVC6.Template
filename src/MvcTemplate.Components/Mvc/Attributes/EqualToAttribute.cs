@@ -1,5 +1,4 @@
 ﻿using MvcTemplate.Resources;
-using MvcTemplate.Resources.Form;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
@@ -13,7 +12,7 @@ namespace MvcTemplate.Components.Mvc
         public String OtherPropertyDisplayName { get; set; }
 
         public EqualToAttribute(String otherPropertyName)
-            : base(() => Validations.EqualTo)
+            : base(() => Validation.For("EqualTo"))
         {
             OtherPropertyName = otherPropertyName ?? throw new ArgumentNullException(nameof(otherPropertyName));
         }

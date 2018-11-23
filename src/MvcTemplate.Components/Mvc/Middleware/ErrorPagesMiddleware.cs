@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
-using MvcTemplate.Resources.Shared;
+using MvcTemplate.Resources;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ namespace MvcTemplate.Components.Mvc
                     context.Response.StatusCode = 500;
                     context.Response.ContentType = "application/json; charset=utf-8";
 
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new { status = "error", data = new { message = Strings.SystemError } }));
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new { status = "error", data = new { message = Resource.ForString("SystemError") } }));
                 }
                 else
                 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using MvcTemplate.Resources.Form;
+using MvcTemplate.Resources;
 using MvcTemplate.Tests;
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace MvcTemplate.Components.Mvc.Tests
             Assert.Equal(3, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
             Assert.Equal("*." + adapter.Attribute.OtherPropertyName, attributes["data-val-equalto-other"]);
-            Assert.Equal(String.Format(Validations.EqualTo, context.ModelMetadata.PropertyName, adapter.Attribute.OtherPropertyName), attributes["data-val-equalto"]);
+            Assert.Equal(Validation.For("EqualTo", context.ModelMetadata.PropertyName, adapter.Attribute.OtherPropertyName), attributes["data-val-equalto"]);
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace MvcTemplate.Components.Mvc.Tests
         [Fact]
         public void GetErrorMessage_EqualTo()
         {
-            String expected = String.Format(Validations.EqualTo, context.ModelMetadata.PropertyName, "");
+            String expected = Validation.For("EqualTo", context.ModelMetadata.PropertyName, "");
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(expected, actual);

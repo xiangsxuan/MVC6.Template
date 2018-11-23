@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using MvcTemplate.Resources.Form;
+using MvcTemplate.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +13,7 @@ namespace MvcTemplate.Components.Mvc
         public Decimal MaximumMB { get; }
 
         public FileSizeAttribute(Double maximumMB)
-            : base(() => Validations.FileSize)
+            : base(() => Validation.For("FileSize"))
         {
             MaximumMB = Convert.ToDecimal(maximumMB);
         }

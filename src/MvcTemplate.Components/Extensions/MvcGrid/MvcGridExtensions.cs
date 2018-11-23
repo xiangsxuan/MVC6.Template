@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Resources;
-using MvcTemplate.Resources.Shared;
 using NonFactors.Mvc.Grid;
 using System;
 using System.Collections.Generic;
@@ -39,7 +38,7 @@ namespace MvcTemplate.Components.Extensions
             return columns
                 .AddProperty(expression)
                 .MultiFilterable(false)
-                .RenderedAs(model => valueFor(model) ? Strings.Yes : Strings.No);
+                .RenderedAs(model => valueFor(model) ? Resource.ForString("Yes") : Resource.ForString("No"));
         }
         public static IGridColumn<T, Boolean?> AddBoolean<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean?>> expression)
         {
@@ -51,8 +50,8 @@ namespace MvcTemplate.Components.Extensions
                 .RenderedAs(model =>
                     valueFor(model) != null
                         ? valueFor(model) == true
-                            ? Strings.Yes
-                            : Strings.No
+                            ? Resource.ForString("Yes")
+                            : Resource.ForString("No")
                         : "");
         }
         public static IGridColumn<T, DateTime> AddDateTime<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
@@ -75,7 +74,7 @@ namespace MvcTemplate.Components.Extensions
         {
             return grid
                 .Pageable(pager => { pager.RowsPerPage = 16; })
-                .Empty(Strings.NoDataFound)
+                .Empty(Resource.ForString("NoDataFound"))
                 .AppendCss("table-hover")
                 .Filterable()
                 .Sortable();

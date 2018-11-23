@@ -2,12 +2,8 @@
 using MvcTemplate.Objects;
 using MvcTemplate.Tests;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
-using System.Resources;
 using System.Xml.Linq;
 using Xunit;
 
@@ -16,124 +12,78 @@ namespace MvcTemplate.Resources.Tests
     public class ResourcesTests
     {
         [Fact]
+        public void Resources_HasAllPageTitles()
+        {
+            IDictionary<String, Object> values = new Dictionary<String, Object>();
+            IEnumerable<XElement> sitemap = XDocument
+                .Load("../../../../../src/MvcTemplate.Web/mvc.sitemap")
+                .Descendants("siteMapNode")
+                .Where(node => node.Attribute("action") != null);
+
+            foreach (XElement node in sitemap)
+            {
+                values["area"] = node.Attribute("area")?.Value;
+                values["action"] = node.Attribute("action").Value;
+                values["controller"] = node.Attribute("controller").Value;
+
+                String page = $"{values["area"]}{values["controller"]}{values["action"]}";
+
+                Assert.True(!String.IsNullOrEmpty(Resource.ForPage(values)),
+                    $"'{page}' page, does not have a title.");
+            }
+        }
+
+        [Fact]
+        public void Resources_HasAllSiteMapTitles()
+        {
+            IEnumerable<XElement> sitemap = XDocument
+                .Load("../../../../../src/MvcTemplate.Web/mvc.sitemap")
+                .Descendants("siteMapNode");
+
+            foreach (XElement node in sitemap)
+                Assert.True(!String.IsNullOrEmpty(Resource.ForSiteMap(node.Attribute("area")?.Value, node.Attribute("controller")?.Value, node.Attribute("action")?.Value)),
+                    $"Sitemap node '{node}' page, does not have a title.");
+        }
+
+        [Fact]
         public void Resources_HasAllPermissionAreaTitles()
         {
-            ResourceManager manager = Permissions.Area.Titles.ResourceManager;
-
             using (TestingContext context = new TestingContext())
             using (Configuration configuration = new Configuration(context, null))
             {
                 configuration.SeedData();
 
-                String[] areas = context
-                    .Set<Permission>()
-                    .Where(permission => permission.Area != null)
-                    .Select(permission => permission.Area)
-                    .Distinct()
-                    .ToArray();
-
-                foreach (String area in areas)
-                    Assert.True(!String.IsNullOrEmpty(manager.GetString(area)), $"'{area}' permission, does not have a title.");
+                foreach (Permission permission in context.Set<Permission>().Where(permission => permission.Area != null))
+                    Assert.True(!String.IsNullOrEmpty(Resource.ForPermission(permission.Area)),
+                        $"'{permission.Area}' permission, does not have a title.");
             }
         }
 
         [Fact]
         public void Resources_HasAllPermissionControllerTitles()
         {
-            ResourceManager manager = Permissions.Controller.Titles.ResourceManager;
-
             using (TestingContext context = new TestingContext())
             using (Configuration configuration = new Configuration(context, null))
             {
                 configuration.SeedData();
 
-                String[] controllers = context
-                    .Set<Permission>()
-                    .Select(permission => permission.Area + permission.Controller)
-                    .Distinct()
-                    .ToArray();
-
-                foreach (String controller in controllers)
-                    Assert.True(!String.IsNullOrEmpty(manager.GetString(controller)), $"'{controller}' permission, does not have a title.");
+                foreach (Permission permission in context.Set<Permission>())
+                    Assert.True(!String.IsNullOrEmpty(Resource.ForPermission(permission.Area, permission.Controller)),
+                        $"'{permission.Area}{permission.Controller}' permission, does not have a title.");
             }
         }
 
         [Fact]
         public void Resources_HasAllPermissionActionTitles()
         {
-            ResourceManager manager = Permissions.Action.Titles.ResourceManager;
-
             using (TestingContext context = new TestingContext())
             using (Configuration configuration = new Configuration(context, null))
             {
                 configuration.SeedData();
 
-                String[] actions = context
-                    .Set<Permission>()
-                    .Select(permission => permission.Area + permission.Controller + permission.Action)
-                    .Distinct()
-                    .ToArray();
-
-                foreach (String action in actions)
-                    Assert.True(!String.IsNullOrEmpty(manager.GetString(action)), $"'{action} permission', does not have a title.");
-            }
-        }
-
-        [Fact]
-        public void Resources_HasAllPageTitles()
-        {
-            ResourceManager manager = Shared.Pages.ResourceManager;
-            IEnumerable<String> sitemap = XDocument
-                .Load("../../../../../src/MvcTemplate.Web/mvc.sitemap")
-                .Descendants("siteMapNode")
-                .Where(node => node.Attribute("action") != null)
-                .Select(node => node.Attribute("area")?.Value + node.Attribute("controller")?.Value + node.Attribute("action")?.Value);
-
-            foreach (String node in sitemap)
-                Assert.True(!String.IsNullOrEmpty(manager.GetString(node)), $"'{node}' page, does not have a title.");
-        }
-
-        [Fact]
-        public void Resources_HasAllSiteMapTitles()
-        {
-            ResourceManager manager = SiteMap.Titles.ResourceManager;
-            IEnumerable<String> sitemap = XDocument
-                .Load("../../../../../src/MvcTemplate.Web/mvc.sitemap")
-                .Descendants("siteMapNode")
-                .Select(node => node.Attribute("area")?.Value + node.Attribute("controller")?.Value + node.Attribute("action")?.Value);
-
-            foreach (String node in sitemap)
-                Assert.True(!String.IsNullOrEmpty(manager.GetString(node)), $"Sitemap node '{node}', does not have a title.");
-        }
-
-        [Fact]
-        public void Resources_HasEquivalents()
-        {
-            IEnumerable<CultureInfo> languages = XDocument
-                .Load("../../../../../src/MvcTemplate.Web/languages.config")
-                .Descendants("language")
-                .Select(language => new CultureInfo(language.Attribute("culture").Value));
-
-            IEnumerable<Type> types = Assembly
-                .Load("MvcTemplate.Resources")
-                .GetTypes()
-                .Where(type => type.Namespace.StartsWith("MvcTemplate.Resources."));
-
-            foreach (Type type in types)
-            {
-                IEnumerable<String> keys = new String[0];
-                ResourceManager manager = new ResourceManager(type);
-
-                foreach (ResourceSet set in languages.Select(language => manager.GetResourceSet(language, true, true)))
-                    keys = keys.Union(set.Cast<DictionaryEntry>().Select(resource => resource.Key.ToString()));
-
-                foreach (CultureInfo language in languages)
-                {
-                    ResourceSet set = manager.GetResourceSet(language, true, true);
-                    foreach (String key in keys)
-                        Assert.True((set.GetObject(key) ?? "").ToString() != "",
-                            $"{type.FullName}, does not have translation for '{key}' in {language.EnglishName} language.");
-                }
+                foreach (Permission permission in context.Set<Permission>())
+                    Assert.True(!String.IsNullOrEmpty(Resource.ForPermission(permission.Area, permission.Controller, permission.Action)),
+                        $"'{permission.Area}{permission.Controller}{permission.Action} permission', does not have a title.");
             }
         }
     }

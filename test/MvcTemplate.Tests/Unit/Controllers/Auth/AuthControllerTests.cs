@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using MvcTemplate.Components.Mail;
 using MvcTemplate.Components.Notifications;
 using MvcTemplate.Objects;
-using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
+using MvcTemplate.Resources;
 using MvcTemplate.Services;
 using MvcTemplate.Tests;
 using MvcTemplate.Validators;
@@ -115,8 +115,8 @@ namespace MvcTemplate.Controllers.Tests
             await controller.Recover(accountRecovery);
 
             String url = controller.Url.Action("Reset", "Auth", new { token = "TestToken" }, controller.Request.Scheme);
-            String body = String.Format(Messages.RecoveryEmailBody, url);
-            String subject = Messages.RecoveryEmailSubject;
+            String subject = Message.For<AccountView>("RecoveryEmailSubject");
+            String body = Message.For<AccountView>("RecoveryEmailBody", url);
             String email = accountRecovery.Email;
 
             await mail.Received().SendAsync(email, subject, body);
@@ -145,7 +145,7 @@ namespace MvcTemplate.Controllers.Tests
 
             Alert actual = controller.Alerts.Single();
 
-            Assert.Equal(Messages.RecoveryInformation, actual.Message);
+            Assert.Equal(Message.For<AccountView>("RecoveryInformation"), actual.Message);
             Assert.Equal(AlertType.Info, actual.Type);
             Assert.Equal(0, actual.Timeout);
         }
@@ -249,7 +249,7 @@ namespace MvcTemplate.Controllers.Tests
 
             Alert actual = controller.Alerts.Single();
 
-            Assert.Equal(Messages.SuccessfulReset, actual.Message);
+            Assert.Equal(Message.For<AccountView>("SuccessfulReset"), actual.Message);
             Assert.Equal(AlertType.Success, actual.Type);
             Assert.Equal(4000, actual.Timeout);
         }

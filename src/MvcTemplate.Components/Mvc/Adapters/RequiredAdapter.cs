@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using MvcTemplate.Resources.Form;
+using MvcTemplate.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,7 +15,7 @@ namespace MvcTemplate.Components.Mvc
 
         public override String GetErrorMessage(ModelValidationContextBase context)
         {
-            Attribute.ErrorMessage = Validations.Required;
+            Attribute.ErrorMessage = Validation.For("Required");
 
             return GetErrorMessage(context.ModelMetadata);
         }

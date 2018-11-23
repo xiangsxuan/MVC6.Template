@@ -1,0 +1,29 @@
+{
+    "Headers": {
+        "Account": "Naudotojas",
+        "Accounts": "Naudotojai",
+        "Profile": "Paskyra",
+        "Role": "Rolė",
+        "Roles": "Rolės"
+    },
+    "Titles": {
+        "AdministrationAccountsCreate": "Naudotojo kūrimas",
+        "AdministrationAccountsDetails": "Naudotojo peržiūra",
+        "AdministrationAccountsEdit": "Naudotojo redagavimas",
+        "AdministrationAccountsIndex": "Naudotojai",
+        "AdministrationRolesCreate": "Rolės kūrimas",
+        "AdministrationRolesDelete": "Rolės trynimas",
+        "AdministrationRolesDetails": "Rolės peržiūra",
+        "AdministrationRolesEdit": "Rolės redagavimas",
+        "AdministrationRolesIndex": "Rolės",
+        "AuthLogin": "Prisijungimas",
+        "AuthRecover": "Atkūrimas",
+        "AuthReset": "Atkūrimas",
+        "HomeError": "Klaida",
+        "HomeIndex": "Pradžia",
+        "HomeNotFound": "Nerasta",
+        "HomeUnauthorized": "Uždrausta",
+        "ProfileDelete": "Paskyros trynimas",
+        "ProfileEdit": "Paskyros redagavimas"
+    }
+}

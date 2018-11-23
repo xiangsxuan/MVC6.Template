@@ -2,7 +2,7 @@
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
-using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
+using MvcTemplate.Resources;
 using MvcTemplate.Tests;
 using NSubstitute;
 using System;
@@ -80,7 +80,7 @@ namespace MvcTemplate.Validators.Tests
             Assert.Equal(0, alert.Timeout);
             Assert.Empty(validator.ModelState);
             Assert.Equal(AlertType.Danger, alert.Type);
-            Assert.Equal(Validations.ExpiredToken, alert.Message);
+            Assert.Equal(Validation.For<AccountView>("ExpiredToken"), alert.Message);
         }
 
         [Fact]
@@ -116,7 +116,7 @@ namespace MvcTemplate.Validators.Tests
             Assert.Equal(0, alert.Timeout);
             Assert.Empty(validator.ModelState);
             Assert.Equal(AlertType.Danger, alert.Type);
-            Assert.Equal(Validations.IncorrectAuthentication, alert.Message);
+            Assert.Equal(Validation.For<AccountView>("IncorrectAuthentication"), alert.Message);
         }
 
         [Fact]
@@ -136,7 +136,7 @@ namespace MvcTemplate.Validators.Tests
             Assert.Equal(0, alert.Timeout);
             Assert.Empty(validator.ModelState);
             Assert.Equal(AlertType.Danger, alert.Type);
-            Assert.Equal(Validations.IncorrectAuthentication, alert.Message);
+            Assert.Equal(Validation.For<AccountView>("IncorrectAuthentication"), alert.Message);
         }
 
         [Fact]
@@ -154,7 +154,7 @@ namespace MvcTemplate.Validators.Tests
             Assert.Equal(0, alert.Timeout);
             Assert.Empty(validator.ModelState);
             Assert.Equal(AlertType.Danger, alert.Type);
-            Assert.Equal(Validations.LockedAccount, alert.Message);
+            Assert.Equal(Validation.For<AccountView>("LockedAccount"), alert.Message);
         }
 
         [Fact]
@@ -196,7 +196,7 @@ namespace MvcTemplate.Validators.Tests
 
             Assert.False(canCreate);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UniqueUsername, validator.ModelState["Username"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validation.For<AccountView>("UniqueUsername"), validator.ModelState["Username"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -209,7 +209,7 @@ namespace MvcTemplate.Validators.Tests
 
             Assert.False(canCreate);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UniqueEmail, validator.ModelState["Email"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validation.For<AccountView>("UniqueEmail"), validator.ModelState["Email"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -246,7 +246,7 @@ namespace MvcTemplate.Validators.Tests
 
             Assert.False(canEdit);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UniqueUsername, validator.ModelState["Username"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validation.For<AccountView>("UniqueUsername"), validator.ModelState["Username"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -272,7 +272,7 @@ namespace MvcTemplate.Validators.Tests
 
             Assert.False(canEdit);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UniqueEmail, validator.ModelState["Email"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validation.For<AccountView>("UniqueEmail"), validator.ModelState["Email"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -314,7 +314,7 @@ namespace MvcTemplate.Validators.Tests
 
             Assert.False(canEdit);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.IncorrectPassword, validator.ModelState["Password"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validation.For<AccountView>("IncorrectPassword"), validator.ModelState["Password"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -331,7 +331,7 @@ namespace MvcTemplate.Validators.Tests
 
             Assert.False(canEdit);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UniqueUsername, validator.ModelState["Username"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validation.For<AccountView>("UniqueUsername"), validator.ModelState["Username"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -357,7 +357,7 @@ namespace MvcTemplate.Validators.Tests
 
             Assert.False(canEdit);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UniqueEmail, validator.ModelState["Email"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validation.For<AccountView>("UniqueEmail"), validator.ModelState["Email"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -399,7 +399,7 @@ namespace MvcTemplate.Validators.Tests
 
             Assert.False(canDelete);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.IncorrectPassword, validator.ModelState["Password"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validation.For<AccountView>("IncorrectPassword"), validator.ModelState["Password"].Errors.Single().ErrorMessage);
         }
 
         [Fact]

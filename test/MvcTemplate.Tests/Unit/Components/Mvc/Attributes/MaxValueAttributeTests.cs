@@ -1,4 +1,4 @@
-﻿using MvcTemplate.Resources.Form;
+﻿using MvcTemplate.Resources;
 using System;
 using Xunit;
 
@@ -33,8 +33,8 @@ namespace MvcTemplate.Components.Mvc.Tests
         {
             attribute = new MaxValueAttribute(13.44);
 
-            String expected = String.Format(Validations.MaxValue, "Sum", attribute.Maximum);
             String actual = attribute.FormatErrorMessage("Sum");
+            String expected = Validation.For("MaxValue", "Sum", attribute.Maximum);
 
             Assert.Equal(expected, actual);
         }

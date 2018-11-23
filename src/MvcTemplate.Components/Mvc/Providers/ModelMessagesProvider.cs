@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
-using MvcTemplate.Resources.Form;
-using System;
+using MvcTemplate.Resources;
 
 namespace MvcTemplate.Components.Mvc
 {
@@ -8,13 +7,13 @@ namespace MvcTemplate.Components.Mvc
     {
         public static void Set(DefaultModelBindingMessageProvider messages)
         {
-            messages.SetAttemptedValueIsInvalidAccessor((value, field) => String.Format(Validations.InvalidField, field));
-            messages.SetUnknownValueIsInvalidAccessor(field => String.Format(Validations.InvalidField, field));
-            messages.SetMissingBindRequiredValueAccessor(field => String.Format(Validations.Required, field));
-            messages.SetValueMustNotBeNullAccessor(field => String.Format(Validations.Required, field));
-            messages.SetValueIsInvalidAccessor(value => String.Format(Validations.InvalidValue, value));
-            messages.SetValueMustBeANumberAccessor(field => String.Format(Validations.Numeric, field));
-            messages.SetMissingKeyOrValueAccessor(() => Validations.RequiredValue);
+            messages.SetAttemptedValueIsInvalidAccessor((value, field) => Validation.For("InvalidField", field));
+            messages.SetUnknownValueIsInvalidAccessor(field => Validation.For("InvalidField", field));
+            messages.SetMissingBindRequiredValueAccessor(field => Validation.For("Required", field));
+            messages.SetValueMustNotBeNullAccessor(field => Validation.For("Required", field));
+            messages.SetValueIsInvalidAccessor(value => Validation.For("InvalidValue", value));
+            messages.SetValueMustBeANumberAccessor(field => Validation.For("Numeric", field));
+            messages.SetMissingKeyOrValueAccessor(() => Validation.For("RequiredValue"));
         }
     }
 }

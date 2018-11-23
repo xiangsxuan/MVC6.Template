@@ -2,7 +2,7 @@
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Objects;
-using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
+using MvcTemplate.Resources;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
 
@@ -36,7 +36,7 @@ namespace MvcTemplate.Controllers
 
             Service.Edit(profile);
 
-            Alerts.AddSuccess(Messages.ProfileUpdated, 4000);
+            Alerts.AddSuccess(Message.For<AccountView>("ProfileUpdated"), 4000);
 
             return RedirectToAction("Edit");
         }
@@ -47,7 +47,7 @@ namespace MvcTemplate.Controllers
             if (!Service.IsActive(CurrentAccountId))
                 return RedirectToAction("Logout", "Auth");
 
-            Alerts.AddWarning(Messages.ProfileDeleteDisclaimer);
+            Alerts.AddWarning(Message.For<AccountView>("ProfileDeleteDisclaimer"));
 
             return View();
         }
@@ -61,7 +61,7 @@ namespace MvcTemplate.Controllers
 
             if (!Validator.CanDelete(profile))
             {
-                Alerts.AddWarning(Messages.ProfileDeleteDisclaimer);
+                Alerts.AddWarning(Message.For<AccountView>("ProfileDeleteDisclaimer"));
 
                 return View();
             }

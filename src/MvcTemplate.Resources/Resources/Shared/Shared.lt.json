@@ -1,0 +1,27 @@
+{
+    "Actions": {
+        "Copy": "Kopijuoti",
+        "Create": "Sukurti",
+        "Delete": "Trinti",
+        "Details": "Peržiūrėti",
+        "Edit": "Redaguoti",
+        "Home": "Pradžia",
+        "Language": "Kalba",
+        "Login": "Prisijungti",
+        "Logout": "Atsijungti",
+        "Profile": "Paskyra",
+        "Recover": "Patvirtinti",
+        "Search": "Ieškoti",
+        "Submit": "Patvirtinti"
+    },
+    "Strings": {
+        "All": "All",
+        "LostPassword": "Praradote slaptažodį?",
+        "No": "Ne",
+        "NoDataFound": "Įrašų nerasta",
+        "PageNotFound": "Puslapis, kurį norite pasiekti neegzistuoja",
+        "SystemError": "Įvyko sisteminė klaida, prašome susisiekti su sistemos administratoriumi",
+        "Unauthorized": "Jums nepakanka teisių peržiūrėti šį turinį",
+        "Yes": "Taip"
+    }
+}

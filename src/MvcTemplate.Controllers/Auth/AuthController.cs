@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Components.Mail;
 using MvcTemplate.Objects;
-using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
+using MvcTemplate.Resources;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
 using System;
@@ -43,13 +43,12 @@ namespace MvcTemplate.Controllers
             {
                 String url = Url.Action("Reset", "Auth", new { token }, Request.Scheme);
 
-                await MailClient.SendAsync(
-                    account.Email,
-                    Messages.RecoveryEmailSubject,
-                    String.Format(Messages.RecoveryEmailBody, url));
+                await MailClient.SendAsync(account.Email,
+                    Message.For<AccountView>("RecoveryEmailSubject"),
+                    Message.For<AccountView>("RecoveryEmailBody", url));
             }
 
-            Alerts.AddInfo(Messages.RecoveryInformation);
+            Alerts.AddInfo(Message.For<AccountView>("RecoveryInformation"));
 
             return RedirectToAction("Login");
         }
@@ -77,7 +76,7 @@ namespace MvcTemplate.Controllers
 
             Service.Reset(account);
 
-            Alerts.AddSuccess(Messages.SuccessfulReset, 4000);
+            Alerts.AddSuccess(Message.For<AccountView>("SuccessfulReset"), 4000);
 
             return RedirectToAction("Login");
         }

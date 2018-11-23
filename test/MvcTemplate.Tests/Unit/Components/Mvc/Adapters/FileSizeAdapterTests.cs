@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using MvcTemplate.Resources.Form;
+using MvcTemplate.Resources;
 using MvcTemplate.Tests;
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace MvcTemplate.Components.Mvc.Tests
             Assert.Equal(3, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
             Assert.Equal("12845056.00", attributes["data-val-filesize-max"]);
-            Assert.Equal(String.Format(Validations.FileSize, context.ModelMetadata.PropertyName, 12.25), attributes["data-val-filesize"]);
+            Assert.Equal(Validation.For("FileSize", context.ModelMetadata.PropertyName, 12.25), attributes["data-val-filesize"]);
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace MvcTemplate.Components.Mvc.Tests
         [Fact]
         public void GetErrorMessage_FileSize()
         {
-            String expected = String.Format(Validations.FileSize, context.ModelMetadata.PropertyName, 12.25);
+            String expected = Validation.For("FileSize", context.ModelMetadata.PropertyName, 12.25);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(expected, actual);

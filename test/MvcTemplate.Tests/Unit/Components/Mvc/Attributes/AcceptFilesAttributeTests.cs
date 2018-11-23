@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using MvcTemplate.Resources.Form;
+using MvcTemplate.Resources;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using System;
@@ -36,7 +36,7 @@ namespace MvcTemplate.Components.Mvc.Tests
         {
             attribute = new AcceptFilesAttribute(".docx,.xlsx");
 
-            String expected = String.Format(Validations.AcceptFiles, "File", attribute.Extensions);
+            String expected = Validation.For("AcceptFiles", "File", attribute.Extensions);
             String actual = attribute.FormatErrorMessage("File");
 
             Assert.Equal(expected, actual);

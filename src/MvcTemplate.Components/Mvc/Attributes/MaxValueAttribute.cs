@@ -1,4 +1,4 @@
-﻿using MvcTemplate.Resources.Form;
+﻿using MvcTemplate.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,7 +10,7 @@ namespace MvcTemplate.Components.Mvc
         public Decimal Maximum { get; }
 
         public MaxValueAttribute(Double maximum)
-            : base(() => Validations.MaxValue)
+            : base(() => Validation.For("MaxValue"))
         {
             Maximum = Convert.ToDecimal(maximum);
         }

@@ -19,7 +19,7 @@ using MvcTemplate.Controllers;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Data.Logging;
 using MvcTemplate.Data.Migrations;
-using MvcTemplate.Resources.Shared;
+using MvcTemplate.Resources;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
 using NonFactors.Mvc.Grid;
@@ -85,8 +85,8 @@ namespace MvcTemplate.Web
 
             services.AddMvcGrid(filters =>
             {
-                filters.BooleanFalseOptionText = () => Strings.No;
-                filters.BooleanTrueOptionText = () => Strings.Yes;
+                filters.BooleanFalseOptionText = () => Resource.ForString("No");
+                filters.BooleanTrueOptionText = () => Resource.ForString("Yes");
             });
         }
         public void RegisterServices(IServiceCollection services)

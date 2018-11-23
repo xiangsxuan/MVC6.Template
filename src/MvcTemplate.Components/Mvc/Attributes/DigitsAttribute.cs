@@ -1,4 +1,4 @@
-﻿using MvcTemplate.Resources.Form;
+﻿using MvcTemplate.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
@@ -9,7 +9,7 @@ namespace MvcTemplate.Components.Mvc
     public class DigitsAttribute : ValidationAttribute
     {
         public DigitsAttribute()
-            : base(() => Validations.Digits)
+            : base(() => Validation.For("Digits"))
         {
         }
 

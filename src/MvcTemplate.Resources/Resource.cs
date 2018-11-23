@@ -1,84 +1,110 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Resources;
 using System.Text.RegularExpressions;
 
 namespace MvcTemplate.Resources
 {
     public static class Resource
     {
-        private static Dictionary<String, ResourceManager> Properties { get; }
-        private static Dictionary<String, ResourceManager> Resources { get; }
+        private static Dictionary<String, ResourceSet> Resources { get; }
 
         static Resource()
         {
-            Resources = new Dictionary<String, ResourceManager>();
-            Properties = new Dictionary<String, ResourceManager>();
-            foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
-            {
-                BindingFlags flags = BindingFlags.Public | BindingFlags.Static;
-                if (type.GetProperty("ResourceManager", flags) is PropertyInfo property)
-                {
-                    ResourceManager manager = property.GetValue(null) as ResourceManager;
-                    manager.IgnoreCase = true;
+            Resources = new Dictionary<String, ResourceSet>();
+            String path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Resources";
 
-                    if (type.FullName.StartsWith("MvcTemplate.Resources.Views") && type.FullName.EndsWith("View.Titles"))
-                        Properties.Add(type.Namespace.Split('.').Last(), manager);
-                    else
-                        Resources.Add(type.FullName, manager);
-                }
+            foreach (String resource in Directory.GetFiles(path, "*.json", SearchOption.AllDirectories))
+            {
+                String type = Path.GetFileNameWithoutExtension(resource);
+                String language = Path.GetExtension(type).TrimStart('.');
+                type = Path.GetFileNameWithoutExtension(type);
+
+                if (!Resources.ContainsKey(type))
+                    Resources[type] = new ResourceSet();
+
+                Resources[type].Add(language, File.ReadAllText(resource));
             }
         }
 
+        public static String ForAction(String name)
+        {
+            return Localized("Shared", "Actions", name);
+        }
+
+        public static String ForLookup(String type)
+        {
+            return Localized("Lookup", "Titles", type);
+        }
+
+        public static String ForString(String value)
+        {
+            return Localized("Shared", "Strings", value);
+        }
+
+        public static String ForPage(String header)
+        {
+            return Localized("Page", "Headers", header);
+        }
         public static String ForPage(IDictionary<String, Object> values)
         {
             String area = values["area"] as String;
             String action = values["action"] as String;
             String controller = values["controller"] as String;
 
-            return Localized("MvcTemplate.Resources.Shared.Pages", area + controller + action);
+            return Localized("Page", "Titles", area + controller + action);
         }
 
         public static String ForSiteMap(String area, String controller, String action)
         {
-            return Localized("MvcTemplate.Resources.SiteMap.Titles", area + controller + action);
+            return Localized("SiteMap", "Titles", area + controller + action);
         }
 
         public static String ForPermission(String area)
         {
-            return Localized("MvcTemplate.Resources.Permissions.Area.Titles", area ?? "");
+            return Localized("Permission", "Areas", area ?? "");
         }
         public static String ForPermission(String area, String controller)
         {
-            return Localized("MvcTemplate.Resources.Permissions.Controller.Titles", area + controller);
+            return Localized("Permission", "Controllers", area + controller);
         }
         public static String ForPermission(String area, String controller, String action)
         {
-            return Localized("MvcTemplate.Resources.Permissions.Action.Titles", area + controller + action);
+            return Localized("Permission", "Actions", area + controller + action);
         }
 
-        public static String ForProperty<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression)
+        public static String ForProperty<TView, TProperty>(Expression<Func<TView, TProperty>> expression)
         {
             return ForProperty(expression.Body);
         }
         public static String ForProperty(String view, String name)
         {
-            if (LocalizedProperty(view, name) is String title)
+            if (Localized(view, "Titles", name) is String title)
                 return title;
 
             String[] properties = SplitCamelCase(name);
+            String language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+
             for (Int32 skipped = 0; skipped < properties.Length; skipped++)
             {
                 for (Int32 viewSize = 1; viewSize < properties.Length - skipped; viewSize++)
                 {
-                    String joinedView = String.Concat(properties.Skip(skipped).Take(viewSize)) + "View";
-                    String joinedProperty = String.Concat(properties.Skip(viewSize + skipped));
+                    String relation = String.Concat(properties.Skip(skipped).Take(viewSize)) + "View";
+                    String property = String.Concat(properties.Skip(viewSize + skipped));
 
-                    if (LocalizedProperty(joinedView, joinedProperty) is String joinedTitle)
-                        return joinedTitle;
+                    if (Localized(relation, "Titles", property) is String relationTitle)
+                    {
+                        if (!Resources.ContainsKey(view))
+                            Resources[view] = new ResourceSet();
+
+                        Resources[view][language, "Titles", name] = relationTitle;
+
+                        return relationTitle;
+                    }
                 }
             }
 
@@ -93,14 +119,15 @@ namespace MvcTemplate.Resources
             return expression is MemberExpression member ? ForProperty(member.Expression.Type, member.Member.Name) : null;
         }
 
-        private static String LocalizedProperty(String type, String name)
+        internal static String Localized(String type, String group, String key)
         {
-            return Properties.ContainsKey(type) ? Properties[type].GetString(name) : null;
+            String language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+
+            return Resources.TryGetValue(type, out ResourceSet resources)
+                ? resources[language, group, key] ?? resources["", group, key]
+                : null;
         }
-        private static String Localized(String type, String key)
-        {
-            return Resources.ContainsKey(type) ? Resources[type].GetString(key) : null;
-        }
+
         private static String[] SplitCamelCase(String value)
         {
             return Regex.Split(value, "(?<!^)(?=[A-Z])");

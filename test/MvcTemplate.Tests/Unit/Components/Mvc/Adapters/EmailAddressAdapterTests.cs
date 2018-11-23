@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using MvcTemplate.Resources.Form;
+using MvcTemplate.Resources;
 using MvcTemplate.Tests;
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace MvcTemplate.Components.Mvc.Tests
 
             Assert.Equal(2, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
-            Assert.Equal(String.Format(Validations.Email, context.ModelMetadata.PropertyName), attributes["data-val-email"]);
+            Assert.Equal(Validation.For("Email", context.ModelMetadata.PropertyName), attributes["data-val-email"]);
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace MvcTemplate.Components.Mvc.Tests
         [Fact]
         public void GetErrorMessage_Email()
         {
-            String expected = String.Format(Validations.Email, context.ModelMetadata.PropertyName);
+            String expected = Validation.For("Email", context.ModelMetadata.PropertyName);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(expected, actual);

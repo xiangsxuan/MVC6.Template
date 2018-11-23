@@ -5,11 +5,11 @@
     <div class="widget-box">
         <div class="widget-header">
             <span class="icon fa fa-th"></span>
-            <h5>@@Headers.@Model.Models</h5>
+            <h5>@@Resource.ForPage("@(Model.Models)")</h5>
             <div class="widget-header-buttons">
                 <authorize action="Create">
                     <a asp-action="Create" class="btn">
-                        <span class="far fa-file"></span><span class="text">@@Actions.Create</span>
+                        <span class="far fa-file"></span><span class="text">@@Resource.ForAction("Create")</span>
                     </a>
                 </authorize>
             </div>

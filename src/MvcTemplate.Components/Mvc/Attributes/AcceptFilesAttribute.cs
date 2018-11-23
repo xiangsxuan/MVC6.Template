@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using MvcTemplate.Resources.Form;
+using MvcTemplate.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +13,7 @@ namespace MvcTemplate.Components.Mvc
         public String Extensions { get; }
 
         public AcceptFilesAttribute(String extensions)
-            : base(() => Validations.AcceptFiles)
+            : base(() => Validation.For("AcceptFiles"))
         {
             Extensions = extensions;
         }

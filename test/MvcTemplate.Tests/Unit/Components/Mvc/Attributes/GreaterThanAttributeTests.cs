@@ -1,4 +1,4 @@
-﻿using MvcTemplate.Resources.Form;
+﻿using MvcTemplate.Resources;
 using System;
 using Xunit;
 
@@ -33,8 +33,8 @@ namespace MvcTemplate.Components.Mvc.Tests
         {
             attribute = new GreaterThanAttribute(12.56);
 
-            String expected = String.Format(Validations.GreaterThan, "Sum", attribute.Minimum);
             String actual = attribute.FormatErrorMessage("Sum");
+            String expected = Validation.For("GreaterThan", "Sum", attribute.Minimum);
 
             Assert.Equal(expected, actual);
         }

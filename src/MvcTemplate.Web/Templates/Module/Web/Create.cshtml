@@ -5,7 +5,7 @@
     <div class="widget-box">
         <div class="widget-header">
             <span class="icon fa fa-th-list"></span>
-            <h5>@@Headers.@Model.Model</h5>
+            <h5>@@Resource.ForPage("@(Model.Model)")</h5>
         </div>
         <div class="widget-content">
             <form asp-antiforgery="true">
@@ -22,7 +22,7 @@
                         }
                         else if (Model.Relations[property] is String relation)
                         {
-                        <div mvc-lookup-for="@property.Name" url="~/Lookup/@relation" title="@@Lookups.@relation"></div>
+                        <div mvc-lookup-for="@property.Name" url="~/Lookup/@relation" title="@@Resource.ForLookup("@relation")"></div>
                         }
                         else
                         {
@@ -36,7 +36,7 @@
                 }
                 <div class="form-group">
                     <div class="form-actions col-lg-7">
-                        <button class="btn btn-primary">@@Actions.Submit</button>
+                        <button class="btn btn-primary">@@Resource.ForAction("Submit")</button>
                     </div>
                 </div>
             </form>

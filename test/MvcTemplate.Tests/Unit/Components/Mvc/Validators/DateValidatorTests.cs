@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using MvcTemplate.Resources.Form;
+using MvcTemplate.Resources;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -24,7 +24,7 @@ namespace MvcTemplate.Components.Mvc.Tests
 
             Assert.Equal(2, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
-            Assert.Equal(String.Format(Validations.Date, "DateTime"), attributes["data-val-date"]);
+            Assert.Equal(Validation.For("Date", "DateTime"), attributes["data-val-date"]);
         }
 
         #endregion

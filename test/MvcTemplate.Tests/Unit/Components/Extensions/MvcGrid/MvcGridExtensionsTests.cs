@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
-using MvcTemplate.Resources.Shared;
+using MvcTemplate.Resources;
 using MvcTemplate.Tests;
 using NonFactors.Mvc.Grid;
 using NSubstitute;
@@ -174,7 +174,7 @@ namespace MvcTemplate.Components.Extensions.Tests
             GridRow<AllTypesView> row = new GridRow<AllTypesView>(new AllTypesView { BooleanField = true });
 
             String actual = column.ValueFor(row).ToString();
-            String expected = Strings.Yes;
+            String expected = Resource.ForString("Yes");
 
             Assert.Equal(expected, actual);
         }
@@ -186,7 +186,7 @@ namespace MvcTemplate.Components.Extensions.Tests
             IGridColumn<AllTypesView, Boolean> column = columns.AddBoolean(model => model.BooleanField);
 
             String actual = column.ValueFor(row).ToString();
-            String expected = Strings.No;
+            String expected = Resource.ForString("No");
 
             Assert.Equal(expected, actual);
         }
@@ -227,7 +227,7 @@ namespace MvcTemplate.Components.Extensions.Tests
             GridRow<AllTypesView> row = new GridRow<AllTypesView>(new AllTypesView { NullableBooleanField = true });
 
             String actual = column.ValueFor(row).ToString();
-            String expected = Strings.Yes;
+            String expected = Resource.ForString("Yes");
 
             Assert.Equal(expected, actual);
         }
@@ -239,7 +239,7 @@ namespace MvcTemplate.Components.Extensions.Tests
             GridRow<AllTypesView> row = new GridRow<AllTypesView>(new AllTypesView { NullableBooleanField = false });
 
             String actual = column.ValueFor(row).ToString();
-            String expected = Strings.No;
+            String expected = Resource.ForString("No");
 
             Assert.Equal(expected, actual);
         }
@@ -257,8 +257,8 @@ namespace MvcTemplate.Components.Extensions.Tests
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
-            Assert.Equal("{0:g}", actual.Format);
             Assert.Empty(actual.Title.ToString());
+            Assert.Equal("{0:g}", actual.Format);
             Assert.Single(columns);
         }
 
@@ -275,8 +275,8 @@ namespace MvcTemplate.Components.Extensions.Tests
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
-            Assert.Equal("{0:g}", actual.Format);
             Assert.Empty(actual.Title.ToString());
+            Assert.Equal("{0:g}", actual.Format);
             Assert.Single(columns);
         }
 
@@ -492,8 +492,8 @@ namespace MvcTemplate.Components.Extensions.Tests
 
             IGrid actual = html.ApplyDefaults().Grid;
 
+            Assert.Equal(Resource.ForString("NoDataFound"), actual.EmptyText);
             Assert.Equal(expectedClasses, html.Grid.Attributes["class"]);
-            Assert.Equal(Strings.NoDataFound, actual.EmptyText);
             Assert.True(column.Filter.IsEnabled);
             Assert.True(column.Sort.IsEnabled);
             Assert.NotEmpty(actual.Columns);

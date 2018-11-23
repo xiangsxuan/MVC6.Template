@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using MvcTemplate.Resources.Form;
+using MvcTemplate.Resources;
 using NSubstitute;
 using System;
 using Xunit;
@@ -35,7 +35,7 @@ namespace MvcTemplate.Components.Mvc.Tests
         {
             attribute = new FileSizeAttribute(12.25);
 
-            String expected = String.Format(Validations.FileSize, "File", attribute.MaximumMB);
+            String expected = Validation.For("FileSize", "File", attribute.MaximumMB);
             String actual = attribute.FormatErrorMessage("File");
 
             Assert.Equal(expected, actual);

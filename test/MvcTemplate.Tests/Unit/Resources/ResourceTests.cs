@@ -1,5 +1,4 @@
 ﻿using MvcTemplate.Objects;
-using MvcTemplate.Resources.Shared;
 using MvcTemplate.Tests;
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,82 @@ namespace MvcTemplate.Resources.Tests
 {
     public class ResourceTests
     {
+        #region ForAction(String name)
+
+        [Fact]
+        public void ForAction_IsCaseInsensitive()
+        {
+            String actual = Resource.ForAction("create");
+            String expected = "Create";
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ForAction_NotFound_ReturnsNull()
+        {
+            Assert.Null(Resource.ForAction("Null"));
+        }
+
+        #endregion
+
+        #region ForLookup(String type)
+
+        [Fact]
+        public void ForLookup_IsCaseInsensitive()
+        {
+            String actual = Resource.ForLookup("role");
+            String expected = "Roles";
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ForLookup_NotFound_ReturnsNull()
+        {
+            Assert.Null(Resource.ForLookup("Test"));
+        }
+
+        #endregion
+
+        #region ForString(String value)
+
+        [Fact]
+        public void ForString_IsCaseInsensitive()
+        {
+            String actual = Resource.ForString("all");
+            String expected = "All";
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ForString_NotFound_ReturnsNull()
+        {
+            Assert.Null(Resource.ForString("Null"));
+        }
+
+        #endregion
+
+        #region ForPage(String header)
+
+        [Fact]
+        public void ForPage_Header_IsCaseInsensitive()
+        {
+            String actual = Resource.ForPage("account");
+            String expected = "Account";
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ForPage_NotFoundHeader_ReturnsNull()
+        {
+            Assert.Null(Resource.ForPage("Test"));
+        }
+
+        #endregion
+
         #region ForPage(IDictionary<String, Object> values)
 
         [Fact]
@@ -20,8 +95,8 @@ namespace MvcTemplate.Resources.Tests
             values["controller"] = "roles";
             values["action"] = "details";
 
-            String expected = Pages.AdministrationRolesDetails;
             String actual = Resource.ForPage(values);
+            String expected = "Role details";
 
             Assert.Equal(expected, actual);
         }
@@ -37,7 +112,7 @@ namespace MvcTemplate.Resources.Tests
             values["area"] = area;
 
             String actual = Resource.ForPage(values);
-            String expected = Pages.ProfileEdit;
+            String expected = "Profile edit";
 
             Assert.Equal(expected, actual);
         }
@@ -63,7 +138,7 @@ namespace MvcTemplate.Resources.Tests
         public void ForSiteMap_IsCaseInsensitive()
         {
             String actual = Resource.ForSiteMap("administration", "roles", "index");
-            String expected = SiteMap.Titles.AdministrationRolesIndex;
+            String expected = "Roles";
 
             Assert.Equal(expected, actual);
         }
@@ -72,7 +147,7 @@ namespace MvcTemplate.Resources.Tests
         public void ForSiteMap_WithoutControllerAndAction()
         {
             String actual = Resource.ForSiteMap("administration", null, null);
-            String expected = SiteMap.Titles.Administration;
+            String expected = "Administration";
 
             Assert.Equal(expected, actual);
         }
@@ -90,8 +165,8 @@ namespace MvcTemplate.Resources.Tests
         [Fact]
         public void ForPermission_IsCaseInsensitive()
         {
-            String expected = Permissions.Area.Titles.Administration;
             String actual = Resource.ForPermission("administration");
+            String expected = "Administration";
 
             Assert.Equal(expected, actual);
         }
@@ -115,8 +190,8 @@ namespace MvcTemplate.Resources.Tests
         [Fact]
         public void ForPermission_ReturnsControllerTitle()
         {
-            String expected = Permissions.Controller.Titles.AdministrationRoles;
             String actual = Resource.ForPermission("Administration", "Roles");
+            String expected = "Roles";
 
             Assert.Equal(expected, actual);
         }
@@ -135,7 +210,7 @@ namespace MvcTemplate.Resources.Tests
         public void ForPermission_ReturnsActionTitle()
         {
             String actual = Resource.ForPermission("administration", "accounts", "index");
-            String expected = Permissions.Action.Titles.AdministrationAccountsIndex;
+            String expected = "Index";
 
             Assert.Equal(expected, actual);
         }
@@ -160,7 +235,7 @@ namespace MvcTemplate.Resources.Tests
         public void ForProperty_FromLambdaExpression()
         {
             String actual = Resource.ForProperty<AccountView, String>(account => account.Username);
-            String expected = Views.Administration.Accounts.AccountView.Titles.Username;
+            String expected = "Username";
 
             Assert.Equal(expected, actual);
         }
@@ -169,7 +244,7 @@ namespace MvcTemplate.Resources.Tests
         public void ForProperty_FromLambdaExpressionRelation()
         {
             String actual = Resource.ForProperty<AccountEditView, Int32?>(account => account.RoleId);
-            String expected = Views.Administration.Roles.RoleView.Titles.Id;
+            String expected = "Role";
 
             Assert.Equal(expected, actual);
         }
@@ -193,8 +268,8 @@ namespace MvcTemplate.Resources.Tests
         [Fact]
         public void ForProperty_View()
         {
-            String expected = Views.Administration.Accounts.AccountView.Titles.Username;
-            String actual = Resource.ForProperty("AccountView", "username");
+            String actual = Resource.ForProperty(nameof(AccountView), nameof(AccountView.Username));
+            String expected = "Username";
 
             Assert.Equal(expected, actual);
         }
@@ -206,8 +281,8 @@ namespace MvcTemplate.Resources.Tests
         [Fact]
         public void ForProperty_IsCaseInsensitive()
         {
-            String expected = Views.Administration.Accounts.AccountView.Titles.Username;
-            String actual = Resource.ForProperty(typeof(AccountView), "username");
+            String actual = Resource.ForProperty(typeof(AccountView), nameof(AccountView.Username).ToLower());
+            String expected = "Username";
 
             Assert.Equal(expected, actual);
         }
@@ -215,8 +290,8 @@ namespace MvcTemplate.Resources.Tests
         [Fact]
         public void ForProperty_FromRelation()
         {
-            String expected = Views.Administration.Accounts.AccountView.Titles.Username;
-            String actual = Resource.ForProperty(typeof(RoleView), "AccountUsername");
+            String actual = Resource.ForProperty(typeof(Object), nameof(Account) + nameof(Account.Username));
+            String expected = "Username";
 
             Assert.Equal(expected, actual);
         }
@@ -224,8 +299,8 @@ namespace MvcTemplate.Resources.Tests
         [Fact]
         public void ForProperty_FromMultipleRelations()
         {
-            String actual = Resource.ForProperty(typeof(RoleView), "AccountRoleAccountUsername");
-            String expected = Views.Administration.Accounts.AccountView.Titles.Username;
+            String actual = Resource.ForProperty(typeof(RoleView), nameof(Account) + nameof(Role) + nameof(Account) + nameof(Account.Username));
+            String expected = "Username";
 
             Assert.Equal(expected, actual);
         }
@@ -265,8 +340,8 @@ namespace MvcTemplate.Resources.Tests
         {
             Expression<Func<AccountView, String>> lambda = (account) => account.Username;
 
-            String expected = Views.Administration.Accounts.AccountView.Titles.Username;
             String actual = Resource.ForProperty(lambda.Body);
+            String expected = "Username";
 
             Assert.Equal(expected, actual);
         }
@@ -276,8 +351,8 @@ namespace MvcTemplate.Resources.Tests
         {
             Expression<Func<AccountEditView, Int32?>> lambda = (account) => account.RoleId;
 
-            String expected = Views.Administration.Roles.RoleView.Titles.Id;
             String actual = Resource.ForProperty(lambda.Body);
+            String expected = "Role";
 
             Assert.Equal(expected, actual);
         }

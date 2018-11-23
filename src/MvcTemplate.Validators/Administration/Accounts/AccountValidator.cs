@@ -2,7 +2,7 @@
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
-using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
+using MvcTemplate.Resources;
 using System;
 using System.Linq;
 
@@ -81,7 +81,8 @@ namespace MvcTemplate.Validators
                     account.Username.ToLower() == (username ?? "").ToLower());
 
             if (!isUnique)
-                ModelState.AddModelError<AccountView>(model => model.Username, Validations.UniqueUsername);
+                ModelState.AddModelError<AccountView>(model => model.Username,
+                    Validation.For<AccountView>("UniqueUsername"));
 
             return isUnique;
         }
@@ -94,7 +95,8 @@ namespace MvcTemplate.Validators
                     account.Email.ToLower() == (email ?? "").ToLower());
 
             if (!isUnique)
-                ModelState.AddModelError<AccountView>(account => account.Email, Validations.UniqueEmail);
+                ModelState.AddModelError<AccountView>(account => account.Email,
+                    Validation.For<AccountView>("UniqueEmail"));
 
             return isUnique;
         }
@@ -109,7 +111,7 @@ namespace MvcTemplate.Validators
 
             Boolean isCorrect = Hasher.VerifyPassword(password, passhash);
             if (!isCorrect)
-                Alerts.AddError(Validations.IncorrectAuthentication);
+                Alerts.AddError(Validation.For<AccountView>("IncorrectAuthentication"));
 
             return isCorrect;
         }
@@ -123,7 +125,8 @@ namespace MvcTemplate.Validators
 
             Boolean isCorrect = Hasher.VerifyPassword(password, passhash);
             if (!isCorrect)
-                ModelState.AddModelError<ProfileEditView>(account => account.Password, Validations.IncorrectPassword);
+                ModelState.AddModelError<ProfileEditView>(account => account.Password,
+                    Validation.For<AccountView>("IncorrectPassword"));
 
             return isCorrect;
         }
@@ -137,7 +140,7 @@ namespace MvcTemplate.Validators
                     account.RecoveryTokenExpirationDate > DateTime.Now);
 
             if (!isValid)
-                Alerts.AddError(Validations.ExpiredToken);
+                Alerts.AddError(Validation.For<AccountView>("ExpiredToken"));
 
             return isValid;
         }
@@ -150,7 +153,7 @@ namespace MvcTemplate.Validators
                     account.Username.ToLower() == (username ?? "").ToLower());
 
             if (!isActive)
-                Alerts.AddError(Validations.LockedAccount);
+                Alerts.AddError(Validation.For<AccountView>("LockedAccount"));
 
             return isActive;
         }

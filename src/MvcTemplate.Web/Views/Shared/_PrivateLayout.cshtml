@@ -38,7 +38,7 @@
         <div class="btn">
             <a asp-action="Edit" asp-controller="Profile" asp-route-area="">
                 <span class="fa fa-user"></span>
-                <span class="text">@Actions.Profile</span>
+                <span class="text">@Resource.ForAction("Profile")</span>
             </a>
         </div>
         @{ ILanguages languages = Context.RequestServices.GetService<ILanguages>(); }
@@ -47,7 +47,7 @@
             <div class="btn dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle" aria-expanded="true">
                     <span class="fa fa-flag"></span>
-                    <span class="text">@Actions.Language</span>
+                    <span class="text">@Resource.ForAction("Language")</span>
                     <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu">
@@ -64,7 +64,7 @@
         <div class="btn">
             <a asp-action="Logout" asp-controller="Auth" asp-route-area="">
                 <span class="fa fa-share"></span>
-                <span class="text">@Actions.Logout</span>
+                <span class="text">@Resource.ForAction("Logout")</span>
             </a>
         </div>
     </div>
@@ -72,7 +72,7 @@
     <div class="content">
         <div class="navigation">
             <div class="menu-search">
-                <input placeholder="@(Actions.Search)..." />
+                <input placeholder="@(Resource.ForAction("Search"))..." />
             </div>
             @{ ISiteMap siteMap = Context.RequestServices.GetRequiredService<ISiteMap>(); }
             <partial name="_SiteMap" model="@siteMap.For(ViewContext)" />

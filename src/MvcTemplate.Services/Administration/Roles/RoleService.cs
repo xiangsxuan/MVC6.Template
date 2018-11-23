@@ -2,7 +2,6 @@
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
-using MvcTemplate.Resources.Permissions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace MvcTemplate.Services
 
         public virtual void SeedPermissions(RoleView view)
         {
-            MvcTreeNode root = new MvcTreeNode(Titles.All);
+            MvcTreeNode root = new MvcTreeNode(Resource.ForString("All"));
             view.Permissions.Nodes.Add(root);
 
             foreach (IGrouping<String, Permission> area in GetAllPermissions().GroupBy(permission => permission.Area))

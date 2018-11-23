@@ -5,7 +5,6 @@ using MvcTemplate.Components.Extensions;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
-using MvcTemplate.Resources.Permissions;
 using MvcTemplate.Tests;
 using NSubstitute;
 using System;
@@ -322,7 +321,7 @@ namespace MvcTemplate.Services.Tests
 
         private MvcTree CreatePermissions()
         {
-            MvcTreeNode root = new MvcTreeNode(Titles.All);
+            MvcTreeNode root = new MvcTreeNode(Resource.ForString("All"));
             MvcTree expectedTree = new MvcTree();
 
             expectedTree.Nodes.Add(root);

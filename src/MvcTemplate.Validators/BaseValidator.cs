@@ -3,7 +3,6 @@ using MvcTemplate.Components.Notifications;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
-using MvcTemplate.Resources.Form;
 using System;
 using System.Linq.Expressions;
 
@@ -31,9 +30,9 @@ namespace MvcTemplate.Validators
             if (!isSpecified)
             {
                 if (property.Body is UnaryExpression unary)
-                    ModelState.AddModelError(property, String.Format(Validations.Required, Resource.ForProperty(unary.Operand)));
+                    ModelState.AddModelError(property, Validation.For("Required", Resource.ForProperty(unary.Operand)));
                 else
-                    ModelState.AddModelError(property, String.Format(Validations.Required, Resource.ForProperty(property)));
+                    ModelState.AddModelError(property, Validation.For("Required", Resource.ForProperty(property)));
             }
 
             return isSpecified;

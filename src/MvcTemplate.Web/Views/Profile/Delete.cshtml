@@ -4,11 +4,11 @@
     <div class="widget-box">
         <div class="widget-header">
             <span class="icon fa fa-th-list"></span>
-            <h5>@Headers.Profile</h5>
+            <h5>@Resource.ForPage("Profile")</h5>
             <div class="widget-header-buttons">
                 <authorize action="Edit">
                     <a asp-action="Edit" class="btn">
-                        <span class="fa fa-pencil-alt"></span><span class="text">@Actions.Edit</span>
+                        <span class="fa fa-pencil-alt"></span><span class="text">@Resource.ForAction("Edit")</span>
                     </a>
                 </authorize>
             </div>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="form-group">
                     <div class="form-actions col-lg-7">
-                        <button class="btn btn-primary">@Actions.Submit</button>
+                        <button class="btn btn-primary">@Resource.ForAction("Submit")</button>
                     </div>
                 </div>
             </form>

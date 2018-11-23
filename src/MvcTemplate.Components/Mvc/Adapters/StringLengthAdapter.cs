@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using MvcTemplate.Resources.Form;
+using MvcTemplate.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,7 +15,7 @@ namespace MvcTemplate.Components.Mvc
 
         public override String GetErrorMessage(ModelValidationContextBase context)
         {
-            Attribute.ErrorMessage = Attribute.MinimumLength == 0 ? Validations.StringLength : Validations.StringLengthRange;
+            Attribute.ErrorMessage = Validation.For(Attribute.MinimumLength == 0 ? "StringLength" : "StringLengthRange");
 
             return GetErrorMessage(context.ModelMetadata);
         }

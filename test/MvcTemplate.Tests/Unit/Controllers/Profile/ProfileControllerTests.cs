@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Notifications;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Objects;
-using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
+using MvcTemplate.Resources;
 using MvcTemplate.Services;
 using MvcTemplate.Tests;
 using MvcTemplate.Validators;
@@ -120,7 +120,7 @@ namespace MvcTemplate.Controllers.Tests
 
             Alert actual = controller.Alerts.Single();
 
-            Assert.Equal(Messages.ProfileUpdated, actual.Message);
+            Assert.Equal(Message.For<AccountView>("ProfileUpdated"), actual.Message);
             Assert.Equal(AlertType.Success, actual.Type);
             Assert.Equal(4000, actual.Timeout);
         }
@@ -161,7 +161,7 @@ namespace MvcTemplate.Controllers.Tests
 
             Alert actual = controller.Alerts.Single();
 
-            Assert.Equal(Messages.ProfileDeleteDisclaimer, actual.Message);
+            Assert.Equal(Message.For<AccountView>("ProfileDeleteDisclaimer"), actual.Message);
             Assert.Equal(AlertType.Warning, actual.Type);
             Assert.Equal(0, actual.Timeout);
         }
@@ -207,7 +207,7 @@ namespace MvcTemplate.Controllers.Tests
 
             Alert actual = controller.Alerts.Single();
 
-            Assert.Equal(Messages.ProfileDeleteDisclaimer, actual.Message);
+            Assert.Equal(Message.For<AccountView>("ProfileDeleteDisclaimer"), actual.Message);
             Assert.Equal(AlertType.Warning, actual.Type);
             Assert.Equal(0, actual.Timeout);
         }

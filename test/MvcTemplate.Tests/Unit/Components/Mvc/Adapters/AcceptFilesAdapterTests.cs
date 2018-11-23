@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using MvcTemplate.Resources.Form;
+using MvcTemplate.Resources;
 using MvcTemplate.Tests;
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace MvcTemplate.Components.Mvc.Tests
             Assert.Equal(3, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
             Assert.Equal(".docx,.rtf", attributes["data-val-acceptfiles-extensions"]);
-            Assert.Equal(String.Format(Validations.AcceptFiles, context.ModelMetadata.PropertyName, ".docx,.rtf"), attributes["data-val-acceptfiles"]);
+            Assert.Equal(Validation.For("AcceptFiles", context.ModelMetadata.PropertyName, ".docx,.rtf"), attributes["data-val-acceptfiles"]);
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace MvcTemplate.Components.Mvc.Tests
         [Fact]
         public void GetErrorMessage_AcceptFiles()
         {
-            String expected = String.Format(Validations.AcceptFiles, context.ModelMetadata.PropertyName, ".docx,.rtf");
+            String expected = Validation.For("AcceptFiles", context.ModelMetadata.PropertyName, ".docx,.rtf");
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(expected, actual);

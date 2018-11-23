@@ -1,0 +1,20 @@
+{
+    "Titles": {
+        "Administration": "Administration",
+        "AdministrationAccountsCreate": "Create",
+        "AdministrationAccountsDetails": "Details",
+        "AdministrationAccountsEdit": "Edit",
+        "AdministrationAccountsIndex": "Accounts",
+        "AdministrationRolesCreate": "Create",
+        "AdministrationRolesDelete": "Delete",
+        "AdministrationRolesDetails": "Details",
+        "AdministrationRolesEdit": "Edit",
+        "AdministrationRolesIndex": "Roles",
+        "HomeError": "Error",
+        "HomeIndex": "Home",
+        "HomeNotFound": "Not found",
+        "HomeUnauthorized": "Unauthorized",
+        "ProfileDelete": "Profile",
+        "ProfileEdit": "Profile"
+    }
+}

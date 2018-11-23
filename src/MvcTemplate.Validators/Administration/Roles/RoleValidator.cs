@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
-using MvcTemplate.Resources.Views.Administration.Roles.RoleView;
+using MvcTemplate.Resources;
 using System;
 using System.Linq;
 
@@ -38,7 +38,8 @@ namespace MvcTemplate.Validators
                     role.Title.ToLower() == (view.Title ?? "").ToLower());
 
             if (!isUnique)
-                ModelState.AddModelError<RoleView>(role => role.Title, Validations.UniqueTitle);
+                ModelState.AddModelError<RoleView>(role => role.Title,
+                    Validation.For<RoleView>("UniqueTitle"));
 
             return isUnique;
         }

@@ -1,7 +1,6 @@
 ﻿using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
-using MvcTemplate.Resources.Form;
 using MvcTemplate.Tests;
 using NSubstitute;
 using System;
@@ -49,7 +48,7 @@ namespace MvcTemplate.Validators.Tests
             RoleView view = new RoleView();
 
             Boolean isSpecified = validator.BaseIsSpecified(view, role => role.Title);
-            String message = String.Format(Validations.Required, Resource.ForProperty<RoleView, String>(role => role.Title));
+            String message = Validation.For("Required", Resource.ForProperty<RoleView, String>(role => role.Title));
 
             Assert.False(isSpecified);
             Assert.Empty(validator.Alerts);
@@ -63,7 +62,7 @@ namespace MvcTemplate.Validators.Tests
             AccountEditView view = new AccountEditView();
 
             Boolean isSpecified = validator.BaseIsSpecified(view, account => account.RoleId);
-            String message = String.Format(Validations.Required, Resource.ForProperty<AccountEditView, Int32?>(account => account.RoleId));
+            String message = Validation.For("Required", Resource.ForProperty<AccountEditView, Int32?>(account => account.RoleId));
 
             Assert.False(isSpecified);
             Assert.Empty(validator.Alerts);

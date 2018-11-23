@@ -1,4 +1,4 @@
-﻿using MvcTemplate.Resources.Form;
+﻿using MvcTemplate.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,7 +10,7 @@ namespace MvcTemplate.Components.Mvc
         public Decimal Minimum { get; }
 
         public MinValueAttribute(Double minimum)
-            : base(() => Validations.MinValue)
+            : base(() => Validation.For("MinValue"))
         {
             Minimum = Convert.ToDecimal(minimum);
         }

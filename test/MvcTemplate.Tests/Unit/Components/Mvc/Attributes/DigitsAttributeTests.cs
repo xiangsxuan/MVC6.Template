@@ -1,4 +1,4 @@
-﻿using MvcTemplate.Resources.Form;
+﻿using MvcTemplate.Resources;
 using System;
 using Xunit;
 
@@ -20,7 +20,7 @@ namespace MvcTemplate.Components.Mvc.Tests
         {
             attribute = new DigitsAttribute();
 
-            String expected = String.Format(Validations.Digits, "Test");
+            String expected = Validation.For("Digits", "Test");
             String actual = attribute.FormatErrorMessage("Test");
 
             Assert.Equal(expected, actual);

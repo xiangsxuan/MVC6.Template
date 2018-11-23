@@ -1,4 +1,4 @@
-﻿using MvcTemplate.Resources.Form;
+﻿using MvcTemplate.Resources;
 using MvcTemplate.Tests;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -43,7 +43,7 @@ namespace MvcTemplate.Components.Mvc.Tests
             attribute.OtherPropertyDisplayName = "Other";
 
             String actual = attribute.FormatErrorMessage("EqualTo");
-            String expected = String.Format(Validations.EqualTo, "EqualTo", attribute.OtherPropertyDisplayName);
+            String expected = Validation.For("EqualTo", "EqualTo", attribute.OtherPropertyDisplayName);
 
             Assert.Equal(expected, actual);
         }
@@ -66,7 +66,7 @@ namespace MvcTemplate.Components.Mvc.Tests
             ValidationContext context = new ValidationContext(new AllTypesView());
 
             String actual = attribute.GetValidationResult("Test", context).ErrorMessage;
-            String expected = String.Format(Validations.EqualTo, context.DisplayName, attribute.OtherPropertyName);
+            String expected = Validation.For("EqualTo", context.DisplayName, attribute.OtherPropertyName);
 
             Assert.Equal(expected, actual);
         }
@@ -78,7 +78,7 @@ namespace MvcTemplate.Components.Mvc.Tests
             ValidationContext context = new ValidationContext(new AllTypesView());
 
             String actual = attribute.GetValidationResult("Test", context).ErrorMessage;
-            String expected = String.Format(Validations.EqualTo, context.DisplayName, "Temp");
+            String expected = Validation.For("EqualTo", context.DisplayName, "Temp");
 
             Assert.Equal(expected, actual);
         }

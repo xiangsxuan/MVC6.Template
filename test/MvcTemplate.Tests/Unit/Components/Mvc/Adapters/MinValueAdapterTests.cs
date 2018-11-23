@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using MvcTemplate.Resources.Form;
+using MvcTemplate.Resources;
 using MvcTemplate.Tests;
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace MvcTemplate.Components.Mvc.Tests
             Assert.Equal(3, attributes.Count);
             Assert.Equal("true", attributes["data-val"]);
             Assert.Equal("128", attributes["data-val-range-min"]);
-            Assert.Equal(String.Format(Validations.MinValue, context.ModelMetadata.PropertyName, 128), attributes["data-val-range"]);
+            Assert.Equal(Validation.For("MinValue", context.ModelMetadata.PropertyName, 128), attributes["data-val-range"]);
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace MvcTemplate.Components.Mvc.Tests
         [Fact]
         public void GetErrorMessage_MinValue()
         {
-            String expected = String.Format(Validations.MinValue, context.ModelMetadata.PropertyName, 128);
+            String expected = Validation.For("MinValue", context.ModelMetadata.PropertyName, 128);
             String actual = adapter.GetErrorMessage(context);
 
             Assert.Equal(expected, actual);

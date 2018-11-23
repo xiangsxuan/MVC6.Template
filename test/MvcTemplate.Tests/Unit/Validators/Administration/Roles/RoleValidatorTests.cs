@@ -1,6 +1,6 @@
 ﻿using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
-using MvcTemplate.Resources.Views.Administration.Roles.RoleView;
+using MvcTemplate.Resources;
 using MvcTemplate.Tests;
 using System;
 using System.Linq;
@@ -48,7 +48,7 @@ namespace MvcTemplate.Validators.Tests
 
             Assert.False(canCreate);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UniqueTitle, validator.ModelState["Title"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validation.For<RoleView>("UniqueTitle"), validator.ModelState["Title"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace MvcTemplate.Validators.Tests
 
             Assert.False(canEdit);
             Assert.Single(validator.ModelState);
-            Assert.Equal(Validations.UniqueTitle, validator.ModelState["Title"].Errors.Single().ErrorMessage);
+            Assert.Equal(Validation.For<RoleView>("UniqueTitle"), validator.ModelState["Title"].Errors.Single().ErrorMessage);
         }
 
         [Fact]
