@@ -7,9 +7,7 @@ using System;
 
 namespace MvcTemplate.Components.Mvc
 {
-    [HtmlTargetElement("authorize", Attributes = "area")]
     [HtmlTargetElement("authorize", Attributes = "action")]
-    [HtmlTargetElement("authorize", Attributes = "controller")]
     public class AuthorizeTagHelper : TagHelper
     {
         public String Area { get; set; }
