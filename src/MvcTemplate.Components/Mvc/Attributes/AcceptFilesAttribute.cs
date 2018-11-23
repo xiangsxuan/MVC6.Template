@@ -32,7 +32,7 @@ namespace MvcTemplate.Components.Mvc
             if (files == null)
                 return false;
 
-            return files.All(file => Extensions.Split(',').Any(extension => file.FileName?.EndsWith(extension) == true));
+            return files.All(file => Extensions.Split(',').Any(ext => file.FileName?.EndsWith(ext) == true));
         }
 
         private IEnumerable<IFormFile> ToFiles(Object value)

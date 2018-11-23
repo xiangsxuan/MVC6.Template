@@ -62,8 +62,7 @@ namespace MvcTemplate.Data.Migrations
 
             foreach (Permission permission in permissions)
             {
-                Permission currentPermission = currentPermissions.SingleOrDefault(perm => perm.Id == permission.Id);
-                if (currentPermission != null)
+                if (currentPermissions.SingleOrDefault(perm => perm.Id == permission.Id) is Permission currentPermission)
                 {
                     currentPermission.Controller = permission.Controller;
                     currentPermission.Action = permission.Action;
@@ -122,8 +121,7 @@ namespace MvcTemplate.Data.Migrations
 
             foreach (Account account in accounts)
             {
-                Account currentAccount = UnitOfWork.Select<Account>().FirstOrDefault(model => model.Username == account.Username);
-                if (currentAccount != null)
+                if (UnitOfWork.Select<Account>().FirstOrDefault(model => model.Username == account.Username) is Account currentAccount)
                 {
                     currentAccount.IsLocked = account.IsLocked;
                     currentAccount.RoleId = account.RoleId;

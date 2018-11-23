@@ -1,10 +1,9 @@
 ﻿using MvcTemplate.Data.Core;
-using MvcTemplate.Services;
 using NSubstitute;
 using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Services
+namespace MvcTemplate.Services.Tests
 {
     public class BaseServiceTests : IDisposable
     {

@@ -53,7 +53,7 @@ namespace MvcTemplate.Web.Templates
             IValidator = $"I{Model}Validator";
             Validator = $"{Model}Validator";
 
-            ControllerTestsNamespace = "MvcTemplate.Tests.Unit.Controllers" + (!String.IsNullOrWhiteSpace(area) ? $".{area}" : "");
+            ControllerTestsNamespace = $"MvcTemplate.Controllers.{(!String.IsNullOrWhiteSpace(area) ? $"{area}." : "")}Tests";
             ControllerNamespace = "MvcTemplate.Controllers" + (!String.IsNullOrWhiteSpace(area) ? $".{area}" : "");
             ControllerTests = $"{controller}ControllerTests";
             Controller = $"{controller}Controller";
@@ -61,14 +61,14 @@ namespace MvcTemplate.Web.Templates
             Area = area;
 
             Type type = typeof(BaseModel).Assembly.GetType("MvcTemplate.Objects." + model) ?? typeof(BaseModel);
-            PropertyInfo[] modelProperties = type.GetProperties();
+            PropertyInfo[] properties = type.GetProperties();
 
-            AllProperties = modelProperties.Where(property => property.PropertyType.Namespace == "System").ToArray();
+            AllProperties = properties.Where(property => property.PropertyType.Namespace == "System").ToArray();
             Properties = AllProperties.Where(property => property.DeclaringType.Name == model).ToArray();
             Relations = Properties
                 .ToDictionary(
                     property => property,
-                    property => modelProperties.SingleOrDefault(relation =>
+                    property => properties.SingleOrDefault(relation =>
                         property.Name.EndsWith("Id") &&
                         relation.PropertyType.Assembly == type.Assembly &&
                         relation.Name == property.Name.Remove(property.Name.Length - 2))?.PropertyType.Name);

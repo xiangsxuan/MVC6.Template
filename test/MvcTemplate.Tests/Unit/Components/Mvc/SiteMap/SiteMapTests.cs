@@ -1,52 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Configuration;
 using MvcTemplate.Components.Extensions;
-using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
+using MvcTemplate.Tests;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Xml.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc
+namespace MvcTemplate.Components.Mvc.Tests
 {
-    public class MvcSiteMapProviderTests
+    public class SiteMapTests
     {
-        private IAuthorizationProvider authorizationProvider;
         private IDictionary<String, Object> route;
-        private MvcSiteMapProvider siteMap;
-        private MvcSiteMapParser parser;
-        private IConfiguration config;
+        private IAuthorization authorization;
         private ViewContext context;
+        private SiteMap siteMap;
 
-        static MvcSiteMapProviderTests()
+        public SiteMapTests()
         {
-            IConfiguration config = ConfigurationFactory.Create();
-            Directory.CreateDirectory(config["Application:Path"]);
-            CreateSiteMap(Path.Combine(config["Application:Path"], config["SiteMap:Path"]));
-        }
-        public MvcSiteMapProviderTests()
-        {
-            parser = new MvcSiteMapParser();
-            config = ConfigurationFactory.Create();
+            authorization = Substitute.For<IAuthorization>();
+            siteMap = new SiteMap(CreateSiteMap(), authorization);
+
             context = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
-            authorizationProvider = Substitute.For<IAuthorizationProvider>();
-            siteMap = new MvcSiteMapProvider(config, parser, authorizationProvider);
-
             route = context.RouteData.Values;
         }
 
-        #region GetSiteMap(ViewContext context)
+        #region For(ViewContext context)
 
         [Fact]
-        public void GetSiteMap_NullAuthorization_ReturnsAllNodes()
+        public void For_NoAuthorization_ReturnsAllNodes()
         {
-            siteMap = new MvcSiteMapProvider(config, parser, null);
+            siteMap = new SiteMap(CreateSiteMap(), null);
 
-            MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
+            SiteMapNode[] actual = siteMap.For(context).ToArray();
 
             Assert.Single(actual);
 
@@ -83,11 +70,11 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void GetSiteMap_ReturnsAuthorizedNodes()
+        public void For_ReturnsAuthorizedNodes()
         {
-            authorizationProvider.IsAuthorizedFor(context.HttpContext.User.Id(), "Administration", "Accounts", "Index").Returns(true);
+            authorization.IsGrantedFor(context.HttpContext.User.Id(), "Administration", "Accounts", "Index").Returns(true);
 
-            MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
+            SiteMapNode[] actual = siteMap.For(context).ToArray();
 
             Assert.Single(actual);
 
@@ -109,15 +96,15 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void GetSiteMap_SetsActiveMenu()
+        public void For_SetsActiveMenu()
         {
             route["action"] = "Create";
             route["controller"] = "Roles";
             route["area"] = "Administration";
 
-            siteMap = new MvcSiteMapProvider(config, parser, null);
+            siteMap = new SiteMap(CreateSiteMap(), null);
 
-            MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
+            SiteMapNode[] actual = siteMap.For(context).ToArray();
 
             Assert.Single(actual);
             Assert.False(actual[0].IsActive);
@@ -137,15 +124,15 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void GetSiteMap_NonMenuChildrenNodeIsActive_SetsActiveMenu()
+        public void For_NonMenuChildrenNodeIsActive_SetsActiveMenu()
         {
             route["action"] = "Edit";
             route["controller"] = "Accounts";
             route["area"] = "Administration";
 
-            siteMap = new MvcSiteMapProvider(config, parser, null);
+            siteMap = new SiteMap(CreateSiteMap(), null);
 
-            MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
+            SiteMapNode[] actual = siteMap.For(context).ToArray();
 
             Assert.Single(actual);
             Assert.False(actual[0].IsActive);
@@ -165,15 +152,15 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void GetSiteMap_ActiveMenuParents_SetsHasActiveChildren()
+        public void For_ActiveMenuParents_SetsHasActiveChildren()
         {
             route["action"] = "Create";
             route["controller"] = "Roles";
             route["area"] = "Administration";
 
-            siteMap = new MvcSiteMapProvider(config, parser, null);
+            siteMap = new SiteMap(CreateSiteMap(), null);
 
-            MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
+            SiteMapNode[] actual = siteMap.For(context).ToArray();
 
             Assert.Single(actual);
             Assert.True(actual[0].HasActiveChildren);
@@ -193,12 +180,12 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void GetSiteMap_RemovesEmptyNodes()
+        public void For_RemovesEmptyNodes()
         {
-            authorizationProvider.IsAuthorizedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
-            authorizationProvider.IsAuthorizedFor(context.HttpContext.User.Id(), "Administration", "Roles", "Create").Returns(false);
+            authorization.IsGrantedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
+            authorization.IsGrantedFor(context.HttpContext.User.Id(), "Administration", "Roles", "Create").Returns(false);
 
-            MvcSiteMapNode[] actual = siteMap.GetSiteMap(context).ToArray();
+            SiteMapNode[] actual = siteMap.For(context).ToArray();
 
             Assert.Single(actual);
 
@@ -221,16 +208,16 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
         #endregion
 
-        #region GetBreadcrumb(ViewContext context)
+        #region BreadcrumbFor(ViewContext context)
 
         [Fact]
-        public void GetBreadcrumb_IsCaseInsensitive()
+        public void BreadcrumbFor_IsCaseInsensitive()
         {
             route["controller"] = "profile";
             route["action"] = "edit";
             route["area"] = null;
 
-            MvcSiteMapNode[] actual = siteMap.GetBreadcrumb(context).ToArray();
+            SiteMapNode[] actual = siteMap.BreadcrumbFor(context).ToArray();
 
             Assert.Equal(3, actual.Length);
 
@@ -251,42 +238,39 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         }
 
         [Fact]
-        public void GetBreadcrumb_NoAction_ReturnsEmpty()
+        public void BreadcrumbFor_NoAction_ReturnsEmpty()
         {
             route["controller"] = "profile";
             route["action"] = "edit";
             route["area"] = "area";
 
-            Assert.Empty(siteMap.GetBreadcrumb(context));
+            Assert.Empty(siteMap.BreadcrumbFor(context));
         }
 
         #endregion
 
         #region Test helpers
 
-        private static void CreateSiteMap(String path)
+        private static String CreateSiteMap()
         {
-            XElement
-                .Parse(
-                    @"<siteMap>
-                        <siteMapNode icon=""fa fa-home"" controller=""Home"" action=""Index"">
-                            <siteMapNode icon=""fa fa-user"" controller=""Profile"">
-                                <siteMapNode icon=""fa fa-pencil-alt"" controller=""Profile"" action=""Edit"" />
-                            </siteMapNode>
-                            <siteMapNode menu=""true"" icon=""fa fa-cogs"" area=""Administration"">
-                                <siteMapNode menu=""true"" icon=""fa fa-user"" area=""Administration"" controller=""Accounts"" action=""Index"">
-                                    <siteMapNode icon=""fa fa-info"" area=""Administration"" controller=""Accounts"" action=""Details"">
-                                        <siteMapNode icon=""fa fa-pencil-alt"" area=""Administration"" controller=""Accounts"" action=""Edit"" />
-                                    </siteMapNode>
-                                </siteMapNode>
-                                <siteMapNode menu=""true"" icon=""fa fa-users"" area=""Administration"" controller=""Roles"">
-                                    <siteMapNode menu=""true"" icon=""far fa-file"" area=""Administration"" controller=""Roles"" action=""Create"" />
-                                    <siteMapNode icon=""fa fa-pencil-alt"" area=""Administration"" controller=""Roles"" action=""Edit"" />
-                                </siteMapNode>
+            return @"<siteMap>
+                <siteMapNode icon=""fa fa-home"" controller=""Home"" action=""Index"">
+                    <siteMapNode icon=""fa fa-user"" controller=""Profile"">
+                        <siteMapNode icon=""fa fa-pencil-alt"" controller=""Profile"" action=""Edit"" />
+                    </siteMapNode>
+                    <siteMapNode menu=""true"" icon=""fa fa-cogs"" area=""Administration"">
+                        <siteMapNode menu=""true"" icon=""fa fa-user"" area=""Administration"" controller=""Accounts"" action=""Index"">
+                            <siteMapNode icon=""fa fa-info"" area=""Administration"" controller=""Accounts"" action=""Details"">
+                                <siteMapNode icon=""fa fa-pencil-alt"" area=""Administration"" controller=""Accounts"" action=""Edit"" />
                             </siteMapNode>
                         </siteMapNode>
-                    </siteMap>")
-                .Save(path);
+                        <siteMapNode menu=""true"" icon=""fa fa-users"" area=""Administration"" controller=""Roles"">
+                            <siteMapNode menu=""true"" icon=""far fa-file"" area=""Administration"" controller=""Roles"" action=""Create"" />
+                            <siteMapNode icon=""fa fa-pencil-alt"" area=""Administration"" controller=""Roles"" action=""Edit"" />
+                        </siteMapNode>
+                    </siteMapNode>
+                </siteMapNode>
+            </siteMap>";
         }
 
         #endregion

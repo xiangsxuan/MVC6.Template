@@ -1,6 +1,4 @@
-﻿using MvcTemplate.Components.Extensions;
-
-namespace MvcTemplate.Tests.Unit.Components.Extensions
+﻿namespace MvcTemplate.Components.Extensions.Tests
 {
     public class MvcTreeView
     {

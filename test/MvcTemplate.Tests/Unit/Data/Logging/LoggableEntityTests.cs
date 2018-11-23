@@ -1,15 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using MvcTemplate.Data.Logging;
 using MvcTemplate.Objects;
-using MvcTemplate.Tests.Data;
-using MvcTemplate.Tests.Objects;
+using MvcTemplate.Tests;
 using System;
 using System.Linq;
 using System.Text;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Data.Logging
+namespace MvcTemplate.Data.Logging.Tests
 {
     public class LoggableEntityTests : IDisposable
     {
@@ -21,7 +19,7 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         {
             using (context = new TestingContext())
             {
-                context.Add(model = ObjectFactory.CreateTestModel());
+                context.Add(model = ObjectsFactory.CreateTestModel());
                 context.SaveChanges();
             }
 

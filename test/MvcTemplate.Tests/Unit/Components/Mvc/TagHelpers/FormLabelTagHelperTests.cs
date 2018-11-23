@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using MvcTemplate.Components.Mvc;
 using NSubstitute;
 using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc
+namespace MvcTemplate.Components.Mvc.Tests
 {
     public class FormLabelTagHelperTests
     {

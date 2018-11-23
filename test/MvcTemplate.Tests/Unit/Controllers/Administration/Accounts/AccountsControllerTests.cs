@@ -4,16 +4,17 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
-using MvcTemplate.Controllers.Administration;
+using MvcTemplate.Controllers.Tests;
 using MvcTemplate.Objects;
 using MvcTemplate.Services;
+using MvcTemplate.Tests;
 using MvcTemplate.Validators;
 using NSubstitute;
 using System;
 using System.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Controllers.Administration
+namespace MvcTemplate.Controllers.Administration.Tests
 {
     public class AccountsControllerTests : ControllerTests
     {
@@ -29,9 +30,9 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
             validator = Substitute.For<IAccountValidator>();
             service = Substitute.For<IAccountService>();
 
-            accountCreate = ObjectFactory.CreateAccountCreateView();
-            accountEdit = ObjectFactory.CreateAccountEditView();
-            account = ObjectFactory.CreateAccountView();
+            accountCreate = ObjectsFactory.CreateAccountCreateView();
+            accountEdit = ObjectsFactory.CreateAccountEditView();
+            account = ObjectsFactory.CreateAccountView();
 
             controller = Substitute.ForPartsOf<AccountsController>(validator, service);
             controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
@@ -99,7 +100,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         [Fact]
         public void Create_RefreshesAuthorization()
         {
-            controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            controller.HttpContext.RequestServices.GetService<IAuthorization>().Returns(Substitute.For<IAuthorization>());
             validator.CanCreate(accountCreate).Returns(true);
             controller.OnActionExecuting(null);
 
@@ -177,7 +178,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         [Fact]
         public void Edit_RefreshesAuthorization()
         {
-            controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            controller.HttpContext.RequestServices.GetService<IAuthorization>().Returns(Substitute.For<IAuthorization>());
             validator.CanEdit(accountEdit).Returns(true);
             controller.OnActionExecuting(null);
 

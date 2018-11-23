@@ -28,7 +28,7 @@ namespace MvcTemplate.Components.Mvc
             if (other != null && Equals(value, other.GetValue(context.ObjectInstance)))
                 return null;
 
-            OtherPropertyDisplayName = ResourceProvider.GetPropertyTitle(context.ObjectType, OtherPropertyName) ?? OtherPropertyName;
+            OtherPropertyDisplayName = Resource.ForProperty(context.ObjectType, OtherPropertyName) ?? OtherPropertyName;
 
             return new ValidationResult(FormatErrorMessage(context.DisplayName));
         }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Components.Lookups;
-using MvcTemplate.Controllers;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using NonFactors.Mvc.Lookup;
@@ -8,7 +7,7 @@ using NSubstitute;
 using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Controllers
+namespace MvcTemplate.Controllers.Tests
 {
     public class LookupControllerTests
     {

@@ -2,6 +2,41 @@
 a:hover {
   text-decoration: none;
 }
+.breadcrumb {
+  background-color: transparent;
+  padding: 8px 18px;
+  cursor: default;
+  margin: 0;
+}
+.breadcrumb a {
+  color: #999999;
+}
+.breadcrumb a:hover {
+  color: #777777;
+}
+.breadcrumb a .icon {
+  padding-right: 5px;
+}
+.breadcrumb a + a::before {
+  font-family: 'Font Awesome 5 Free';
+  padding: 0 8px 0 12px;
+  font-weight: bold;
+  content: '\f105';
+  color: #777777;
+}
+.breadcrumb .current,
+.breadcrumb .current:hover {
+  font-weight: bold;
+  color: #555555;
+}
+@media (max-width: 767px) {
+  .breadcrumb .icon {
+    padding-right: 0;
+  }
+  .breadcrumb .text {
+    display: none;
+  }
+}
 .dropdown-item.active,
 .dropdown-item:active {
   color: #16181b;

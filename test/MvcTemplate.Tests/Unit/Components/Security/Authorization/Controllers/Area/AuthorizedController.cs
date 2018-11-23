@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MvcTemplate.Components.Security;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MvcTemplate.Tests.Unit.Components.Security.Area
+namespace MvcTemplate.Components.Security.Area.Tests
 {
     [Authorize]
     [Area("Area")]
@@ -24,13 +23,13 @@ namespace MvcTemplate.Tests.Unit.Components.Security.Area
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ViewResult AuthorizedGetAction()
         {
             return null;
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public ViewResult AuthorizedGetAction(Object obj)
         {
             return null;
@@ -43,6 +42,7 @@ namespace MvcTemplate.Tests.Unit.Components.Security.Area
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [ActionName("AuthorizedNamedGetAction")]
         public ViewResult GetActionWithName()
         {
@@ -50,7 +50,6 @@ namespace MvcTemplate.Tests.Unit.Components.Security.Area
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ActionName("AuthorizedNamedGetAction")]
         public ViewResult GetActionWithName(Object obj)
         {

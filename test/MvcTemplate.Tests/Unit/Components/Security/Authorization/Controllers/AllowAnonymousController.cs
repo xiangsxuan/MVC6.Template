@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MvcTemplate.Components.Security;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MvcTemplate.Tests.Unit.Components.Security
+namespace MvcTemplate.Components.Security.Tests
 {
     [AllowAnonymous]
     [ExcludeFromCodeCoverage]

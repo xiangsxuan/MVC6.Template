@@ -25,6 +25,7 @@ using MvcTemplate.Validators;
 using NonFactors.Mvc.Grid;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace MvcTemplate.Web
 {
@@ -49,7 +50,7 @@ namespace MvcTemplate.Web
         public void Configure(IApplicationBuilder app, ILoggerFactory factory)
         {
             RegisterLogging(factory);
-            RegisterServices(app);
+            RegisterMiddleware(app);
             RegisterMvc(app);
 
             UpdateDatabase(app);
@@ -81,6 +82,12 @@ namespace MvcTemplate.Web
                 authentication.Cookie.Name = Config["Cookies:Auth:Name"];
                 authentication.Events = new AuthenticationEvents();
             });
+
+            services.AddMvcGrid(filters =>
+            {
+                filters.BooleanFalseOptionText = () => Strings.No;
+                filters.BooleanTrueOptionText = () => Strings.Yes;
+            });
         }
         public void RegisterServices(IServiceCollection services)
         {
@@ -101,18 +108,14 @@ namespace MvcTemplate.Web
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IValidationAttributeAdapterProvider, ValidationAdapterProvider>();
 
-            services.AddMvcGrid(filters =>
-            {
-                filters.BooleanFalseOptionText = () => Strings.No;
-                filters.BooleanTrueOptionText = () => Strings.Yes;
-            });
+            services.AddSingleton<IAuthorization>(provider =>
+                new Authorization(typeof(BaseController).Assembly, provider));
 
-            services.AddSingleton<ILanguages, Languages>();
-            services.AddSingleton<IAuthorizationProvider>(provider =>
-                new AuthorizationProvider(typeof(BaseController).Assembly, provider));
+            String path = Path.Combine(Config["Application:Path"], Config["Languages:Path"]);
+            services.AddSingleton<ILanguages>(provider => new Languages(File.ReadAllText(path)));
 
-            services.AddSingleton<IMvcSiteMapParser, MvcSiteMapParser>();
-            services.AddSingleton<IMvcSiteMapProvider, MvcSiteMapProvider>();
+            String map = File.ReadAllText(Path.Combine(Config["Application:Path"], Config["SiteMap:Path"]));
+            services.AddSingleton<ISiteMap>(provider => new SiteMap(map, provider.GetService<IAuthorization>()));
 
             services.AddTransientImplementations<IService>();
             services.AddTransientImplementations<IValidator>();
@@ -132,7 +135,7 @@ namespace MvcTemplate.Web
             });
         }
 
-        public void RegisterServices(IApplicationBuilder app)
+        public void RegisterMiddleware(IApplicationBuilder app)
         {
             if (Config["Application:Env"] == EnvironmentName.Development)
                 app.UseMiddleware<DeveloperExceptionPageMiddleware>();

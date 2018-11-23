@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Routing;
-using MvcTemplate.Components.Mvc;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc
+namespace MvcTemplate.Components.Mvc.Tests
 {
     public class ViewLocationExpanderTests
     {

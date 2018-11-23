@@ -2,14 +2,13 @@
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Mvc;
-using MvcTemplate.Controllers;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
 using NSubstitute;
 using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Controllers
+namespace MvcTemplate.Controllers.Tests
 {
     public class ValidatedControllerTests : ControllerTests
     {

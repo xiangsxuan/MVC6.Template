@@ -42,7 +42,7 @@
       "wwwroot/Content/Bootstrap/*.css",
       "wwwroot/Content/FontAwesome/*.css",
       "wwwroot/Content/Shared/*.css",
-      "wwwroot/Content/Application/**/*.css"
+      "wwwroot/Content/Application/Auth/shared.css"
     ]
   }
 ]

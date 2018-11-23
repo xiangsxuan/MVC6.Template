@@ -3,7 +3,7 @@ using MvcTemplate.Components.Mvc;
 using MvcTemplate.Objects;
 using System;
 
-namespace MvcTemplate.Tests.Objects
+namespace MvcTemplate.Tests
 {
     public class AllTypesView : BaseView
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MvcTemplate.Data.Core;
-using MvcTemplate.Tests.Objects;
+using MvcTemplate.Tests;
 using System;
 
-namespace MvcTemplate.Tests.Data
+namespace MvcTemplate.Tests
 {
     public class TestingContext : Context
     {
@@ -20,7 +20,7 @@ namespace MvcTemplate.Tests.Data
         {
         }
         public TestingContext(String databaseName)
-            : base(ConfigurationFactory.Create())
+            : base(null)
         {
             DatabaseName = databaseName;
         }

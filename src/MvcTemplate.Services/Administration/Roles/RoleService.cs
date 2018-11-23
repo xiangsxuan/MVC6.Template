@@ -2,7 +2,7 @@
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
-using MvcTemplate.Resources.Permission;
+using MvcTemplate.Resources.Permissions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,9 +110,9 @@ namespace MvcTemplate.Services
                 .Select(permission => new Permission
                 {
                     Id = permission.Id,
-                    Area = ResourceProvider.GetPermissionAreaTitle(permission.Area),
-                    Controller = ResourceProvider.GetPermissionControllerTitle(permission.Area, permission.Controller),
-                    Action = ResourceProvider.GetPermissionActionTitle(permission.Area, permission.Controller, permission.Action)
+                    Area = Resource.ForPermission(permission.Area),
+                    Controller = Resource.ForPermission(permission.Area, permission.Controller),
+                    Action = Resource.ForPermission(permission.Area, permission.Controller, permission.Action)
                 })
                 .OrderBy(permission => permission.Area ?? permission.Controller)
                 .ThenBy(permission => permission.Controller)

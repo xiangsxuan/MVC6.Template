@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
-using MvcTemplate.Components.Mvc;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
 using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc
+namespace MvcTemplate.Components.Mvc.Tests
 {
     public class DisplayMetadataProviderTests
     {
@@ -22,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
 
             provider.CreateDisplayMetadata(context);
 
-            String expected = ResourceProvider.GetPropertyTitle(typeof(RoleView), "Title");
+            String expected = Resource.ForProperty(typeof(RoleView), "Title");
             String actual = context.DisplayMetadata.DisplayName();
 
             Assert.Equal(expected, actual);

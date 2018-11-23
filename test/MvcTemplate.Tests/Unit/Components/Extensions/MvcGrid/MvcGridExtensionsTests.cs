@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using MvcTemplate.Components.Extensions;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Resources.Shared;
-using MvcTemplate.Tests.Objects;
+using MvcTemplate.Tests;
 using NonFactors.Mvc.Grid;
 using NSubstitute;
 using System;
@@ -15,7 +14,7 @@ using System.Linq.Expressions;
 using System.Text.Encodings.Web;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Extensions
+namespace MvcTemplate.Components.Extensions.Tests
 {
     public class MvcGridExtensionsTests
     {
@@ -30,30 +29,30 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
             columns = new GridColumns<AllTypesView>(grid);
         }
 
-        #region AddActionLink<T>(this IGridColumnsOf<T> columns, String action, String iconClass)
+        #region AddAction<T>(this IGridColumnsOf<T> columns, String action, String iconClass)
 
         [Fact]
-        public void AddActionLink_Unauthorized_Empty()
+        public void AddAction_Unauthorized_Empty()
         {
-            IGridColumn<AllTypesView, IHtmlContent> actual = columns.AddActionLink("Edit", "fa fa-pencil-alt");
+            IGridColumn<AllTypesView, IHtmlContent> actual = columns.AddAction("Edit", "fa fa-pencil-alt");
 
             Assert.Empty(actual.ValueFor(null).ToString());
             Assert.Empty(columns);
         }
 
         [Fact]
-        public void AddActionLink_Authorized_Renders()
+        public void AddAction_Authorized_Renders()
         {
             AllTypesView view = new AllTypesView();
             StringWriter writer = new StringWriter();
             IRouter router = Substitute.For<IRouter>();
-            IAuthorizationProvider authorization = columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
+            IAuthorization authorization = columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>();
 
-            authorization.IsAuthorizedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
+            authorization.IsGrantedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
             router.GetVirtualPath(Arg.Any<VirtualPathContext>()).Returns(new VirtualPathData(router, "/test"));
             columns.Grid.ViewContext.RouteData.Routers.Add(router);
 
-            IGridColumn<AllTypesView, IHtmlContent> column = columns.AddActionLink("Details", "fa fa-info");
+            IGridColumn<AllTypesView, IHtmlContent> column = columns.AddAction("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
             String actual = writer.ToString();
@@ -66,17 +65,17 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         }
 
         [Fact]
-        public void AddActionLink_NullAuthorization_Renders()
+        public void AddAction_NoAuthorization_Renders()
         {
             AllTypesView view = new AllTypesView();
             StringWriter writer = new StringWriter();
             IRouter router = Substitute.For<IRouter>();
 
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(null as IAuthorizationProvider);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>().Returns(null as IAuthorization);
             router.GetVirtualPath(Arg.Any<VirtualPathContext>()).Returns(new VirtualPathData(router, "/test"));
             columns.Grid.ViewContext.RouteData.Routers.Add(router);
 
-            IGridColumn<AllTypesView, IHtmlContent> column = columns.AddActionLink("Details", "fa fa-info");
+            IGridColumn<AllTypesView, IHtmlContent> column = columns.AddAction("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
             String actual = writer.ToString();
@@ -89,26 +88,26 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         }
 
         [Fact]
-        public void AddActionLink_NoKey_Throws()
+        public void AddAction_NoId_Throws()
         {
             IGrid<Object> grid = new Grid<Object>(new Object[0]);
             IGridColumnsOf<Object> gridColumns = new GridColumns<Object>(grid);
             gridColumns.Grid.ViewContext = new ViewContext { HttpContext = Substitute.For<HttpContext>() };
 
-            IGridColumn<Object, IHtmlContent> column = gridColumns.AddActionLink("Delete", "fa fa-times");
+            IGridColumn<Object, IHtmlContent> column = gridColumns.AddAction("Delete", "fa fa-times");
 
             String actual = Assert.Throws<Exception>(() => column.ValueFor(new GridRow<Object>(new Object()))).Message;
-            String expected = "Object type does not have a key property.";
+            String expected = "Object type does not have an id.";
 
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void AddActionLink_Column()
+        public void AddAction_Column()
         {
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(null as IAuthorizationProvider);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>().Returns(null as IAuthorization);
 
-            IGridColumn<AllTypesView, IHtmlContent> actual = columns.AddActionLink("Edit", "fa fa-pencil-alt");
+            IGridColumn<AllTypesView, IHtmlContent> actual = columns.AddAction("Edit", "fa fa-pencil-alt");
 
             Assert.Equal("action-cell", actual.CssClasses);
             Assert.Single(columns);
@@ -116,14 +115,14 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
         #endregion
 
-        #region AddDateProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
+        #region AddDate<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
 
         [Fact]
-        public void AddDateProperty_Column()
+        public void AddDate_Column()
         {
             Expression<Func<AllTypesView, DateTime>> expression = (model) => model.DateTimeField;
 
-            IGridColumn<AllTypesView, DateTime> actual = columns.AddDateProperty(expression);
+            IGridColumn<AllTypesView, DateTime> actual = columns.AddDate(expression);
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
@@ -134,14 +133,14 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
         #endregion
 
-        #region AddDateProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
+        #region AddDate<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
 
         [Fact]
-        public void AddDateProperty_Nullable_Column()
+        public void AddDate_Nullable_Column()
         {
             Expression<Func<AllTypesView, DateTime?>> expression = (model) => model.NullableDateTimeField;
 
-            IGridColumn<AllTypesView, DateTime?> actual = columns.AddDateProperty(expression);
+            IGridColumn<AllTypesView, DateTime?> actual = columns.AddDate(expression);
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
@@ -152,14 +151,14 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
         #endregion
 
-        #region AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean>> expression)
+        #region AddBoolean<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean>> expression)
 
         [Fact]
-        public void AddBooleanProperty_Column()
+        public void AddBoolean_Column()
         {
             Expression<Func<AllTypesView, Boolean>> expression = (model) => model.BooleanField;
 
-            IGridColumn<AllTypesView, Boolean> actual = columns.AddBooleanProperty(expression);
+            IGridColumn<AllTypesView, Boolean> actual = columns.AddBoolean(expression);
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
@@ -169,9 +168,9 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         }
 
         [Fact]
-        public void AddBooleanProperty_True()
+        public void AddBoolean_True()
         {
-            IGridColumn<AllTypesView, Boolean> column = columns.AddBooleanProperty(model => model.BooleanField);
+            IGridColumn<AllTypesView, Boolean> column = columns.AddBoolean(model => model.BooleanField);
             GridRow<AllTypesView> row = new GridRow<AllTypesView>(new AllTypesView { BooleanField = true });
 
             String actual = column.ValueFor(row).ToString();
@@ -181,10 +180,10 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         }
 
         [Fact]
-        public void AddBooleanProperty_False()
+        public void AddBoolean_False()
         {
             GridRow<AllTypesView> row = new GridRow<AllTypesView>(new AllTypesView { BooleanField = false });
-            IGridColumn<AllTypesView, Boolean> column = columns.AddBooleanProperty(model => model.BooleanField);
+            IGridColumn<AllTypesView, Boolean> column = columns.AddBoolean(model => model.BooleanField);
 
             String actual = column.ValueFor(row).ToString();
             String expected = Strings.No;
@@ -194,14 +193,14 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
         #endregion
 
-        #region AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean?>> expression)
+        #region AddBoolean<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean?>> expression)
 
         [Fact]
-        public void AddBooleanProperty_Nullable_Column()
+        public void AddBoolean_Nullable_Column()
         {
             Expression<Func<AllTypesView, Boolean?>> expression = (model) => model.NullableBooleanField;
 
-            IGridColumn<AllTypesView, Boolean?> actual = columns.AddBooleanProperty(expression);
+            IGridColumn<AllTypesView, Boolean?> actual = columns.AddBoolean(expression);
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
@@ -211,9 +210,9 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         }
 
         [Fact]
-        public void AddBooleanProperty_Nullable()
+        public void AddBoolean_Nullable()
         {
-            IGridColumn<AllTypesView, Boolean?> column = columns.AddBooleanProperty(model => model.NullableBooleanField);
+            IGridColumn<AllTypesView, Boolean?> column = columns.AddBoolean(model => model.NullableBooleanField);
             GridRow<AllTypesView> row = new GridRow<AllTypesView>(new AllTypesView { NullableBooleanField = null });
 
             String actual = column.ValueFor(row).ToString();
@@ -222,9 +221,9 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         }
 
         [Fact]
-        public void AddBooleanProperty_Nullable_True()
+        public void AddBoolean_Nullable_True()
         {
-            IGridColumn<AllTypesView, Boolean?> column = columns.AddBooleanProperty(model => model.NullableBooleanField);
+            IGridColumn<AllTypesView, Boolean?> column = columns.AddBoolean(model => model.NullableBooleanField);
             GridRow<AllTypesView> row = new GridRow<AllTypesView>(new AllTypesView { NullableBooleanField = true });
 
             String actual = column.ValueFor(row).ToString();
@@ -234,9 +233,9 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
         }
 
         [Fact]
-        public void AddBooleanProperty_Nullable_False()
+        public void AddBoolean_Nullable_False()
         {
-            IGridColumn<AllTypesView, Boolean?> column = columns.AddBooleanProperty(model => model.NullableBooleanField);
+            IGridColumn<AllTypesView, Boolean?> column = columns.AddBoolean(model => model.NullableBooleanField);
             GridRow<AllTypesView> row = new GridRow<AllTypesView>(new AllTypesView { NullableBooleanField = false });
 
             String actual = column.ValueFor(row).ToString();
@@ -247,14 +246,14 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
         #endregion
 
-        #region AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
+        #region AddDateTime<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
 
         [Fact]
-        public void AddDateTimeProperty_Column()
+        public void AddDateTime_Column()
         {
             Expression<Func<AllTypesView, DateTime>> expression = (model) => model.DateTimeField;
 
-            IGridColumn<AllTypesView, DateTime> actual = columns.AddDateTimeProperty(expression);
+            IGridColumn<AllTypesView, DateTime> actual = columns.AddDateTime(expression);
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
@@ -265,14 +264,14 @@ namespace MvcTemplate.Tests.Unit.Components.Extensions
 
         #endregion
 
-        #region AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
+        #region AddDateTime<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
 
         [Fact]
-        public void AddDateTimeProperty_Nullable_Column()
+        public void AddDateTime_Nullable_Column()
         {
             Expression<Func<AllTypesView, DateTime?>> expression = (model) => model.NullableDateTimeField;
 
-            IGridColumn<AllTypesView, DateTime?> actual = columns.AddDateTimeProperty(expression);
+            IGridColumn<AllTypesView, DateTime?> actual = columns.AddDateTime(expression);
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);

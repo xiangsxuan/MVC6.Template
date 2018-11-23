@@ -15,22 +15,22 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Validations.resx</DependentUpon>
     </Compile>
-    <Compile Update="Permission\Action\Titles.Designer.cs">
+    <Compile Update="Permissions\Action\Titles.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Titles.resx</DependentUpon>
     </Compile>
-    <Compile Update="Permission\Area\Titles.Designer.cs">
+    <Compile Update="Permissions\Area\Titles.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Titles.resx</DependentUpon>
     </Compile>
-    <Compile Update="Permission\Controller\Titles.Designer.cs">
+    <Compile Update="Permissions\Controller\Titles.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Titles.resx</DependentUpon>
     </Compile>
-    <Compile Update="Permission\Titles.Designer.cs">
+    <Compile Update="Permissions\Titles.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Titles.resx</DependentUpon>
@@ -132,19 +132,19 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Validations.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Permission\Action\Titles.resx">
+    <EmbeddedResource Update="Permissions\Action\Titles.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Titles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Permission\Area\Titles.resx">
+    <EmbeddedResource Update="Permissions\Area\Titles.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Titles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Permission\Controller\Titles.resx">
+    <EmbeddedResource Update="Permissions\Controller\Titles.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Titles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Permission\Titles.resx">
+    <EmbeddedResource Update="Permissions\Titles.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Titles.Designer.cs</LastGenOutput>
     </EmbeddedResource>

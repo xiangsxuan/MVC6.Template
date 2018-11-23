@@ -25,7 +25,7 @@ namespace @Model.ControllerTestsNamespace
             validator = Substitute.For<@Model.IValidator>();
             service = Substitute.For<@Model.IService>();
 
-            @Model.ModelVarName = ObjectFactory.Create@(Model.View)();
+            @Model.ModelVarName = ObjectsFactory.Create@(Model.View)();
 
             controller = Substitute.ForPartsOf<@Model.Controller>(validator, service);
             controller.ControllerContext.RouteData = new RouteData();

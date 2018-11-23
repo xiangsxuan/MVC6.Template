@@ -1,9 +1,8 @@
-﻿using MvcTemplate.Components.Mvc;
-using MvcTemplate.Resources.Form;
+﻿using MvcTemplate.Resources.Form;
 using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc
+namespace MvcTemplate.Components.Mvc.Tests
 {
     public class MinValueAttributeTests
     {

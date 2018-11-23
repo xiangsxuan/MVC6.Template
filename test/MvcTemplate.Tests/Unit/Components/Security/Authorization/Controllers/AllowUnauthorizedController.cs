@@ -1,7 +1,6 @@
-﻿using MvcTemplate.Components.Security;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MvcTemplate.Tests.Unit.Components.Security
+namespace MvcTemplate.Components.Security.Tests
 {
     [AllowUnauthorized]
     [ExcludeFromCodeCoverage]

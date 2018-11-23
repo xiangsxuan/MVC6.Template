@@ -1,12 +1,12 @@
 ﻿@model ModuleModel
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
-using MvcTemplate.Tests.Data;
+using MvcTemplate.Tests;
 using MvcTemplate.Validators;
 using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Validators
+namespace MvcTemplate.Validators.Tests
 {
     public class @Model.ValidatorTests : IDisposable
     {
@@ -19,7 +19,7 @@ namespace MvcTemplate.Tests.Unit.Validators
             context = new TestingContext();
             validator = new @(Model.Validator)(new UnitOfWork(context));
 
-            context.Set<@Model.Model>().Add(@Model.ModelVarName = ObjectFactory.Create@(Model.Model)());
+            context.Set<@Model.Model>().Add(@Model.ModelVarName = ObjectsFactory.Create@(Model.Model)());
             context.SaveChanges();
         }
         public void Dispose()
@@ -35,13 +35,13 @@ namespace MvcTemplate.Tests.Unit.Validators
         {
             validator.ModelState.AddModelError("Test", "Test");
 
-            Assert.False(validator.CanCreate(ObjectFactory.Create@(Model.View)(1)));
+            Assert.False(validator.CanCreate(ObjectsFactory.Create@(Model.View)(1)));
         }
 
         [Fact]
         public void CanCreate_Valid@(Model.ModelShortName)()
         {
-            Assert.True(validator.CanCreate(ObjectFactory.Create@(Model.View)(1)));
+            Assert.True(validator.CanCreate(ObjectsFactory.Create@(Model.View)(1)));
             Assert.Empty(validator.ModelState);
             Assert.Empty(validator.Alerts);
         }
@@ -55,13 +55,13 @@ namespace MvcTemplate.Tests.Unit.Validators
         {
             validator.ModelState.AddModelError("Test", "Test");
 
-            Assert.False(validator.CanEdit(ObjectFactory.Create@(Model.View)(@(Model.ModelVarName).Id)));
+            Assert.False(validator.CanEdit(ObjectsFactory.Create@(Model.View)(@(Model.ModelVarName).Id)));
         }
 
         [Fact]
         public void CanEdit_Valid@(Model.ModelShortName)()
         {
-            Assert.True(validator.CanEdit(ObjectFactory.Create@(Model.View)(@(Model.ModelVarName).Id)));
+            Assert.True(validator.CanEdit(ObjectsFactory.Create@(Model.View)(@(Model.ModelVarName).Id)));
             Assert.Empty(validator.ModelState);
             Assert.Empty(validator.Alerts);
         }

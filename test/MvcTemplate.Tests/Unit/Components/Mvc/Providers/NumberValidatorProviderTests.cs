@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using MvcTemplate.Components.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc
+namespace MvcTemplate.Components.Mvc.Tests
 {
     public class NumberValidatorProviderTests
     {

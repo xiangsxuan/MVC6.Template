@@ -7,8 +7,6 @@ namespace MvcTemplate.Components.Mvc
     {
         public String Name { get; set; }
         public String Abbreviation { get; set; }
-
-        public Boolean IsDefault { get; set; }
         public CultureInfo Culture { get; set; }
     }
 }

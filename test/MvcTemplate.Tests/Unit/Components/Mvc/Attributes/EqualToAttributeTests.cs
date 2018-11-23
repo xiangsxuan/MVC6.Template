@@ -1,11 +1,10 @@
-﻿using MvcTemplate.Components.Mvc;
-using MvcTemplate.Resources.Form;
-using MvcTemplate.Tests.Objects;
+﻿using MvcTemplate.Resources.Form;
+using MvcTemplate.Tests;
 using System;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc
+namespace MvcTemplate.Components.Mvc.Tests
 {
     public class EqualToAttributeTests
     {

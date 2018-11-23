@@ -21,12 +21,9 @@ namespace MvcTemplate.Components.Mvc
         }
         public override Boolean IsValid(Object value)
         {
-            if (value == null)
-                return true;
-
             try
             {
-                return Convert.ToDecimal(value) <= Maximum;
+                return value == null || Convert.ToDecimal(value) <= Maximum;
             }
             catch (Exception)
             {

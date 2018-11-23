@@ -1,4 +1,4 @@
-﻿body.public .content-container {
+﻿body.public .main-content {
   text-align: center;
   margin: 50px auto;
   min-height: 0;
@@ -33,7 +33,7 @@ body.public .btn {
 body.public .public-action {
   margin-top: 10px;
 }
-.content-container {
+.main-content {
   background-image: url("../../images/shared/content-background.jpg");
   border-radius: 8px 0 0 8px;
   background-color: #f2f2f2;
@@ -42,45 +42,13 @@ body.public .public-action {
   width: 200px;
   flex: 1;
 }
-.content-container::after,
-.content-container::before {
+.main-content::after,
+.main-content::before {
   display: table;
   content: "";
 }
-.content-container::after {
+.main-content::after {
   clear: both;
-}
-.content-breadcrumb {
-  padding-left: 10px;
-  cursor: default;
-}
-.content-breadcrumb > a {
-  display: inline-block;
-  color: #999999;
-  padding: 8px;
-}
-.content-breadcrumb > a:hover {
-  color: #777777;
-}
-.content-breadcrumb > a .icon {
-  padding-right: 5px;
-}
-.content-breadcrumb > span {
-  color: #777777;
-}
-.content-breadcrumb .current,
-.content-breadcrumb .current:hover {
-  font-weight: bold;
-  color: #555555;
-}
-@media (max-width: 767px) {
-  .content-breadcrumb .text {
-    display: none;
-  }
-  .content-breadcrumb > a {
-    padding-left: 4px;
-    padding-right: 0;
-  }
 }
 .content {
   display: flex;

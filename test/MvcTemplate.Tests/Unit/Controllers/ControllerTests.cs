@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Components.Mvc;
-using MvcTemplate.Controllers;
 using NSubstitute;
 using System;
 using System.Linq;
 using System.Reflection;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Controllers
+namespace MvcTemplate.Controllers.Tests
 {
     public abstract class ControllerTests
     {

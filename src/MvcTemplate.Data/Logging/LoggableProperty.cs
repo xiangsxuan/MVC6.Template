@@ -29,7 +29,7 @@ namespace MvcTemplate.Data.Logging
 
         private String Format(Object value)
         {
-            if (value == null)
+            if (value is null)
                 return "null";
 
             if (value is DateTime date)

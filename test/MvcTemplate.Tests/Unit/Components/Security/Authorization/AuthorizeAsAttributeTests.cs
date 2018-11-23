@@ -1,8 +1,7 @@
-﻿using MvcTemplate.Components.Security;
-using System;
+﻿using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Security
+namespace MvcTemplate.Components.Security.Tests
 {
     public class AuthorizeAsAttributeTests
     {

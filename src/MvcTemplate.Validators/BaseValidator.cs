@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using MvcTemplate.Components.Alerts;
+using MvcTemplate.Components.Notifications;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
@@ -13,14 +13,15 @@ namespace MvcTemplate.Validators
     {
         public ModelStateDictionary ModelState { get; set; }
         public Int32 CurrentAccountId { get; set; }
-        public AlertsContainer Alerts { get; set; }
+        public Alerts Alerts { get; set; }
+
         protected IUnitOfWork UnitOfWork { get; }
 
         protected BaseValidator(IUnitOfWork unitOfWork)
         {
             ModelState = new ModelStateDictionary();
-            Alerts = new AlertsContainer();
             UnitOfWork = unitOfWork;
+            Alerts = new Alerts();
         }
 
         protected Boolean IsSpecified<TView>(TView view, Expression<Func<TView, Object>> property) where TView : BaseView
@@ -30,9 +31,9 @@ namespace MvcTemplate.Validators
             if (!isSpecified)
             {
                 if (property.Body is UnaryExpression unary)
-                    ModelState.AddModelError(property, String.Format(Validations.Required, ResourceProvider.GetPropertyTitle(unary.Operand)));
+                    ModelState.AddModelError(property, String.Format(Validations.Required, Resource.ForProperty(unary.Operand)));
                 else
-                    ModelState.AddModelError(property, String.Format(Validations.Required, ResourceProvider.GetPropertyTitle(property)));
+                    ModelState.AddModelError(property, String.Format(Validations.Required, Resource.ForProperty(property)));
             }
 
             return isSpecified;

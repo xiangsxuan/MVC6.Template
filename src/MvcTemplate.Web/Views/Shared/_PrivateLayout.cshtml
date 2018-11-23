@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@(ViewBag.Title ?? ResourceProvider.GetPageTitle(ViewContext.RouteData.Values))</title>
+    <title>@(ViewBag.Title ?? Resource.ForPage(ViewContext.RouteData.Values))</title>
 
     <environment names="Development">
         <link href="~/Content/JQueryUI/jquery-ui.css" rel="stylesheet">
@@ -22,7 +22,7 @@
         <link href="~/Content/Shared/base.css" rel="stylesheet">
         <link href="~/Content/Shared/content.css" rel="stylesheet">
         <link href="~/Content/Shared/header.css" rel="stylesheet">
-        <link href="~/Content/Shared/menu.css" rel="stylesheet">
+        <link href="~/Content/Shared/navigation.css" rel="stylesheet">
         <link href="~/Content/Shared/overrides.css" rel="stylesheet">
         <link href="~/Content/Shared/table.css" rel="stylesheet">
         <link href="~/Content/Shared/widget-box.css" rel="stylesheet">
@@ -32,6 +32,8 @@
     </environment>
 </head>
 <body class="private">
+    <partial name="MvcLookup/_Dialog" />
+
     <div class="header">
         <div class="btn">
             <a asp-action="Edit" asp-controller="Profile" asp-route-area="">
@@ -48,10 +50,10 @@
                     <span class="text">@Actions.Language</span>
                     <span class="caret"></span>
                 </a>
-                <div role="menu" class="dropdown-menu">
+                <div class="dropdown-menu">
                     @foreach (Language language in languages.Supported)
                     {
-                        <a class="dropdown-item" href="@Url.Action("Index", "Home", new { area = "", language = language.IsDefault ? "" : language.Abbreviation })">
+                        <a class="dropdown-item" href="@Url.Action("Index", "Home", new { area = "", language = language == languages.Default ? "" : language.Abbreviation })">
                             <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" width="16" height="11" alt="">
                             @language.Name
                         </a>
@@ -67,38 +69,35 @@
         </div>
     </div>
 
-    <partial name="MvcLookup/_Dialog" />
-
     <div class="content">
-        <div class="menu">
+        <div class="navigation">
             <div class="menu-search">
                 <input placeholder="@(Actions.Search)..." />
             </div>
-            @{ IMvcSiteMapProvider siteMap = Context.RequestServices.GetRequiredService<IMvcSiteMapProvider>(); }
-            <partial name="_SiteMap" model="@siteMap.GetSiteMap(ViewContext)" />
+            @{ ISiteMap siteMap = Context.RequestServices.GetRequiredService<ISiteMap>(); }
+            <partial name="_SiteMap" model="@siteMap.For(ViewContext)" />
         </div>
-        <div class="content-container">
+        <div class="main-content">
             <div class="separator"></div>
 
-            <div class="content-breadcrumb">
-                @{ MvcSiteMapNode[] breadcrumb = Context.RequestServices.GetRequiredService<IMvcSiteMapProvider>().GetBreadcrumb(ViewContext).ToArray(); }
+            <div class="breadcrumb">
+                @{ SiteMapNode[] breadcrumb = siteMap.BreadcrumbFor(ViewContext).ToArray(); }
                 @for (Int32 i = 0; i < breadcrumb.Length; i++)
                 {
-                    MvcSiteMapNode node = breadcrumb[i];
+                    SiteMapNode node = breadcrumb[i];
                     if (i == breadcrumb.Length - 1)
                     {
                         <a class="current">
                             <span class="icon @node.IconClass"></span>
-                            <span class="text">@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
+                            <span class="text">@Resource.ForSiteMap(node.Area, node.Controller, node.Action)</span>
                         </a>
                     }
                     else if (node.Action != null)
                     {
                         <a asp-action="@node.Action" asp-controller="@node.Controller" asp-route-area="@node.Area">
                             <span class="icon @node.IconClass"></span>
-                            <span class="text">@ResourceProvider.GetSiteMapTitle(node.Area, node.Controller, node.Action)</span>
+                            <span class="text">@Resource.ForSiteMap(node.Area, node.Controller, node.Action)</span>
                         </a>
-                        <span class="fa fa-angle-right"></span>
                     }
                 }
             </div>
@@ -108,7 +107,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="alerts col-12">
-                        @foreach (Alert alert in JsonConvert.DeserializeObject<AlertsContainer>(TempData["Alerts"] as String))
+                        @foreach (Alert alert in JsonConvert.DeserializeObject<Alerts>(TempData["Alerts"] as String))
                         {
                             <div id="@alert.Id" class="alert alert-@alert.Type.ToString().ToLowerInvariant()" data-timeout="@alert.Timeout">
                                 <span>@alert.Message</span><span class="close">×</span>
@@ -151,7 +150,7 @@
         <script src="~/Scripts/Shared/Widgets/header.js"></script>
         <script src="~/Scripts/Shared/Widgets/tree.js"></script>
         <script src="~/Scripts/Shared/Widgets/lookup.js"></script>
-        <script src="~/Scripts/Shared/Widgets/menu.js"></script>
+        <script src="~/Scripts/Shared/Widgets/navigation.js"></script>
         <script src="~/Scripts/Shared/Widgets/validator.js"></script>
         <script src="~/Scripts/Shared/site.js"></script>
     </environment>

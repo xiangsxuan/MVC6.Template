@@ -24,8 +24,8 @@ namespace MvcTemplate.Tests
             html.ViewContext.HttpContext = Substitute.For<HttpContext>();
             html.MetadataProvider.Returns(new EmptyModelMetadataProvider());
             html.ViewContext.HttpContext.RequestServices
-                .GetService<IAuthorizationProvider>()
-                .Returns(Substitute.For<IAuthorizationProvider>());
+                .GetService<IAuthorization>()
+                .Returns(Substitute.For<IAuthorization>());
             html.ViewContext.ViewData.Model = model;
 
             return html;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MvcTemplate.Tests.Unit.Components.Security
+namespace MvcTemplate.Components.Security.Tests
 {
     [ExcludeFromCodeCoverage]
     public class InheritedAllowAnonymousController : AllowAnonymousController

@@ -1,4 +1,4 @@
-DatePicker = {
+Datepicker = {
     init: function () {
         var lang = document.documentElement.lang;
 

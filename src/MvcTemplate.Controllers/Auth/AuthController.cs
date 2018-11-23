@@ -39,8 +39,7 @@ namespace MvcTemplate.Controllers
             if (!Validator.CanRecover(account))
                 return View(account);
 
-            String token = Service.Recover(account);
-            if (token != null)
+            if (Service.Recover(account) is String token)
             {
                 String url = Url.Action("Reset", "Auth", new { token }, Request.Scheme);
 

@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@(ViewBag.Title ?? ResourceProvider.GetPageTitle(ViewContext.RouteData.Values))</title>
+    <title>@(ViewBag.Title ?? Resource.ForPage(ViewContext.RouteData.Values))</title>
 
     <environment names="Development">
         <link href="~/Content/Bootstrap/bootstrap.css" rel="stylesheet">
@@ -17,7 +17,7 @@
         <link href="~/Content/Shared/base.css" rel="stylesheet">
         <link href="~/Content/Shared/content.css" rel="stylesheet">
         <link href="~/Content/Shared/header.css" rel="stylesheet">
-        <link href="~/Content/Shared/menu.css" rel="stylesheet">
+        <link href="~/Content/Shared/navigation.css" rel="stylesheet">
         <link href="~/Content/Shared/overrides.css" rel="stylesheet">
         <link href="~/Content/Shared/table.css" rel="stylesheet">
         <link href="~/Content/Shared/widget-box.css" rel="stylesheet">
@@ -28,7 +28,7 @@
     </environment>
 </head>
 <body class="public">
-    <div class="content-container">
+    <div class="main-content">
         @RenderBody()
     </div>
 
@@ -46,7 +46,7 @@
         <script src="~/Scripts/Shared/Widgets/header.js"></script>
         <script src="~/Scripts/Shared/Widgets/tree.js"></script>
         <script src="~/Scripts/Shared/Widgets/lookup.js"></script>
-        <script src="~/Scripts/Shared/Widgets/menu.js"></script>
+        <script src="~/Scripts/Shared/Widgets/navigation.js"></script>
         <script src="~/Scripts/Shared/Widgets/validator.js"></script>
         <script src="~/Scripts/Shared/site.js"></script>
     </environment>

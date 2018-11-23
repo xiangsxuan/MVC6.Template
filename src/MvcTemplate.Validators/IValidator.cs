@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using MvcTemplate.Components.Alerts;
+using MvcTemplate.Components.Notifications;
 using System;
 
 namespace MvcTemplate.Validators
@@ -8,6 +8,6 @@ namespace MvcTemplate.Validators
     {
         ModelStateDictionary ModelState { get; set; }
         Int32 CurrentAccountId { get; set; }
-        AlertsContainer Alerts { get; set; }
+        Alerts Alerts { get; set; }
     }
 }

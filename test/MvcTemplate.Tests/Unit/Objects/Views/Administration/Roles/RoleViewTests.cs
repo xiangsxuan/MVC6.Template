@@ -1,8 +1,7 @@
 ﻿using MvcTemplate.Components.Extensions;
-using MvcTemplate.Objects;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Objects
+namespace MvcTemplate.Objects.Tests
 {
     public class RoleViewTests
     {

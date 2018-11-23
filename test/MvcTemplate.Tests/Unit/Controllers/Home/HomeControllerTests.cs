@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MvcTemplate.Controllers;
 using MvcTemplate.Services;
 using NSubstitute;
 using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Controllers
+namespace MvcTemplate.Controllers.Tests
 {
     public class HomeControllerTests : ControllerTests
     {

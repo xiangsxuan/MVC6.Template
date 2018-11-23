@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using MvcTemplate.Data.Mapping;
 using MvcTemplate.Objects;
+using MvcTemplate.Tests;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Data.Mapping
+namespace MvcTemplate.Data.Mapping.Tests
 {
     public class ObjectMapperTests
     {
@@ -17,7 +17,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         [Fact]
         public void MapRoles_Role_RoleView()
         {
-            Role expected = ObjectFactory.CreateRole();
+            Role expected = ObjectsFactory.CreateRole();
             RoleView actual = Mapper.Map<RoleView>(expected);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);
@@ -29,7 +29,7 @@ namespace MvcTemplate.Tests.Unit.Data.Mapping
         [Fact]
         public void MapRoles_RoleView_Role()
         {
-            RoleView expected = ObjectFactory.CreateRoleView();
+            RoleView expected = ObjectsFactory.CreateRoleView();
             Role actual = Mapper.Map<Role>(expected);
 
             Assert.Equal(expected.CreationDate, actual.CreationDate);

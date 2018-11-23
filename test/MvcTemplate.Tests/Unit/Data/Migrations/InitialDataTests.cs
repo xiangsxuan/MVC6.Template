@@ -1,12 +1,11 @@
-﻿using MvcTemplate.Data.Migrations;
-using MvcTemplate.Objects;
-using MvcTemplate.Tests.Data;
+﻿using MvcTemplate.Objects;
+using MvcTemplate.Tests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Data.Migrations
+namespace MvcTemplate.Data.Migrations.Tests
 {
     public class InitialDataTests : IDisposable
     {

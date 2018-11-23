@@ -5,16 +5,15 @@ using MvcTemplate.Components.Extensions;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
-using MvcTemplate.Resources.Permission;
-using MvcTemplate.Services;
-using MvcTemplate.Tests.Data;
+using MvcTemplate.Resources.Permissions;
+using MvcTemplate.Tests;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Services
+namespace MvcTemplate.Services.Tests
 {
     public class RoleServiceTests : IDisposable
     {
@@ -40,7 +39,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void SeedPermissions_FirstDepth()
         {
-            RoleView view = ObjectFactory.CreateRoleView();
+            RoleView view = ObjectsFactory.CreateRoleView();
 
             service.SeedPermissions(view);
 
@@ -58,7 +57,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void SeedPermissions_SecondDepth()
         {
-            RoleView view = ObjectFactory.CreateRoleView();
+            RoleView view = ObjectsFactory.CreateRoleView();
 
             service.SeedPermissions(view);
 
@@ -76,7 +75,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void SeedPermissions_ThirdDepth()
         {
-            RoleView view = ObjectFactory.CreateRoleView();
+            RoleView view = ObjectsFactory.CreateRoleView();
 
             service.SeedPermissions(view);
 
@@ -94,7 +93,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void SeedPermissions_BranchesWithoutId()
         {
-            RoleView view = ObjectFactory.CreateRoleView();
+            RoleView view = ObjectsFactory.CreateRoleView();
 
             service.SeedPermissions(view);
 
@@ -107,7 +106,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void SeedPermissions_LeafsWithId()
         {
-            RoleView view = ObjectFactory.CreateRoleView();
+            RoleView view = ObjectsFactory.CreateRoleView();
 
             service.SeedPermissions(view);
 
@@ -192,7 +191,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Create_Role()
         {
-            RoleView view = ObjectFactory.CreateRoleView(1);
+            RoleView view = ObjectsFactory.CreateRoleView(1);
 
             service.Create(view);
 
@@ -206,7 +205,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Create_RolePermissions()
         {
-            RoleView view = ObjectFactory.CreateRoleView(1);
+            RoleView view = ObjectsFactory.CreateRoleView(1);
             view.Permissions = CreatePermissions();
 
             service.Create(view);
@@ -229,7 +228,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_Role()
         {
-            RoleView view = ObjectFactory.CreateRoleView(role.Id);
+            RoleView view = ObjectsFactory.CreateRoleView(role.Id);
             view.Title = role.Title += "Test";
 
             service.Edit(view);
@@ -245,11 +244,11 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_RolePermissions()
         {
-            Permission permission = ObjectFactory.CreatePermission();
+            Permission permission = ObjectsFactory.CreatePermission();
             context.Add(permission);
             context.SaveChanges();
 
-            RoleView view = ObjectFactory.CreateRoleView(role.Id);
+            RoleView view = ObjectsFactory.CreateRoleView(role.Id);
             view.Permissions = CreatePermissions();
             view.Permissions.SelectedIds.Remove(view.Permissions.SelectedIds.First());
             view.Permissions.SelectedIds.Add(permission.Id);
@@ -269,7 +268,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Delete_NullsAccountRoles()
         {
-            Account account = ObjectFactory.CreateAccount();
+            Account account = ObjectsFactory.CreateAccount();
             account.RoleId = role.Id;
             account.Role = null;
 
@@ -303,11 +302,11 @@ namespace MvcTemplate.Tests.Unit.Services
 
         private void SetUpData()
         {
-            role = ObjectFactory.CreateRole();
+            role = ObjectsFactory.CreateRole();
             foreach (String controller in new[] { "Roles", "Profile" })
                 foreach (String action in new[] { "Edit", "Delete" })
                 {
-                    RolePermission rolePermission = ObjectFactory.CreateRolePermission(role.Permissions.Count + 1);
+                    RolePermission rolePermission = ObjectsFactory.CreateRolePermission(role.Permissions.Count + 1);
                     rolePermission.Permission.Area = controller == "Roles" ? "Administration" : null;
                     rolePermission.Permission.Controller = controller;
                     rolePermission.Permission.Action = action;
@@ -335,9 +334,9 @@ namespace MvcTemplate.Tests.Unit.Services
                 .Select(permission => new Permission
                 {
                     Id = permission.Id,
-                    Area = ResourceProvider.GetPermissionAreaTitle(permission.Area),
-                    Controller = ResourceProvider.GetPermissionControllerTitle(permission.Area, permission.Controller),
-                    Action = ResourceProvider.GetPermissionActionTitle(permission.Area, permission.Controller, permission.Action)
+                    Area = Resource.ForPermission(permission.Area),
+                    Controller = Resource.ForPermission(permission.Area, permission.Controller),
+                    Action = Resource.ForPermission(permission.Area, permission.Controller, permission.Action)
                 });
 
             foreach (IGrouping<String, Permission> area in permissions.GroupBy(permission => permission.Area).OrderBy(permission => permission.Key ?? permission.FirstOrDefault().Controller))

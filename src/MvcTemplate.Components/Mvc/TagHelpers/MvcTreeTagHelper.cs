@@ -67,11 +67,11 @@ namespace MvcTemplate.Components.Mvc
                 TagBuilder item = new TagBuilder("li");
                 item.InnerHtml.AppendHtml("<i></i>");
 
-                if (node.Id != null) {
-                    if (model.SelectedIds.Contains(node.Id.Value))
+                if (node.Id is Int32 id) {
+                    if (model.SelectedIds.Contains(id))
                         item.AddCssClass("mvc-tree-checked");
 
-                    item.Attributes["data-id"] = node.Id.ToString();
+                    item.Attributes["data-id"] = id.ToString();
                 }
 
                 TagBuilder anchor = new TagBuilder("a");

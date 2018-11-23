@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MvcTemplate.Components.Alerts
+namespace MvcTemplate.Components.Notifications
 {
-    public class AlertsContainer : List<Alert>
+    public class Alerts : List<Alert>
     {
-        public void Merge(AlertsContainer alerts)
+        public void Merge(Alerts alerts)
         {
             if (alerts == this)
                 return;

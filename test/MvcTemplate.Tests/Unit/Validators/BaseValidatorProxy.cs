@@ -1,10 +1,9 @@
 ﻿using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
-using MvcTemplate.Validators;
 using System;
 using System.Linq.Expressions;
 
-namespace MvcTemplate.Tests.Unit.Validators
+namespace MvcTemplate.Validators.Tests
 {
     public class BaseValidatorProxy : BaseValidator
     {

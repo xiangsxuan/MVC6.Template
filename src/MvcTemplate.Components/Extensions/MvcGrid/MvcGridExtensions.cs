@@ -9,8 +9,6 @@ using MvcTemplate.Resources.Shared;
 using NonFactors.Mvc.Grid;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -18,23 +16,23 @@ namespace MvcTemplate.Components.Extensions
 {
     public static class MvcGridExtensions
     {
-        public static IGridColumn<T, IHtmlContent> AddActionLink<T>(this IGridColumnsOf<T> columns, String action, String iconClass) where T : class
+        public static IGridColumn<T, IHtmlContent> AddAction<T>(this IGridColumnsOf<T> columns, String action, String iconClass) where T : class
         {
-            if (!IsAuthorizedTo(columns.Grid.ViewContext, action))
+            if (!IsAuthorizedFor(columns.Grid.ViewContext, action))
                 return new GridColumn<T, IHtmlContent>(columns.Grid, model => null);
 
-            return columns.Add(model => GetLink(columns.Grid.ViewContext, model, action, iconClass)).Css("action-cell");
+            return columns.Add(model => GenerateLink(columns.Grid.ViewContext, model, action, iconClass)).Css("action-cell");
         }
 
-        public static IGridColumn<T, DateTime> AddDateProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
+        public static IGridColumn<T, DateTime> AddDate<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
         {
             return columns.AddProperty(expression).Formatted("{0:d}");
         }
-        public static IGridColumn<T, DateTime?> AddDateProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
+        public static IGridColumn<T, DateTime?> AddDate<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
         {
             return columns.AddProperty(expression).Formatted("{0:d}");
         }
-        public static IGridColumn<T, Boolean> AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean>> expression)
+        public static IGridColumn<T, Boolean> AddBoolean<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean>> expression)
         {
             Func<T, Boolean> valueFor = expression.Compile();
 
@@ -43,7 +41,7 @@ namespace MvcTemplate.Components.Extensions
                 .MultiFilterable(false)
                 .RenderedAs(model => valueFor(model) ? Strings.Yes : Strings.No);
         }
-        public static IGridColumn<T, Boolean?> AddBooleanProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean?>> expression)
+        public static IGridColumn<T, Boolean?> AddBoolean<T>(this IGridColumnsOf<T> columns, Expression<Func<T, Boolean?>> expression)
         {
             Func<T, Boolean?> valueFor = expression.Compile();
 
@@ -57,11 +55,11 @@ namespace MvcTemplate.Components.Extensions
                             : Strings.No
                         : "");
         }
-        public static IGridColumn<T, DateTime> AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
+        public static IGridColumn<T, DateTime> AddDateTime<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
         {
             return columns.AddProperty(expression).Formatted("{0:g}");
         }
-        public static IGridColumn<T, DateTime?> AddDateTimeProperty<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
+        public static IGridColumn<T, DateTime?> AddDateTime<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime?>> expression)
         {
             return columns.AddProperty(expression).Formatted("{0:g}");
         }
@@ -69,8 +67,8 @@ namespace MvcTemplate.Components.Extensions
         {
             return columns
                 .Add(expression)
-                .Css(GetCssClassFor<TProperty>())
-                .Titled(ResourceProvider.GetPropertyTitle(expression));
+                .Css(CssClassFor<TProperty>())
+                .Titled(Resource.ForProperty(expression));
         }
 
         public static IHtmlGrid<T> ApplyDefaults<T>(this IHtmlGrid<T> grid)
@@ -83,43 +81,38 @@ namespace MvcTemplate.Components.Extensions
                 .Sortable();
         }
 
-        private static IHtmlContent GetLink<T>(ViewContext context, T model, String action, String iconClass)
+        private static IHtmlContent GenerateLink<T>(ViewContext context, T model, String action, String iconClass)
         {
-            TagBuilder anchor = new TagBuilder("a");
-            anchor.AddCssClass(action.ToLower() + "-action");
-            anchor.Attributes["href"] = new UrlHelper(context).Action(action, GetRouteFor(model));
+            TagBuilder link = new TagBuilder("a");
+            link.AddCssClass(action.ToLower() + "-action");
+            link.Attributes["href"] = new UrlHelper(context).Action(action, RouteFor(model));
 
             TagBuilder icon = new TagBuilder("span");
             icon.AddCssClass(iconClass);
 
-            anchor.InnerHtml.AppendHtml(icon);
+            link.InnerHtml.AppendHtml(icon);
 
-            return anchor;
+            return link;
         }
-        private static Boolean IsAuthorizedTo(ViewContext view, String action)
+        private static Boolean IsAuthorizedFor(ViewContext context, String action)
         {
-            IAuthorizationProvider authorization = view.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
+            IAuthorization authorization = context.HttpContext.RequestServices.GetService<IAuthorization>();
             if (authorization == null)
                 return true;
 
-            Int32? account = view.HttpContext.User.Id();
-            String area = view.RouteData.Values["area"] as String;
-            String controller = view.RouteData.Values["controller"] as String;
+            Int32? account = context.HttpContext.User.Id();
+            String area = context.RouteData.Values["area"] as String;
+            String controller = context.RouteData.Values["controller"] as String;
 
-            return authorization.IsAuthorizedFor(account, area, controller, action);
+            return authorization.IsGrantedFor(account, area, controller, action);
         }
-        private static IDictionary<String, Object> GetRouteFor<T>(T model)
+        private static IDictionary<String, Object> RouteFor<T>(T model)
         {
-            PropertyInfo key = typeof(T)
-                .GetProperties()
-                .FirstOrDefault(property => property.IsDefined(typeof(KeyAttribute), false));
+            PropertyInfo id = typeof(T).GetProperty("Id") ?? throw new Exception(typeof(T).Name + " type does not have an id.");
 
-            if (key == null)
-                throw new Exception(typeof(T).Name + " type does not have a key property.");
-
-            return new Dictionary<String, Object> { [key.Name] = key.GetValue(model) };
+            return new Dictionary<String, Object> { ["id"] = id.GetValue(model) };
         }
-        private static String GetCssClassFor<TProperty>()
+        private static String CssClassFor<TProperty>()
         {
             Type type = Nullable.GetUnderlyingType(typeof(TProperty)) ?? typeof(TProperty);
             if (type.IsEnum)

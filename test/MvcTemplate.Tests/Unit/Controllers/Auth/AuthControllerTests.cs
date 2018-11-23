@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
-using MvcTemplate.Components.Alerts;
 using MvcTemplate.Components.Mail;
-using MvcTemplate.Controllers;
+using MvcTemplate.Components.Notifications;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources.Views.Administration.Accounts.AccountView;
 using MvcTemplate.Services;
+using MvcTemplate.Tests;
 using MvcTemplate.Validators;
 using NSubstitute;
 using System;
@@ -15,7 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Controllers
+namespace MvcTemplate.Controllers.Tests
 {
     public class AuthControllerTests : ControllerTests
     {
@@ -38,9 +38,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller.ControllerContext.RouteData = new RouteData();
             controller.Url = Substitute.For<IUrlHelper>();
 
-            accountRecovery = ObjectFactory.CreateAccountRecoveryView();
-            accountReset = ObjectFactory.CreateAccountResetView();
-            accountLogin = ObjectFactory.CreateAccountLoginView();
+            accountRecovery = ObjectsFactory.CreateAccountRecoveryView();
+            accountReset = ObjectsFactory.CreateAccountResetView();
+            accountLogin = ObjectsFactory.CreateAccountLoginView();
         }
 
         #region Recover()

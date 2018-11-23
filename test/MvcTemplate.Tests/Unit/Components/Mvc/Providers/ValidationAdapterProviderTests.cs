@@ -1,8 +1,7 @@
-﻿using MvcTemplate.Components.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc.Providers
+namespace MvcTemplate.Components.Mvc.Providers.Tests
 {
     public class ValidationAdapterProviderTests
     {

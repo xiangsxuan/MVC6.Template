@@ -20,8 +20,8 @@
     "inputFile": "wwwroot/Content/Shared/header.less"
   },
   {
-    "outputFile": "wwwroot/Content/Shared/menu.css",
-    "inputFile": "wwwroot/Content/Shared/menu.less"
+    "outputFile": "wwwroot/Content/Shared/navigation.css",
+    "inputFile": "wwwroot/Content/Shared/navigation.less"
   },
   {
     "outputFile": "wwwroot/Content/Shared/overrides.css",

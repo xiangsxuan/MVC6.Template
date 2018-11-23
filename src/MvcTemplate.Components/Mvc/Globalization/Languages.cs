@@ -1,8 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
@@ -37,24 +35,24 @@ namespace MvcTemplate.Components.Mvc
             get;
         }
 
-        public Languages(IConfiguration config)
+        public Languages(String config)
         {
-            String path = Path.Combine(config["Application:Path"], config["Languages:Path"]);
             Dictionary = new Dictionary<String, Language>();
 
-            foreach (XElement lang in XElement.Load(path).Elements("language"))
+            foreach (XElement lang in XElement.Parse(config).Elements("language"))
             {
                 Language language = new Language();
                 language.Culture = new CultureInfo((String)lang.Attribute("culture"));
-                language.IsDefault = (Boolean?)lang.Attribute("default") == true;
                 language.Abbreviation = (String)lang.Attribute("abbreviation");
                 language.Name = (String)lang.Attribute("name");
+
+                if ((Boolean?)lang.Attribute("default") == true)
+                    Default = language;
 
                 Dictionary.Add(language.Abbreviation, language);
             }
 
-            Supported = Dictionary.Select(language => language.Value).ToArray();
-            Default = Supported.Single(language => language.IsDefault);
+            Supported = Dictionary.Values.ToArray();
         }
 
         public Language this[String abbreviation] => Dictionary.TryGetValue(abbreviation ?? "", out Language language) ? language : Default;

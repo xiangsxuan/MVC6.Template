@@ -1,6 +1,6 @@
 ﻿using MvcTemplate.Data.Migrations;
 using MvcTemplate.Objects;
-using MvcTemplate.Tests.Data;
+using MvcTemplate.Tests;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,14 +11,14 @@ using System.Resources;
 using System.Xml.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Resources
+namespace MvcTemplate.Resources.Tests
 {
     public class ResourcesTests
     {
         [Fact]
         public void Resources_HasAllPermissionAreaTitles()
         {
-            ResourceManager manager = MvcTemplate.Resources.Permission.Area.Titles.ResourceManager;
+            ResourceManager manager = Permissions.Area.Titles.ResourceManager;
 
             using (TestingContext context = new TestingContext())
             using (Configuration configuration = new Configuration(context, null))
@@ -40,7 +40,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         [Fact]
         public void Resources_HasAllPermissionControllerTitles()
         {
-            ResourceManager manager = MvcTemplate.Resources.Permission.Controller.Titles.ResourceManager;
+            ResourceManager manager = Permissions.Controller.Titles.ResourceManager;
 
             using (TestingContext context = new TestingContext())
             using (Configuration configuration = new Configuration(context, null))
@@ -61,7 +61,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         [Fact]
         public void Resources_HasAllPermissionActionTitles()
         {
-            ResourceManager manager = MvcTemplate.Resources.Permission.Action.Titles.ResourceManager;
+            ResourceManager manager = Permissions.Action.Titles.ResourceManager;
 
             using (TestingContext context = new TestingContext())
             using (Configuration configuration = new Configuration(context, null))
@@ -82,7 +82,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         [Fact]
         public void Resources_HasAllPageTitles()
         {
-            ResourceManager manager = MvcTemplate.Resources.Shared.Pages.ResourceManager;
+            ResourceManager manager = Shared.Pages.ResourceManager;
             IEnumerable<String> sitemap = XDocument
                 .Load("../../../../../src/MvcTemplate.Web/mvc.sitemap")
                 .Descendants("siteMapNode")
@@ -96,7 +96,7 @@ namespace MvcTemplate.Tests.Unit.Resources
         [Fact]
         public void Resources_HasAllSiteMapTitles()
         {
-            ResourceManager manager = MvcTemplate.Resources.SiteMap.Titles.ResourceManager;
+            ResourceManager manager = SiteMap.Titles.ResourceManager;
             IEnumerable<String> sitemap = XDocument
                 .Load("../../../../../src/MvcTemplate.Web/mvc.sitemap")
                 .Descendants("siteMapNode")

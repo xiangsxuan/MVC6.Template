@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MvcTemplate.Tests.Objects
+namespace MvcTemplate.Tests
 {
     public class TestView : BaseView
     {

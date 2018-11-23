@@ -1,29 +1,29 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
-using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
+using MvcTemplate.Tests;
 using NSubstitute;
 using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc
+namespace MvcTemplate.Components.Mvc.Tests
 {
     public class AuthorizeTagHelperTests
     {
-        private IAuthorizationProvider authorizationProvider;
+        private IAuthorization authorization;
         private AuthorizeTagHelper helper;
         private TagHelperOutput output;
 
         public AuthorizeTagHelperTests()
         {
             output = new TagHelperOutput("authorize", new TagHelperAttributeList(), (useCachedResult, encoder) => null);
-            helper = new AuthorizeTagHelper(authorizationProvider = Substitute.For<IAuthorizationProvider>());
+            helper = new AuthorizeTagHelper(authorization = Substitute.For<IAuthorization>());
             helper.ViewContext = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
         }
 
         #region Process(TagHelperContext context, TagHelperOutput output)
 
         [Fact]
-        public void Process_NullAuthorizationProvider_RemovedWrappingTag()
+        public void Process_NoAuthorization_RemovedWrappingTag()
         {
             helper = new AuthorizeTagHelper(null);
             helper.ViewContext = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
@@ -55,8 +55,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             String routeArea, String routeController, String routeAction,
             String authArea, String authController, String authAction)
         {
-            authorizationProvider.IsAuthorizedFor(1, Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
-            authorizationProvider.IsAuthorizedFor(1, authArea, authController, authAction).Returns(false);
+            authorization.IsGrantedFor(1, Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
+            authorization.IsGrantedFor(1, authArea, authController, authAction).Returns(false);
             helper.ViewContext.HttpContext.User.Identity.Name.Returns("1");
 
             helper.ViewContext.RouteData.Values["controller"] = routeController;
@@ -93,8 +93,8 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
             String routeArea, String routeController, String routeAction,
             String authArea, String authController, String authAction)
         {
-            authorizationProvider.IsAuthorizedFor(1, Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(false);
-            authorizationProvider.IsAuthorizedFor(1, authArea, authController, authAction).Returns(true);
+            authorization.IsGrantedFor(1, Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(false);
+            authorization.IsGrantedFor(1, authArea, authController, authAction).Returns(true);
             helper.ViewContext.HttpContext.User.Identity.Name.Returns("1");
 
             helper.ViewContext.RouteData.Values["controller"] = routeController;

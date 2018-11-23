@@ -19,19 +19,19 @@
                 .Grid(Model)
                 .Build(columns =>
                 {
-                    columns.AddActionLink("Details", "fa fa-info");
-                    columns.AddActionLink("Edit", "fa fa-pencil-alt");
-                    columns.AddActionLink("Delete", "fa fa-times");
+                    columns.AddAction("Details", "fa fa-info");
+                    columns.AddAction("Edit", "fa fa-pencil-alt");
+                    columns.AddAction("Delete", "fa fa-times");
 
                     @foreach (PropertyInfo property in Model.Properties)
                     {
                         if (typeof(DateTime?).IsAssignableFrom(property.PropertyType))
                         {
-                    @:columns.AddDateProperty(model => model.@property.Name);
+                    @:columns.AddDate(model => model.@property.Name);
                         }
                         else if (property.PropertyType == typeof(Boolean))
                         {
-                    @:columns.AddBooleanProperty(model => model.@property.Name);
+                    @:columns.AddBoolean(model => model.@property.Name);
                         }
                         else if (Model.Relations[property] == null)
                         {

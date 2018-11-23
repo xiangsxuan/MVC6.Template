@@ -64,7 +64,7 @@ namespace MvcTemplate.Components.Logging
         private void AppendStackTrace(StringBuilder log, Exception exception)
         {
             if (exception != null)
-                log.AppendLine($"Stack trace:");
+                log.AppendLine("Stack trace:");
 
             while (exception != null)
             {

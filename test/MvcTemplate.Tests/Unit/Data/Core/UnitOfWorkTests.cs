@@ -1,18 +1,16 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using MvcTemplate.Data.Core;
 using MvcTemplate.Data.Logging;
 using MvcTemplate.Objects;
-using MvcTemplate.Tests.Data;
-using MvcTemplate.Tests.Objects;
+using MvcTemplate.Tests;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Data.Core
+namespace MvcTemplate.Data.Core.Tests
 {
     public class UnitOfWorkTests : IDisposable
     {
@@ -24,8 +22,8 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         public UnitOfWorkTests()
         {
             context = new TestingContext();
-            model = ObjectFactory.CreateTestModel();
             logger = Substitute.For<IAuditLogger>();
+            model = ObjectsFactory.CreateTestModel();
             unitOfWork = new UnitOfWork(context, logger);
         }
         public void Dispose()
@@ -124,7 +122,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void InsertRange_AddsModelsToDbSet()
         {
-            IEnumerable<TestModel> models = new[] { ObjectFactory.CreateTestModel(1), ObjectFactory.CreateTestModel(2) };
+            IEnumerable<TestModel> models = new[] { ObjectsFactory.CreateTestModel(1), ObjectsFactory.CreateTestModel(2) };
             TestingContext testingContext = Substitute.For<TestingContext>();
             testingContext.When(sub => sub.AddRange(models)).DoNotCallBase();
 
@@ -182,7 +180,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
         [Fact]
         public void DeleteRange_Models()
         {
-            IEnumerable<TestModel> models = new[] { ObjectFactory.CreateTestModel(1), ObjectFactory.CreateTestModel(2) };
+            IEnumerable<TestModel> models = new[] { ObjectsFactory.CreateTestModel(1), ObjectsFactory.CreateTestModel(2) };
 
             context.AddRange(models);
             context.SaveChanges();

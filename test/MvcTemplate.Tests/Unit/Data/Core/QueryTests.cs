@@ -1,8 +1,6 @@
 ﻿using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-using MvcTemplate.Data.Core;
-using MvcTemplate.Tests.Data;
-using MvcTemplate.Tests.Objects;
+using MvcTemplate.Tests;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -10,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Data.Core
+namespace MvcTemplate.Data.Core.Tests
 {
     public class QueryTests : IDisposable
     {
@@ -23,7 +21,7 @@ namespace MvcTemplate.Tests.Unit.Data.Core
             select = new Query<TestModel>(context.Set<TestModel>());
 
             context.RemoveRange(context.Set<TestModel>());
-            context.Add(ObjectFactory.CreateTestModel());
+            context.Add(ObjectsFactory.CreateTestModel());
             context.SaveChanges();
         }
         public void Dispose()

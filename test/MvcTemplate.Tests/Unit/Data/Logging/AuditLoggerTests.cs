@@ -1,16 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using MvcTemplate.Data.Logging;
 using MvcTemplate.Objects;
-using MvcTemplate.Tests.Data;
-using MvcTemplate.Tests.Objects;
+using MvcTemplate.Tests;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Data.Logging
+namespace MvcTemplate.Data.Logging.Tests
 {
     public class AuditLoggerTests : IDisposable
     {
@@ -22,8 +20,8 @@ namespace MvcTemplate.Tests.Unit.Data.Logging
         {
             context = new TestingContext();
             logger = new AuditLogger(context, 1);
-            TestModel model = ObjectFactory.CreateTestModel();
             TestingContext dataContext = new TestingContext();
+            TestModel model = ObjectsFactory.CreateTestModel();
 
             entry = dataContext.Entry<BaseModel>(dataContext.Add(model).Entity);
             dataContext.SaveChanges();

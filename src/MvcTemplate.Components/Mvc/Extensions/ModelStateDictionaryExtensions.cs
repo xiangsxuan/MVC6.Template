@@ -14,7 +14,7 @@ namespace MvcTemplate.Components.Mvc
                 .ToDictionary(
                     pair => pair.Key,
                     pair => pair.Value.Errors
-                        .Select(value => value.ErrorMessage)
+                        .Select(model => model.ErrorMessage)
                         .FirstOrDefault(error => !String.IsNullOrEmpty(error))
             );
         }

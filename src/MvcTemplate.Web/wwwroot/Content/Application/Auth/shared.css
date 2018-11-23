@@ -67,14 +67,14 @@
   right: 16px;
   left: 16px;
 }
-.auth-content .language-container {
+.auth-content .languages {
   padding: 5px 0 0 1px;
   cursor: pointer;
   display: flex;
   height: 30px;
   width: 100%;
 }
-.auth-content .language-container .current-language {
+.auth-content .languages .current {
   text-align: left;
   width: 100%;
 }

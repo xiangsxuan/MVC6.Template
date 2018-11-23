@@ -1,5 +1,5 @@
 ﻿body.public {
-    .content-container {
+    .main-content {
         text-align: center;
         margin: 50px auto;
         min-height: 0;
@@ -43,7 +43,7 @@
     }
 }
 
-.content-container {
+.main-content {
     background-image: url("../../images/shared/content-background.jpg");
     border-radius: 8px 0 0 8px;
     background-color: #f2f2f2;
@@ -60,46 +60,6 @@
 
     &::after {
         clear: both;
-    }
-}
-
-.content-breadcrumb {
-    padding-left: 10px;
-    cursor: default;
-
-    > a {
-        display: inline-block;
-        color: #999999;
-        padding: 8px;
-
-        &:hover {
-            color: #777777;
-        }
-
-        .icon {
-            padding-right: 5px;
-        }
-    }
-
-    > span {
-        color: #777777;
-    }
-
-    .current,
-    .current:hover {
-        font-weight: bold;
-        color: #555555;
-    }
-
-    @media (max-width: 767px) {
-        .text {
-            display: none;
-        }
-
-        > a {
-            padding-left: 4px;
-            padding-right: 0;
-        }
     }
 }
 

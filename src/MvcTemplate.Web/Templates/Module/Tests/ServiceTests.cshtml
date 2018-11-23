@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Services;
-using MvcTemplate.Tests.Data;
+using MvcTemplate.Tests;
 using System;
 using System.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Services
+namespace MvcTemplate.Services.Tests
 {
     public class @Model.ServiceTests : IDisposable
     {
@@ -23,7 +23,7 @@ namespace MvcTemplate.Tests.Unit.Services
             context = new TestingContext();
             service = new @(Model.Service)(new UnitOfWork(context));
 
-            context.Set<@Model.Model>().Add(@Model.ModelVarName = ObjectFactory.Create@(Model.Model)());
+            context.Set<@Model.Model>().Add(@Model.ModelVarName = ObjectsFactory.Create@(Model.Model)());
             context.SaveChanges();
         }
         public void Dispose()
@@ -87,7 +87,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Create_@(Model.ModelShortName)()
         {
-            @Model.View view = ObjectFactory.Create@(Model.View)(1);
+            @Model.View view = ObjectsFactory.Create@(Model.View)(1);
             view.Id = 0;
 
             service.Create(view);
@@ -115,7 +115,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_@(Model.ModelShortName)()
         {
-            @Model.View view = ObjectFactory.Create@(Model.View)(@(Model.ModelVarName).Id);
+            @Model.View view = ObjectsFactory.Create@(Model.View)(@(Model.ModelVarName).Id);
             Assert.True(false, "No update made");
 
             service.Edit(view);

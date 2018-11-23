@@ -4,16 +4,17 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
-using MvcTemplate.Controllers.Administration;
+using MvcTemplate.Controllers.Tests;
 using MvcTemplate.Objects;
 using MvcTemplate.Services;
+using MvcTemplate.Tests;
 using MvcTemplate.Validators;
 using NSubstitute;
 using System;
 using System.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Controllers.Administration
+namespace MvcTemplate.Controllers.Administration.Tests
 {
     public class RolesControllerTests : ControllerTests
     {
@@ -27,7 +28,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
             validator = Substitute.For<IRoleValidator>();
             service = Substitute.For<IRoleService>();
 
-            role = ObjectFactory.CreateRoleView();
+            role = ObjectsFactory.CreateRoleView();
 
             controller = Substitute.ForPartsOf<RolesController>(validator, service);
             controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
@@ -190,7 +191,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         [Fact]
         public void Edit_RefreshesAuthorization()
         {
-            controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            controller.HttpContext.RequestServices.GetService<IAuthorization>().Returns(Substitute.For<IAuthorization>());
             validator.CanEdit(role).Returns(true);
             controller.OnActionExecuting(null);
 
@@ -240,7 +241,7 @@ namespace MvcTemplate.Tests.Unit.Controllers.Administration
         [Fact]
         public void DeleteConfirmed_RefreshesAuthorization()
         {
-            controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            controller.HttpContext.RequestServices.GetService<IAuthorization>().Returns(Substitute.For<IAuthorization>());
             controller.OnActionExecuting(null);
 
             controller.DeleteConfirmed(role.Id);

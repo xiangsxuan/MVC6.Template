@@ -4,24 +4,23 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
-using MvcTemplate.Components.Mvc;
 using MvcTemplate.Components.Security;
 using NSubstitute;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc
+namespace MvcTemplate.Components.Mvc.Tests
 {
     public class AuthorizationFilterTests
     {
-        private IAuthorizationProvider authorization;
         private ResourceExecutingContext context;
+        private IAuthorization authorization;
         private AuthorizationFilter filter;
 
         public AuthorizationFilterTests()
         {
             ActionContext action = new ActionContext(Substitute.For<HttpContext>(), new RouteData(), new ActionDescriptor());
             context = new ResourceExecutingContext(action, new IFilterMetadata[0], new IValueProviderFactory[0]);
-            authorization = Substitute.For<IAuthorizationProvider>();
+            authorization = Substitute.For<IAuthorization>();
             filter = new AuthorizationFilter(authorization);
         }
 
@@ -58,7 +57,7 @@ namespace MvcTemplate.Tests.Unit.Components.Mvc
         [Fact]
         public void OnResourceExecuting_IsAuthorized_SetsNullResult()
         {
-            authorization.IsAuthorizedFor(11000, "Area", "Controller", "Action").Returns(true);
+            authorization.IsGrantedFor(11000, "Area", "Controller", "Action").Returns(true);
             context.HttpContext.User.Identity.IsAuthenticated.Returns(true);
             context.HttpContext.User.Identity.Name.Returns("11000");
             context.RouteData.Values["controller"] = "Controller";

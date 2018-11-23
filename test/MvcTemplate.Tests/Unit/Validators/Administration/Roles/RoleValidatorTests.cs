@@ -1,13 +1,12 @@
 ﻿using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources.Views.Administration.Roles.RoleView;
-using MvcTemplate.Tests.Data;
-using MvcTemplate.Validators;
+using MvcTemplate.Tests;
 using System;
 using System.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Validators
+namespace MvcTemplate.Validators.Tests
 {
     public class RoleValidatorTests : IDisposable
     {
@@ -20,7 +19,7 @@ namespace MvcTemplate.Tests.Unit.Validators
             context = new TestingContext();
             validator = new RoleValidator(new UnitOfWork(context));
 
-            context.Add(role = ObjectFactory.CreateRole());
+            context.Add(role = ObjectsFactory.CreateRole());
             context.SaveChanges();
         }
         public void Dispose()
@@ -36,13 +35,13 @@ namespace MvcTemplate.Tests.Unit.Validators
         {
             validator.ModelState.AddModelError("Test", "Test");
 
-            Assert.False(validator.CanCreate(ObjectFactory.CreateRoleView(1)));
+            Assert.False(validator.CanCreate(ObjectsFactory.CreateRoleView(1)));
         }
 
         [Fact]
         public void CanCreate_UsedTitle_ReturnsFalse()
         {
-            RoleView view = ObjectFactory.CreateRoleView(1);
+            RoleView view = ObjectsFactory.CreateRoleView(1);
             view.Title = role.Title.ToLower();
 
             Boolean canCreate = validator.CanCreate(view);
@@ -55,7 +54,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanCreate_ValidRole()
         {
-            Assert.True(validator.CanCreate(ObjectFactory.CreateRoleView(1)));
+            Assert.True(validator.CanCreate(ObjectsFactory.CreateRoleView(1)));
             Assert.Empty(validator.ModelState);
             Assert.Empty(validator.Alerts);
         }
@@ -69,13 +68,13 @@ namespace MvcTemplate.Tests.Unit.Validators
         {
             validator.ModelState.AddModelError("Test", "Test");
 
-            Assert.False(validator.CanEdit(ObjectFactory.CreateRoleView(role.Id)));
+            Assert.False(validator.CanEdit(ObjectsFactory.CreateRoleView(role.Id)));
         }
 
         [Fact]
         public void CanEdit_UsedTitle_ReturnsFalse()
         {
-            RoleView view = ObjectFactory.CreateRoleView(1);
+            RoleView view = ObjectsFactory.CreateRoleView(1);
             view.Title = role.Title.ToLower();
 
             Boolean canEdit = validator.CanEdit(view);
@@ -88,7 +87,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void CanEdit_ValidRole()
         {
-            Assert.True(validator.CanEdit(ObjectFactory.CreateRoleView(role.Id)));
+            Assert.True(validator.CanEdit(ObjectsFactory.CreateRoleView(role.Id)));
             Assert.Empty(validator.ModelState);
             Assert.Empty(validator.Alerts);
         }

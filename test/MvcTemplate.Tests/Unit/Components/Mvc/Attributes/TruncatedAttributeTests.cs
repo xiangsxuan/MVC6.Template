@@ -3,15 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MvcTemplate.Components.Mvc;
-using MvcTemplate.Tests.Objects;
+using MvcTemplate.Tests;
 using NSubstitute;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc
+namespace MvcTemplate.Components.Mvc.Tests
 {
     public class TruncatedAttributeTests
     {

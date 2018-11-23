@@ -1,15 +1,14 @@
-﻿using MvcTemplate.Components.Lookups;
-using MvcTemplate.Data.Core;
+﻿using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
-using MvcTemplate.Tests.Objects;
+using MvcTemplate.Tests;
 using NSubstitute;
 using System;
 using System.Linq;
 using System.Reflection;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Lookups
+namespace MvcTemplate.Components.Lookups.Tests
 {
     public class MvcLookupTests
     {
@@ -27,8 +26,8 @@ namespace MvcTemplate.Tests.Unit.Components.Lookups
         [Fact]
         public void GetColumnHeader_ReturnsPropertyTitle()
         {
-            String expected = ResourceProvider.GetPropertyTitle(typeof(RoleView), "Title");
             String actual = lookup.GetColumnHeader(typeof(RoleView).GetProperty("Title"));
+            String expected = Resource.ForProperty(typeof(RoleView), "Title");
 
             Assert.Equal(expected, actual);
         }

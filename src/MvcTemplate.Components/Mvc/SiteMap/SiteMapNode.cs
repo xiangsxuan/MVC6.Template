@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MvcTemplate.Components.Mvc
 {
-    public class MvcSiteMapNode
+    public class SiteMapNode
     {
         public Boolean IsMenu { get; set; }
         public String IconClass { get; set; }
@@ -14,7 +14,7 @@ namespace MvcTemplate.Components.Mvc
         public String Action { get; set; }
         public String Area { get; set; }
 
-        public MvcSiteMapNode Parent { get; set; }
-        public IEnumerable<MvcSiteMapNode> Children { get; set; }
+        public SiteMapNode Parent { get; set; }
+        public IEnumerable<SiteMapNode> Children { get; set; }
     }
 }

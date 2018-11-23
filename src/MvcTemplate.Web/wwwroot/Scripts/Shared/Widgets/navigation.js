@@ -1,24 +1,24 @@
-Menu = {
+Navigation = {
     init: function () {
         $('.menu-search > input').on('input', function () {
             filter(this);
         });
 
-        $('.menu').on('mouseleave', '.menu > ul', function () {
-            if ($('.menu').width() < 100) {
-                var submenu = $('.menu li.open');
+        $('.navigation').on('mouseleave', '.navigation > ul', function () {
+            if ($('.navigation').width() < 100) {
+                var submenu = $('.navigation li.open');
                 submenu.children('ul').fadeOut();
                 submenu.toggleClass('open');
             }
         });
 
-        $('.menu').on('click', '.submenu > a', function (e) {
+        $('.navigation').on('click', '.submenu > a', function (e) {
             e.preventDefault();
             var action = $(this);
             var submenu = action.parent();
             var openSiblings = submenu.siblings('.open');
 
-            if ($('.menu').width() > 100) {
+            if ($('.navigation').width() > 100) {
                 openSiblings.toggleClass('changing');
                 openSiblings.children('ul').slideUp(function () {
                     openSiblings.removeClass('changing open');
@@ -41,7 +41,7 @@ Menu = {
 
         function filter(input) {
             var search = input.value.toLowerCase();
-            var menus = $('.menu li');
+            var menus = $('.navigation li');
 
             for (var i = 0; i < menus.length; i++) {
                 var menu = $(menus[i]);
@@ -62,14 +62,14 @@ Menu = {
         }
 
         $(window).on('resize', function () {
-            if ($('.menu').width() < 100) {
-                $('.menu .open').removeClass('open').children('ul').hide();
+            if ($('.navigation').width() < 100) {
+                $('.navigation .open').removeClass('open').children('ul').hide();
                 filter($('.menu-search > input').val('')[0]);
             }
         });
 
-        if ($('.menu').width() < 100) {
-            $('.menu li.open').removeClass('open');
+        if ($('.navigation').width() < 100) {
+            $('.navigation li.open').removeClass('open');
         }
     }
 };

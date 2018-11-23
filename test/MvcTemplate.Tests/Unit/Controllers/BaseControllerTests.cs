@@ -5,16 +5,15 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using MvcTemplate.Components.Alerts;
+using MvcTemplate.Components.Notifications;
 using MvcTemplate.Components.Security;
-using MvcTemplate.Controllers;
 using Newtonsoft.Json;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Controllers
+namespace MvcTemplate.Controllers.Tests
 {
     public class BaseControllerTests : ControllerTests
     {
@@ -31,7 +30,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
             controller.ControllerContext.RouteData = new RouteData();
             controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
-            controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>().Returns(Substitute.For<IAuthorizationProvider>());
+            controller.HttpContext.RequestServices.GetService<IAuthorization>().Returns(Substitute.For<IAuthorization>());
 
             action = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
 
@@ -198,7 +197,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         #region IsAuthorizedFor(String action, String controller, String area)
 
         [Fact]
-        public void IsAuthorizedFor_NullAuthorizationProvider_ReturnsTrue()
+        public void IsAuthorizedFor_NoAuthorization_ReturnsTrue()
         {
             controller = Substitute.ForPartsOf<BaseController>();
 
@@ -209,8 +208,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void IsAuthorizedFor_ReturnsAuthorizationResult()
         {
-            IAuthorizationProvider authorization = controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
-            authorization.IsAuthorizedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
+            IAuthorization authorization = controller.HttpContext.RequestServices.GetService<IAuthorization>();
+            authorization.IsGrantedFor(controller.CurrentAccountId, "Area", "Controller", "Action").Returns(true);
+
             controller.OnActionExecuting(null);
 
             Assert.True(controller.IsAuthorizedFor("Action", "Controller", "Area"));
@@ -222,9 +222,9 @@ namespace MvcTemplate.Tests.Unit.Controllers
         #region OnActionExecuting(ActionExecutingContext context)
 
         [Fact]
-        public void OnActionExecuting_SetsAuthorizationProvider()
+        public void OnActionExecuting_SetsAuthorization()
         {
-            IAuthorizationProvider authorization = controller.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
+            IAuthorization authorization = controller.HttpContext.RequestServices.GetService<IAuthorization>();
 
             controller.OnActionExecuting(null);
 
@@ -283,7 +283,7 @@ namespace MvcTemplate.Tests.Unit.Controllers
         [Fact]
         public void OnActionExecuted_MergesTempDataAlerts()
         {
-            AlertsContainer alerts = new AlertsContainer();
+            Alerts alerts = new Alerts();
             alerts.AddError("Test1");
 
             controller.TempData["Alerts"] = JsonConvert.SerializeObject(alerts);

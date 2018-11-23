@@ -31,9 +31,9 @@
                     {
                     <input asp-for="@property.Name" asp-format="{0:d}" class="datepicker" type="text" />
                     }
-                    else if (Model.Relations[property] != null)
+                    else if (Model.Relations[property] is String relation)
                     {
-                    <div mvc-lookup-for="@property.Name" url="~/Lookup/@Model.Relations[property]" title="@@Lookups.@Model.Relations[property]"></div>
+                    <div mvc-lookup-for="@property.Name" url="~/Lookup/@relation" title="@@Lookups.@relation"></div>
                     }
                     else
                     {

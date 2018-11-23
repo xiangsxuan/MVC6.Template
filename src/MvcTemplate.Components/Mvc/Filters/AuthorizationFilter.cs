@@ -9,9 +9,9 @@ namespace MvcTemplate.Components.Mvc
 {
     public class AuthorizationFilter : IResourceFilter
     {
-        private IAuthorizationProvider Authorization { get; }
+        private IAuthorization Authorization { get; }
 
-        public AuthorizationFilter(IAuthorizationProvider authorization)
+        public AuthorizationFilter(IAuthorization authorization)
         {
             Authorization = authorization;
         }
@@ -26,7 +26,7 @@ namespace MvcTemplate.Components.Mvc
             String action = context.RouteData.Values["action"] as String;
             String controller = context.RouteData.Values["controller"] as String;
 
-            if (Authorization?.IsAuthorizedFor(accountId, area, controller, action) == false)
+            if (Authorization?.IsGrantedFor(accountId, area, controller, action) == false)
                 context.Result = RedirectToUnauthorized(context);
         }
         public void OnResourceExecuted(ResourceExecutedContext context)

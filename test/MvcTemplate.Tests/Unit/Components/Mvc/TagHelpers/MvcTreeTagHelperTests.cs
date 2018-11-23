@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using MvcTemplate.Components.Extensions;
-using MvcTemplate.Components.Mvc;
-using MvcTemplate.Tests.Unit.Components.Extensions;
+using MvcTemplate.Components.Extensions.Tests;
 using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc
+namespace MvcTemplate.Components.Mvc.Tests
 {
     public class MvcTreeTagHelperTests
     {

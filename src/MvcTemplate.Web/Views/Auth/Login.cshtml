@@ -25,18 +25,18 @@
         @if (languages.Supported.Length > 1 && returnPath == rootPath)
         {
             <div class="input-group">
-                <div class="language-container dropdown-toggle" data-toggle="dropdown">
-                    <span class="current-language">
+                <div class="languages dropdown-toggle" data-toggle="dropdown">
+                    <span class="current">
                         <img src="@Url.Content($"~/Images/Flags/{languages.Current.Abbreviation}.gif")" width="16" height="11" alt="">
                         @languages.Current.Name
                     </span>
                     <span class="caret"></span>
                 </div>
-                <ul class="dropdown-menu" role="menu">
+                <ul class="dropdown-menu">
                     @foreach (Language language in languages.Supported)
                     {
                         <li>
-                            <a class="dropdown-item" href="@Url.Action("Login", new { language = language.IsDefault ? "" : language.Abbreviation })">
+                            <a class="dropdown-item" href="@Url.Action("Login", new { language = language == languages.Default ? "" : language.Abbreviation })">
                                 <img src="@Url.Content($"~/Images/Flags/{language.Abbreviation}.gif")" width="16" height="11" alt="">
                                 @language.Name
                             </a>

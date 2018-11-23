@@ -2,12 +2,13 @@
 using MvcTemplate.Objects;
 using MvcTemplate.Resources;
 using MvcTemplate.Resources.Form;
+using MvcTemplate.Tests;
 using NSubstitute;
 using System;
 using System.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Validators
+namespace MvcTemplate.Validators.Tests
 {
     public class BaseValidatorTests : IDisposable
     {
@@ -48,7 +49,7 @@ namespace MvcTemplate.Tests.Unit.Validators
             RoleView view = new RoleView();
 
             Boolean isSpecified = validator.BaseIsSpecified(view, role => role.Title);
-            String message = String.Format(Validations.Required, ResourceProvider.GetPropertyTitle<RoleView, String>(role => role.Title));
+            String message = String.Format(Validations.Required, Resource.ForProperty<RoleView, String>(role => role.Title));
 
             Assert.False(isSpecified);
             Assert.Empty(validator.Alerts);
@@ -62,7 +63,7 @@ namespace MvcTemplate.Tests.Unit.Validators
             AccountEditView view = new AccountEditView();
 
             Boolean isSpecified = validator.BaseIsSpecified(view, account => account.RoleId);
-            String message = String.Format(Validations.Required, ResourceProvider.GetPropertyTitle<AccountEditView, Int32?>(account => account.RoleId));
+            String message = String.Format(Validations.Required, Resource.ForProperty<AccountEditView, Int32?>(account => account.RoleId));
 
             Assert.False(isSpecified);
             Assert.Empty(validator.Alerts);
@@ -73,7 +74,7 @@ namespace MvcTemplate.Tests.Unit.Validators
         [Fact]
         public void IsSpecified_Valid()
         {
-            Assert.True(validator.BaseIsSpecified(ObjectFactory.CreateRoleView(), role => role.Id));
+            Assert.True(validator.BaseIsSpecified(ObjectsFactory.CreateRoleView(), role => role.Id));
             Assert.Empty(validator.ModelState);
             Assert.Empty(validator.Alerts);
         }

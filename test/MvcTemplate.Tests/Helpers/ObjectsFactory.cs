@@ -1,11 +1,10 @@
 ﻿using MvcTemplate.Objects;
-using MvcTemplate.Tests.Objects;
 using System;
 using System.Collections.Generic;
 
 namespace MvcTemplate.Tests
 {
-    public static class ObjectFactory
+    public static class ObjectsFactory
     {
         #region Administration
 

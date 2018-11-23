@@ -6,8 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
-using MvcTemplate.Services;
-using MvcTemplate.Tests.Data;
+using MvcTemplate.Tests;
 using NSubstitute;
 using System;
 using System.Linq;
@@ -15,7 +14,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Services
+namespace MvcTemplate.Services.Tests
 {
     public class AccountServiceTests : IDisposable
     {
@@ -31,7 +30,7 @@ namespace MvcTemplate.Tests.Unit.Services
             service = new AccountService(new UnitOfWork(context), hasher);
             hasher.HashPassword(Arg.Any<String>()).Returns(info => info.Arg<String>() + "Hashed");
 
-            context.Add(account = ObjectFactory.CreateAccount());
+            context.Add(account = ObjectsFactory.CreateAccount());
             context.SaveChanges();
 
             service.CurrentAccountId = account.Id;
@@ -133,7 +132,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Recover_NoEmail_ReturnsNull()
         {
-            AccountRecoveryView view = ObjectFactory.CreateAccountRecoveryView();
+            AccountRecoveryView view = ObjectsFactory.CreateAccountRecoveryView();
             view.Email = "not@existing.email";
 
             Assert.Null(service.Recover(view));
@@ -142,7 +141,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Recover_Information()
         {
-            AccountRecoveryView view = ObjectFactory.CreateAccountRecoveryView();
+            AccountRecoveryView view = ObjectsFactory.CreateAccountRecoveryView();
             account.RecoveryTokenExpirationDate = DateTime.Now.AddMinutes(30);
             String oldToken = account.RecoveryToken;
             view.Email = view.Email.ToUpper();
@@ -174,7 +173,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Reset_Account()
         {
-            AccountResetView view = ObjectFactory.CreateAccountResetView();
+            AccountResetView view = ObjectsFactory.CreateAccountResetView();
 
             service.Reset(view);
 
@@ -199,7 +198,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Create_Account()
         {
-            AccountCreateView view = ObjectFactory.CreateAccountCreateView(1);
+            AccountCreateView view = ObjectsFactory.CreateAccountCreateView(1);
             view.Email = view.Email.ToUpper();
             view.RoleId = account.RoleId;
 
@@ -225,7 +224,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_Account()
         {
-            AccountEditView view = ObjectFactory.CreateAccountEditView(account.Id);
+            AccountEditView view = ObjectsFactory.CreateAccountEditView(account.Id);
             view.IsLocked = account.IsLocked = !account.IsLocked;
             view.Email = (account.Email += "s").ToUpper();
             view.Username = account.Username += "Test";
@@ -254,7 +253,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [Fact]
         public void Edit_Profile()
         {
-            ProfileEditView view = ObjectFactory.CreateProfileEditView();
+            ProfileEditView view = ObjectsFactory.CreateProfileEditView();
             account.Passhash = hasher.HashPassword(view.NewPassword);
             view.Username = account.Username += "Test";
             view.Email = account.Email += "Test";
@@ -281,7 +280,7 @@ namespace MvcTemplate.Tests.Unit.Services
         [InlineData("   ")]
         public void Edit_NullOrEmptyNewPassword_DoesNotEditPassword(String newPassword)
         {
-            ProfileEditView view = ObjectFactory.CreateProfileEditView();
+            ProfileEditView view = ObjectsFactory.CreateProfileEditView();
             view.NewPassword = newPassword;
 
             service.Edit(view);

@@ -1,31 +1,30 @@
-﻿using MvcTemplate.Components.Alerts;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Alerts
+namespace MvcTemplate.Components.Notifications.Tests
 {
-    public class AlertsContainerTests
+    public class AlertsTests
     {
-        private AlertsContainer container;
+        private Alerts alerts;
 
-        public AlertsContainerTests()
+        public AlertsTests()
         {
-            container = new AlertsContainer();
+            alerts = new Alerts();
         }
 
-        #region Merge(AlertsContainer alerts)
+        #region Merge(Alerts alerts)
 
         [Fact]
         public void Merge_DoesNotMergeItself()
         {
-            container.Add(new Alert());
-            IEnumerable<Alert> alerts = container.ToArray();
+            alerts.Add(new Alert());
+            IEnumerable<Alert> original = alerts.ToArray();
 
-            container.Merge(container);
+            alerts.Merge(alerts);
 
-            IEnumerable<Alert> actual = container;
             IEnumerable<Alert> expected = alerts;
+            IEnumerable<Alert> actual = original;
 
             Assert.Equal(expected, actual);
         }
@@ -33,13 +32,13 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
         [Fact]
         public void Merge_Alerts()
         {
-            AlertsContainer part = new AlertsContainer();
-            container.AddError("FirstError");
+            Alerts part = new Alerts();
             part.AddError("SecondError");
+            alerts.AddError("FirstError");
 
-            IEnumerable<Alert> expected = container.Union(part);
-            IEnumerable<Alert> actual = container;
-            container.Merge(part);
+            IEnumerable<Alert> expected = alerts.Union(part);
+            IEnumerable<Alert> actual = alerts;
+            alerts.Merge(part);
 
             Assert.Equal(expected, actual);
         }
@@ -51,9 +50,9 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
         [Fact]
         public void AddInfo_Message()
         {
-            container.AddInfo("Message", 1);
+            alerts.AddInfo("Message", 1);
 
-            Alert actual = container.Single();
+            Alert actual = alerts.Single();
 
             Assert.Equal(AlertType.Info, actual.Type);
             Assert.Equal("Message", actual.Message);
@@ -68,9 +67,9 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
         [Fact]
         public void AddError_Message()
         {
-            container.AddError("Message", 1);
+            alerts.AddError("Message", 1);
 
-            Alert actual = container.Single();
+            Alert actual = alerts.Single();
 
             Assert.Equal(AlertType.Danger, actual.Type);
             Assert.Equal("Message", actual.Message);
@@ -85,9 +84,9 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
         [Fact]
         public void AddSuccess_Message()
         {
-            container.AddSuccess("Message", 1);
+            alerts.AddSuccess("Message", 1);
 
-            Alert actual = container.Single();
+            Alert actual = alerts.Single();
 
             Assert.Equal(AlertType.Success, actual.Type);
             Assert.Equal("Message", actual.Message);
@@ -102,9 +101,9 @@ namespace MvcTemplate.Tests.Unit.Components.Alerts
         [Fact]
         public void AddWarning_Message()
         {
-            container.AddWarning("Message", 1);
+            alerts.AddWarning("Message", 1);
 
-            Alert actual = container.Single();
+            Alert actual = alerts.Single();
 
             Assert.Equal(AlertType.Warning, actual.Type);
             Assert.Equal("Message", actual.Message);

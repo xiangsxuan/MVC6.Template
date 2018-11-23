@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
-using MvcTemplate.Components.Mvc;
 using MvcTemplate.Resources.Form;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Components.Mvc
+namespace MvcTemplate.Components.Mvc.Tests
 {
     public class AcceptFilesAttributeTests
     {

@@ -1,9 +1,8 @@
-﻿using MvcTemplate.Objects;
-using NSubstitute;
+﻿using NSubstitute;
 using System;
 using Xunit;
 
-namespace MvcTemplate.Tests.Unit.Objects
+namespace MvcTemplate.Objects.Tests
 {
     public class BaseViewTests
     {
