@@ -219,14 +219,6 @@ namespace MvcTemplate.Components.Security.Tests
         }
 
         [Fact]
-        public void IsGrantedFor_DoesNotAuthorizeAuthorizedAction()
-        {
-            Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");
-
-            Assert.False(authorization.IsGrantedFor(accountId, null, "AllowAnonymous", "AuthorizedAction"));
-        }
-
-        [Fact]
         public void IsGrantedFor_AuthorizesAllowAnonymousAction()
         {
             Int32 accountId = CreateAccountWithPermissionFor(null, "Test", "Test");

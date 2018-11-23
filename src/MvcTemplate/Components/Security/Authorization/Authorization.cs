@@ -71,32 +71,34 @@ namespace MvcTemplate.Components.Security
 
         private Boolean RequiresAuthorizationFor(String action)
         {
+            Boolean? isRequired = null;
             MethodInfo method = Actions[action];
+            Type controller = method.DeclaringType;
+
             if (method.IsDefined(typeof(AuthorizeAttribute), false))
-                return true;
+                isRequired = true;
 
             if (method.IsDefined(typeof(AllowAnonymousAttribute), false))
                 return false;
 
             if (method.IsDefined(typeof(AllowUnauthorizedAttribute), false))
-                return false;
+                isRequired = isRequired ?? false;
 
-            Type controller = method.DeclaringType;
             while (controller != typeof(Controller))
             {
                 if (controller.IsDefined(typeof(AuthorizeAttribute), false))
-                    return true;
+                    isRequired = isRequired ?? true;
 
                 if (controller.IsDefined(typeof(AllowAnonymousAttribute), false))
                     return false;
 
                 if (controller.IsDefined(typeof(AllowUnauthorizedAttribute), false))
-                    return false;
+                    isRequired = isRequired ?? false;
 
                 controller = controller.BaseType;
             }
 
-            return false;
+            return isRequired == true;
         }
         private String RequiredAuthorizationFor(String action)
         {
