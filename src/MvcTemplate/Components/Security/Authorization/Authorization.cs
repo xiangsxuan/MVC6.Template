@@ -27,11 +27,11 @@ namespace MvcTemplate.Components.Security
 
             foreach (Type controller in controllers.GetTypes().Where(IsController))
                 foreach (MethodInfo method in controller.GetMethods(flags).Where(IsAction))
-                    Actions[PermissionFor(method)] = method;
+                    Actions[ActionFor(method)] = method;
 
-            foreach (String permission in Actions.Keys)
-                if (RequiredAuthorizationFor(permission) is String required)
-                    Required[permission] = required;
+            foreach (String action in Actions.Keys)
+                if (RequiredPermissionFor(action) is String permission)
+                    Required[action] = permission;
 
             Refresh();
         }
@@ -69,7 +69,7 @@ namespace MvcTemplate.Components.Security
             }
         }
 
-        private Boolean RequiresAuthorizationFor(String action)
+        private Boolean RequiresAuthorization(String action)
         {
             Boolean? isRequired = null;
             MethodInfo method = Actions[action];
@@ -100,18 +100,18 @@ namespace MvcTemplate.Components.Security
 
             return isRequired == true;
         }
-        private String RequiredAuthorizationFor(String action)
+        private String RequiredPermissionFor(String action)
         {
             String[] path = action.Split('/');
             AuthorizeAsAttribute auth = Actions[action].GetCustomAttribute<AuthorizeAsAttribute>(false);
             String asAction = $"{auth?.Area ?? path[0]}/{auth?.Controller ?? path[1]}/{auth?.Action ?? path[2]}";
 
             if (action != asAction)
-                return RequiredAuthorizationFor(asAction);
+                return RequiredPermissionFor(asAction);
 
-            return RequiresAuthorizationFor(action) ? action : null;
+            return RequiresAuthorization(action) ? action : null;
         }
-        private String PermissionFor(MethodInfo method)
+        private String ActionFor(MethodInfo method)
         {
             String controller = method.DeclaringType.Name.Substring(0, method.DeclaringType.Name.Length - 10);
             String action = method.GetCustomAttribute<ActionNameAttribute>(false)?.Name ?? method.Name;
