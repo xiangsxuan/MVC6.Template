@@ -8,10 +8,6 @@
     "inputFile": "wwwroot/Content/Shared/alerts.less"
   },
   {
-    "outputFile": "wwwroot/Content/Shared/base.css",
-    "inputFile": "wwwroot/Content/Shared/base.less"
-  },
-  {
     "outputFile": "wwwroot/Content/Shared/content.css",
     "inputFile": "wwwroot/Content/Shared/content.less"
   },
@@ -22,6 +18,14 @@
   {
     "outputFile": "wwwroot/Content/Shared/navigation.css",
     "inputFile": "wwwroot/Content/Shared/navigation.less"
+  },
+  {
+    "outputFile": "wwwroot/Content/Shared/private.css",
+    "inputFile": "wwwroot/Content/Shared/private.less"
+  },
+  {
+    "outputFile": "wwwroot/Content/Shared/public.css",
+    "inputFile": "wwwroot/Content/Shared/public.less"
   },
   {
     "outputFile": "wwwroot/Content/Shared/overrides.css",

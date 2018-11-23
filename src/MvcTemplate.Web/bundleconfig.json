@@ -33,7 +33,14 @@
       "wwwroot/Content/MvcGrid/*.css",
       "wwwroot/Content/MvcTree/*.css",
       "wwwroot/Content/MvcLookup/*.css",
-      "wwwroot/Content/Shared/*.css"
+      "wwwroot/Content/Shared/alerts.css",
+      "wwwroot/Content/Shared/content.css",
+      "wwwroot/Content/Shared/header.css",
+      "wwwroot/Content/Shared/navigation.css",
+      "wwwroot/Content/Shared/overrides.css",
+      "wwwroot/Content/Shared/private.css",
+      "wwwroot/Content/Shared/table.css",
+      "wwwroot/Content/Shared/widget-box.css"
     ]
   },
   {
@@ -41,8 +48,10 @@
     "inputFiles": [
       "wwwroot/Content/Bootstrap/*.css",
       "wwwroot/Content/FontAwesome/*.css",
-      "wwwroot/Content/Shared/*.css",
-      "wwwroot/Content/Application/Auth/shared.css"
+      "wwwroot/Content/Shared/alerts.css",
+      "wwwroot/Content/Shared/content.css",
+      "wwwroot/Content/Shared/overrides.css",
+      "wwwroot/Content/Shared/public.css"
     ]
   }
 ]

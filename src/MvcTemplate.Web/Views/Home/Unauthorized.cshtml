@@ -2,15 +2,16 @@
     Layout = "_PublicLayout";
 }
 
-<div class="title text">@Pages.HomeUnauthorized</div>
+<div class="title text-right">@Pages.HomeUnauthorized</div>
 
-<div class="separator"></div>
+<hr />
 
-<div class="error text fa fa-lock"></div>
+<div class="title fa fa-lock"></div>
 
-<div class="separator"></div>
+<hr />
 
-<div class="describtion text">@Strings.Unauthorized</div>
-<a asp-action="Index" asp-controller="Home" asp-route-area="" class="btn btn-primary public-action">
+<div class="description">@Strings.Unauthorized</div>
+
+<a asp-action="Index" asp-controller="Home" asp-route-area="" class="btn btn-block btn-primary mt-3">
     @Pages.HomeIndex
 </a>
