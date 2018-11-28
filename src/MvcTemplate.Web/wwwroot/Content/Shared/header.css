@@ -3,8 +3,8 @@
   display: flex;
 }
 .header .btn {
-  font-size: 0.875rem;
   min-width: 50px;
+  font-size: 1em;
   border: none;
   padding: 0;
 }

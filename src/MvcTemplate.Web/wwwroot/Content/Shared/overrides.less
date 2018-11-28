@@ -84,10 +84,6 @@ hr {
     }
 }
 
-.form-control {
-    height: 2.375rem;
-}
-
 .input-group .form-control {
     z-index: 1;
 }
@@ -226,8 +222,8 @@ hr {
 
 /* mvc.grid */
 .mvc-grid {
-    font-size: 0.875rem;
     line-height: 1.5;
+    font-size: 1em;
 
     thead {
         background-image: linear-gradient(#ffffff, #f2f2f2);
@@ -262,6 +258,7 @@ hr {
 
 .mvc-grid-filter {
     background: none;
+    font-size: 1em;
 
     &:focus,
     &:hover {
@@ -275,7 +272,11 @@ hr {
     color: #ffffff;
 }
 
-.mvc-grid-popup .invalid {
-    outline-color: #dc3545;
-    border-color: #dc3545;
+.mvc-grid-popup {
+    font-size: 1em;
+
+    .invalid {
+        outline-color: #dc3545;
+        border-color: #dc3545;
+    }
 }

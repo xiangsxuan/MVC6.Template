@@ -18,9 +18,8 @@
   display: flex;
 }
 .control-label {
-  padding: 7px 0 7px 15px;
-  min-height: 34px;
-  font-size: 1rem;
+  min-height: calc(2.25rem + 2px);
+  padding: 0.5rem 0 0.5rem 15px;
 }
 .control-label label {
   font-weight: bold;
@@ -28,11 +27,11 @@
 }
 .control-label .require {
   display: inline-block;
-  min-width: 0.625rem;
+  min-width: 0.75em;
   color: #dc3545;
 }
 .control-content {
-  min-height: 34px;
+  min-height: calc(2.25rem + 2px);
 }
 .control-content input::-ms-clear {
   display: none;
