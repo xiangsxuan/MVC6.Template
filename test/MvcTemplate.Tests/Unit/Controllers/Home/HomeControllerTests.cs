@@ -59,34 +59,27 @@ namespace MvcTemplate.Controllers.Tests
         #region NotFound()
 
         [Fact]
-        public void NotFound_ReturnsEmptyView()
+        public void NotFound_NotActive_RedirectsToLogout()
         {
-            ViewResult actual = controller.NotFound();
-
-            Assert.Null(actual.Model);
-        }
-
-        #endregion
-
-        #region Unauthorized()
-
-        [Fact]
-        public void Unauthorized_NotActive_RedirectsToLogout()
-        {
+            service.IsLoggedIn(controller.User).Returns(true);
             service.IsActive(controller.CurrentAccountId).Returns(false);
 
             Object expected = RedirectToAction(controller, "Logout", "Auth");
-            Object actual = controller.Unauthorized();
+            Object actual = controller.NotFound();
 
             Assert.Same(expected, actual);
         }
 
-        [Fact]
-        public void Unauthorized_ReturnsEmptyView()
+        [Theory]
+        [InlineData(true, true)]
+        [InlineData(false, true)]
+        [InlineData(false, false)]
+        public void NotFound_ReturnsEmptyView(Boolean isLoggedIn, Boolean isActive)
         {
-            service.IsActive(controller.CurrentAccountId).Returns(true);
+            service.IsActive(controller.CurrentAccountId).Returns(isActive);
+            service.IsLoggedIn(controller.User).Returns(isLoggedIn);
 
-            ViewResult actual = controller.Unauthorized() as ViewResult;
+            ViewResult actual = controller.NotFound() as ViewResult;
 
             Assert.Null(actual.Model);
         }

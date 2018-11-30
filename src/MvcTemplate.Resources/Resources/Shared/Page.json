@@ -22,7 +22,6 @@
         "HomeError": "Error",
         "HomeIndex": "Home",
         "HomeNotFound": "Not Found",
-        "HomeUnauthorized": "Unauthorized",
         "ProfileDelete": "Profile deletion",
         "ProfileEdit": "Profile edit"
     }

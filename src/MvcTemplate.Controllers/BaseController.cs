@@ -47,10 +47,6 @@ namespace MvcTemplate.Controllers
         {
             return base.RedirectToAction("NotFound", "Home", new { area = "" });
         }
-        public virtual RedirectToActionResult RedirectToUnauthorized()
-        {
-            return base.RedirectToAction("Unauthorized", "Home", new { area = "" });
-        }
         public override RedirectToActionResult RedirectToAction(String action, String controller, Object route)
         {
             IDictionary<String, Object> values = HtmlHelper.AnonymousObjectToHtmlAttributes(route);

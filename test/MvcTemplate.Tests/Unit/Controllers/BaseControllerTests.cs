@@ -126,21 +126,6 @@ namespace MvcTemplate.Controllers.Tests
 
         #endregion
 
-        #region RedirectToUnauthorized()
-
-        [Fact]
-        public void RedirectToUnauthorized_Route()
-        {
-            RedirectToActionResult actual = controller.RedirectToUnauthorized();
-
-            Assert.Equal("Unauthorized", actual.ActionName);
-            Assert.Equal("", actual.RouteValues["area"]);
-            Assert.Equal("Home", actual.ControllerName);
-            Assert.Single(actual.RouteValues);
-        }
-
-        #endregion
-
         #region RedirectToAction(String action, String controller, Object route)
 
         [Fact]

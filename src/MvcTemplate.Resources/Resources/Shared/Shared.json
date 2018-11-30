@@ -21,7 +21,6 @@
         "NoDataFound": "No data found",
         "PageNotFound": "The page you are looking for does not exist",
         "SystemError": "Your request resulted in an unexpected system failure",
-        "Unauthorized": "You are unauthorized to view this page",
         "Yes": "Yes"
     }
 }

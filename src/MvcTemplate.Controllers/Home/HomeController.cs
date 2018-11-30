@@ -31,15 +31,9 @@ namespace MvcTemplate.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public new ViewResult NotFound()
+        public new ActionResult NotFound()
         {
-            return View();
-        }
-
-        [HttpGet]
-        public new ActionResult Unauthorized()
-        {
-            if (!Service.IsActive(CurrentAccountId))
+            if (Service.IsLoggedIn(User) && !Service.IsActive(CurrentAccountId))
                 return RedirectToAction("Logout", "Auth");
 
             return View();

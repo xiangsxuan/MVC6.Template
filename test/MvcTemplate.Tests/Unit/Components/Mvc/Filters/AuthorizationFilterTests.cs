@@ -37,7 +37,7 @@ namespace MvcTemplate.Components.Mvc.Tests
         }
 
         [Fact]
-        public void OnResourceExecuting_NotAuthorized_RedirectsToUnauthorized()
+        public void OnResourceExecuting_NotAuthorized_RedirectsToNotFound()
         {
             context.HttpContext.User.Identity.IsAuthenticated.Returns(true);
             context.RouteData.Values["language"] = "en";
@@ -47,7 +47,7 @@ namespace MvcTemplate.Components.Mvc.Tests
 
             RouteValueDictionary actual = (context.Result as RedirectToRouteResult).RouteValues;
 
-            Assert.Equal("Unauthorized", actual["action"]);
+            Assert.Equal("NotFound", actual["action"]);
             Assert.Equal("Home", actual["controller"]);
             Assert.Equal("en", actual["language"]);
             Assert.Equal("", actual["area"]);

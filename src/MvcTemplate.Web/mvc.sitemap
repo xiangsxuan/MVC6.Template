@@ -3,7 +3,6 @@
     <siteMapNode icon="fa fa-home" controller="Home" action="Index">
         <siteMapNode icon="fa fa-ban" controller="Home" action="Error" />
         <siteMapNode icon="fa fa-search" controller="Home" action="NotFound" />
-        <siteMapNode icon="fa fa-lock" controller="Home" action="Unauthorized" />
 
         <siteMapNode icon="fa fa-user-circle" controller="Profile" action="Edit" />
         <siteMapNode icon="fa fa-user-times" controller="Profile" action="Delete" />

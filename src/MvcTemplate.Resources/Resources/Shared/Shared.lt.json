@@ -21,7 +21,6 @@
         "NoDataFound": "Įrašų nerasta",
         "PageNotFound": "Puslapis, kurį norite pasiekti neegzistuoja",
         "SystemError": "Įvyko sisteminė klaida, prašome susisiekti su sistemos administratoriumi",
-        "Unauthorized": "Jums nepakanka teisių peržiūrėti šį turinį",
         "Yes": "Taip"
     }
 }

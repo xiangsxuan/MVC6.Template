@@ -27,17 +27,17 @@ namespace MvcTemplate.Components.Mvc
             String controller = context.RouteData.Values["controller"] as String;
 
             if (Authorization?.IsGrantedFor(accountId, area, controller, action) == false)
-                context.Result = RedirectToUnauthorized(context);
+                context.Result = RedirectToNotFound(context);
         }
         public void OnResourceExecuted(ResourceExecutedContext context)
         {
         }
 
-        private IActionResult RedirectToUnauthorized(ActionContext context)
+        private IActionResult RedirectToNotFound(ActionContext context)
         {
             RouteValueDictionary route = new RouteValueDictionary();
             route["language"] = context.RouteData.Values["language"];
-            route["action"] = "Unauthorized";
+            route["action"] = "NotFound";
             route["controller"] = "Home";
             route["area"] = "";
 
