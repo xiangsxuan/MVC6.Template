@@ -1,4 +1,4 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -12,24 +12,24 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_HTTPS_PORT": "44393"
+        "ASPNETCORE_HTTPS_PORT": "44393",
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "IIS Express (Staging)": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Staging",
-        "ASPNETCORE_HTTPS_PORT": "44393"
+        "ASPNETCORE_HTTPS_PORT": "44393",
+        "ASPNETCORE_ENVIRONMENT": "Staging"
       }
     },
     "IIS Express (Production)": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production",
-        "ASPNETCORE_HTTPS_PORT": "44393"
+        "ASPNETCORE_HTTPS_PORT": "44393",
+        "ASPNETCORE_ENVIRONMENT": "Production"
       }
     }
   }

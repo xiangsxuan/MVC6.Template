@@ -127,7 +127,7 @@ namespace MvcTemplate.Controllers.Tests
         {
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanRecover(accountRecovery).Returns(true);
-            service.Recover(accountRecovery).Returns(null as String);
+            service.Recover(accountRecovery).Returns((String)null);
 
             await controller.Recover(accountRecovery);
 

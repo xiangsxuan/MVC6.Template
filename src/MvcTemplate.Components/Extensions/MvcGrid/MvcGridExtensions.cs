@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Resources;
@@ -84,7 +85,8 @@ namespace MvcTemplate.Components.Extensions
         {
             TagBuilder link = new TagBuilder("a");
             link.AddCssClass(action.ToLower() + "-action");
-            link.Attributes["href"] = new UrlHelper(context).Action(action, RouteFor(model));
+            LinkGenerator generator = context.HttpContext.RequestServices.GetService<LinkGenerator>();
+            link.Attributes["href"] = generator.GetPathByAction(context.HttpContext, action, null, RouteFor(model));
 
             TagBuilder icon = new TagBuilder("span");
             icon.AddCssClass(iconClass);

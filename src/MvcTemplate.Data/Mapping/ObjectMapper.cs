@@ -33,7 +33,7 @@ namespace MvcTemplate.Data.Mapping
             Configuration.CreateMap<Role, RoleView>()
                 .ForMember(role => role.Permissions, member => member.Ignore());
             Configuration.CreateMap<RoleView, Role>()
-                .ForMember(role => role.Permissions, member => member.UseValue(new List<RolePermission>()));
+                .ForMember(role => role.Permissions, member => member.MapFrom(role => new List<RolePermission>()));
         }
 
         #endregion

@@ -12,6 +12,7 @@ namespace MvcTemplate.Web
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
                 .UseIISIntegration()
+                .UseIIS()
                 .Build()
                 .Run();
         }

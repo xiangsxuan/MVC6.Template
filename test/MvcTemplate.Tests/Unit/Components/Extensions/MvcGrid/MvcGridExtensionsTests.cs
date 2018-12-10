@@ -45,19 +45,18 @@ namespace MvcTemplate.Components.Extensions.Tests
         {
             AllTypesView view = new AllTypesView();
             StringWriter writer = new StringWriter();
-            IRouter router = Substitute.For<IRouter>();
+            LinkGenerator link = Substitute.For<LinkGenerator>();
             IAuthorization authorization = columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>();
 
             authorization.IsGrantedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
-            router.GetVirtualPath(Arg.Any<VirtualPathContext>()).Returns(new VirtualPathData(router, "/test"));
-            columns.Grid.ViewContext.RouteData.Routers.Add(router);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<LinkGenerator>().Returns(link);
 
             IGridColumn<AllTypesView, IHtmlContent> column = columns.AddAction("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
             String actual = writer.ToString();
             String expected =
-                "<a class=\"details-action\" href=\"/test\">" +
+                "<a class=\"details-action\" href=\"\">" +
                     "<span class=\"fa fa-info\"></span>" +
                 "</a>";
 
@@ -69,18 +68,17 @@ namespace MvcTemplate.Components.Extensions.Tests
         {
             AllTypesView view = new AllTypesView();
             StringWriter writer = new StringWriter();
-            IRouter router = Substitute.For<IRouter>();
+            LinkGenerator link = Substitute.For<LinkGenerator>();
 
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>().Returns(null as IAuthorization);
-            router.GetVirtualPath(Arg.Any<VirtualPathContext>()).Returns(new VirtualPathData(router, "/test"));
-            columns.Grid.ViewContext.RouteData.Routers.Add(router);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>().Returns((IAuthorization)null);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<LinkGenerator>().Returns(link);
 
             IGridColumn<AllTypesView, IHtmlContent> column = columns.AddAction("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
             String actual = writer.ToString();
             String expected =
-                "<a class=\"details-action\" href=\"/test\">" +
+                "<a class=\"details-action\" href=\"\">" +
                     "<span class=\"fa fa-info\"></span>" +
                 "</a>";
 
@@ -90,9 +88,9 @@ namespace MvcTemplate.Components.Extensions.Tests
         [Fact]
         public void AddAction_NoId_Throws()
         {
-            IGrid<Object> grid = new Grid<Object>(new Object[0]);
-            IGridColumnsOf<Object> gridColumns = new GridColumns<Object>(grid);
-            gridColumns.Grid.ViewContext = new ViewContext { HttpContext = Substitute.For<HttpContext>() };
+            html.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>().Returns((IAuthorization)null);
+            IGridColumnsOf<Object> gridColumns = new GridColumns<Object>(new Grid<Object>(new Object[0]));
+            gridColumns.Grid.ViewContext = html.Grid.ViewContext;
 
             IGridColumn<Object, IHtmlContent> column = gridColumns.AddAction("Delete", "fa fa-times");
 
@@ -105,7 +103,7 @@ namespace MvcTemplate.Components.Extensions.Tests
         [Fact]
         public void AddAction_Column()
         {
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>().Returns(null as IAuthorization);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>().Returns((IAuthorization)null);
 
             IGridColumn<AllTypesView, IHtmlContent> actual = columns.AddAction("Edit", "fa fa-pencil-alt");
 

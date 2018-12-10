@@ -47,9 +47,8 @@ namespace MvcTemplate.Web
                 .AddJsonFile($"configuration.{env.EnvironmentName.ToLower()}.json", optional: true)
                 .Build();
         }
-        public void Configure(IApplicationBuilder app, ILoggerFactory factory)
+        public void Configure(IApplicationBuilder app)
         {
-            RegisterLogging(factory);
             RegisterMiddleware(app);
             RegisterMvc(app);
 
@@ -58,6 +57,7 @@ namespace MvcTemplate.Web
         public void ConfigureServices(IServiceCollection services)
         {
             RegisterMvc(services);
+            RegisterLogging(services);
             RegisterServices(services);
             RegisterLowercaseUrls(services);
             RegisterSecureResponse(services);
@@ -88,6 +88,13 @@ namespace MvcTemplate.Web
                 filters.BooleanFalseOptionText = () => Resource.ForString("No");
                 filters.BooleanTrueOptionText = () => Resource.ForString("Yes");
             });
+        }
+        public void RegisterLogging(IServiceCollection services)
+        {
+            if (Config["Application:Env"] != EnvironmentName.Development)
+                services.AddLogging(builder => builder.AddProvider(new FileLoggerProvider(Config)));
+            else
+                services.AddLogging(builder => builder.AddConsole());
         }
         public void RegisterServices(IServiceCollection services)
         {
@@ -156,13 +163,6 @@ namespace MvcTemplate.Web
                 }
             });
             app.UseSession();
-        }
-        public void RegisterLogging(ILoggerFactory factory)
-        {
-            if (Config["Application:Env"] != EnvironmentName.Development)
-                factory.AddProvider(new FileLoggerProvider(Config));
-            else
-                factory.AddConsole();
         }
         public void RegisterMvc(IApplicationBuilder app)
         {

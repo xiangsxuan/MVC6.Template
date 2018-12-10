@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Grid 4.0.1
+ * Mvc.Grid 4.0.2
  * https://github.com/NonFactors/MVC6.Grid
  *
  * Copyright © NonFactors
@@ -251,7 +251,7 @@ var MvcGrid = (function () {
         },
 
         dispatchEvent: function (type, detail) {
-            var typedEvent = null;
+            var typedEvent;
             if (typeof (Event) === 'function') {
                 typedEvent = new CustomEvent(type, {
                     detail: detail,
@@ -277,7 +277,7 @@ var MvcGrid = (function () {
                             data[column.name] = row.cells[i].innerText;
                         });
 
-                        var typedEvent = null;
+                        var typedEvent;
                         var detail = { grid: grid, data: data, originalEvent: e };
                         if (typeof (Event) === 'function') {
                             typedEvent = new CustomEvent('rowclick', {
@@ -766,8 +766,8 @@ var MvcGridFilter = (function () {
         },
         renderActions: function () {
             return '<div class="popup-actions">' +
-                       '<button class="mvc-grid-apply" type="button">' + this.lang.filter.apply + '</button>' +
-                       '<button class="mvc-grid-cancel" type="button">' + this.lang.filter.remove + '</button>' +
+                       '<button type="button" class="mvc-grid-apply" type="button">' + this.lang.filter.apply + '</button>' +
+                       '<button type="button" class="mvc-grid-cancel" type="button">' + this.lang.filter.remove + '</button>' +
                    '</div>';
         },
 
@@ -826,7 +826,7 @@ var MvcGridFilter = (function () {
 
                     if (filter.mode != 'ExcelRow') {
                         var rowInput = filter.column.rowFilter.querySelector('.mvc-grid-value');
-                        if (this.tagName == "SELECT") {
+                        if (this.tagName == 'SELECT') {
                             rowInput.value = this.options[this.selectedIndex].text;
                         } else {
                             rowInput.value = this.value;

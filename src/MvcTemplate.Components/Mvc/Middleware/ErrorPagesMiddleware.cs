@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using MvcTemplate.Resources;
@@ -14,10 +11,12 @@ namespace MvcTemplate.Components.Mvc
     public class ErrorPagesMiddleware
     {
         private ILogger Logger { get; }
+        private LinkGenerator Link { get; }
         private RequestDelegate Next { get; }
 
-        public ErrorPagesMiddleware(RequestDelegate next, ILogger<ErrorPagesMiddleware> logger)
+        public ErrorPagesMiddleware(RequestDelegate next, LinkGenerator link, ILogger<ErrorPagesMiddleware> logger)
         {
+            Link = link;
             Next = next;
             Logger = logger;
         }
@@ -41,17 +40,9 @@ namespace MvcTemplate.Components.Mvc
                 }
                 else
                 {
-                    Redirect(context, "Error", "Home", new { area = "" });
+                    context.Response.Redirect(Link.GetPathByAction(context, "Error", "Home", new { area = "" }));
                 }
             }
-        }
-
-        private void Redirect(HttpContext context, String action, String controller, Object values)
-        {
-            RouteData route = (context.Features[typeof(IRoutingFeature)] as IRoutingFeature)?.RouteData;
-            IUrlHelper url = new UrlHelper(new ActionContext(context, route, new ActionDescriptor()));
-
-            context.Response.Redirect(url.Action(action, controller, values));
         }
     }
 }
