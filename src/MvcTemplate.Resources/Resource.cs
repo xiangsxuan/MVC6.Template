@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -11,11 +12,11 @@ namespace MvcTemplate.Resources
 {
     public static class Resource
     {
-        private static Dictionary<String, ResourceSet> Resources { get; }
+        private static ConcurrentDictionary<String, ResourceSet> Resources { get; }
 
         static Resource()
         {
-            Resources = new Dictionary<String, ResourceSet>();
+            Resources = new ConcurrentDictionary<String, ResourceSet>();
             String path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Resources";
 
             foreach (String resource in Directory.GetFiles(path, "*.json", SearchOption.AllDirectories))
