@@ -1,6 +1,6 @@
 Grid = {
     init: function () {
-        if (window.MvcGrid) {
+        if (typeof MvcGrid == "function") {
             var lang = document.documentElement.lang;
             MvcGrid.prototype.lang = window.cultures.grid[lang];
 
@@ -8,7 +8,7 @@ Grid = {
                 return value == '' || !isNaN(Globalize.parseFloat(value));
             };
 
-            [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+            [].forEach.call(document.querySelectorAll('.mvc-grid'), function (element) {
                 new MvcGrid(element);
             });
         }

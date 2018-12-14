@@ -1,7 +1,9 @@
 Tree = {
     init: function () {
-        [].forEach.call(document.getElementsByClassName('mvc-tree'), function (element) {
-            new MvcTree(element);
-        });
+        if (typeof MvcTree == "function") {
+            [].forEach.call(document.querySelectorAll('.mvc-tree'), function (element) {
+                new MvcTree(element);
+            });
+        }
     }
 };

@@ -12,25 +12,31 @@
 
 // Read only binding
 (function () {
-    $(document).on('click', '[readonly]', function () {
-        return false;
-    });
-
-    var widgets = $('.widget-box.readonly');
-    widgets.find('input').attr({ readonly: 'readonly', tabindex: -1 });
-    widgets.find('textarea').attr({ readonly: 'readonly', tabindex: -1 });
-
-    if (window.MvcLookup) {
-        widgets.find('.mvc-lookup').each(function (i, element) {
+    [].forEach.call(document.querySelectorAll('.widget-box.readonly'), function (widget) {
+        [].forEach.call(widget.querySelectorAll('.mvc-lookup'), function (element) {
             new MvcLookup(element, { readonly: true });
         });
-    }
 
-    if (window.MvcTree) {
-        widgets.find('.mvc-tree').each(function (i, element) {
+        [].forEach.call(widget.querySelectorAll('.mvc-tree'), function (element) {
             new MvcTree(element, { readonly: true });
         });
-    }
+
+        [].forEach.call(widget.querySelectorAll('textarea'), function (textarea) {
+            textarea.readOnly = true;
+            textarea.tabIndex = -1;
+        });
+
+        [].forEach.call(widget.querySelectorAll('input'), function (input) {
+            input.readOnly = true;
+            input.tabIndex = -1;
+        });
+    });
+
+    window.addEventListener('click', function (e) {
+        if (e.target && e.target.readOnly) {
+            e.preventDefault();
+        }
+    });
 })();
 
 // Input focus binding

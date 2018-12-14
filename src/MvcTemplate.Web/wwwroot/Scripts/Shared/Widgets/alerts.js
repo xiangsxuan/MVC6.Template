@@ -1,26 +1,20 @@
 Alerts = {
     init: function () {
-        $('.alerts').on('click', '.close', function () {
-            Alerts.close(this.parentNode);
-        });
-        $('.alerts .alert').each(function () {
-            Alerts.bind(this);
-        });
+        this.element = document.querySelector('.alerts');
+        [].forEach.call(this.element.children, this.bind);
     },
 
     show: function (alerts) {
         alerts = [].concat(alerts);
-        var container = $('.alerts');
         for (var i = 0; i < alerts.length; i++) {
             var alert = document.getElementById(alerts[i].id) || emptyAlert();
-            alert.setAttribute('data-timeout', alerts[i].timeout || '0');
+            alert.setAttribute('data-timeout', alerts[i].timeout || 0);
             alert.className = 'alert alert-' + getType(alerts[i].type);
             alert.children[0].innerText = alerts[i].message || '';
             alert.id = alerts[i].id || '';
 
-            container.append(alert);
-
-            Alerts.bind(alert);
+            this.element.appendChild(alert);
+            this.bind(alert);
         }
 
         function emptyAlert() {
@@ -53,10 +47,12 @@ Alerts = {
         }
     },
     bind: function (alert) {
-        if ($(alert).data('timeout')) {
-            setTimeout(function () {
-                Alerts.close(alert);
-            }, $(alert).data('timeout'));
+        alert.lastElementChild.onclick = function () {
+            Alerts.close(this.parentNode);
+        };
+
+        if (alert.dataset.timeout > 0) {
+            setTimeout(this.close, alert.dataset.timeout, alert);
         }
     },
     close: function (alert) {
@@ -65,16 +61,16 @@ Alerts = {
         }
 
         $(alert).fadeTo(300, 0).slideUp(300, function () {
-            $(this).remove();
+            this.parentNode.removeChild(this);
         });
     },
     closeAll: function () {
-        $('.alerts .alert').fadeTo(300, 0).slideUp(300, function () {
-            $(this).remove();
+        $(this.element).children().fadeTo(300, 0).slideUp(300, function () {
+            this.parentNode.removeChild(this);
         });
     },
 
     clear: function () {
-        $('.alerts .alert').remove();
+        this.element.innerHTML = '';
     }
 };
