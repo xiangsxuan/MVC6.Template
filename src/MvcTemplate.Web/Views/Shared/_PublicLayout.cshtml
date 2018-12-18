@@ -1,4 +1,6 @@
-﻿<!doctype html>
+﻿@{ String action = ViewContext.RouteData.Values["action"] as String; }
+
+<!doctype html>
 <html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 <head>
     <meta charset="UTF-8" />
@@ -9,17 +11,22 @@
     <title>@(ViewBag.Title ?? Resource.ForPage(ViewContext.RouteData.Values))</title>
 
     <environment names="Development">
-        <link href="~/Content/Bootstrap/bootstrap.css" rel="stylesheet">
-        <link href="~/Content/FontAwesome/solid.css" rel="stylesheet">
-        <link href="~/Content/FontAwesome/regular.css" rel="stylesheet">
-        <link href="~/Content/FontAwesome/fontawesome.css" rel="stylesheet">
-        <link href="~/Content/Shared/alerts.css" rel="stylesheet">
-        <link href="~/Content/Shared/content.css" rel="stylesheet">
-        <link href="~/Content/Shared/overrides.css" rel="stylesheet">
-        <link href="~/Content/Shared/public.css" rel="stylesheet">
+        <link rel="stylesheet" href="~/Content/Bootstrap/bootstrap.css">
+        <link rel="stylesheet" href="~/Content/FontAwesome/solid.css">
+        <link rel="stylesheet" href="~/Content/FontAwesome/regular.css">
+        <link rel="stylesheet" href="~/Content/FontAwesome/fontawesome.css">
+        <link rel="stylesheet" href="~/Content/Shared/alerts.css">
+        <link rel="stylesheet" href="~/Content/Shared/content.css">
+        <link rel="stylesheet" href="~/Content/Shared/overrides.css">
+        <link rel="stylesheet" href="~/Content/Shared/public.css">
+        <link rel="stylesheet" action="shared">
+        <link rel="stylesheet" action="@action">
     </environment>
     <environment names="Staging,Production">
-        <link asp-append-version="true" href="~/content/public/bundle.min.css" rel="stylesheet">
+        <link asp-append-version="true" rel="stylesheet" href="~/content/public/vendor.min.css">
+        <link asp-append-version="true" rel="stylesheet" href="~/content/public/site.min.css">
+        <link asp-append-version="true" rel="stylesheet" action="shared">
+        <link asp-append-version="true" rel="stylesheet" action="@action">
     </environment>
 </head>
 <body>
@@ -36,17 +43,12 @@
         <script src="~/Scripts/JQuery/Cultures/globalize.lt.js"></script>
         <script src="~/Scripts/Bootstrap/bootstrap-native.js"></script>
         <script src="~/Scripts/Shared/Widgets/alerts.js"></script>
-        <script src="~/Scripts/Shared/Widgets/datepicker.js"></script>
-        <script src="~/Scripts/Shared/Widgets/grid.js"></script>
-        <script src="~/Scripts/Shared/Widgets/header.js"></script>
-        <script src="~/Scripts/Shared/Widgets/tree.js"></script>
-        <script src="~/Scripts/Shared/Widgets/lookup.js"></script>
-        <script src="~/Scripts/Shared/Widgets/navigation.js"></script>
         <script src="~/Scripts/Shared/Widgets/validator.js"></script>
-        <script src="~/Scripts/Shared/site.js"></script>
+        <script src="~/Scripts/Shared/public.js"></script>
     </environment>
     <environment names="Staging,Production">
-        <script asp-append-version="true" src="~/scripts/public/bundle.min.js"></script>
+        <script asp-append-version="true" src="~/scripts/public/vendor.min.js"></script>
+        <script asp-append-version="true" src="~/scripts/public/site.min.js"></script>
     </environment>
 </body>
 </html>

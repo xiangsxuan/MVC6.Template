@@ -1,4 +1,12 @@
-﻿/src/MvcTemplate.Web/Logs/
+﻿/src/MvcTemplate.Web/wwwroot/Scripts/Application/**/*.min.js
+/src/MvcTemplate.Web/wwwroot/Scripts/Private/
+/src/MvcTemplate.Web/wwwroot/Scripts/Public/
+
+/src/MvcTemplate.Web/wwwroot/Content/Application/**/*.min.css
+/src/MvcTemplate.Web/wwwroot/Content/Private/
+/src/MvcTemplate.Web/wwwroot/Content/Public/
+/src/MvcTemplate.Web/Logs/
+node_modules/
 .vscode/
 .vs/
 bin/

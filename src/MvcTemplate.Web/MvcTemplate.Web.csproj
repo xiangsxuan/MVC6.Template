@@ -23,10 +23,12 @@
     <Content Update="wwwroot\Scripts\**" CopyToPublishDirectory="Never" />
     <Content Update="compilerconfig.json" CopyToPublishDirectory="Never" />
     <Content Update="wwwroot\Content\**\*.woff" CopyToPublishDirectory="Always" />
-    <Content Update="wwwroot\Content\Public\**" CopyToPublishDirectory="Always" />
     <Content Update="wwwroot\Scripts\Public\**" CopyToPublishDirectory="Always" />
-    <Content Update="wwwroot\Content\Private\**" CopyToPublishDirectory="Always" />
+    <Content Update="wwwroot\Content\Public\**" CopyToPublishDirectory="Always" />
     <Content Update="wwwroot\Scripts\Private\**" CopyToPublishDirectory="Always" />
+    <Content Update="wwwroot\Content\Private\**" CopyToPublishDirectory="Always" />
+    <Content Update="wwwroot\Scripts\Application\**\*.min.js" CopyToPublishDirectory="Always" />
+    <Content Update="wwwroot\Content\Application\**\*.min.css" CopyToPublishDirectory="Always" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,13 +51,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.0" />
   </ItemGroup>
 
-  <Target Name="PostcompileScript" AfterTargets="Build">
-    <Exec Command="dotnet bundle" />
+  <Target Name="PrePublishScript" BeforeTargets="PrepareForPublish">
+    <Exec Command="npm install" />
+    <Exec Command="npm run gulp minify" />
   </Target>
 
   <ItemGroup>
     <DotNetCliToolReference Include="Genny" Version="2.2.1" />
-    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.8.391" />
   </ItemGroup>
 
 </Project>

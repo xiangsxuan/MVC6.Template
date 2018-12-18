@@ -1,4 +1,4 @@
-﻿body {
+body {
   background-image: url("../../images/shared/content-background.jpg");
   background-color: #f2f2f2;
   font-size: 0.875rem;
@@ -14,7 +14,7 @@ form {
   padding: 0 1em;
 }
 .input-group {
-  box-shadow: rgba(0, 0, 0, 0.05) 0 0px 3px inset;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 0 3px inset;
   background: #ffffff;
   border-radius: 4px;
   margin-bottom: 2px;
