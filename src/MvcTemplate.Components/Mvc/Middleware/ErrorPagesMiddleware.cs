@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
+using MvcTemplate.Components.Notifications;
 using MvcTemplate.Resources;
 using Newtonsoft.Json;
 using System;
@@ -31,12 +32,23 @@ namespace MvcTemplate.Components.Mvc
             {
                 Logger.LogError(exception, "An unhandled exception has occurred while executing the request.");
 
-                if (context.Request.Headers != null && context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                if (context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 {
                     context.Response.StatusCode = 500;
                     context.Response.ContentType = "application/json; charset=utf-8";
 
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new { status = "error", data = new { message = Resource.ForString("SystemError") } }));
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new
+                    {
+                        alerts = new[]
+                        {
+                            new Alert
+                            {
+                                Id = "SystemError",
+                                Type = AlertType.Danger,
+                                Message = Resource.ForString("SystemError")
+                            }
+                        }
+                    }));
                 }
                 else
                 {
