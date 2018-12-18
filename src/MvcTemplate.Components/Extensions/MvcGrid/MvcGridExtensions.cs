@@ -21,7 +21,9 @@ namespace MvcTemplate.Components.Extensions
             if (!IsAuthorizedFor(columns.Grid.ViewContext, action))
                 return new GridColumn<T, IHtmlContent>(columns.Grid, model => null);
 
-            return columns.Add(model => GenerateLink(columns.Grid.ViewContext, model, action, iconClass)).Css("action-cell");
+            return columns
+                .Add(model => GenerateLink(columns.Grid.ViewContext, model, action, iconClass))
+                .Css("action-cell " + action.ToLower());
         }
 
         public static IGridColumn<T, DateTime> AddDate<T>(this IGridColumnsOf<T> columns, Expression<Func<T, DateTime>> expression)
@@ -84,14 +86,10 @@ namespace MvcTemplate.Components.Extensions
         private static IHtmlContent GenerateLink<T>(ViewContext context, T model, String action, String iconClass)
         {
             TagBuilder link = new TagBuilder("a");
-            link.AddCssClass(action.ToLower() + "-action");
             LinkGenerator generator = context.HttpContext.RequestServices.GetService<LinkGenerator>();
             link.Attributes["href"] = generator.GetPathByAction(context.HttpContext, action, null, RouteFor(model));
 
-            TagBuilder icon = new TagBuilder("span");
-            icon.AddCssClass(iconClass);
-
-            link.InnerHtml.AppendHtml(icon);
+            link.AddCssClass(iconClass);
 
             return link;
         }

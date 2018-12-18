@@ -10,13 +10,13 @@ table .action-cell + .action-cell {
   min-width: 28px;
   width: 28px;
 }
-table .action-cell .details-action {
+table .action-cell.details a {
   background-color: #5cb85c;
 }
-table .action-cell .edit-action {
+table .action-cell.edit a {
   background-color: #f0ad4e;
 }
-table .action-cell .delete-action {
+table .action-cell.delete a {
   background-color: #d9534f;
 }
 table .action-cell a {

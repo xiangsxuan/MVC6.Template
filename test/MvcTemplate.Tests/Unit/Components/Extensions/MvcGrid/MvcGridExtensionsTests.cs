@@ -54,11 +54,8 @@ namespace MvcTemplate.Components.Extensions.Tests
             IGridColumn<AllTypesView, IHtmlContent> column = columns.AddAction("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
+            String expected = "<a class=\"fa fa-info\" href=\"\"></a>";
             String actual = writer.ToString();
-            String expected =
-                "<a class=\"details-action\" href=\"\">" +
-                    "<span class=\"fa fa-info\"></span>" +
-                "</a>";
 
             Assert.Equal(expected, actual);
         }
@@ -76,11 +73,8 @@ namespace MvcTemplate.Components.Extensions.Tests
             IGridColumn<AllTypesView, IHtmlContent> column = columns.AddAction("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
+            String expected = "<a class=\"fa fa-info\" href=\"\"></a>";
             String actual = writer.ToString();
-            String expected =
-                "<a class=\"details-action\" href=\"\">" +
-                    "<span class=\"fa fa-info\"></span>" +
-                "</a>";
 
             Assert.Equal(expected, actual);
         }
@@ -107,7 +101,7 @@ namespace MvcTemplate.Components.Extensions.Tests
 
             IGridColumn<AllTypesView, IHtmlContent> actual = columns.AddAction("Edit", "fa fa-pencil-alt");
 
-            Assert.Equal("action-cell", actual.CssClasses);
+            Assert.Equal("action-cell edit", actual.CssClasses);
             Assert.Single(columns);
         }
 
