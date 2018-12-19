@@ -19,6 +19,7 @@ using MvcTemplate.Controllers;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Data.Logging;
 using MvcTemplate.Data.Migrations;
+using MvcTemplate.Objects;
 using MvcTemplate.Resources;
 using MvcTemplate.Services;
 using MvcTemplate.Validators;
@@ -26,6 +27,7 @@ using NonFactors.Mvc.Grid;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace MvcTemplate.Web
 {
@@ -46,6 +48,8 @@ namespace MvcTemplate.Web
                 .AddJsonFile("configuration.json")
                 .AddJsonFile($"configuration.{env.EnvironmentName.ToLower()}.json", optional: true)
                 .Build();
+
+            RegisterViewResources();
         }
         public void Configure(IApplicationBuilder app)
         {
@@ -61,6 +65,23 @@ namespace MvcTemplate.Web
             RegisterServices(services);
             RegisterLowercaseUrls(services);
             RegisterSecureResponse(services);
+        }
+
+        public void RegisterViewResources()
+        {
+            Type[] types = typeof(BaseView).Assembly.GetTypes();
+
+            foreach (Type view in types.Where(type => typeof(BaseView).IsAssignableFrom(type)))
+            {
+                Type type = view;
+
+                while (typeof(BaseView).IsAssignableFrom(type.BaseType))
+                {
+                    Resource.Set(view.Name).Inherit(Resource.Set(type.BaseType.Name));
+
+                    type = type.BaseType;
+                }
+            }
         }
 
         public void RegisterMvc(IServiceCollection services)

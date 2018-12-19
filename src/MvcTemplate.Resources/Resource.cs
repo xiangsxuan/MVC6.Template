@@ -32,6 +32,14 @@ namespace MvcTemplate.Resources
             }
         }
 
+        public static ResourceSet Set(String type)
+        {
+            if (!Resources.ContainsKey(type))
+                Resources[type] = new ResourceSet();
+
+            return Resources[type];
+        }
+
         public static String ForAction(String name)
         {
             return Localized("Shared", "Actions", name);
@@ -122,11 +130,10 @@ namespace MvcTemplate.Resources
 
         internal static String Localized(String type, String group, String key)
         {
+            ResourceSet resources = Set(type);
             String language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
-            return Resources.TryGetValue(type, out ResourceSet resources)
-                ? resources[language, group, key] ?? resources["", group, key]
-                : null;
+            return resources[language, group, key] ?? resources["", group, key];
         }
 
         private static String[] SplitCamelCase(String value)

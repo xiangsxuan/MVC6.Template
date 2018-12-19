@@ -9,6 +9,19 @@ namespace MvcTemplate.Resources.Tests
 {
     public class ResourceTests
     {
+        #region Set(String type)
+
+        [Fact]
+        public void Set_Same()
+        {
+            Object expected = Resource.Set("Test");
+            Object actual = Resource.Set("Test");
+
+            Assert.Same(expected, actual);
+        }
+
+        #endregion
+
         #region ForAction(String name)
 
         [Fact]
