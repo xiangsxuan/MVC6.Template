@@ -140,8 +140,8 @@ namespace MvcTemplate.Web
             services.AddSingleton<IAuthorization>(provider =>
                 new Authorization(typeof(BaseController).Assembly, provider));
 
-            String path = Path.Combine(Config["Application:Path"], Config["Languages:Path"]);
-            services.AddSingleton<ILanguages>(provider => new Languages(File.ReadAllText(path)));
+            Language[] supported = Config.GetSection("Languages:Supported").Get<Language[]>();
+            services.AddSingleton<ILanguages>(new Languages(Config["Languages:Default"], supported));
 
             String map = File.ReadAllText(Path.Combine(Config["Application:Path"], Config["SiteMap:Path"]));
             services.AddSingleton<ISiteMap>(provider => new SiteMap(map, provider.GetService<IAuthorization>()));

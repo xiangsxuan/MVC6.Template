@@ -19,7 +19,19 @@
   },
 
   "Languages": {
-    "Path": "languages.config"
+    "Default": "en",
+    "Supported": [
+      {
+        "name": "English",
+        "culture": "en-GB",
+        "abbreviation": "en"
+      },
+      {
+        "name": "Lietuvių",
+        "culture": "lt-LT",
+        "abbreviation": "lt"
+      }
+    ]
   },
 
   "Logging": {

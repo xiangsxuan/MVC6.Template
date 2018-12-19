@@ -11,11 +11,21 @@ namespace MvcTemplate.Components.Mvc.Tests
 
         public LanguagesTests()
         {
-            languages = new Languages(
-                @"<languages>
-                    <language name=""English"" culture=""en-GB"" abbreviation=""en"" default=""true"" />
-                    <language name=""Lietuvių"" culture=""lt-LT"" abbreviation=""lt"" />
-                </languages>");
+            languages = new Languages("en", new []
+            {
+                new Language
+                {
+                    Name = "English",
+                    Abbreviation = "en",
+                    Culture = new CultureInfo("en-GB")
+                },
+                new Language
+                {
+                    Name = "Lietuvių",
+                    Abbreviation = "lt",
+                    Culture = new CultureInfo("lt-LT")
+                }
+            });
         }
 
         #region Default
