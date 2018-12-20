@@ -18,10 +18,10 @@
     <Content Include="mvc.sitemap" CopyToPublishDirectory="Always" />
 
     <Content Update="Templates\**" CopyToPublishDirectory="Never" />
-    <Content Update="bundleconfig.json" CopyToPublishDirectory="Never" />
+    <Content Update="package.json" CopyToPublishDirectory="Never" />
+    <Content Update="package-lock.json" CopyToPublishDirectory="Never" />
     <Content Update="wwwroot\Content\**" CopyToPublishDirectory="Never" />
     <Content Update="wwwroot\Scripts\**" CopyToPublishDirectory="Never" />
-    <Content Update="compilerconfig.json" CopyToPublishDirectory="Never" />
     <Content Update="wwwroot\Content\**\*.woff" CopyToPublishDirectory="Always" />
     <Content Update="wwwroot\Scripts\Public\**" CopyToPublishDirectory="Always" />
     <Content Update="wwwroot\Content\Public\**" CopyToPublishDirectory="Always" />
@@ -36,8 +36,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Genny" Version="2.2.1" />
-    <PackageReference Include="Humanizer.Core" Version="2.5.16" />
+    <PackageReference Include="Genny" Version="2.2.1" PrivateAssets="All" />
+    <PackageReference Include="Humanizer.Core" Version="2.5.16" PrivateAssets="All" />
+
     <PackageReference Include="NonFactors.Grid.Mvc6" Version="4.0.2" />
     <PackageReference Include="NonFactors.Lookup.Mvc6" Version="3.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
