@@ -27,6 +27,8 @@ namespace MvcTemplate.Web.Templates
             String path = (Area != null ? Area + "/" : "") + Controller;
             Dictionary<String, GennyScaffoldingResult> results = new Dictionary<String, GennyScaffoldingResult>();
 
+            results.Add($"../MvcTemplate.Resources/Resources/Views/{path}/{Model}View.json", Scaffold("Resources/View"));
+
             results.Add($"../MvcTemplate.Controllers/{path}/{Controller}Controller.cs", Scaffold("Controllers/Controller"));
             results.Add($"../../test/MvcTemplate.Tests/Unit/Controllers/{path}/{Controller}ControllerTests.cs", Scaffold("Tests/ControllerTests"));
 
