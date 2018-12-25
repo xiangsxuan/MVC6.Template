@@ -76,11 +76,16 @@ namespace MvcTemplate.Controllers
         {
             if (!(context.Result is JsonResult))
             {
-                Alerts alerts = JsonConvert.DeserializeObject<Alerts>(TempData["Alerts"] as String ?? "");
-                alerts = (alerts ?? Alerts);
-                alerts.Merge(Alerts);
+                Alerts alerts = Alerts;
 
-                TempData["Alerts"] = JsonConvert.SerializeObject(alerts);
+                if (TempData["Alerts"] is String alertsJson)
+                {
+                    alerts = JsonConvert.DeserializeObject<Alerts>(alertsJson);
+                    alerts.Merge(Alerts);
+                }
+
+                if (alerts.Count > 0)
+                    TempData["Alerts"] = JsonConvert.SerializeObject(alerts);
             }
         }
     }

@@ -32,20 +32,6 @@ namespace MvcTemplate.Data.Logging.Tests
             logger.Dispose();
         }
 
-        #region AuditLogger(DbContext context, Int32? accountId)
-
-        [Fact]
-        public void AuditLogger_AccountId_DisablesChangesDetection()
-        {
-            TestingContext testingContext = new TestingContext();
-            testingContext.ChangeTracker.AutoDetectChangesEnabled = true;
-
-            using (new AuditLogger(testingContext, 1))
-                Assert.False(testingContext.ChangeTracker.AutoDetectChangesEnabled);
-        }
-
-        #endregion
-
         #region Log(IEnumerable<EntityEntry<BaseModel>> entries)
 
         [Fact]

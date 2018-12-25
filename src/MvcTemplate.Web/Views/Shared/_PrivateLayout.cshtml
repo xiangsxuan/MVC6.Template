@@ -114,11 +114,14 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="alerts col-12">
-                        @foreach (Alert alert in JsonConvert.DeserializeObject<Alerts>(TempData["Alerts"] as String))
+                        @if (TempData["Alerts"] is String alerts)
                         {
-                            <div id="@alert.Id" class="alert alert-@alert.Type.ToString().ToLowerInvariant()" data-timeout="@alert.Timeout">
-                                <span>@alert.Message</span><span class="close">×</span>
-                            </div>
+                            foreach (Alert alert in JsonConvert.DeserializeObject<Alerts>(alerts))
+                            {
+                                <div id="@alert.Id" class="alert alert-@alert.Type.ToString().ToLowerInvariant()" data-timeout="@alert.Timeout">
+                                    <span>@alert.Message</span><span class="close">×</span>
+                                </div>
+                            }
                         }
                     </div>
 

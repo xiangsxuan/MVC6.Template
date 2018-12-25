@@ -18,7 +18,6 @@ namespace MvcTemplate.Data.Logging
             Context = context;
             AccountId = accountId;
             Entities = new List<LoggableEntity>();
-            Context.ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         public void Log(IEnumerable<EntityEntry<BaseModel>> entries)
@@ -43,20 +42,25 @@ namespace MvcTemplate.Data.Logging
         }
         public void Save()
         {
-            foreach (LoggableEntity entity in Entities)
+            if (Entities.Count > 0)
             {
-                AuditLog log = new AuditLog();
-                log.Changes = entity.ToString();
-                log.EntityName = entity.Name;
-                log.Action = entity.Action;
-                log.EntityId = entity.Id();
-                log.AccountId = AccountId;
+                Context.ChangeTracker.AutoDetectChangesEnabled = false;
 
-                Context.Add(log);
+                foreach (LoggableEntity entity in Entities)
+                {
+                    AuditLog log = new AuditLog();
+                    log.Changes = entity.ToString();
+                    log.EntityName = entity.Name;
+                    log.Action = entity.Action;
+                    log.EntityId = entity.Id();
+                    log.AccountId = AccountId;
+
+                    Context.Add(log);
+                }
+
+                Context.SaveChanges();
+                Entities.Clear();
             }
-
-            Context.SaveChanges();
-            Entities.Clear();
         }
 
         public void Dispose()
