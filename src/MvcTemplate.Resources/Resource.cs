@@ -25,10 +25,7 @@ namespace MvcTemplate.Resources
                 String language = Path.GetExtension(type).TrimStart('.');
                 type = Path.GetFileNameWithoutExtension(type);
 
-                if (!Resources.ContainsKey(type))
-                    Resources[type] = new ResourceSet();
-
-                Resources[type].Add(language, File.ReadAllText(resource));
+                Set(type).Add(language, File.ReadAllText(resource));
             }
         }
 
@@ -106,14 +103,7 @@ namespace MvcTemplate.Resources
                     String property = String.Concat(properties.Skip(viewSize + skipped));
 
                     if (Localized(relation, "Titles", property) is String relationTitle)
-                    {
-                        if (!Resources.ContainsKey(view))
-                            Resources[view] = new ResourceSet();
-
-                        Resources[view][language, "Titles", name] = relationTitle;
-
-                        return relationTitle;
-                    }
+                        return Set(view)[language, "Titles", name] = relationTitle;
                 }
             }
 

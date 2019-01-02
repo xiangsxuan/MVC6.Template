@@ -42,28 +42,10 @@ namespace MvcTemplate.Resources
         public void Inherit(ResourceSet resources)
         {
             foreach (String language in resources.Source.Keys)
-            {
-                if (Source.ContainsKey(language))
-                {
-                    foreach (String group in resources.Source[language].Keys)
-                    {
-                        if (Source[language].ContainsKey(group))
-                        {
-                            foreach (String key in resources.Source[language][group].Keys)
-                                if (!Source[language][group].ContainsKey(key))
-                                    Source[language][group][key] = resources.Source[language][group][key];
-                        }
-                        else
-                        {
-                            Source[language][group] = resources.Source[language][group];
-                        }
-                    }
-                }
-                else
-                {
-                    Source[language] = resources.Source[language];
-                }
-            }
+                foreach (String group in resources.Source[language].Keys)
+                    foreach (String key in resources.Source[language][group].Keys)
+                        if (this[language, group, key] == null)
+                            this[language, group, key] = resources.Source[language][group][key];
         }
 
         public void Add(String language, String source)

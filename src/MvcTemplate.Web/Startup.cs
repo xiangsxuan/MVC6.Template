@@ -69,9 +69,7 @@ namespace MvcTemplate.Web
 
         public void RegisterViewResources()
         {
-            Type[] types = typeof(BaseView).Assembly.GetTypes();
-
-            foreach (Type view in types.Where(type => typeof(BaseView).IsAssignableFrom(type)))
+            foreach (Type view in typeof(BaseView).Assembly.GetTypes())
             {
                 Type type = view;
 
@@ -89,8 +87,8 @@ namespace MvcTemplate.Web
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Latest)
-                .AddMvcOptions(options => options.Filters.Add(typeof(LanguageFilter)))
-                .AddMvcOptions(options => options.Filters.Add(typeof(AuthorizationFilter)))
+                .AddMvcOptions(options => options.Filters.Add<LanguageFilter>())
+                .AddMvcOptions(options => options.Filters.Add<AuthorizationFilter>())
                 .AddMvcOptions(options => ModelMessagesProvider.Set(options.ModelBindingMessageProvider))
                 .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
                 .AddViewOptions(options => options.ClientModelValidatorProviders.Add(new DateValidatorProvider()))
