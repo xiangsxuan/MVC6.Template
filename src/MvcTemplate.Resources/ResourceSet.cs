@@ -10,7 +10,7 @@ namespace MvcTemplate.Resources
     {
         private ConcurrentDictionary<String, ConcurrentDictionary<String, ResourceDictionary>> Source { get; }
 
-        internal ResourceSet()
+        public ResourceSet()
         {
             Source = new ConcurrentDictionary<String, ConcurrentDictionary<String, ResourceDictionary>>();
         }
@@ -39,6 +39,15 @@ namespace MvcTemplate.Resources
             }
         }
 
+        public void Override(String language, String source)
+        {
+            Dictionary<String, ResourceDictionary> resources = JsonConvert.DeserializeObject<Dictionary<String, ResourceDictionary>>(source);
+
+            foreach (String group in resources.Keys)
+                foreach (String key in resources[group].Keys)
+                    this[language, group, key] = resources[group][key];
+        }
+
         public void Inherit(ResourceSet resources)
         {
             foreach (String language in resources.Source.Keys)
@@ -46,11 +55,6 @@ namespace MvcTemplate.Resources
                     foreach (String key in resources.Source[language][group].Keys)
                         if (this[language, group, key] == null)
                             this[language, group, key] = resources.Source[language][group][key];
-        }
-
-        public void Add(String language, String source)
-        {
-            Source[language] = JsonConvert.DeserializeObject<ConcurrentDictionary<String, ResourceDictionary>>(source);
         }
     }
 }

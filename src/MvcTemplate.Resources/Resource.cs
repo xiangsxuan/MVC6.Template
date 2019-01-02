@@ -25,7 +25,7 @@ namespace MvcTemplate.Resources
                 String language = Path.GetExtension(type).TrimStart('.');
                 type = Path.GetFileNameWithoutExtension(type);
 
-                Set(type).Add(language, File.ReadAllText(resource));
+                Set(type).Override(language, File.ReadAllText(resource));
             }
         }
 
