@@ -34,7 +34,7 @@ namespace MvcTemplate.Controllers
             if (!Validator.CanEdit(profile))
                 return View(profile);
 
-            Service.Edit(profile);
+            Service.Edit(User, profile);
 
             Alerts.AddSuccess(Message.For<AccountView>("ProfileUpdated"), 4000);
 

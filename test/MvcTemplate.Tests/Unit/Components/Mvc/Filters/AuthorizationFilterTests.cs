@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using MvcTemplate.Components.Security;
 using NSubstitute;
+using System.Security.Claims;
 using Xunit;
 
 namespace MvcTemplate.Components.Mvc.Tests
@@ -57,12 +58,13 @@ namespace MvcTemplate.Components.Mvc.Tests
         [Fact]
         public void OnResourceExecuting_IsAuthorized_SetsNullResult()
         {
-            authorization.IsGrantedFor(11000, "Area", "Controller", "Action").Returns(true);
+            context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Returns(new Claim(ClaimTypes.NameIdentifier, "11000"));
             context.HttpContext.User.Identity.IsAuthenticated.Returns(true);
-            context.HttpContext.User.Identity.Name.Returns("11000");
             context.RouteData.Values["controller"] = "Controller";
             context.RouteData.Values["action"] = "Action";
             context.RouteData.Values["area"] = "Area";
+
+            authorization.IsGrantedFor(11000, "Area", "Controller", "Action").Returns(true);
 
             filter.OnResourceExecuting(context);
 

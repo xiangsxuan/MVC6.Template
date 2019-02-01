@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using Xunit;
 
 namespace MvcTemplate.Controllers.Tests
@@ -222,10 +223,9 @@ namespace MvcTemplate.Controllers.Tests
         [Theory]
         [InlineData("", 0)]
         [InlineData("1", 1)]
-        [InlineData(null, 0)]
-        public void OnActionExecuting_SetsCurrentAccountId(String identity, Int32 accountId)
+        public void OnActionExecuting_SetsCurrentAccountId(String identifier, Int32 accountId)
         {
-            controller.HttpContext.User.Identity.Name.Returns(identity);
+            controller.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Returns(new Claim(ClaimTypes.NameIdentifier, identifier));
 
             controller.OnActionExecuting(null);
 

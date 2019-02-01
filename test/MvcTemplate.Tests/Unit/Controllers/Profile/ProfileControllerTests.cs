@@ -107,7 +107,7 @@ namespace MvcTemplate.Controllers.Tests
 
             controller.Edit(profileEdit);
 
-            service.Received().Edit(profileEdit);
+            service.Received().Edit(controller.User, profileEdit);
         }
 
         [Fact]

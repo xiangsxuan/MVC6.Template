@@ -12,12 +12,14 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace MvcTemplate.Services.Tests
 {
     public class AccountServiceTests : IDisposable
     {
+        private HttpContext httpContext;
         private AccountService service;
         private TestingContext context;
         private Account account;
@@ -27,6 +29,7 @@ namespace MvcTemplate.Services.Tests
         {
             context = new TestingContext();
             hasher = Substitute.For<IHasher>();
+            httpContext = new DefaultHttpContext();
             service = new AccountService(new UnitOfWork(context), hasher);
             hasher.HashPassword(Arg.Any<String>()).Returns(info => info.Arg<String>() + "Hashed");
 
@@ -226,9 +229,9 @@ namespace MvcTemplate.Services.Tests
         {
             AccountEditView view = ObjectsFactory.CreateAccountEditView(account.Id);
             view.IsLocked = account.IsLocked = !account.IsLocked;
-            view.Email = (account.Email += "s").ToUpper();
-            view.Username = account.Username += "Test";
+            view.Username = account.Username + "Test";
             view.RoleId = account.RoleId = null;
+            view.Email = account.Email + "s";
 
             service.Edit(view);
 
@@ -248,7 +251,7 @@ namespace MvcTemplate.Services.Tests
 
         #endregion
 
-        #region Edit(ProfileEditView view)
+        #region Edit(ClaimsPrincipal user, ProfileEditView view)
 
         [Fact]
         public void Edit_Profile()
@@ -258,7 +261,7 @@ namespace MvcTemplate.Services.Tests
             view.Username = account.Username += "Test";
             view.Email = account.Email += "Test";
 
-            service.Edit(view);
+            service.Edit(httpContext.User, view);
 
             Account actual = context.Set<Account>().AsNoTracking().Single();
             Account expected = account;
@@ -283,12 +286,34 @@ namespace MvcTemplate.Services.Tests
             ProfileEditView view = ObjectsFactory.CreateProfileEditView();
             view.NewPassword = newPassword;
 
-            service.Edit(view);
+            service.Edit(httpContext.User, view);
 
             String actual = context.Set<Account>().AsNoTracking().Single().Passhash;
             String expected = account.Passhash;
 
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void Edit_UpdatesClaims()
+        {
+            httpContext.User.AddIdentity(new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.Email, "test@email.com"),
+                new Claim(ClaimTypes.Name, "TestName")
+            }));
+
+            ProfileEditView view = ObjectsFactory.CreateProfileEditView();
+            view.Username = account.Username += "Test";
+            view.Email = account.Email += "Test";
+
+            service.Edit(httpContext.User, view);
+
+            Account expected = account;
+            ClaimsPrincipal actual = httpContext.User;
+
+            Assert.Equal(expected.Email, actual.FindFirst(ClaimTypes.Email).Value);
+            Assert.Equal(expected.Username, actual.FindFirst(ClaimTypes.Name).Value);
         }
 
         #endregion
@@ -308,20 +333,19 @@ namespace MvcTemplate.Services.Tests
         #region Login(HttpContext context, String username)
 
         [Fact]
-        public void Login_Account()
+        public async Task Login_Account()
         {
             HttpContext httpContext = Substitute.For<HttpContext>();
-            httpContext.RequestServices.GetService(typeof(IAuthenticationService)).Returns(Substitute.For<IAuthenticationService>());
+            IAuthenticationService authentication = Substitute.For<IAuthenticationService>();
+            httpContext.RequestServices.GetService(typeof(IAuthenticationService)).Returns(authentication);
 
-            service.Login(httpContext, account.Username.ToUpper());
+            await service.Login(httpContext, account.Username.ToUpper());
 
-            httpContext.Received().SignInAsync("Cookies", Arg.Is<ClaimsPrincipal>(principal =>
-                principal.Claims.Single().Subject.Name == account.Id.ToString() &&
-                principal.Claims.Single().Subject.NameClaimType == "name" &&
-                principal.Claims.Single().Subject.RoleClaimType == "role" &&
-                principal.Identity.AuthenticationType == "local" &&
-                principal.Identity.Name == account.Id.ToString() &&
-                principal.Identity.IsAuthenticated));
+            await authentication.Received().SignInAsync(httpContext, "Cookies", Arg.Is<ClaimsPrincipal>(principal =>
+                principal.FindFirst(ClaimTypes.NameIdentifier).Value == account.Id.ToString() &&
+                principal.FindFirst(ClaimTypes.Name).Value == account.Username &&
+                principal.FindFirst(ClaimTypes.Email).Value == account.Email &&
+                principal.Identity.AuthenticationType == "Password"), null);
         }
 
         #endregion
@@ -329,14 +353,15 @@ namespace MvcTemplate.Services.Tests
         #region Logout(HttpContext context)
 
         [Fact]
-        public void Logout_Account()
+        public async Task Logout_Account()
         {
             HttpContext httpContext = Substitute.For<HttpContext>();
-            httpContext.RequestServices.GetService(typeof(IAuthenticationService)).Returns(Substitute.For<IAuthenticationService>());
+            IAuthenticationService authentication = Substitute.For<IAuthenticationService>();
+            httpContext.RequestServices.GetService(typeof(IAuthenticationService)).Returns(authentication);
 
-            service.Logout(httpContext);
+            await service.Logout(httpContext);
 
-            httpContext.Received().SignOutAsync("Cookies");
+            await authentication.Received().SignOutAsync(httpContext, "Cookies", null);
         }
 
         #endregion

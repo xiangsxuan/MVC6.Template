@@ -3,6 +3,7 @@ using MvcTemplate.Components.Security;
 using MvcTemplate.Tests;
 using NSubstitute;
 using System;
+using System.Security.Claims;
 using Xunit;
 
 namespace MvcTemplate.Components.Mvc.Tests
@@ -27,7 +28,6 @@ namespace MvcTemplate.Components.Mvc.Tests
         {
             helper = new AuthorizeTagHelper(null);
             helper.ViewContext = HtmlHelperFactory.CreateHtmlHelper().ViewContext;
-            helper.ViewContext.HttpContext.User.Identity.Name.Returns("1");
 
             output.PostContent.SetContent("PostContent");
             output.PostElement.SetContent("PostElement");
@@ -55,10 +55,10 @@ namespace MvcTemplate.Components.Mvc.Tests
             String routeArea, String routeController, String routeAction,
             String authArea, String authController, String authAction)
         {
-            authorization.IsGrantedFor(1, Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
+            authorization.IsGrantedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(true);
             authorization.IsGrantedFor(1, authArea, authController, authAction).Returns(false);
-            helper.ViewContext.HttpContext.User.Identity.Name.Returns("1");
 
+            helper.ViewContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Returns(new Claim(ClaimTypes.NameIdentifier, "1"));
             helper.ViewContext.RouteData.Values["controller"] = routeController;
             helper.ViewContext.RouteData.Values["action"] = routeAction;
             helper.ViewContext.RouteData.Values["area"] = routeArea;
@@ -95,8 +95,8 @@ namespace MvcTemplate.Components.Mvc.Tests
         {
             authorization.IsGrantedFor(1, Arg.Any<String>(), Arg.Any<String>(), Arg.Any<String>()).Returns(false);
             authorization.IsGrantedFor(1, authArea, authController, authAction).Returns(true);
-            helper.ViewContext.HttpContext.User.Identity.Name.Returns("1");
 
+            helper.ViewContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Returns(new Claim(ClaimTypes.NameIdentifier, "1"));
             helper.ViewContext.RouteData.Values["controller"] = routeController;
             helper.ViewContext.RouteData.Values["action"] = routeAction;
             helper.ViewContext.RouteData.Values["area"] = routeArea;

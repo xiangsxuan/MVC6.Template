@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using MvcTemplate.Components.Extensions;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Data.Core;
 using MvcTemplate.Objects;
@@ -7,6 +8,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace MvcTemplate.Services
 {
@@ -78,8 +80,6 @@ namespace MvcTemplate.Services
         public void Edit(AccountEditView view)
         {
             Account account = UnitOfWork.Get<Account>(view.Id);
-            account.Email = view.Email.ToLower();
-            account.Username = view.Username;
             account.IsLocked = view.IsLocked;
             account.RoleId = view.RoleId;
 
@@ -87,7 +87,7 @@ namespace MvcTemplate.Services
             UnitOfWork.Commit();
         }
 
-        public void Edit(ProfileEditView view)
+        public void Edit(ClaimsPrincipal user, ProfileEditView view)
         {
             Account account = UnitOfWork.Get<Account>(CurrentAccountId);
             account.Email = view.Email.ToLower();
@@ -98,6 +98,9 @@ namespace MvcTemplate.Services
 
             UnitOfWork.Update(account);
             UnitOfWork.Commit();
+
+            user.UpdateClaim(ClaimTypes.Name, account.Username);
+            user.UpdateClaim(ClaimTypes.Email, account.Email);
         }
         public void Delete(Int32 id)
         {
@@ -105,26 +108,20 @@ namespace MvcTemplate.Services
             UnitOfWork.Commit();
         }
 
-        public void Login(HttpContext context, String username)
+        public async Task Login(HttpContext context, String username)
         {
-            Claim[] claims = { new Claim("name", GetAccountId(username)) };
-            ClaimsIdentity identity = new ClaimsIdentity(claims, "local", "name", "role");
+            Account account = UnitOfWork.Select<Account>().Single(model => model.Username.ToLower() == username.ToLower());
 
-            context.SignInAsync("Cookies", new ClaimsPrincipal(identity)).Wait();
+            await context.SignInAsync("Cookies", new ClaimsPrincipal(new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
+                new Claim(ClaimTypes.Name, account.Username),
+                new Claim(ClaimTypes.Email, account.Email)
+            }, "Password")));
         }
-        public void Logout(HttpContext context)
+        public async Task Logout(HttpContext context)
         {
-            context.SignOutAsync("Cookies").Wait();
-        }
-
-        private String GetAccountId(String username)
-        {
-            return UnitOfWork
-                .Select<Account>()
-                .Where(account => account.Username.ToLower() == username.ToLower())
-                .Select(account => account.Id)
-                .Single()
-                .ToString();
+            await context.SignOutAsync("Cookies");
         }
     }
 }

@@ -298,49 +298,51 @@ namespace MvcTemplate.Controllers.Tests
         #region Login(AccountLoginView account, String returnUrl)
 
         [Fact]
-        public void Login_Post_IsLoggedIn_RedirectsToUrl()
+        public async Task Login_Post_IsLoggedIn_RedirectsToUrl()
         {
             service.IsLoggedIn(controller.User).Returns(true);
             controller.When(sub => sub.RedirectToLocal("/")).DoNotCallBase();
             controller.RedirectToLocal("/").Returns(new RedirectResult("/"));
 
             Object expected = controller.RedirectToLocal("/");
-            Object actual = controller.Login(null, "/");
+            Object actual = await controller.Login(null, "/");
 
             Assert.Same(expected, actual);
         }
 
         [Fact]
-        public void Login_CanNotLogin_ReturnsSameView()
+        public async Task Login_CanNotLogin_ReturnsSameView()
         {
             validator.CanLogin(accountLogin).Returns(false);
 
-            Object actual = (controller.Login(accountLogin, null) as ViewResult).Model;
+            ActionResult result = await controller.Login(accountLogin, null);
+
+            Object actual = (result as ViewResult).Model;
             Object expected = accountLogin;
 
             Assert.Same(expected, actual);
         }
 
         [Fact]
-        public void Login_Account()
+        public async Task Login_Account()
         {
             validator.CanLogin(accountLogin).Returns(true);
             controller.When(sub => sub.RedirectToLocal(null)).DoNotCallBase();
             controller.RedirectToLocal(null).Returns(new RedirectResult("/"));
 
-            controller.Login(accountLogin, null);
+            await controller.Login(accountLogin, null);
 
-            service.Received().Login(controller.HttpContext, accountLogin.Username);
+            await service.Received().Login(controller.HttpContext, accountLogin.Username);
         }
 
         [Fact]
-        public void Login_RedirectsToUrl()
+        public async Task Login_RedirectsToUrl()
         {
             validator.CanLogin(accountLogin).Returns(true);
             controller.When(sub => sub.RedirectToLocal("/")).DoNotCallBase();
             controller.RedirectToLocal("/").Returns(new RedirectResult("/"));
 
-            Object actual = controller.Login(accountLogin, "/");
+            Object actual = await controller.Login(accountLogin, "/");
             Object expected = controller.RedirectToLocal("/");
 
             Assert.Same(expected, actual);
@@ -351,18 +353,18 @@ namespace MvcTemplate.Controllers.Tests
         #region Logout()
 
         [Fact]
-        public void Logout_Account()
+        public async Task Logout_Account()
         {
-            controller.Logout();
+            await controller.Logout();
 
-            service.Received().Logout(controller.HttpContext);
+            await service.Received().Logout(controller.HttpContext);
         }
 
         [Fact]
-        public void Logout_RedirectsToLogin()
+        public async Task Logout_RedirectsToLogin()
         {
             Object expected = RedirectToAction(controller, "Login");
-            Object actual = controller.Logout();
+            Object actual = await controller.Logout();
 
             Assert.Same(expected, actual);
         }

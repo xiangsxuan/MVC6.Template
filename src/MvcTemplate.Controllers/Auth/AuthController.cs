@@ -91,7 +91,7 @@ namespace MvcTemplate.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(AccountLoginView account, String returnUrl)
+        public async Task<ActionResult> Login(AccountLoginView account, String returnUrl)
         {
             if (Service.IsLoggedIn(User))
                 return RedirectToLocal(returnUrl);
@@ -99,15 +99,15 @@ namespace MvcTemplate.Controllers
             if (!Validator.CanLogin(account))
                 return View(account);
 
-            Service.Login(HttpContext, account.Username);
+            await Service.Login(HttpContext, account.Username);
 
             return RedirectToLocal(returnUrl);
         }
 
         [HttpGet]
-        public RedirectToActionResult Logout()
+        public async Task<RedirectToActionResult> Logout()
         {
-            Service.Logout(HttpContext);
+            await Service.Logout(HttpContext);
 
             return RedirectToAction("Login");
         }

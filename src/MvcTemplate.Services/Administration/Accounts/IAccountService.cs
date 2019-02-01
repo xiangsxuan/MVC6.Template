@@ -2,7 +2,9 @@
 using MvcTemplate.Objects;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace MvcTemplate.Services
 {
@@ -20,10 +22,10 @@ namespace MvcTemplate.Services
         void Create(AccountCreateView view);
         void Edit(AccountEditView view);
 
-        void Edit(ProfileEditView view);
+        void Edit(ClaimsPrincipal user, ProfileEditView view);
         void Delete(Int32 id);
 
-        void Login(HttpContext context, String username);
-        void Logout(HttpContext context);
+        Task Login(HttpContext context, String username);
+        Task Logout(HttpContext context);
     }
 }
