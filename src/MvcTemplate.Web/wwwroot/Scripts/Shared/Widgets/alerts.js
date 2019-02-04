@@ -1,7 +1,10 @@
 Alerts = {
     init: function () {
         this.element = document.querySelector('.alerts');
-        [].forEach.call(this.element.children, this.bind);
+
+        if (this.element) {
+            [].forEach.call(this.element.children, this.bind);
+        }
     },
 
     show: function (alerts) {
