@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Services;
 using NSubstitute;
 using System;
@@ -81,6 +82,7 @@ namespace MvcTemplate.Controllers.Tests
 
             ViewResult actual = controller.NotFound() as ViewResult;
 
+            Assert.Equal(StatusCodes.Status404NotFound, controller.Response.StatusCode);
             Assert.Null(actual.Model);
         }
 

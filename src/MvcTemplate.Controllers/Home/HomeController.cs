@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Services;
@@ -35,6 +36,8 @@ namespace MvcTemplate.Controllers
         {
             if (Service.IsLoggedIn(User) && !Service.IsActive(CurrentAccountId))
                 return RedirectToAction("Logout", "Auth");
+
+            Response.StatusCode = StatusCodes.Status404NotFound;
 
             return View();
         }
