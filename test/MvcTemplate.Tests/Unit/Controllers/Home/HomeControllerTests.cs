@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Routing;
 using MvcTemplate.Services;
 using NSubstitute;
 using System;
@@ -16,6 +18,9 @@ namespace MvcTemplate.Controllers.Tests
         {
             service = Substitute.For<IAccountService>();
             controller = Substitute.ForPartsOf<HomeController>(service);
+
+            ActionContext context = new ActionContext(new DefaultHttpContext(), new RouteData(), new ControllerActionDescriptor());
+            controller.ControllerContext = new ControllerContext(context);
 
             ReturnCurrentAccountId(controller, 1);
         }
