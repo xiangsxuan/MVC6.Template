@@ -20,8 +20,8 @@ namespace MvcTemplate.Data.Migrations.Tests
         }
         public void Dispose()
         {
-            context.Dispose();
             configuration.Dispose();
+            context.Dispose();
         }
 
         #region Roles
@@ -29,7 +29,7 @@ namespace MvcTemplate.Data.Migrations.Tests
         [Fact]
         public void RolesTable_HasSysAdmin()
         {
-            Assert.NotNull(context.Set<Role>().SingleOrDefault(role => role.Title == "Sys_Admin"));
+            Assert.Single(context.Set<Role>(), role => role.Title == "Sys_Admin");
         }
 
         #endregion
@@ -37,12 +37,9 @@ namespace MvcTemplate.Data.Migrations.Tests
         #region Accounts
 
         [Fact]
-        public void AccountsTable_HasSysAdmin()
+        public void AccountsTable_HasAdmin()
         {
-            Assert.NotNull(context.Set<Account>()
-                .SingleOrDefault(account =>
-                    account.Username == "admin" &&
-                    account.Role.Title == "Sys_Admin"));
+            Assert.Single(context.Set<Account>(), account => account.Username == "admin" && account.Role.Title == "Sys_Admin");
         }
 
         #endregion
@@ -62,10 +59,10 @@ namespace MvcTemplate.Data.Migrations.Tests
         [InlineData("Administration", "Roles", "Delete")]
         public void PermissionsTable_HasPermission(String area, String controller, String action)
         {
-            Assert.NotNull(context.Set<Permission>().SingleOrDefault(permission =>
+            Assert.Single(context.Set<Permission>(), permission =>
                 permission.Controller == controller &&
                 permission.Action == action &&
-                permission.Area == area));
+                permission.Area == area);
         }
 
         [Fact]

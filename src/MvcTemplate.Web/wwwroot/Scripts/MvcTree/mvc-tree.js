@@ -173,11 +173,11 @@ var MvcTree = (function () {
 
             [].forEach.call(tree.element.querySelectorAll('.mvc-tree-branch > i'), function (branch) {
                 branch.addEventListener('click', function () {
-                    var branch = this.parentElement;
-                    if (branch.classList.contains('mvc-tree-collapsed')) {
-                        tree.expand(branch);
+                    var parent = this.parentElement;
+                    if (parent.classList.contains('mvc-tree-collapsed')) {
+                        tree.expand(parent);
                     } else {
-                        tree.collapse(branch);
+                        tree.collapse(parent);
                     }
                 });
             });

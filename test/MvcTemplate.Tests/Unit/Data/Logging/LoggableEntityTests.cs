@@ -23,7 +23,7 @@ namespace MvcTemplate.Data.Logging.Tests
                 context.SaveChanges();
             }
 
-            context = new TestingContext(context.DatabaseName);
+            context = new TestingContext(context);
             entry = context.Entry<BaseModel>(model);
         }
         public void Dispose()
@@ -62,7 +62,7 @@ namespace MvcTemplate.Data.Logging.Tests
             context.Dispose();
             String title = model.Title;
 
-            context = new TestingContext(context.DatabaseName);
+            context = new TestingContext(context);
             context.Set<TestModel>().Attach(model);
 
             entry = context.Entry<BaseModel>(model);

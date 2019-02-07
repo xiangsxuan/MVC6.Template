@@ -17,7 +17,7 @@ namespace MvcTemplate.Validators.Tests
         public RoleValidatorTests()
         {
             context = new TestingContext();
-            validator = new RoleValidator(new UnitOfWork(context));
+            validator = new RoleValidator(new UnitOfWork(new TestingContext(context)));
 
             context.Add(role = ObjectsFactory.CreateRole());
             context.SaveChanges();

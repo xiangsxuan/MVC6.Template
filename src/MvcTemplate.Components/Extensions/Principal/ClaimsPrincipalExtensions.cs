@@ -24,9 +24,11 @@ namespace MvcTemplate.Components.Extensions
 
         public static void UpdateClaim(this ClaimsPrincipal principal, String type, String value)
         {
-            ClaimsIdentity identity = principal.Identity as ClaimsIdentity;
-            identity.TryRemoveClaim(identity.FindFirst(type));
-            identity.AddClaim(new Claim(type, value));
+            if (principal.Identity is ClaimsIdentity identity)
+            {
+                identity.TryRemoveClaim(identity.FindFirst(type));
+                identity.AddClaim(new Claim(type, value));
+            }
         }
     }
 }

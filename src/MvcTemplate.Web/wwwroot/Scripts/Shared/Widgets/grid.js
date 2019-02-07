@@ -1,6 +1,6 @@
 Grid = {
     init: function () {
-        if (typeof MvcGrid == "function") {
+        if (typeof MvcGrid == 'function') {
             var lang = document.documentElement.lang;
             MvcGrid.prototype.lang = window.cultures.grid[lang];
 

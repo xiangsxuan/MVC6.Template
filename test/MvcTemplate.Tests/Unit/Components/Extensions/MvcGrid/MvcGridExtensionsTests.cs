@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -136,8 +135,8 @@ namespace MvcTemplate.Components.Extensions.Tests
 
             Assert.Equal("text-center", actual.CssClasses);
             Assert.Equal(expression, actual.Expression);
-            Assert.Equal("{0:d}", actual.Format);
             Assert.Empty(actual.Title.ToString());
+            Assert.Equal("{0:d}", actual.Format);
             Assert.Single(columns);
         }
 

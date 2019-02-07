@@ -22,8 +22,8 @@ namespace MvcTemplate.Validators.Tests
         {
             context = new TestingContext();
             hasher = Substitute.For<IHasher>();
-            validator = new AccountValidator(new UnitOfWork(context), hasher);
             hasher.VerifyPassword(Arg.Any<String>(), Arg.Any<String>()).Returns(true);
+            validator = new AccountValidator(new UnitOfWork(new TestingContext(context)), hasher);
 
             context.Add(account = ObjectsFactory.CreateAccount());
             context.SaveChanges();

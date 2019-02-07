@@ -23,7 +23,7 @@ namespace MvcTemplate.Services.Tests
         public RoleServiceTests()
         {
             context = new TestingContext();
-            service = Substitute.ForPartsOf<RoleService>(new UnitOfWork(context));
+            service = Substitute.ForPartsOf<RoleService>(new UnitOfWork(new TestingContext(context)));
 
             SetUpData();
         }
@@ -125,6 +125,7 @@ namespace MvcTemplate.Services.Tests
             RoleView[] actual = service.GetViews().ToArray();
             RoleView[] expected = context
                 .Set<Role>()
+                .AsNoTracking()
                 .ProjectTo<RoleView>()
                 .OrderByDescending(view => view.Id)
                 .ToArray();
@@ -276,7 +277,7 @@ namespace MvcTemplate.Services.Tests
 
             service.Delete(role.Id);
 
-            Assert.NotEmpty(context.Set<Account>().Where(model => model.Id == account.Id && model.RoleId == null));
+            Assert.Contains(context.Set<Account>().AsNoTracking(), model => model.Id == account.Id && model.RoleId == null);
         }
 
         [Fact]
@@ -284,15 +285,7 @@ namespace MvcTemplate.Services.Tests
         {
             service.Delete(role.Id);
 
-            Assert.Empty(context.Set<Role>());
-        }
-
-        [Fact]
-        public void Delete_RolePermissions()
-        {
-            service.Delete(role.Id);
-
-            Assert.Empty(context.Set<RolePermission>());
+            Assert.Empty(context.Set<Role>().AsNoTracking());
         }
 
         #endregion

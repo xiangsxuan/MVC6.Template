@@ -21,7 +21,7 @@ namespace MvcTemplate.Services.Tests
         public @(Model.ServiceTests)()
         {
             context = new TestingContext();
-            service = new @(Model.Service)(new UnitOfWork(context));
+            service = new @(Model.Service)(new UnitOfWork(new TestingContext(context)));
 
             context.Set<@Model.Model>().Add(@Model.ModelVarName = ObjectsFactory.Create@(Model.Model)());
             context.SaveChanges();

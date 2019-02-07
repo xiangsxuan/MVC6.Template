@@ -12,20 +12,21 @@ namespace MvcTemplate.Tests
 
         #endregion
 
-        public String DatabaseName { get; }
+        private String DatabaseName { get; }
 
         public TestingContext()
-            : this(Guid.NewGuid().ToString())
         {
+            DatabaseName = Guid.NewGuid().ToString();
         }
-        public TestingContext(String databaseName)
+        public TestingContext(TestingContext context)
         {
-            DatabaseName = databaseName;
+            DatabaseName = context.DatabaseName;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
             builder.UseInMemoryDatabase(DatabaseName);
+            builder.UseLazyLoadingProxies();
         }
     }
 }

@@ -1,6 +1,6 @@
 Lookup = {
     init: function () {
-        if (typeof MvcLookup == "function") {
+        if (typeof MvcLookup == 'function') {
             var lang = document.documentElement.lang;
             MvcLookup.prototype.lang = window.cultures.lookup[lang];
 

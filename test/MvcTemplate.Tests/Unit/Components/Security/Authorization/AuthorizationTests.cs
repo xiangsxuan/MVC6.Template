@@ -17,7 +17,7 @@ namespace MvcTemplate.Components.Security.Tests
         {
             context = new TestingContext();
             IServiceProvider services = Substitute.For<IServiceProvider>();
-            services.GetService(typeof(IUnitOfWork)).Returns(info => new UnitOfWork(new TestingContext(context.DatabaseName)));
+            services.GetService(typeof(IUnitOfWork)).Returns(info => new UnitOfWork(new TestingContext(context)));
 
             authorization = new Authorization(Assembly.GetExecutingAssembly(), services);
         }
@@ -379,25 +379,22 @@ namespace MvcTemplate.Components.Security.Tests
 
         private Int32 CreateAccountWithPermissionFor(String area, String controller, String action, Boolean isLocked = false)
         {
-            using (TestingContext testingContext = new TestingContext(context.DatabaseName))
-            {
-                RolePermission rolePermission = ObjectsFactory.CreateRolePermission();
-                Account account = ObjectsFactory.CreateAccount();
-                account.Role.Permissions.Add(rolePermission);
-                rolePermission.Role = account.Role;
-                account.IsLocked = isLocked;
+            RolePermission rolePermission = ObjectsFactory.CreateRolePermission();
+            Account account = ObjectsFactory.CreateAccount();
+            account.Role.Permissions.Add(rolePermission);
+            rolePermission.Role = account.Role;
+            account.IsLocked = isLocked;
 
-                rolePermission.Permission.Controller = controller;
-                rolePermission.Permission.Action = action;
-                rolePermission.Permission.Area = area;
+            rolePermission.Permission.Controller = controller;
+            rolePermission.Permission.Action = action;
+            rolePermission.Permission.Area = area;
 
-                testingContext.Add(account);
-                testingContext.SaveChanges();
+            context.Add(account);
+            context.SaveChanges();
 
-                authorization.Refresh();
+            authorization.Refresh();
 
-                return account.Id;
-            }
+            return account.Id;
         }
 
         #endregion

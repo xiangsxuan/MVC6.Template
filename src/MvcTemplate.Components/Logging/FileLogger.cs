@@ -42,27 +42,13 @@ namespace MvcTemplate.Components.Logging
         }
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, String> formatter)
         {
-            if (IsEnabled(logLevel))
-            {
-                StringBuilder log = new StringBuilder();
-                log.AppendLine($"{logLevel.ToString().PadRight(11)}: {DateTime.Now:yyyy-MM-dd HH:mm:ss.ffffff} [{AccountId()}]");
-                log.AppendLine($"Message    : {formatter(state, exception)}");
-                AppendStackTrace(log, exception);
-                log.AppendLine();
+            if (!IsEnabled(logLevel))
+                return;
 
-                lock (LogWriting)
-                {
-                    Directory.CreateDirectory(LogDirectory);
-                    File.AppendAllText(LogPath, log.ToString());
+            StringBuilder log = new StringBuilder();
+            log.AppendLine($"{logLevel.ToString().PadRight(11)}: {DateTime.Now:yyyy-MM-dd HH:mm:ss.ffffff} [{AccountId()}]");
+            log.AppendLine($"Message    : {formatter(state, exception)}");
 
-                    if (RollSize <= new FileInfo(LogPath).Length)
-                        File.Move(LogPath, Path.Combine(LogDirectory, String.Format(RollingFileFormat, DateTime.Now)));
-                }
-            }
-        }
-
-        private void AppendStackTrace(StringBuilder log, Exception exception)
-        {
             if (exception != null)
                 log.AppendLine("Stack trace:");
 
@@ -73,6 +59,17 @@ namespace MvcTemplate.Components.Logging
                     log.AppendLine("     " + line.TrimEnd('\r'));
 
                 exception = exception.InnerException;
+            }
+
+            log.AppendLine();
+
+            lock (LogWriting)
+            {
+                Directory.CreateDirectory(LogDirectory);
+                File.AppendAllText(LogPath, log.ToString());
+
+                if (RollSize <= new FileInfo(LogPath).Length)
+                    File.Move(LogPath, Path.Combine(LogDirectory, String.Format(RollingFileFormat, DateTime.Now)));
             }
         }
     }

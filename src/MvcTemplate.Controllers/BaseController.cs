@@ -74,19 +74,19 @@ namespace MvcTemplate.Controllers
         }
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            if (!(context.Result is JsonResult))
+            if (context.Result is JsonResult)
+                return;
+
+            Alerts alerts = Alerts;
+
+            if (TempData["Alerts"] is String alertsJson)
             {
-                Alerts alerts = Alerts;
-
-                if (TempData["Alerts"] is String alertsJson)
-                {
-                    alerts = JsonConvert.DeserializeObject<Alerts>(alertsJson);
-                    alerts.Merge(Alerts);
-                }
-
-                if (alerts.Count > 0)
-                    TempData["Alerts"] = JsonConvert.SerializeObject(alerts);
+                alerts = JsonConvert.DeserializeObject<Alerts>(alertsJson);
+                alerts.Merge(Alerts);
             }
+
+            if (alerts.Count > 0)
+                TempData["Alerts"] = JsonConvert.SerializeObject(alerts);
         }
     }
 }

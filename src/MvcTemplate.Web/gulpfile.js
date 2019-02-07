@@ -52,7 +52,7 @@ gulp.task('site.private.css', () => {
             './wwwroot/content/shared/overrides.css',
             './wwwroot/content/shared/table.css',
             './wwwroot/content/shared/widget-box.css',
-            './wwwroot/content/shared/private.css',
+            './wwwroot/content/shared/private.css'
         ])
         .pipe(concat('./wwwroot/content/Private/site.min.css'))
         .pipe(cssmin())
@@ -108,7 +108,7 @@ gulp.task('vendor.private.js', () => {
             './wwwroot/scripts/mvcgrid/**/*.js',
             './wwwroot/scripts/mvctree/*.js',
             './wwwroot/scripts/bootstrap/*.js',
-            './wwwroot/scripts/shared/widgets/*.js',
+            './wwwroot/scripts/shared/widgets/*.js'
         ])
         .pipe(concat('./wwwroot/scripts/Private/vendor.min.js'))
         .pipe(uglify({
@@ -140,7 +140,7 @@ gulp.task('vendor.public.js', () => {
             './wwwroot/scripts/jquery/**/*.js',
             './wwwroot/scripts/bootstrap/*.js',
             './wwwroot/scripts/shared/widgets/validator.js',
-            './wwwroot/scripts/shared/widgets/alerts.js',
+            './wwwroot/scripts/shared/widgets/alerts.js'
         ])
         .pipe(concat('./wwwroot/scripts/Public/vendor.min.js'))
         .pipe(uglify({

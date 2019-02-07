@@ -30,7 +30,7 @@ namespace MvcTemplate.Services.Tests
             context = new TestingContext();
             hasher = Substitute.For<IHasher>();
             httpContext = new DefaultHttpContext();
-            service = new AccountService(new UnitOfWork(context), hasher);
+            service = new AccountService(new UnitOfWork(new TestingContext(context)), hasher);
             hasher.HashPassword(Arg.Any<String>()).Returns(info => info.Arg<String>() + "Hashed");
 
             context.Add(account = ObjectsFactory.CreateAccount());
@@ -70,6 +70,7 @@ namespace MvcTemplate.Services.Tests
             AccountView[] actual = service.GetViews().ToArray();
             AccountView[] expected = context
                 .Set<Account>()
+                .AsNoTracking()
                 .ProjectTo<AccountView>()
                 .OrderByDescending(view => view.Id)
                 .ToArray();
@@ -312,8 +313,8 @@ namespace MvcTemplate.Services.Tests
             Account expected = account;
             ClaimsPrincipal actual = httpContext.User;
 
-            Assert.Equal(expected.Email, actual.FindFirst(ClaimTypes.Email).Value);
             Assert.Equal(expected.Username, actual.FindFirst(ClaimTypes.Name).Value);
+            Assert.Equal(expected.Email.ToLower(), actual.FindFirst(ClaimTypes.Email).Value);
         }
 
         #endregion
@@ -325,7 +326,7 @@ namespace MvcTemplate.Services.Tests
         {
             service.Delete(account.Id);
 
-            Assert.Empty(context.Set<Account>());
+            Assert.Empty(context.Set<Account>().AsNoTracking());
         }
 
         #endregion
@@ -335,7 +336,7 @@ namespace MvcTemplate.Services.Tests
         [Fact]
         public async Task Login_Account()
         {
-            HttpContext httpContext = Substitute.For<HttpContext>();
+            httpContext = Substitute.For<HttpContext>();
             IAuthenticationService authentication = Substitute.For<IAuthenticationService>();
             httpContext.RequestServices.GetService(typeof(IAuthenticationService)).Returns(authentication);
 
@@ -355,7 +356,7 @@ namespace MvcTemplate.Services.Tests
         [Fact]
         public async Task Logout_Account()
         {
-            HttpContext httpContext = Substitute.For<HttpContext>();
+            httpContext = Substitute.For<HttpContext>();
             IAuthenticationService authentication = Substitute.For<IAuthenticationService>();
             httpContext.RequestServices.GetService(typeof(IAuthenticationService)).Returns(authentication);
 

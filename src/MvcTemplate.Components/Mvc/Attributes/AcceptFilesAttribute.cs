@@ -24,20 +24,12 @@ namespace MvcTemplate.Components.Mvc
         }
         public override Boolean IsValid(Object value)
         {
-            IEnumerable<IFormFile> files = ToFiles(value);
-
             if (value == null)
                 return true;
 
-            if (files == null)
-                return false;
+            IEnumerable<IFormFile> files = value is IFormFile formFile ? new[] { formFile } : value as IEnumerable<IFormFile>;
 
-            return files.All(file => Extensions.Split(',').Any(ext => file.FileName?.EndsWith(ext) == true));
-        }
-
-        private IEnumerable<IFormFile> ToFiles(Object value)
-        {
-            return value is IFormFile file ? new[] { file } : value as IEnumerable<IFormFile>;
+            return files?.All(file => Extensions.Split(',').Any(ext => file.FileName?.EndsWith(ext) == true)) == true;
         }
     }
 }

@@ -24,14 +24,9 @@ namespace MvcTemplate.Components.Mvc
         }
         public override Boolean IsValid(Object value)
         {
-            IEnumerable<IFormFile> files = ToFiles(value);
+            IEnumerable<IFormFile> files = value is IFormFile formFile ? new[] { formFile } : value as IEnumerable<IFormFile>;
 
             return files == null || files.Sum(file => file?.Length ?? 0) <= MaximumMB * 1024 * 1024;
-        }
-
-        private IEnumerable<IFormFile> ToFiles(Object value)
-        {
-            return value is IFormFile file ? new[] { file } : value as IEnumerable<IFormFile>;
         }
     }
 }
