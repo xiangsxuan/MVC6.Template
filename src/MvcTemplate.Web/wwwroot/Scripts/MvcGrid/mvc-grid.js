@@ -1,5 +1,5 @@
 ﻿/*!
- * Mvc.Grid 4.0.2
+ * Mvc.Grid 4.0.3
  * https://github.com/NonFactors/MVC6.Grid
  *
  * Copyright © NonFactors
@@ -200,7 +200,7 @@ var MvcGrid = (function () {
         },
         startLoading: function (success, error) {
             var grid = this;
-            var query = (grid.query.toString() ? grid.query + '&': '?') + '_=' + Date.now();
+            var query = (grid.query.toString() ? grid.query + '&' : '?') + '_=' + Date.now();
 
             grid.stopLoading();
             if (grid.loadingDelay != null && !grid.element.querySelector('.mvc-grid-loader')) {
@@ -367,6 +367,10 @@ var MvcGridColumn = (function () {
             } else {
                 this.filter.first.value = '';
                 this.filter.second.value = '';
+
+                if (this.grid.filterMode != 'ExcelRow') {
+                    this.rowFilter.querySelector('.mvc-grid-value').value = '';
+                }
             }
         },
         applyFilter: function () {
@@ -821,12 +825,12 @@ var MvcGridFilter = (function () {
             var filter = this;
 
             [].forEach.call(filter.popup.element.querySelectorAll('.mvc-grid-value'), function (input) {
-                input.addEventListener('input', function () {
+                input.addEventListener(input.tagName == 'SELECT' ? 'change' : 'input', function () {
                     filter.column.filter[this.dataset.filter].value = this.value;
 
                     if (filter.mode != 'ExcelRow') {
                         var rowInput = filter.column.rowFilter.querySelector('.mvc-grid-value');
-                        if (this.tagName == 'SELECT') {
+                        if (filter.mode == 'HeaderRow' && this.tagName == 'SELECT') {
                             rowInput.value = this.options[this.selectedIndex].text;
                         } else {
                             rowInput.value = this.value;

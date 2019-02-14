@@ -39,17 +39,17 @@
     <PackageReference Include="Genny" Version="2.2.1" PrivateAssets="All" />
     <PackageReference Include="Humanizer.Core" Version="2.5.16" PrivateAssets="All" />
 
-    <PackageReference Include="NonFactors.Grid.Mvc6" Version="4.0.2" />
+    <PackageReference Include="NonFactors.Grid.Mvc6" Version="4.0.3" />
     <PackageReference Include="NonFactors.Lookup.Mvc6" Version="3.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IIS" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IIS" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.1" />
   </ItemGroup>
 
   <Target Name="PrePublishScript" BeforeTargets="PrepareForPublish">

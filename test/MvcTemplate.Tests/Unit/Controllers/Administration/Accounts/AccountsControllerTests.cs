@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers.Tests;
 using MvcTemplate.Objects;
@@ -100,7 +99,7 @@ namespace MvcTemplate.Controllers.Administration.Tests
         [Fact]
         public void Create_RefreshesAuthorization()
         {
-            controller.HttpContext.RequestServices.GetService<IAuthorization>().Returns(Substitute.For<IAuthorization>());
+            controller.HttpContext.RequestServices.GetService(typeof(IAuthorization)).Returns(Substitute.For<IAuthorization>());
             validator.CanCreate(accountCreate).Returns(true);
             controller.OnActionExecuting(null);
 
@@ -178,7 +177,7 @@ namespace MvcTemplate.Controllers.Administration.Tests
         [Fact]
         public void Edit_RefreshesAuthorization()
         {
-            controller.HttpContext.RequestServices.GetService<IAuthorization>().Returns(Substitute.For<IAuthorization>());
+            controller.HttpContext.RequestServices.GetService(typeof(IAuthorization)).Returns(Substitute.For<IAuthorization>());
             validator.CanEdit(accountEdit).Returns(true);
             controller.OnActionExecuting(null);
 

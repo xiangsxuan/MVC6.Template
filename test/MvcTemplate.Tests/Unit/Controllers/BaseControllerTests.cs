@@ -31,7 +31,7 @@ namespace MvcTemplate.Controllers.Tests
             controller.ControllerContext.RouteData = new RouteData();
             controller.TempData = Substitute.For<ITempDataDictionary>();
             controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
-            controller.HttpContext.RequestServices.GetService<IAuthorization>().Returns(Substitute.For<IAuthorization>());
+            controller.HttpContext.RequestServices.GetService(typeof(IAuthorization)).Returns(Substitute.For<IAuthorization>());
 
             action = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
 

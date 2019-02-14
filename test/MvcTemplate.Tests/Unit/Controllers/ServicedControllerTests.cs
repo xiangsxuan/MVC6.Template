@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Mvc;
 using MvcTemplate.Services;
 using NSubstitute;
@@ -21,7 +20,7 @@ namespace MvcTemplate.Controllers.Tests
 
             controller.ControllerContext.RouteData = new RouteData();
             controller.ControllerContext.HttpContext = Substitute.For<HttpContext>();
-            controller.HttpContext.RequestServices.GetService<ILanguages>().Returns(Substitute.For<ILanguages>());
+            controller.HttpContext.RequestServices.GetService(typeof(ILanguages)).Returns(Substitute.For<ILanguages>());
         }
 
         #region ServicedController(TService service)

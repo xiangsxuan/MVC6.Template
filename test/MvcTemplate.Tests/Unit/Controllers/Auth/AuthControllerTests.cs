@@ -10,6 +10,7 @@ using MvcTemplate.Services;
 using MvcTemplate.Tests;
 using MvcTemplate.Validators;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -125,9 +126,9 @@ namespace MvcTemplate.Controllers.Tests
         [Fact]
         public async Task Recover_NullToken_DoesNotSendRecoveryInformation()
         {
+            service.Recover(accountRecovery).ReturnsNull();
             service.IsLoggedIn(controller.User).Returns(false);
             validator.CanRecover(accountRecovery).Returns(true);
-            service.Recover(accountRecovery).Returns((String)null);
 
             await controller.Recover(accountRecovery);
 

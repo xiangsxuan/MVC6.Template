@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Controllers.Tests;
 using MvcTemplate.Objects;
@@ -191,7 +190,7 @@ namespace MvcTemplate.Controllers.Administration.Tests
         [Fact]
         public void Edit_RefreshesAuthorization()
         {
-            controller.HttpContext.RequestServices.GetService<IAuthorization>().Returns(Substitute.For<IAuthorization>());
+            controller.HttpContext.RequestServices.GetService(typeof(IAuthorization)).Returns(Substitute.For<IAuthorization>());
             validator.CanEdit(role).Returns(true);
             controller.OnActionExecuting(null);
 
@@ -241,7 +240,7 @@ namespace MvcTemplate.Controllers.Administration.Tests
         [Fact]
         public void DeleteConfirmed_RefreshesAuthorization()
         {
-            controller.HttpContext.RequestServices.GetService<IAuthorization>().Returns(Substitute.For<IAuthorization>());
+            controller.HttpContext.RequestServices.GetService(typeof(IAuthorization)).Returns(Substitute.For<IAuthorization>());
             controller.OnActionExecuting(null);
 
             controller.DeleteConfirmed(role.Id);

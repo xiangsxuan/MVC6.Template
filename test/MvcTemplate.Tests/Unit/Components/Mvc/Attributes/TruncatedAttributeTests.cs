@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MvcTemplate.Tests;
 using NSubstitute;
@@ -26,7 +25,7 @@ namespace MvcTemplate.Components.Mvc.Tests
             context.ValueProvider = Substitute.For<IValueProvider>();
             context.ActionContext.HttpContext = new DefaultHttpContext();
             context.HttpContext.RequestServices = Substitute.For<IServiceProvider>();
-            context.HttpContext.RequestServices.GetService<ILoggerFactory>().Returns(Substitute.For<ILoggerFactory>());
+            context.HttpContext.RequestServices.GetService(typeof(ILoggerFactory)).Returns(Substitute.For<ILoggerFactory>());
         }
 
         #region TruncatedAttribute()

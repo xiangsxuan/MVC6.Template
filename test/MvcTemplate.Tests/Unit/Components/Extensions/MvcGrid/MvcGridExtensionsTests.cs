@@ -7,6 +7,7 @@ using MvcTemplate.Resources;
 using MvcTemplate.Tests;
 using NonFactors.Mvc.Grid;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using System;
 using System.IO;
 using System.Linq.Expressions;
@@ -48,7 +49,7 @@ namespace MvcTemplate.Components.Extensions.Tests
             IAuthorization authorization = columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>();
 
             authorization.IsGrantedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<LinkGenerator>().Returns(link);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService(typeof(LinkGenerator)).Returns(link);
 
             IGridColumn<AllTypesView, IHtmlContent> column = columns.AddAction("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
@@ -66,8 +67,8 @@ namespace MvcTemplate.Components.Extensions.Tests
             StringWriter writer = new StringWriter();
             LinkGenerator link = Substitute.For<LinkGenerator>();
 
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>().Returns((IAuthorization)null);
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<LinkGenerator>().Returns(link);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService(typeof(IAuthorization)).ReturnsNull();
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService(typeof(LinkGenerator)).Returns(link);
 
             IGridColumn<AllTypesView, IHtmlContent> column = columns.AddAction("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
@@ -81,7 +82,7 @@ namespace MvcTemplate.Components.Extensions.Tests
         [Fact]
         public void AddAction_NoId_Throws()
         {
-            html.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>().Returns((IAuthorization)null);
+            html.Grid.ViewContext.HttpContext.RequestServices.GetService(typeof(IAuthorization)).ReturnsNull();
             IGridColumnsOf<Object> gridColumns = new GridColumns<Object>(new Grid<Object>(new Object[0]));
             gridColumns.Grid.ViewContext = html.Grid.ViewContext;
 
@@ -96,7 +97,7 @@ namespace MvcTemplate.Components.Extensions.Tests
         [Fact]
         public void AddAction_Column()
         {
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>().Returns((IAuthorization)null);
+            columns.Grid.ViewContext.HttpContext.RequestServices.GetService(typeof(IAuthorization)).ReturnsNull();
 
             IGridColumn<AllTypesView, IHtmlContent> actual = columns.AddAction("Edit", "fa fa-pencil-alt");
 

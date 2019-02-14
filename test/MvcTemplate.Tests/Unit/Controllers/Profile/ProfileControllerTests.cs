@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Notifications;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Objects;
@@ -237,7 +236,7 @@ namespace MvcTemplate.Controllers.Tests
         [Fact]
         public void DeleteConfirmed_RefreshesAuthorization()
         {
-            controller.HttpContext.RequestServices.GetService<IAuthorization>().Returns(Substitute.For<IAuthorization>());
+            controller.HttpContext.RequestServices.GetService(typeof(IAuthorization)).Returns(Substitute.For<IAuthorization>());
             service.IsActive(controller.CurrentAccountId).Returns(true);
             validator.CanDelete(profileDelete).Returns(true);
             controller.OnActionExecuting(null);
