@@ -45,16 +45,17 @@ namespace MvcTemplate.Components.Extensions.Tests
         {
             AllTypesView view = new AllTypesView();
             StringWriter writer = new StringWriter();
-            LinkGenerator link = Substitute.For<LinkGenerator>();
+            IRouter router = Substitute.For<IRouter>();
             IAuthorization authorization = columns.Grid.ViewContext.HttpContext.RequestServices.GetService<IAuthorization>();
 
             authorization.IsGrantedFor(Arg.Any<Int32?>(), Arg.Any<String>(), Arg.Any<String>(), "Details").Returns(true);
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService(typeof(LinkGenerator)).Returns(link);
+            router.GetVirtualPath(Arg.Any<VirtualPathContext>()).Returns(new VirtualPathData(router, "/test"));
+            columns.Grid.ViewContext.RouteData.Routers.Add(router);
 
             IGridColumn<AllTypesView, IHtmlContent> column = columns.AddAction("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
-            String expected = "<a class=\"fa fa-info\" href=\"\"></a>";
+            String expected = "<a class=\"fa fa-info details-action\" href=\"/test\"></a>";
             String actual = writer.ToString();
 
             Assert.Equal(expected, actual);
@@ -65,15 +66,16 @@ namespace MvcTemplate.Components.Extensions.Tests
         {
             AllTypesView view = new AllTypesView();
             StringWriter writer = new StringWriter();
-            LinkGenerator link = Substitute.For<LinkGenerator>();
+            IRouter router = Substitute.For<IRouter>();
 
             columns.Grid.ViewContext.HttpContext.RequestServices.GetService(typeof(IAuthorization)).ReturnsNull();
-            columns.Grid.ViewContext.HttpContext.RequestServices.GetService(typeof(LinkGenerator)).Returns(link);
+            router.GetVirtualPath(Arg.Any<VirtualPathContext>()).Returns(new VirtualPathData(router, "/test"));
+            columns.Grid.ViewContext.RouteData.Routers.Add(router);
 
             IGridColumn<AllTypesView, IHtmlContent> column = columns.AddAction("Details", "fa fa-info");
             column.ValueFor(new GridRow<AllTypesView>(view)).WriteTo(writer, HtmlEncoder.Default);
 
-            String expected = "<a class=\"fa fa-info\" href=\"\"></a>";
+            String expected = "<a class=\"fa fa-info details-action\" href=\"/test\"></a>";
             String actual = writer.ToString();
 
             Assert.Equal(expected, actual);

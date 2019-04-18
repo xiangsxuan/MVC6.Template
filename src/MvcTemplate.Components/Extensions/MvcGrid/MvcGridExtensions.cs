@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTemplate.Components.Security;
 using MvcTemplate.Resources;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MvcTemplate.Components.Extensions
 {
@@ -84,10 +86,8 @@ namespace MvcTemplate.Components.Extensions
         private static IHtmlContent GenerateLink<T>(ViewContext context, T model, String action, String iconClass)
         {
             TagBuilder link = new TagBuilder("a");
-            LinkGenerator generator = context.HttpContext.RequestServices.GetService<LinkGenerator>();
-            link.Attributes["href"] = generator.GetPathByAction(context.HttpContext, action, null, RouteFor(model));
-
-            link.AddCssClass(iconClass);
+            link.AddCssClass(iconClass + " " + action.ToLower() + "-action");
+            link.Attributes["href"] = new UrlHelper(context).Action(action, RouteFor(model));
 
             return link;
         }

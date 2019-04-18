@@ -101,7 +101,7 @@ namespace MvcTemplate.Web
         {
             services
                 .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Latest)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddMvcOptions(options => options.Filters.Add<LanguageFilter>())
                 .AddMvcOptions(options => options.Filters.Add<AuthorizationFilter>())
                 .AddMvcOptions(options => ModelMessagesProvider.Set(options.ModelBindingMessageProvider))
