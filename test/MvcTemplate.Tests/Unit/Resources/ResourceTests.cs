@@ -79,19 +79,38 @@ namespace MvcTemplate.Resources.Tests
 
         #endregion
 
-        #region ForPage(String header)
+        #region ForHeader(String model)
 
         [Fact]
-        public void ForPage_Header_IsCaseInsensitive()
+        public void ForHeader_IsCaseInsensitive()
         {
-            String actual = Resource.ForPage("account");
+            String actual = Resource.ForHeader("account");
             String expected = "Account";
 
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void ForPage_NotFoundHeader_ReturnsNull()
+        public void ForHeader_NotFound_ReturnsNull()
+        {
+            Assert.Null(Resource.ForHeader("Test"));
+        }
+
+        #endregion
+
+        #region ForPage(String path)
+
+        [Fact]
+        public void ForPage_Path_IsCaseInsensitive()
+        {
+            String actual = Resource.ForPage("administrationrolesdetails");
+            String expected = "Role details";
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ForPage_PathNotFound_ReturnsNull()
         {
             Assert.Null(Resource.ForPage("Test"));
         }

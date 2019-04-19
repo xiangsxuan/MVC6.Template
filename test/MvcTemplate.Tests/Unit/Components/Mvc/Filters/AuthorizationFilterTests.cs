@@ -38,21 +38,16 @@ namespace MvcTemplate.Components.Mvc.Tests
         }
 
         [Fact]
-        public void OnResourceExecuting_NotAuthorized_RedirectsToNotFound()
+        public void OnResourceExecuting_NotAuthorized_ReturnsNotFoundView()
         {
             context.HttpContext.User.Identity.IsAuthenticated.Returns(true);
-            context.RouteData.Values["language"] = "en";
-            context.RouteData.Values["test"] = "Test";
 
             filter.OnResourceExecuting(context);
 
-            RouteValueDictionary actual = (context.Result as RedirectToRouteResult).RouteValues;
+            ViewResult actual = context.Result as ViewResult;
 
-            Assert.Equal("NotFound", actual["action"]);
-            Assert.Equal("Home", actual["controller"]);
-            Assert.Equal("en", actual["language"]);
-            Assert.Equal("", actual["area"]);
-            Assert.Equal(4, actual.Count);
+            Assert.Equal("~/Views/Home/NotFound.cshtml", actual.ViewName);
+            Assert.Equal(StatusCodes.Status404NotFound, actual.StatusCode);
         }
 
         [Fact]

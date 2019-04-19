@@ -28,13 +28,19 @@ namespace MvcTemplate.Controllers.Tests
             Assert.True(methodInfo.GetParameters()[0].IsDefined(typeof(BindExcludeIdAttribute), false));
         }
 
-        protected RedirectToActionResult NotEmptyView(BaseController controller, Object model)
+        protected ViewResult NotFoundView(BaseController controller)
         {
-            RedirectToActionResult result = new RedirectToActionResult(null, null, null);
-            controller.When(sub => sub.NotEmptyView(model)).DoNotCallBase();
-            controller.NotEmptyView(model).Returns(result);
+            controller.When(sub => sub.NotFoundView()).DoNotCallBase();
+            controller.NotFoundView().Returns(new ViewResult());
 
-            return result;
+            return controller.NotFoundView();
+        }
+        protected ViewResult NotEmptyView(BaseController controller, Object model)
+        {
+            controller.When(sub => sub.NotEmptyView(model)).DoNotCallBase();
+            controller.NotEmptyView(model).Returns(new ViewResult());
+
+            return controller.NotEmptyView(model);
         }
 
         protected RedirectToActionResult RedirectToDefault(BaseController controller)
@@ -42,14 +48,6 @@ namespace MvcTemplate.Controllers.Tests
             RedirectToActionResult result = new RedirectToActionResult(null, null, null);
             controller.When(sub => sub.RedirectToDefault()).DoNotCallBase();
             controller.RedirectToDefault().Returns(result);
-
-            return result;
-        }
-        protected RedirectToActionResult RedirectToNotFound(BaseController controller)
-        {
-            RedirectToActionResult result = new RedirectToActionResult(null, null, null);
-            controller.When(sub => sub.RedirectToNotFound()).DoNotCallBase();
-            controller.RedirectToNotFound().Returns(result);
 
             return result;
         }

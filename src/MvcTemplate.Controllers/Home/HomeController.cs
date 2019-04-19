@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MvcTemplate.Components.Notifications;
 using MvcTemplate.Components.Security;
+using MvcTemplate.Resources;
 using MvcTemplate.Services;
 
 namespace MvcTemplate.Controllers
@@ -25,8 +27,22 @@ namespace MvcTemplate.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ViewResult Error()
+        public ActionResult Error()
         {
+            Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                Alerts.Add(new Alert
+                {
+                    Id = "SystemError",
+                    Type = AlertType.Danger,
+                    Message = Resource.ForString("SystemError")
+                });
+
+                return Json(new { alerts = Alerts });
+            }
+
             return View();
         }
 

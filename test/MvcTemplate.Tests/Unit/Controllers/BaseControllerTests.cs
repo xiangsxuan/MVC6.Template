@@ -49,13 +49,26 @@ namespace MvcTemplate.Controllers.Tests
 
         #endregion
 
+        #region NotFoundView()
+
+        [Fact]
+        public void NotFoundView_ReturnsNotFoundView()
+        {
+            ViewResult actual = controller.NotFoundView();
+
+            Assert.Equal("~/Views/Home/NotFound.cshtml", actual.ViewName);
+            Assert.Equal(StatusCodes.Status404NotFound, controller.Response.StatusCode);
+        }
+
+        #endregion
+
         #region NotEmptyView(Object model)
 
         [Fact]
-        public void NotEmptyView_NullModel_RedirectsToNotFound()
+        public void NotEmptyView_NullModel_ReturnsNotFoundView()
         {
-            Object expected = RedirectToNotFound(controller);
-            Object actual = controller.NotEmptyView(null);
+            ViewResult expected = NotFoundView(controller);
+            ViewResult actual = controller.NotEmptyView(null);
 
             Assert.Same(expected, actual);
         }
@@ -107,21 +120,6 @@ namespace MvcTemplate.Controllers.Tests
             Assert.Equal("", actual.RouteValues["area"]);
             Assert.Equal("Home", actual.ControllerName);
             Assert.Equal("Index", actual.ActionName);
-            Assert.Single(actual.RouteValues);
-        }
-
-        #endregion
-
-        #region RedirectToNotFound()
-
-        [Fact]
-        public void RedirectToNotFound_Route()
-        {
-            RedirectToActionResult actual = controller.RedirectToNotFound();
-
-            Assert.Equal("", actual.RouteValues["area"]);
-            Assert.Equal("NotFound", actual.ActionName);
-            Assert.Equal("Home", actual.ControllerName);
             Assert.Single(actual.RouteValues);
         }
 

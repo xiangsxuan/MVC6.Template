@@ -55,8 +55,9 @@ namespace MvcTemplate.Controllers.Tests
         [Fact]
         public void Error_ReturnsEmptyView()
         {
-            ViewResult actual = controller.Error();
+            ViewResult actual = controller.Error() as ViewResult;
 
+            Assert.Equal(StatusCodes.Status500InternalServerError, controller.Response.StatusCode);
             Assert.Null(actual.Model);
         }
 

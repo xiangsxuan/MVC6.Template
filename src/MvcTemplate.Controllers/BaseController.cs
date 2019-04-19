@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -25,10 +26,16 @@ namespace MvcTemplate.Controllers
             Alerts = new Alerts();
         }
 
-        public virtual ActionResult NotEmptyView(Object model)
+        public virtual ViewResult NotFoundView()
+        {
+            Response.StatusCode = StatusCodes.Status404NotFound;
+
+            return View("~/Views/Home/NotFound.cshtml");
+        }
+        public virtual ViewResult NotEmptyView(Object model)
         {
             if (model == null)
-                return RedirectToNotFound();
+                return NotFoundView();
 
             return View(model);
         }
@@ -42,10 +49,6 @@ namespace MvcTemplate.Controllers
         public virtual RedirectToActionResult RedirectToDefault()
         {
             return base.RedirectToAction("Index", "Home", new { area = "" });
-        }
-        public virtual RedirectToActionResult RedirectToNotFound()
-        {
-            return base.RedirectToAction("NotFound", "Home", new { area = "" });
         }
         public override RedirectToActionResult RedirectToAction(String action, String controller, Object route)
         {

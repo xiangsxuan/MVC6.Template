@@ -52,17 +52,22 @@ namespace MvcTemplate.Resources
             return Localized("Shared", "Strings", value);
         }
 
-        public static String ForPage(String header)
+        public static String ForHeader(String model)
         {
-            return Localized("Page", "Headers", header);
+            return Localized("Page", "Headers", model);
         }
-        public static String ForPage(IDictionary<String, Object> values)
-        {
-            String area = values["area"] as String;
-            String action = values["action"] as String;
-            String controller = values["controller"] as String;
 
-            return Localized("Page", "Titles", area + controller + action);
+        public static String ForPage(String path)
+        {
+            return Localized("Page", "Titles", path);
+        }
+        public static String ForPage(IDictionary<String, Object> path)
+        {
+            String area = path["area"] as String;
+            String action = path["action"] as String;
+            String controller = path["controller"] as String;
+
+            return ForPage(area + controller + action);
         }
 
         public static String ForSiteMap(String area, String controller, String action)
