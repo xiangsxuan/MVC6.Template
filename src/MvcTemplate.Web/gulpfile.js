@@ -2,8 +2,8 @@
 const rimraf = require('rimraf');
 const less = require('gulp-less');
 const concat = require('gulp-concat');
-const cssmin = require('gulp-cssmin');
-const uglify = require('gulp-uglify');
+const uglifyjs = require('gulp-uglify');
+const uglifycss = require('gulp-uglifycss');
 
 gulp.task('clean.css', (callback) => {
     return rimraf('./wwwroot/content/**/*.min.css', callback);
@@ -38,7 +38,7 @@ gulp.task('vendor.private.css', () => {
             './wwwroot/content/mvclookup/*.css'
         ])
         .pipe(concat('./wwwroot/content/Private/vendor.min.css'))
-        .pipe(cssmin())
+        .pipe(uglifycss())
         .pipe(gulp.dest('.'));
 });
 
@@ -55,7 +55,7 @@ gulp.task('site.private.css', () => {
             './wwwroot/content/shared/private.css'
         ])
         .pipe(concat('./wwwroot/content/Private/site.min.css'))
-        .pipe(cssmin())
+        .pipe(uglifycss())
         .pipe(gulp.dest('.'));
 });
 
@@ -66,7 +66,7 @@ gulp.task('vendor.public.css', () => {
             './wwwroot/content/fontawesome/*.css'
         ])
         .pipe(concat('./wwwroot/content/Public/vendor.min.css'))
-        .pipe(cssmin())
+        .pipe(uglifycss())
         .pipe(gulp.dest('.'));
 });
 
@@ -79,7 +79,7 @@ gulp.task('site.public.css', () => {
             './wwwroot/content/shared/public.css'
         ])
         .pipe(concat('./wwwroot/content/Public/site.min.css'))
-        .pipe(cssmin())
+        .pipe(uglifycss())
         .pipe(gulp.dest('.'));
 });
 
@@ -89,7 +89,7 @@ gulp.task('app.css', () => {
             './wwwroot/content/application/**/*.css',
             '!./wwwroot/content/application/**/*.min.css'
         ])
-        .pipe(cssmin())
+        .pipe(uglifycss())
         .pipe(gulp.dest(file => {
             file.basename = file.basename.split('.', 1)[0] + '.min.css';
 
@@ -111,7 +111,7 @@ gulp.task('vendor.private.js', () => {
             './wwwroot/scripts/shared/widgets/*.js'
         ])
         .pipe(concat('./wwwroot/scripts/Private/vendor.min.js'))
-        .pipe(uglify({
+        .pipe(uglifyjs({
             output: {
                 comments: /^!/
             }
@@ -125,7 +125,7 @@ gulp.task('site.private.js', () => {
             './wwwroot/scripts/shared/private.js'
         ])
         .pipe(concat('./wwwroot/scripts/Private/site.min.js'))
-        .pipe(uglify({
+        .pipe(uglifyjs({
             output: {
                 comments: /^!/
             }
@@ -143,7 +143,7 @@ gulp.task('vendor.public.js', () => {
             './wwwroot/scripts/shared/widgets/alerts.js'
         ])
         .pipe(concat('./wwwroot/scripts/Public/vendor.min.js'))
-        .pipe(uglify({
+        .pipe(uglifyjs({
             output: {
                 comments: /^!/
             }
@@ -157,7 +157,7 @@ gulp.task('site.public.js', () => {
             './wwwroot/scripts/shared/public.js'
         ])
         .pipe(concat('./wwwroot/scripts/Public/site.min.js'))
-        .pipe(uglify({
+        .pipe(uglifyjs({
             output: {
                 comments: /^!/
             }
@@ -171,7 +171,7 @@ gulp.task('app.js', () => {
             './wwwroot/scripts/application/**/*.js',
             '!./wwwroot/scripts/application/**/*.min.js'
         ])
-        .pipe(uglify({
+        .pipe(uglifyjs({
             output: {
                 comments: /^!/
             }
