@@ -1,0 +1,20 @@
+﻿{
+    "Areas": {
+        "Administration": "Administravimas"
+    },
+    "Controllers": {
+        "AdministrationAccounts": "Naudotojai",
+        "AdministrationRoles": "Rolės"
+    },
+    "Actions": {
+        "AdministrationAccountsCreate": "Kurti",
+        "AdministrationAccountsDetails": "Peržiūrėti detaliai",
+        "AdministrationAccountsEdit": "Redaguoti",
+        "AdministrationAccountsIndex": "Peržiūrėti",
+        "AdministrationRolesCreate": "Kurti",
+        "AdministrationRolesDelete": "Trinti",
+        "AdministrationRolesDetails": "Peržiūrėti detaliai",
+        "AdministrationRolesEdit": "Redaguoti",
+        "AdministrationRolesIndex": "Peržiūrėti"
+    }
+}

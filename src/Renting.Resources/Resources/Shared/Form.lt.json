@@ -1,0 +1,23 @@
+﻿{
+    "Validations": {
+        "AcceptFiles": "Laukas '{0}' turi būti pateiktas tik ({1}) formatu.",
+        "Date": "Laukas '{0}' turi būti data.",
+        "Digits": "Laukas '{0}' turi būti sudarytas iš skaičių.",
+        "Email": "Laukas '{0}' nėra validus elekroninio pašto adresas.",
+        "EqualTo": "Laukas '{0}' turi būti lygus laukui '{1}'.",
+        "FileSize": "Lauko '{0}' dydis negali viršyti {1} MB.",
+        "GreaterThan": "Laukas '{0}' turi būti didesnis už {1}.",
+        "Integer": "Laukas '{0}' turi būti sveikas skaičius.",
+        "InvalidField": "Lauko '{0}' reikšmė yra neteisinga.",
+        "InvalidValue": "Reikšmė '{0}' yra neteisinga.",
+        "MaxValue": "Laukas '{0}' turi būti mažesnis arba lygus {1}.",
+        "MinLength": "Laukas '{0}' turi būti sudarytas bent iš {1} simbolių.",
+        "MinValue": "Laukas '{0}' turi būti didesnis arba lygus {1}.",
+        "Numeric": "Laukas '{0}' turi būti skaičius.",
+        "Range": "Laukas '{0}' turi būti tarp {1} ir {2}.",
+        "Required": "Laukas '{0}' yra privalomas.",
+        "RequiredValue": "Laukas yra privalomas.",
+        "StringLength": "Laukas '{0}' negali viršyti maksimalaus {1} simbolių ilgio.",
+        "StringLengthRange": "Laukas '{0}' turi būti sudarytas bent iš {2} , bet neviršyti {1} simbolių."
+    }
+}

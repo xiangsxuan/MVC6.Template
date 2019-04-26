@@ -1,0 +1,12 @@
+﻿@model ModuleModel
+using Renting.Objects;
+using System;
+
+namespace Renting.Validators
+{
+    public interface @Model.IValidator : IValidator
+    {
+        Boolean CanCreate(@Model.View view);
+        Boolean CanEdit(@Model.View view);
+    }
+}

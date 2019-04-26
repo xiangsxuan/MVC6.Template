@@ -1,11 +1,11 @@
-﻿/src/MvcTemplate.Web/wwwroot/Scripts/Application/**/*.min.js
-/src/MvcTemplate.Web/wwwroot/Scripts/Private/
-/src/MvcTemplate.Web/wwwroot/Scripts/Public/
+﻿/src/Renting.Web/wwwroot/Scripts/Application/**/*.min.js
+/src/Renting.Web/wwwroot/Scripts/Private/
+/src/Renting.Web/wwwroot/Scripts/Public/
 
-/src/MvcTemplate.Web/wwwroot/Content/Application/**/*.min.css
-/src/MvcTemplate.Web/wwwroot/Content/Private/
-/src/MvcTemplate.Web/wwwroot/Content/Public/
-/src/MvcTemplate.Web/Logs/
+/src/Renting.Web/wwwroot/Content/Application/**/*.min.css
+/src/Renting.Web/wwwroot/Content/Private/
+/src/Renting.Web/wwwroot/Content/Public/
+/src/Renting.Web/Logs/
 node_modules/
 .vscode/
 .vs/
